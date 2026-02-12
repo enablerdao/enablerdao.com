@@ -1,9 +1,10 @@
 #!/bin/sh
-# EnablerDAO Dev Kit Installer
-# Usage: curl -fsSL https://enablerdao.com/install.sh | sh
+# EnablerDAO CLI Installer
+# Usage: curl -fsSL https://enablerdao.com/install.sh | bash
 #
-# This script installs the enablerdao-dev CLI tool which uses
-# Claude Code to develop and contribute to EnablerDAO projects.
+# This script installs the `enablerdao` command-line tool for interacting
+# with EnablerDAO projects, checking service status, and contributing
+# to the ecosystem via Claude Code.
 
 set -e
 
@@ -34,38 +35,6 @@ warn()    { printf "${YELLOW}[WARN]${RESET} %s\n" "$1"; }
 error()   { printf "${RED}[FAIL]${RESET} %s\n" "$1"; }
 step()    { printf "${BRIGHT_GREEN}  >>> ${RESET}%s\n" "$1"; }
 
-spinner() {
-  _pid=$1
-  _chars='|/-\'
-  _i=0
-  while kill -0 "$_pid" 2>/dev/null; do
-    _i=$(( (_i + 1) % 4 ))
-    printf "\r${DIM}    %s${RESET}" "$(echo "$_chars" | cut -c$((_i+1))-$((_i+1)))"
-    sleep 0.1
-  done
-  printf "\r"
-}
-
-progress_bar() {
-  _current=$1
-  _total=$2
-  _width=30
-  _filled=$(( _current * _width / _total ))
-  _empty=$(( _width - _filled ))
-  _bar=""
-  _j=0
-  while [ $_j -lt $_filled ]; do
-    _bar="${_bar}#"
-    _j=$((_j + 1))
-  done
-  _j=0
-  while [ $_j -lt $_empty ]; do
-    _bar="${_bar}-"
-    _j=$((_j + 1))
-  done
-  printf "\r  ${DIM}[${GREEN}%s${DIM}]${RESET} %d/%d" "$_bar" "$_current" "$_total"
-}
-
 # ─────────────────────────────────────────────
 # Banner
 # ─────────────────────────────────────────────
@@ -88,7 +57,7 @@ show_banner() {
 
 BANNER
   printf "${RESET}"
-  printf "${CYAN}        Dev Kit Installer — Powered by Claude Code${RESET}\n"
+  printf "${CYAN}        CLI Installer${RESET}\n"
   printf "${DIM}        https://enablerdao.com${RESET}\n"
   echo ""
   printf "${DIM}  ════════════════════════════════════════════════════════${RESET}\n"
@@ -102,136 +71,53 @@ check_prerequisites() {
   info "Checking prerequisites..."
   echo ""
   _ok=0
-  _total=4
+  _total=2
 
   # 1. git
   if command -v git >/dev/null 2>&1; then
     success "git $(git --version | sed 's/git version //')"
     _ok=$((_ok + 1))
   else
-    error "git is not installed"
+    warn "git is not installed (optional, needed for 'enablerdao work')"
     step "Install: https://git-scm.com/downloads"
   fi
-  progress_bar $_ok $_total
-  echo ""
 
-  # 2. node
-  if command -v node >/dev/null 2>&1; then
-    _node_ver=$(node --version)
-    success "node ${_node_ver}"
+  # 2. curl or wget (for API calls)
+  if command -v curl >/dev/null 2>&1; then
+    success "curl found"
+    _ok=$((_ok + 1))
+  elif command -v wget >/dev/null 2>&1; then
+    success "wget found"
     _ok=$((_ok + 1))
   else
-    error "node is not installed"
-    step "Install: https://nodejs.org/ (v18+ recommended)"
-    step "Or use nvm: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash"
-  fi
-  progress_bar $_ok $_total
-  echo ""
-
-  # 3. npm or bun
-  if command -v bun >/dev/null 2>&1; then
-    success "bun $(bun --version)"
-    PKG_MANAGER="bun"
-    PKG_INSTALL="bun install -g"
-    _ok=$((_ok + 1))
-  elif command -v npm >/dev/null 2>&1; then
-    success "npm $(npm --version)"
-    PKG_MANAGER="npm"
-    PKG_INSTALL="npm install -g"
-    _ok=$((_ok + 1))
-  else
-    error "npm/bun is not installed"
-    step "npm comes with Node.js: https://nodejs.org/"
-    step "Or install bun: curl -fsSL https://bun.sh/install | bash"
-  fi
-  progress_bar $_ok $_total
-  echo ""
-
-  # 4. claude (Claude Code CLI)
-  if command -v claude >/dev/null 2>&1; then
-    success "claude (Claude Code CLI) found"
-    _ok=$((_ok + 1))
-  else
-    warn "claude (Claude Code CLI) not found — will install"
-    NEEDS_CLAUDE=1
-  fi
-  progress_bar $_ok $_total
-  echo ""
-  echo ""
-
-  if [ $_ok -lt 3 ]; then
-    error "Missing critical prerequisites. Please install the above tools first."
-    echo ""
-    info "Quick setup guide:"
-    step "macOS:  brew install git node"
-    step "Ubuntu: sudo apt update && sudo apt install -y git nodejs npm"
-    step "More:   https://enablerdao.com/install"
-    echo ""
-    exit 1
+    warn "Neither curl nor wget found (some features may be limited)"
   fi
 
-  success "Prerequisite check passed (${_ok}/${_total})"
+  echo ""
+  success "Prerequisite check done (${_ok}/${_total})"
   echo ""
 }
 
 # ─────────────────────────────────────────────
-# Install Claude Code CLI
-# ─────────────────────────────────────────────
-install_claude() {
-  if [ "${NEEDS_CLAUDE:-0}" = "1" ]; then
-    info "Installing Claude Code CLI..."
-    step "Running: ${PKG_INSTALL} @anthropic-ai/claude-code"
-    echo ""
-
-    if ${PKG_INSTALL} @anthropic-ai/claude-code >/dev/null 2>&1; then
-      success "Claude Code CLI installed successfully"
-    else
-      warn "Global install failed, trying with sudo..."
-      if sudo ${PKG_INSTALL} @anthropic-ai/claude-code >/dev/null 2>&1; then
-        success "Claude Code CLI installed successfully (via sudo)"
-      else
-        error "Failed to install Claude Code CLI"
-        step "Try manually: ${PKG_INSTALL} @anthropic-ai/claude-code"
-        exit 1
-      fi
-    fi
-    echo ""
-  fi
-}
-
-# ─────────────────────────────────────────────
-# Create Workspace
-# ─────────────────────────────────────────────
-setup_workspace() {
-  WORKSPACE_DIR="${HOME}/enablerdao-workspace"
-
-  if [ ! -d "${WORKSPACE_DIR}" ]; then
-    info "Creating workspace directory..."
-    mkdir -p "${WORKSPACE_DIR}"
-    success "Created ${WORKSPACE_DIR}"
-  else
-    success "Workspace already exists: ${WORKSPACE_DIR}"
-  fi
-  echo ""
-}
-
-# ─────────────────────────────────────────────
-# Install enablerdao-dev CLI
+# Install the enablerdao CLI
 # ─────────────────────────────────────────────
 install_cli() {
-  info "Installing enablerdao-dev CLI..."
+  info "Installing enablerdao CLI..."
 
   CLI_DIR="${HOME}/.local/bin"
-  CLI_PATH="${CLI_DIR}/enablerdao-dev"
+  CLI_PATH="${CLI_DIR}/enablerdao"
 
   mkdir -p "${CLI_DIR}"
 
+  # Write the CLI script
   cat > "${CLI_PATH}" << 'CLIFILE'
 #!/bin/sh
-# enablerdao-dev — EnablerDAO Development CLI
-# Powered by Claude Code
+# enablerdao — EnablerDAO CLI
+# https://enablerdao.com
 
 set -e
+
+ENABLERDAO_VERSION="1.0.0"
 
 # ─── Colors ───
 if [ -t 1 ] && [ "$(tput colors 2>/dev/null || echo 0)" -ge 8 ]; then
@@ -251,42 +137,305 @@ fi
 
 WORKSPACE="${HOME}/enablerdao-workspace"
 ORG="enablerdao"
+API_BASE="https://enablerdao.com"
 
 info()    { printf "${CYAN}[INFO]${RESET} %s\n" "$1"; }
 success() { printf "${GREEN}[ OK ]${RESET} %s\n" "$1"; }
 warn()    { printf "${YELLOW}[WARN]${RESET} %s\n" "$1"; }
-error()   { printf "${RED}[FAIL]${RESET} %s\n" "$1"; }
+errormsg(){ printf "${RED}[FAIL]${RESET} %s\n" "$1"; }
 step()    { printf "${BRIGHT_GREEN}  >>> ${RESET}%s\n" "$1"; }
 
-show_help() {
+# ─── HTTP helper (curl or wget) ───
+http_get() {
+  _url="$1"
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL --connect-timeout 5 "$_url" 2>/dev/null
+  elif command -v wget >/dev/null 2>&1; then
+    wget -qO- --timeout=5 "$_url" 2>/dev/null
+  else
+    return 1
+  fi
+}
+
+# ─── open URL in browser ───
+open_url() {
+  _url="$1"
+  if command -v xdg-open >/dev/null 2>&1; then
+    xdg-open "$_url" 2>/dev/null &
+  elif command -v open >/dev/null 2>&1; then
+    open "$_url" 2>/dev/null &
+  elif command -v wslview >/dev/null 2>&1; then
+    wslview "$_url" 2>/dev/null &
+  else
+    info "Open this URL in your browser:"
+    step "$_url"
+    return 0
+  fi
+  success "Opened ${_url}"
+}
+
+# ═══════════════════════════════════════════════
+# COMMANDS
+# ═══════════════════════════════════════════════
+
+# ─── (default) Show welcome / info ───
+cmd_info() {
+  echo ""
   printf "${BRIGHT_GREEN}"
-  echo "  enablerdao-dev — EnablerDAO Development CLI"
+  cat << 'LOGO'
+  ███████╗███╗   ██╗ █████╗ ██████╗ ██╗     ███████╗██████╗
+  ██╔════╝████╗  ██║██╔══██╗██╔══██╗██║     ██╔════╝██╔══██╗
+  █████╗  ██╔██╗ ██║███████║██████╔╝██║     █████╗  ██████╔╝
+  ██╔══╝  ██║╚██╗██║██╔══██║██╔══██╗██║     ██╔══╝  ██╔══██╗
+  ███████╗██║ ╚████║██║  ██║██████╔╝███████╗███████╗██║  ██║
+  ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
+                    ██████╗  █████╗  ██████╗
+                    ██╔══██╗██╔══██╗██╔═══██╗
+                    ██║  ██║███████║██║   ██║
+                    ██║  ██║██╔══██║██║   ██║
+                    ██████╔╝██║  ██║╚██████╔╝
+                    ╚═════╝ ╚═╝  ╚═╝ ╚═════╝
+LOGO
   printf "${RESET}"
   echo ""
-  printf "${CYAN}USAGE:${RESET}\n"
-  echo "  enablerdao-dev <command> [args]"
+  printf "  ${CYAN}EnablerDAO CLI${RESET} ${DIM}v${ENABLERDAO_VERSION}${RESET}\n"
+  printf "  ${DIM}Open-source tools for a safer, smarter internet${RESET}\n"
   echo ""
-  printf "${CYAN}COMMANDS:${RESET}\n"
-  printf "  ${GREEN}list${RESET}              List EnablerDAO repositories\n"
-  printf "  ${GREEN}work${RESET} <repo>       Fork & clone a repo, then start Claude Code\n"
-  printf "  ${GREEN}pr${RESET}   <repo>       Commit changes and create a Pull Request\n"
-  printf "  ${GREEN}status${RESET}            Show repos you are currently working on\n"
-  printf "  ${GREEN}update${RESET}            Update enablerdao-dev to the latest version\n"
-  printf "  ${GREEN}help${RESET}              Show this help message\n"
+  printf "  ${DIM}════════════════════════════════════════════════════${RESET}\n"
+  echo ""
+  printf "  ${BRIGHT_GREEN}Website${RESET}   https://enablerdao.com\n"
+  printf "  ${BRIGHT_GREEN}GitHub${RESET}    https://github.com/enablerdao\n"
+  printf "  ${BRIGHT_GREEN}Token${RESET}     EBR on Solana\n"
+  printf "  ${BRIGHT_GREEN}Contact${RESET}   contact@enablerdao.com\n"
+  echo ""
+  printf "  ${DIM}════════════════════════════════════════════════════${RESET}\n"
+  echo ""
+  printf "  ${CYAN}Quick commands:${RESET}\n"
+  printf "    ${GREEN}enablerdao projects${RESET}    List all EnablerDAO projects\n"
+  printf "    ${GREEN}enablerdao status${RESET}      Check service status\n"
+  printf "    ${GREEN}enablerdao docs${RESET}        Open documentation in browser\n"
+  printf "    ${GREEN}enablerdao work${RESET} <repo> Fork, clone & start coding\n"
+  printf "    ${GREEN}enablerdao help${RESET}        Show all commands\n"
+  echo ""
+}
+
+# ─── help: Show all commands ───
+cmd_help() {
+  echo ""
+  printf "${BRIGHT_GREEN}  enablerdao${RESET} ${DIM}v${ENABLERDAO_VERSION}${RESET} — EnablerDAO CLI\n"
+  echo ""
+  printf "${CYAN}USAGE:${RESET}\n"
+  echo "  enablerdao <command> [args]"
+  echo ""
+  printf "${CYAN}GENERAL COMMANDS:${RESET}\n"
+  printf "  ${GREEN}(no command)${RESET}          Show welcome info\n"
+  printf "  ${GREEN}projects${RESET}              List all EnablerDAO projects & services\n"
+  printf "  ${GREEN}status${RESET}                Check live status of EnablerDAO services\n"
+  printf "  ${GREEN}docs${RESET}                  Open documentation in browser\n"
+  printf "  ${GREEN}token${RESET}                 Show EBR token info\n"
+  printf "  ${GREEN}version${RESET}               Show CLI version\n"
+  echo ""
+  printf "${CYAN}DEVELOPER COMMANDS:${RESET}\n"
+  printf "  ${GREEN}repos${RESET}                 List GitHub repositories\n"
+  printf "  ${GREEN}work${RESET} <repo>           Fork, clone & start coding with Claude Code\n"
+  printf "  ${GREEN}pr${RESET}   <repo>           Commit changes and create a Pull Request\n"
+  printf "  ${GREEN}dev-status${RESET}            Show repos you are working on locally\n"
+  echo ""
+  printf "${CYAN}UTILITY COMMANDS:${RESET}\n"
+  printf "  ${GREEN}update${RESET}                Update enablerdao CLI to latest version\n"
+  printf "  ${GREEN}uninstall${RESET}             Remove enablerdao CLI\n"
+  printf "  ${GREEN}help${RESET}                  Show this help message\n"
   echo ""
   printf "${CYAN}EXAMPLES:${RESET}\n"
-  printf "  ${DIM}\$ enablerdao-dev list${RESET}\n"
-  printf "  ${DIM}\$ enablerdao-dev work OptimaChain${RESET}\n"
-  printf "  ${DIM}\$ enablerdao-dev pr OptimaChain${RESET}\n"
+  printf "  ${DIM}\$ enablerdao${RESET}                          ${DIM}# welcome & info${RESET}\n"
+  printf "  ${DIM}\$ enablerdao projects${RESET}                  ${DIM}# see all projects${RESET}\n"
+  printf "  ${DIM}\$ enablerdao status${RESET}                    ${DIM}# check if services are up${RESET}\n"
+  printf "  ${DIM}\$ enablerdao docs${RESET}                      ${DIM}# open docs in browser${RESET}\n"
+  printf "  ${DIM}\$ enablerdao work OptimaChain${RESET}          ${DIM}# start contributing${RESET}\n"
   echo ""
   printf "${DIM}Workspace: ${WORKSPACE}${RESET}\n"
   printf "${DIM}Docs:      https://enablerdao.com/install${RESET}\n"
   echo ""
 }
 
-# ─── list: Show enablerdao repos ───
-cmd_list() {
-  info "Fetching EnablerDAO repositories..."
+# ─── projects: List all EnablerDAO projects ───
+cmd_projects() {
+  echo ""
+  printf "${BRIGHT_GREEN}  EnablerDAO Projects${RESET}\n"
+  printf "${DIM}  https://enablerdao.com/projects${RESET}\n"
+  echo ""
+  printf "${DIM}  ═══════════════════════════════════════════════════════════════════${RESET}\n"
+  echo ""
+
+  # ── AI & Technology ──
+  printf "  ${CYAN}AI & Technology${RESET}\n"
+  printf "  ${DIM}──────────────────────────────────────────────────────────────${RESET}\n"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "Chatweb.ai" "AI-driven web automation agent" "https://chatweb.ai"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "Wisbee" "Private AI assistant (runs locally)" "https://wisbee.ai"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "Elio Chat" "Offline AI chat for iPhone" "https://elio.love"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "News.xyz" "AI-powered news aggregation" "https://news.xyz"
+  echo ""
+
+  # ── Business Tools ──
+  printf "  ${YELLOW}Business Tools${RESET}\n"
+  printf "  ${DIM}──────────────────────────────────────────────────────────────${RESET}\n"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "StayFlow" "Vacation rental management" "https://stayflowapp.com"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "BANTO" "Invoice management for construction" "https://banto.work"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "Totonos" "Financial automation platform" "https://totonos.jp"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "VOLT" "Live auction platform" "https://volt.tokyo"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "Enabler" "Lifestyle service platform" "https://enabler.fun"
+  echo ""
+
+  # ── Security ──
+  printf "  ${RED}Security${RESET}\n"
+  printf "  ${DIM}──────────────────────────────────────────────────────────────${RESET}\n"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "Security Scan" "Free web security scanner (A-F grade)" "https://chatnews.tech"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "PhishGuard" "Employee phishing training" "https://enabler.cc"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "DojoC" "Cybersecurity learning platform" "https://www.dojoc.io"
+  echo ""
+
+  # ── Sports & Community ──
+  printf "  ${BRIGHT_CYAN}Sports & Community${RESET}\n"
+  printf "  ${DIM}──────────────────────────────────────────────────────────────${RESET}\n"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "JitsuFlow" "BJJ training & dojo management" "https://jitsuflow.app"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "Murata BJJ" "BJJ community & events" "https://muratabjj.com"
+  echo ""
+
+  printf "${DIM}  ═══════════════════════════════════════════════════════════════════${RESET}\n"
+  echo ""
+  printf "  ${DIM}Total: 13 active projects${RESET}\n"
+  printf "  ${DIM}View all: https://enablerdao.com/projects${RESET}\n"
+  echo ""
+}
+
+# ─── status: Check service status ───
+cmd_status() {
+  echo ""
+  printf "${BRIGHT_GREEN}  EnablerDAO Service Status${RESET}\n"
+  printf "${DIM}  Checking live status of services...${RESET}\n"
+  echo ""
+  printf "  ${DIM}%-20s %-10s %s${RESET}\n" "SERVICE" "STATUS" "RESPONSE"
+  printf "  ${DIM}%-20s %-10s %s${RESET}\n" "────────────────────" "──────────" "────────────────"
+
+  # List of services to check
+  _services="enablerdao.com chatweb.ai wisbee.ai elio.love stayflowapp.com banto.work news.xyz"
+
+  for _svc in $_services; do
+    printf "  ${DIM}%-20s${RESET} " "$_svc"
+
+    # Check HTTP status using curl's built-in time measurement
+    if command -v curl >/dev/null 2>&1; then
+      _result=$(curl -o /dev/null -s -w "%{http_code} %{time_total}" --connect-timeout 5 --max-time 10 "https://${_svc}" 2>/dev/null) || _result="000 0"
+      _code=$(echo "$_result" | awk '{print $1}')
+      _time_sec=$(echo "$_result" | awk '{print $2}')
+
+      # Convert seconds to ms (portable: multiply by 1000 using awk)
+      _time=$(echo "$_time_sec" | awk '{printf "%dms", $1 * 1000}')
+
+      case "$_code" in
+        200|301|302|303|307|308)
+          printf "${GREEN}%-10s${RESET} ${DIM}%s (HTTP %s)${RESET}\n" "UP" "$_time" "$_code"
+          ;;
+        000)
+          printf "${RED}%-10s${RESET} ${DIM}%s${RESET}\n" "DOWN" "connection failed"
+          ;;
+        *)
+          printf "${YELLOW}%-10s${RESET} ${DIM}%s (HTTP %s)${RESET}\n" "WARN" "$_time" "$_code"
+          ;;
+      esac
+    else
+      printf "${YELLOW}%-10s${RESET} ${DIM}%s${RESET}\n" "SKIP" "curl not available"
+    fi
+  done
+
+  echo ""
+  printf "  ${DIM}Checked at: $(date '+%Y-%m-%d %H:%M:%S %Z')${RESET}\n"
+  echo ""
+}
+
+# ─── docs: Open documentation ───
+cmd_docs() {
+  echo ""
+  info "Opening EnablerDAO documentation..."
+  echo ""
+
+  _target="${1:-}"
+  case "$_target" in
+    install|setup)
+      open_url "https://enablerdao.com/install"
+      ;;
+    token|ebr)
+      open_url "https://enablerdao.com/token"
+      ;;
+    security)
+      open_url "https://enablerdao.com/security"
+      ;;
+    projects)
+      open_url "https://enablerdao.com/projects"
+      ;;
+    github|gh)
+      open_url "https://github.com/enablerdao"
+      ;;
+    *)
+      open_url "https://enablerdao.com"
+      ;;
+  esac
+  echo ""
+  printf "${DIM}  Available doc targets: install, token, security, projects, github${RESET}\n"
+  printf "${DIM}  Example: enablerdao docs token${RESET}\n"
+  echo ""
+}
+
+# ─── token: Show EBR token info ───
+cmd_token() {
+  echo ""
+  printf "${BRIGHT_GREEN}  EBR Token Info${RESET}\n"
+  echo ""
+  printf "  ${DIM}═══════════════════════════════════════════════════════${RESET}\n"
+  echo ""
+  printf "  ${CYAN}Name:${RESET}       EBR (Enabler)\n"
+  printf "  ${CYAN}Network:${RESET}    Solana\n"
+  printf "  ${CYAN}Address:${RESET}    E1JxwaWRd8nw8vDdWMdqwdbXGBshqDcnTcinHzNMqg2Y\n"
+  printf "  ${CYAN}Purpose:${RESET}    Governance token for EnablerDAO\n"
+  echo ""
+  printf "  ${DIM}EBR is NOT an investment token. It is a governance tool${RESET}\n"
+  printf "  ${DIM}for participating in EnablerDAO decisions.${RESET}\n"
+  echo ""
+  printf "  ${CYAN}How to earn:${RESET}\n"
+  printf "    ${GREEN}1.${RESET} Contribute code (pull requests)\n"
+  printf "    ${GREEN}2.${RESET} Report bugs or security issues\n"
+  printf "    ${GREEN}3.${RESET} Write documentation\n"
+  printf "    ${GREEN}4.${RESET} Participate in governance votes\n"
+  echo ""
+  printf "  ${DIM}Explorer:${RESET} https://solscan.io/token/E1JxwaWRd8nw8vDdWMdqwdbXGBshqDcnTcinHzNMqg2Y\n"
+  printf "  ${DIM}Details:${RESET}  https://enablerdao.com/token\n"
+  echo ""
+}
+
+# ─── version ───
+cmd_version() {
+  printf "enablerdao v${ENABLERDAO_VERSION}\n"
+}
+
+# ─── repos: Show GitHub repos (via gh CLI or cached) ───
+cmd_repos() {
+  echo ""
+  printf "${BRIGHT_GREEN}  EnablerDAO GitHub Repositories${RESET}\n"
+  printf "${DIM}  https://github.com/${ORG}${RESET}\n"
   echo ""
 
   if command -v gh >/dev/null 2>&1; then
@@ -296,10 +445,8 @@ cmd_list() {
       printf "${GREEN}%-30s${RESET} ${YELLOW}%-8s${RESET} ${DIM}%s${RESET}\n" "$name" "$stars" "$desc"
     done
   else
-    warn "GitHub CLI (gh) not found. Showing cached list of popular repos."
-    echo ""
-    printf "${DIM}  %-28s %s${RESET}\n" "REPOSITORY" "DESCRIPTION"
-    printf "${DIM}  %-28s %s${RESET}\n" "----------------------------" "-----------------------------------"
+    printf "  ${DIM}%-28s %s${RESET}\n" "REPOSITORY" "DESCRIPTION"
+    printf "  ${DIM}%-28s %s${RESET}\n" "----------------------------" "-----------------------------------"
     printf "  ${GREEN}%-28s${RESET} ${DIM}%s${RESET}\n" "OptimaChain" "Next-gen blockchain platform"
     printf "  ${GREEN}%-28s${RESET} ${DIM}%s${RESET}\n" "HyperFlux" "High-performance system"
     printf "  ${GREEN}%-28s${RESET} ${DIM}%s${RESET}\n" "ShardX" "Sharding framework"
@@ -319,7 +466,7 @@ cmd_list() {
     step "Install GitHub CLI for live data: https://cli.github.com/"
   fi
   echo ""
-  step "To start working: enablerdao-dev work <repo-name>"
+  step "To start working: enablerdao work <repo-name>"
   echo ""
 }
 
@@ -327,9 +474,9 @@ cmd_list() {
 cmd_work() {
   _repo="$1"
   if [ -z "$_repo" ]; then
-    error "Repository name required"
-    step "Usage: enablerdao-dev work <repo-name>"
-    step "Run 'enablerdao-dev list' to see available repos"
+    errormsg "Repository name required"
+    step "Usage: enablerdao work <repo-name>"
+    step "Run 'enablerdao repos' to see available repos"
     exit 1
   fi
 
@@ -337,9 +484,17 @@ cmd_work() {
 
   echo ""
   printf "${BRIGHT_GREEN}  ╔══════════════════════════════════════════╗${RESET}\n"
-  printf "${BRIGHT_GREEN}  ║${RESET}  Starting work on ${CYAN}${ORG}/${_repo}${RESET}${BRIGHT_GREEN}$(printf '%*s' $((20 - ${#_repo})) '')║${RESET}\n"
+  printf "${BRIGHT_GREEN}  ║${RESET}  Starting work on ${CYAN}${ORG}/${_repo}${RESET}"
+  # Pad the right side
+  _pad=$((22 - ${#_repo}))
+  _j=0
+  while [ $_j -lt $_pad ] 2>/dev/null; do printf " "; _j=$((_j + 1)); done
+  printf "${BRIGHT_GREEN}║${RESET}\n"
   printf "${BRIGHT_GREEN}  ╚══════════════════════════════════════════╝${RESET}\n"
   echo ""
+
+  # Ensure workspace exists
+  mkdir -p "${WORKSPACE}"
 
   # Check if gh is available for forking
   if command -v gh >/dev/null 2>&1; then
@@ -392,30 +547,34 @@ cmd_work() {
 
   # Create a feature branch
   cd "${REPO_DIR}"
-  _branch="dev/claude-$(date +%Y%m%d-%H%M%S)"
+  _branch="dev/enablerdao-$(date +%Y%m%d-%H%M%S)"
   git checkout -b "${_branch}" 2>/dev/null || true
   success "Created branch: ${_branch}"
   echo ""
 
-  # Launch Claude Code
-  info "Launching Claude Code..."
-  step "Working directory: ${REPO_DIR}"
-  step "Branch: ${_branch}"
-  echo ""
-  printf "${BRIGHT_GREEN}  ┌─────────────────────────────────────────┐${RESET}\n"
-  printf "${BRIGHT_GREEN}  │${RESET}  ${CYAN}Claude Code is starting...${RESET}              ${BRIGHT_GREEN}│${RESET}\n"
-  printf "${BRIGHT_GREEN}  │${RESET}  ${DIM}Type your task and let AI handle it.${RESET}    ${BRIGHT_GREEN}│${RESET}\n"
-  printf "${BRIGHT_GREEN}  │${RESET}  ${DIM}When done: enablerdao-dev pr ${_repo}${RESET}$(printf '%*s' $((8 - ${#_repo})) '')${BRIGHT_GREEN}│${RESET}\n"
-  printf "${BRIGHT_GREEN}  └─────────────────────────────────────────┘${RESET}\n"
-  echo ""
-
-  cd "${REPO_DIR}"
+  # Launch Claude Code if available
   if command -v claude >/dev/null 2>&1; then
+    info "Launching Claude Code..."
+    step "Working directory: ${REPO_DIR}"
+    step "Branch: ${_branch}"
+    echo ""
+    printf "${BRIGHT_GREEN}  ┌─────────────────────────────────────────┐${RESET}\n"
+    printf "${BRIGHT_GREEN}  │${RESET}  ${CYAN}Claude Code is starting...${RESET}              ${BRIGHT_GREEN}│${RESET}\n"
+    printf "${BRIGHT_GREEN}  │${RESET}  ${DIM}Type your task and let AI handle it.${RESET}    ${BRIGHT_GREEN}│${RESET}\n"
+    printf "${BRIGHT_GREEN}  │${RESET}  ${DIM}When done: enablerdao pr ${_repo}${RESET}"
+    _pad2=$((14 - ${#_repo}))
+    _j=0
+    while [ $_j -lt $_pad2 ] 2>/dev/null; do printf " "; _j=$((_j + 1)); done
+    printf "${BRIGHT_GREEN}│${RESET}\n"
+    printf "${BRIGHT_GREEN}  └─────────────────────────────────────────┘${RESET}\n"
+    echo ""
+    cd "${REPO_DIR}"
     claude
   else
-    error "Claude Code CLI not found"
-    step "Install: npm install -g @anthropic-ai/claude-code"
-    exit 1
+    success "Repository ready at: ${REPO_DIR}"
+    step "Install Claude Code for AI-assisted development:"
+    step "  npm install -g @anthropic-ai/claude-code"
+    step "Then run: cd ${REPO_DIR} && claude"
   fi
 }
 
@@ -423,16 +582,16 @@ cmd_work() {
 cmd_pr() {
   _repo="$1"
   if [ -z "$_repo" ]; then
-    error "Repository name required"
-    step "Usage: enablerdao-dev pr <repo-name>"
+    errormsg "Repository name required"
+    step "Usage: enablerdao pr <repo-name>"
     exit 1
   fi
 
   REPO_DIR="${WORKSPACE}/${_repo}"
 
   if [ ! -d "${REPO_DIR}" ]; then
-    error "Repository not found at ${REPO_DIR}"
-    step "Run 'enablerdao-dev work ${_repo}' first"
+    errormsg "Repository not found at ${REPO_DIR}"
+    step "Run 'enablerdao work ${_repo}' first"
     exit 1
   fi
 
@@ -462,9 +621,9 @@ cmd_pr() {
   if command -v claude >/dev/null 2>&1; then
     info "Generating commit message with Claude..."
     _diff=$(git diff --cached --stat)
-    _commit_msg=$(claude --print "Generate a concise git commit message (1 line, max 72 chars) for these changes: ${_diff}" 2>/dev/null || echo "feat: update ${_repo} via EnablerDAO Dev Kit")
+    _commit_msg=$(claude --print "Generate a concise git commit message (1 line, max 72 chars) for these changes: ${_diff}" 2>/dev/null || echo "feat: update ${_repo} via EnablerDAO CLI")
   else
-    _commit_msg="feat: update ${_repo} via EnablerDAO Dev Kit"
+    _commit_msg="feat: update ${_repo} via EnablerDAO CLI"
   fi
 
   git commit -m "${_commit_msg}" || true
@@ -482,7 +641,7 @@ cmd_pr() {
       --title "${_commit_msg}" \
       --body "## Changes
 
-This PR was created using [EnablerDAO Dev Kit](https://enablerdao.com/install) powered by Claude Code.
+This PR was created using [EnablerDAO CLI](https://enablerdao.com/install).
 
 ### Modified Files
 \`\`\`
@@ -490,7 +649,7 @@ $(git diff --name-only HEAD~1)
 \`\`\`
 
 ---
-*Automated with enablerdao-dev CLI*" \
+*Automated with enablerdao CLI*" \
       --repo "${ORG}/${_repo}" 2>/dev/null) || true
 
     if [ -n "${_pr_url}" ]; then
@@ -514,15 +673,15 @@ $(git diff --name-only HEAD~1)
   echo ""
 }
 
-# ─── status: Show working repos ───
-cmd_status() {
+# ─── dev-status: Show working repos ───
+cmd_dev_status() {
   echo ""
-  printf "${BRIGHT_GREEN}  enablerdao-dev status${RESET}\n"
+  printf "${BRIGHT_GREEN}  enablerdao dev-status${RESET}\n"
   printf "${DIM}  Workspace: ${WORKSPACE}${RESET}\n"
   echo ""
 
   if [ ! -d "${WORKSPACE}" ]; then
-    warn "Workspace not found. Run 'enablerdao-dev work <repo>' to get started."
+    warn "Workspace not found. Run 'enablerdao work <repo>' to get started."
     exit 0
   fi
 
@@ -549,7 +708,7 @@ cmd_status() {
 
   if [ "${_count}" -eq 0 ]; then
     printf "${DIM}  No repositories found in workspace.${RESET}\n"
-    step "Run 'enablerdao-dev work <repo>' to get started"
+    step "Run 'enablerdao work <repo>' to get started"
   else
     echo ""
     success "${_count} repository(ies) in workspace"
@@ -559,35 +718,92 @@ cmd_status() {
 
 # ─── update: Self-update ───
 cmd_update() {
-  info "Updating enablerdao-dev..."
+  info "Updating enablerdao CLI..."
   if curl -fsSL https://enablerdao.com/install.sh | sh; then
     success "Updated to latest version"
   else
-    error "Update failed"
+    errormsg "Update failed"
     exit 1
   fi
 }
 
-# ─── Main ───
-case "${1:-help}" in
-  list|ls)       cmd_list ;;
-  work|w)        cmd_work "$2" ;;
-  pr)            cmd_pr "$2" ;;
-  status|st)     cmd_status ;;
-  update|up)     cmd_update ;;
-  help|--help|-h)show_help ;;
+# ─── uninstall ───
+cmd_uninstall() {
+  echo ""
+  warn "This will remove the enablerdao CLI."
+  printf "  ${YELLOW}Continue? [y/N] ${RESET}"
+
+  if [ -t 0 ]; then
+    read -r _answer
+    case "${_answer}" in
+      [yY]|[yY][eE][sS]) ;;
+      *)
+        info "Cancelled."
+        exit 0
+        ;;
+    esac
+  else
+    info "Non-interactive mode, skipping uninstall confirmation."
+    exit 1
+  fi
+
+  _cli="${HOME}/.local/bin/enablerdao"
+  if [ -f "$_cli" ]; then
+    rm -f "$_cli"
+    success "Removed ${_cli}"
+  else
+    warn "CLI not found at ${_cli}"
+  fi
+
+  # Also remove old enablerdao-dev if it exists
+  _old_cli="${HOME}/.local/bin/enablerdao-dev"
+  if [ -f "$_old_cli" ]; then
+    rm -f "$_old_cli"
+    success "Removed legacy ${_old_cli}"
+  fi
+
+  echo ""
+  info "enablerdao CLI has been removed."
+  info "Your workspace at ~/enablerdao-workspace/ was NOT removed."
+  echo ""
+}
+
+# ═══════════════════════════════════════════════
+# Main Router
+# ═══════════════════════════════════════════════
+case "${1:-}" in
+  "")                        cmd_info ;;
+  projects|p)                cmd_projects ;;
+  status|s)                  cmd_status ;;
+  docs|d)                    cmd_docs "$2" ;;
+  token|t)                   cmd_token ;;
+  repos|ls|list)             cmd_repos ;;
+  work|w)                    cmd_work "$2" ;;
+  pr)                        cmd_pr "$2" ;;
+  dev-status|ds)             cmd_dev_status ;;
+  update|up)                 cmd_update ;;
+  uninstall|remove)          cmd_uninstall ;;
+  version|v|-v|--version)    cmd_version ;;
+  help|h|-h|--help)          cmd_help ;;
   *)
-    error "Unknown command: $1"
+    errormsg "Unknown command: $1"
     echo ""
-    show_help
+    cmd_help
     exit 1
     ;;
 esac
 CLIFILE
 
   chmod +x "${CLI_PATH}"
-  success "Installed enablerdao-dev to ${CLI_PATH}"
+  success "Installed enablerdao to ${CLI_PATH}"
   echo ""
+
+  # Also remove old enablerdao-dev if it exists and create a compatibility alias
+  OLD_CLI="${CLI_DIR}/enablerdao-dev"
+  if [ -f "${OLD_CLI}" ]; then
+    rm -f "${OLD_CLI}"
+    info "Removed legacy enablerdao-dev (replaced by enablerdao)"
+  fi
 
   # Ensure ~/.local/bin is in PATH
   _path_added=0
@@ -602,9 +818,9 @@ CLIFILE
 
     # Detect shell and add to appropriate rc file
     _shell_rc=""
-    if [ -n "${ZSH_VERSION}" ] || [ "$(basename "${SHELL}")" = "zsh" ]; then
+    if [ -n "${ZSH_VERSION:-}" ] || [ "$(basename "${SHELL}")" = "zsh" ]; then
       _shell_rc="${HOME}/.zshrc"
-    elif [ -n "${BASH_VERSION}" ] || [ "$(basename "${SHELL}")" = "bash" ]; then
+    elif [ -n "${BASH_VERSION:-}" ] || [ "$(basename "${SHELL}")" = "bash" ]; then
       _shell_rc="${HOME}/.bashrc"
     fi
 
@@ -614,7 +830,7 @@ CLIFILE
         success "PATH entry already exists in ${_shell_rc}"
       else
         echo "" >> "${_shell_rc}"
-        echo "# EnablerDAO Dev Kit" >> "${_shell_rc}"
+        echo "# EnablerDAO CLI" >> "${_shell_rc}"
         echo "${_path_line}" >> "${_shell_rc}"
         success "Added PATH to ${_shell_rc}"
         step "Run: source ${_shell_rc}"
@@ -631,74 +847,23 @@ CLIFILE
 }
 
 # ─────────────────────────────────────────────
-# Interactive Repo Selection
-# ─────────────────────────────────────────────
-select_repo() {
-  echo ""
-  printf "${CYAN}  Popular EnablerDAO repositories:${RESET}\n"
-  echo ""
-  printf "  ${GREEN} 1)${RESET} OptimaChain      ${DIM}— Next-gen blockchain platform${RESET}\n"
-  printf "  ${GREEN} 2)${RESET} HyperFlux        ${DIM}— High-performance system${RESET}\n"
-  printf "  ${GREEN} 3)${RESET} ShardX           ${DIM}— Sharding framework${RESET}\n"
-  printf "  ${GREEN} 4)${RESET} NexaCore         ${DIM}— Core infrastructure${RESET}\n"
-  printf "  ${GREEN} 5)${RESET} NeuraChain       ${DIM}— AI-powered chain${RESET}\n"
-  printf "  ${GREEN} 6)${RESET} NovaLedger       ${DIM}— Distributed ledger${RESET}\n"
-  printf "  ${GREEN} 7)${RESET} PulseChain       ${DIM}— Real-time chain${RESET}\n"
-  printf "  ${GREEN} 8)${RESET} Aiden            ${DIM}— AI development environment${RESET}\n"
-  printf "  ${GREEN} 9)${RESET} GeneLLM          ${DIM}— Gene-based LLM${RESET}\n"
-  printf "  ${GREEN}10)${RESET} NexOS            ${DIM}— Next-gen OS${RESET}\n"
-  printf "  ${GREEN}11)${RESET} enabler          ${DIM}— Core enabler module${RESET}\n"
-  printf "  ${GREEN}12)${RESET} timedrop         ${DIM}— Time-based distribution${RESET}\n"
-  printf "  ${GREEN}13)${RESET} stayflow         ${DIM}— Stay management${RESET}\n"
-  printf "  ${GREEN}14)${RESET} Synexia          ${DIM}— Synergy platform${RESET}\n"
-  printf "  ${GREEN}15)${RESET} pocketai         ${DIM}— Pocket AI assistant${RESET}\n"
-  echo ""
-  printf "  ${DIM}Or type a repo name directly.${RESET}\n"
-  echo ""
-  printf "${BRIGHT_GREEN}  > ${RESET}Select a repo [1-15 or name]: "
-
-  read -r _choice
-  case "${_choice}" in
-    1)  SELECTED_REPO="OptimaChain" ;;
-    2)  SELECTED_REPO="HyperFlux" ;;
-    3)  SELECTED_REPO="ShardX" ;;
-    4)  SELECTED_REPO="NexaCore" ;;
-    5)  SELECTED_REPO="NeuraChain" ;;
-    6)  SELECTED_REPO="NovaLedger" ;;
-    7)  SELECTED_REPO="PulseChain" ;;
-    8)  SELECTED_REPO="Aiden" ;;
-    9)  SELECTED_REPO="GeneLLM" ;;
-    10) SELECTED_REPO="NexOS" ;;
-    11) SELECTED_REPO="enabler" ;;
-    12) SELECTED_REPO="timedrop" ;;
-    13) SELECTED_REPO="stayflow" ;;
-    14) SELECTED_REPO="Synexia" ;;
-    15) SELECTED_REPO="pocketai" ;;
-    "")
-      warn "No selection made. You can start later with: enablerdao-dev work <repo>"
-      return 1
-      ;;
-    *)  SELECTED_REPO="${_choice}" ;;
-  esac
-  return 0
-}
-
-# ─────────────────────────────────────────────
 # Success Message
 # ─────────────────────────────────────────────
 show_success() {
   echo ""
   printf "${BRIGHT_GREEN}  ╔══════════════════════════════════════════════════════╗${RESET}\n"
   printf "${BRIGHT_GREEN}  ║${RESET}                                                      ${BRIGHT_GREEN}║${RESET}\n"
-  printf "${BRIGHT_GREEN}  ║${RESET}  ${CYAN}EnablerDAO Dev Kit installed successfully!${RESET}          ${BRIGHT_GREEN}║${RESET}\n"
+  printf "${BRIGHT_GREEN}  ║${RESET}  ${CYAN}EnablerDAO CLI installed successfully!${RESET}              ${BRIGHT_GREEN}║${RESET}\n"
   printf "${BRIGHT_GREEN}  ║${RESET}                                                      ${BRIGHT_GREEN}║${RESET}\n"
   printf "${BRIGHT_GREEN}  ╚══════════════════════════════════════════════════════╝${RESET}\n"
   echo ""
   printf "${DIM}  Quick start:${RESET}\n"
-  printf "    ${GREEN}\$ enablerdao-dev list${RESET}            ${DIM}# Show all repos${RESET}\n"
-  printf "    ${GREEN}\$ enablerdao-dev work <repo>${RESET}     ${DIM}# Fork, clone & start coding${RESET}\n"
-  printf "    ${GREEN}\$ enablerdao-dev pr <repo>${RESET}       ${DIM}# Create a Pull Request${RESET}\n"
-  printf "    ${GREEN}\$ enablerdao-dev status${RESET}          ${DIM}# Check your workspace${RESET}\n"
+  printf "    ${GREEN}\$ enablerdao${RESET}                     ${DIM}# Welcome & info${RESET}\n"
+  printf "    ${GREEN}\$ enablerdao projects${RESET}             ${DIM}# List all projects${RESET}\n"
+  printf "    ${GREEN}\$ enablerdao status${RESET}               ${DIM}# Check service status${RESET}\n"
+  printf "    ${GREEN}\$ enablerdao docs${RESET}                 ${DIM}# Open docs in browser${RESET}\n"
+  printf "    ${GREEN}\$ enablerdao work <repo>${RESET}          ${DIM}# Fork, clone & start coding${RESET}\n"
+  printf "    ${GREEN}\$ enablerdao help${RESET}                 ${DIM}# See all commands${RESET}\n"
   echo ""
   printf "${DIM}  Workspace: ~/enablerdao-workspace/${RESET}\n"
   printf "${DIM}  Docs:      https://enablerdao.com/install${RESET}\n"
@@ -711,31 +876,8 @@ show_success() {
 main() {
   show_banner
   check_prerequisites
-  install_claude
-  setup_workspace
   install_cli
   show_success
-
-  # Interactive: ask if user wants to start working on a repo now
-  if [ -t 0 ]; then
-    printf "${CYAN}  Would you like to start working on a repository now? [Y/n] ${RESET}"
-    read -r _answer
-    case "${_answer}" in
-      [nN]|[nN][oO])
-        info "No worries! Run 'enablerdao-dev work <repo>' anytime."
-        echo ""
-        ;;
-      *)
-        if select_repo; then
-          echo ""
-          success "Selected: ${SELECTED_REPO}"
-          echo ""
-          # Use the installed CLI to start working
-          "${HOME}/.local/bin/enablerdao-dev" work "${SELECTED_REPO}"
-        fi
-        ;;
-    esac
-  fi
 }
 
 main
