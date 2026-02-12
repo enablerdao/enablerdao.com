@@ -93,6 +93,14 @@ export default function Footer() {
                   verify.sh
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/qa"
+                  className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
+                >
+                  QA_LOG.md
+                </Link>
+              </li>
             </ul>
           </div>
 

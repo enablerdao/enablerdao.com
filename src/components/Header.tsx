@@ -15,6 +15,7 @@ export default function Header() {
     { href: "/verify", label: "~/verify" },
     { href: "/install", label: "~/install" },
     { href: "/security", label: "~/security" },
+    { href: "/qa", label: "~/qa" },
   ];
 
   return (
