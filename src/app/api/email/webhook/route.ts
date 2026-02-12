@@ -1,10 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import crypto from "crypto";
+
+const WEBHOOK_SECRET = process.env.RESEND_WEBHOOK_SECRET || "";
 
 function getResend() {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error("RESEND_API_KEY is not set");
   return new Resend(key);
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function verifyWebhookSignature(body: string, signature: string | null): boolean {
+  if (!WEBHOOK_SECRET || !signature) return false;
+  const expected = crypto.createHmac("sha256", WEBHOOK_SECRET).update(body).digest("hex");
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
 }
 
 // Auto-reply templates based on email content keywords
@@ -128,7 +146,7 @@ function generateReply(
 </head>
 <body>
   <div class="logo">EnablerDAO</div>
-  <p>${name}様</p>
+  <p>${escapeHtml(name)}様</p>
   <p>ご連絡いただきありがとうございます。</p>
   ${categoryContent[category]}
   <p>通常1〜2営業日以内に返信いたします。</p>
@@ -150,7 +168,15 @@ function generateReply(
 
 export async function POST(request: NextRequest) {
   try {
-    const payload = await request.json();
+    // Verify webhook signature if secret is configured
+    const rawBody = await request.text();
+    const signature = request.headers.get("svix-signature") || request.headers.get("x-webhook-signature");
+    if (WEBHOOK_SECRET && !verifyWebhookSignature(rawBody, signature)) {
+      console.error("Webhook signature verification failed");
+      return NextResponse.json({ status: "error", error: "Invalid signature" }, { status: 401 });
+    }
+
+    const payload = JSON.parse(rawBody);
 
     // Resend inbound webhook payload
     const {

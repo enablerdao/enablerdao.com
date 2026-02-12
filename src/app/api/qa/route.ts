@@ -8,8 +8,21 @@ import {
 const ADMIN_TOKEN = process.env.QA_ADMIN_TOKEN || "";
 
 function isAdmin(request: NextRequest): boolean {
-  const token = request.nextUrl.searchParams.get("token");
+  // Check Authorization header first, fall back to query param for backward compatibility
+  const authHeader = request.headers.get("authorization");
+  const tokenFromHeader = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  const tokenFromQuery = request.nextUrl.searchParams.get("token");
+  const token = tokenFromHeader || tokenFromQuery;
   return !!ADMIN_TOKEN && token === ADMIN_TOKEN;
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 export async function GET(request: NextRequest) {
@@ -108,11 +121,11 @@ async function sendNotificationEmail(item: {
     html: `
       <h2>EnablerDAO Q&A - 新しい質問</h2>
       <table style="border-collapse:collapse; width:100%; max-width:600px;">
-        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">ID</td><td style="padding:8px; border:1px solid #ddd;">${item.id}</td></tr>
-        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">名前</td><td style="padding:8px; border:1px solid #ddd;">${item.name || "(匿名)"}</td></tr>
-        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">メール</td><td style="padding:8px; border:1px solid #ddd;">${item.email || "(未入力)"}</td></tr>
-        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">カテゴリ</td><td style="padding:8px; border:1px solid #ddd;">${categoryLabels[item.category] || item.category}</td></tr>
-        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">質問</td><td style="padding:8px; border:1px solid #ddd;">${item.question}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">ID</td><td style="padding:8px; border:1px solid #ddd;">${escapeHtml(item.id)}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">名前</td><td style="padding:8px; border:1px solid #ddd;">${escapeHtml(item.name || "(匿名)")}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">メール</td><td style="padding:8px; border:1px solid #ddd;">${escapeHtml(item.email || "(未入力)")}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">カテゴリ</td><td style="padding:8px; border:1px solid #ddd;">${escapeHtml(categoryLabels[item.category] || item.category)}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd; font-weight:bold;">質問</td><td style="padding:8px; border:1px solid #ddd;">${escapeHtml(item.question)}</td></tr>
       </table>
       <p style="margin-top:16px;">
         <a href="https://enablerdao.com/qa?admin=true&token=${ADMIN_TOKEN}">管理画面で回答する</a>
