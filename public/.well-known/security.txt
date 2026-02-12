@@ -1,0 +1,5 @@
+Contact: mailto:security@yukihamada.jp
+Expires: 2027-02-12T00:00:00.000Z
+Preferred-Languages: ja, en
+Canonical: https://enablerdao.com/.well-known/security.txt
+Policy: https://enablerdao.com/security
