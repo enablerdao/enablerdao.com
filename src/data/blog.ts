@@ -11,6 +11,102 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "all-services-verified-blog-launch-2026-02",
+    title: "全サービス稼働確認 — 55テスト全パス＆ブログ機能ローンチ",
+    description:
+      "EnablerDAO全プロジェクトの包括テスト55件全パス、DojoC Next.js 16アップグレード完了、CLIツールデプロイ、ブログ機能ローンチ、yukihamada.jp Rust移行開始の詳細レポート。",
+    content: `## 概要
+
+本日、EnablerDAOが運営する全サービスの包括的な稼働確認テストを実施し、55テストすべてがパスしました。加えて、ブログ機能の新規ローンチ、CLIツールのデプロイ、DojoCのメジャーアップグレード完了、yukihamada.jpのRust移行開始など、複数の重要マイルストーンを達成しています。
+
+## 包括テスト結果：55テスト全パス
+
+全プロジェクトを横断する自動テストスイートを実行し、55件すべてが正常にパスしました。
+
+### EnablerDAO（12/12ページ + API全正常）
+
+EnablerDAOのWebサイト全12ページと全APIエンドポイントの正常動作を確認。ページレンダリング、API応答、データ整合性のすべてにおいて問題なしです。
+
+### DojoC（11/11ページ全正常）
+
+セキュリティ教育プラットフォームDojoCの全11ページが正常に表示・動作することを確認しました。
+
+### 外部12サービス全HTTP 200
+
+EnablerDAOが連携する外部12サービスすべてに対してHTTPリクエストを送信し、全サービスからHTTP 200レスポンスを受信しました。
+
+### セキュリティヘッダー検証（20/20）
+
+4サイト × 5ヘッダー = 20項目のセキュリティヘッダー検証を実施し、すべてパスしました。検証対象ヘッダー：
+- \`Content-Security-Policy\`
+- \`X-Content-Type-Options\`
+- \`X-Frame-Options\`
+- \`Strict-Transport-Security\`
+- \`Referrer-Policy\`
+
+## DojoC Next.js 14→16 メジャーアップグレード完了
+
+DojoCのNext.jsを14から16にメジャーアップグレードしました。
+
+### セキュリティ脆弱性の解消
+- **アップグレード前**: 11件の脆弱性（1 critical: Authorization Bypass含む）
+- **アップグレード後**: 0件
+
+React 18→19への移行、params/searchParamsの非同期化対応、next.config.tsへの移行など、すべての破壊的変更に対応済みです。Turbopackの採用により、ビルド時間も大幅に短縮されました。
+
+## EnablerDAO CLIツールの完成とデプロイ
+
+\`enablerdao\`コマンドラインツールが完成し、本番環境にデプロイされました。
+
+\`\`\`bash
+# インストール
+curl -fsSL https://enablerdao.com/install.sh | bash
+
+# 主なコマンド
+enablerdao projects   # 全プロジェクト一覧
+enablerdao status     # 全サービスのライブステータス確認
+enablerdao repos      # GitHubリポジトリ一覧
+enablerdao work <repo> # Fork→Clone→開発開始
+enablerdao pr <repo>   # コミット→PR作成を自動化
+\`\`\`
+
+POSIX準拠シェルスクリプトとして実装されており、sudo不要・Node.js不要でmacOS / Linux / WSLで動作します。
+
+## ブログ機能の新規追加とデプロイ
+
+EnablerDAOのWebサイトにブログ機能を新規追加しました。技術的な取り組み、プロジェクトの進捗、セキュリティレビュー結果などを発信するためのプラットフォームです。
+
+### 技術仕様
+- Next.js App Routerベースの静的生成（SSG）
+- TypeScript型安全なデータ構造
+- カテゴリ・タグによるフィルタリング
+- レスポンシブデザイン対応
+
+## yukihamada.jp Rust移行開始
+
+yukihamada.jpのバックエンドをRustへ移行するプロジェクトを開始しました。Axumフレームワークを採用し、パフォーマンスとメモリ安全性の向上を目指します。
+
+## まとめ
+
+| 項目 | 結果 |
+|---|---|
+| 包括テスト | 55/55パス |
+| EnablerDAOページ+API | 12/12正常 |
+| DojoCページ | 11/11正常 |
+| 外部サービス | 12/12 HTTP 200 |
+| セキュリティヘッダー | 20/20パス |
+| DojoC脆弱性 | 11→0件 |
+| CLIツール | デプロイ完了 |
+| ブログ機能 | ローンチ完了 |
+| yukihamada.jp Rust移行 | 開始 |
+
+すべてのコードは[GitHub](https://github.com/enablerdao)でオープンソースとして公開しています。`,
+    author: "EnablerDAO",
+    publishedAt: "2026-02-13",
+    tags: ["testing", "deploy", "blog", "upgrade", "rust"],
+    category: "Engineering",
+  },
+  {
     slug: "cross-project-security-review-2026-02",
     title: "全プロジェクト横断セキュリティレビュー＆メジャーアップグレード完了",
     description:
