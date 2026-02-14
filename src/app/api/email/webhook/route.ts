@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
-import crypto from "crypto";
+
+export const runtime = 'edge';
 
 const WEBHOOK_SECRET = process.env.RESEND_WEBHOOK_SECRET || "";
 
@@ -19,10 +20,39 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#039;");
 }
 
-function verifyWebhookSignature(body: string, signature: string | null): boolean {
+async function verifyWebhookSignature(body: string, signature: string | null): Promise<boolean> {
   if (!WEBHOOK_SECRET || !signature) return false;
-  const expected = crypto.createHmac("sha256", WEBHOOK_SECRET).update(body).digest("hex");
-  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+
+  // Use Web Crypto API instead of Node.js crypto
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(WEBHOOK_SECRET);
+  const messageData = encoder.encode(body);
+
+  // Import the key for HMAC
+  const key = await crypto.subtle.importKey(
+    'raw',
+    keyData,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+
+  // Generate HMAC signature
+  const signatureBuffer = await crypto.subtle.sign('HMAC', key, messageData);
+
+  // Convert to hex string
+  const hashArray = Array.from(new Uint8Array(signatureBuffer));
+  const expected = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+  // Timing-safe comparison
+  if (signature.length !== expected.length) return false;
+
+  let result = 0;
+  for (let i = 0; i < signature.length; i++) {
+    result |= signature.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+
+  return result === 0;
 }
 
 // Auto-reply templates based on email content keywords
@@ -171,7 +201,7 @@ export async function POST(request: NextRequest) {
     // Verify webhook signature if secret is configured
     const rawBody = await request.text();
     const signature = request.headers.get("svix-signature") || request.headers.get("x-webhook-signature");
-    if (WEBHOOK_SECRET && !verifyWebhookSignature(rawBody, signature)) {
+    if (WEBHOOK_SECRET && !(await verifyWebhookSignature(rawBody, signature))) {
       console.error("Webhook signature verification failed");
       return NextResponse.json({ status: "error", error: "Invalid signature" }, { status: 401 });
     }

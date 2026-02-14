@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Cloudflare Pages requires 'export' for static output
+  // but we keep 'standalone' for flexibility with @cloudflare/next-on-pages
   output: "standalone",
   reactStrictMode: true,
   images: {
-    unoptimized: true,
+    unoptimized: true, // Required for Cloudflare Pages
   },
   poweredByHeader: false,
   async headers() {

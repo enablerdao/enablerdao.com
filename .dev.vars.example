@@ -1,0 +1,28 @@
+# .dev.vars.example
+# Local development environment variables for Cloudflare Pages
+# Copy this file to .dev.vars and fill in the values
+# Note: .dev.vars is gitignored and should never be committed
+
+# =============================================================================
+# Resend (Email Service) - REQUIRED
+# =============================================================================
+# Get your API key from https://resend.com/api-keys
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# =============================================================================
+# Google Analytics 4 - OPTIONAL
+# =============================================================================
+# Get your measurement ID from Google Analytics 4 dashboard
+# Format: G-XXXXXXXXXX
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+
+# =============================================================================
+# Newsletter - OPTIONAL
+# =============================================================================
+# Enable/disable newsletter subscription feature
+NEXT_PUBLIC_NEWSLETTER_ENABLED=true
+
+# =============================================================================
+# Environment
+# =============================================================================
+NODE_ENV=development

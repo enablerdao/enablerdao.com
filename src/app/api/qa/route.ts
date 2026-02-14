@@ -3,7 +3,9 @@ import {
   getAllQuestions,
   getPublicQuestions,
   addQuestion,
-} from "@/data/qa-store";
+} from "@/data/qa-store-edge";
+
+export const runtime = 'edge';
 
 const ADMIN_TOKEN = process.env.QA_ADMIN_TOKEN || "";
 

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { answerQuestion } from "@/data/qa-store";
+import { answerQuestion } from "@/data/qa-store-edge";
+
+export const runtime = 'edge';
 
 const ADMIN_TOKEN = process.env.QA_ADMIN_TOKEN || "";
 

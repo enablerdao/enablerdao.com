@@ -6,22 +6,32 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "preview": "npm run pages:build && wrangler pages dev",
+    "deploy": "npm run pages:build && wrangler pages deploy",
+    "cf:dev": "wrangler pages dev .vercel/output/static --compatibility-date=2024-01-01",
+    "deploy:fly": "fly deploy",
+    "logs:fly": "fly logs",
+    "status:fly": "fly status",
+    "open:fly": "fly open"
   },
   "dependencies": {
-    "next": "16.1.6",
+    "next": "^15.5.12",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "resend": "^6.9.2"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.16",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
+    "eslint-config-next": "^15.5.12",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.65.0"
   }
 }

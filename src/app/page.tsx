@@ -1,4 +1,6 @@
 import Link from "next/link";
+import NewsletterCTA from "@/components/NewsletterCTA";
+import ProductCTACard from "@/components/ProductCTACard";
 
 const asciiLogo = `
  ███████╗███╗   ██╗ █████╗ ██████╗ ██╗     ███████╗██████╗
@@ -86,19 +88,37 @@ export default function Home() {
             </div>
 
             {/* CTA */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <Link
-                href="/projects"
+                href="#products"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#00ff00]/10 border border-[#00ff00]/30 text-[#00ff00] text-sm hover:bg-[#00ff00]/20 transition-colors"
               >
-                作っているものを見る
+                無料で始める
               </Link>
-              <Link
-                href="/token"
+              <a
+                href="https://github.com/yukihamada"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#111] border border-[#1a3a1a] text-[#888] text-sm hover:text-[#00ff00] hover:border-[#00ff00]/30 transition-colors"
               >
-                EBRトークンとは？
-              </Link>
+                GitHubを見る
+              </a>
+            </div>
+
+            {/* Trust badges */}
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[#00ff00] rounded-full animate-pulse"></div>
+                <span className="text-[#888]"><span className="text-[#00ff00]">12</span>製品</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[#00ffff] rounded-full"></div>
+                <span className="text-[#888]"><span className="text-[#00ffff]">6,000+</span>ユーザー</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[#ffaa00] rounded-full"></div>
+                <span className="text-[#888]"><span className="text-[#ffaa00]">100%</span>オープンソース</span>
+              </div>
             </div>
           </div>
         </div>
@@ -163,7 +183,7 @@ export default function Home() {
       </section>
 
       {/* ===== 私たちが作っているもの ===== */}
-      <section className="py-12 sm:py-16">
+      <section id="products" className="py-12 sm:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-[#00ff00] text-lg sm:text-xl mb-2 text-glow">
             私たちが作っているもの
@@ -175,21 +195,50 @@ export default function Home() {
           {/* AI & テクノロジー */}
           <h3 className="text-[#00ffff] text-sm mb-3">AI & テクノロジー</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-            {[
-              { name: "Chatweb.ai", href: "https://chatweb.ai", color: "#ffaa00", access: "289", desc: "音声やテキストで指示するだけで、AIがWeb操作を自動化。LINE・Telegramでも使えます。", tag: "AI" },
-              { name: "Wisbee", href: "https://wisbee.ai", color: "#00ff00", access: "613", desc: "パソコン上で動くプライバシー重視のAIアシスタント。データを外部に送りません。", tag: "AI" },
-              { name: "Elio Chat", href: "https://elio.love", color: "#aa66ff", access: "506", desc: "iPhoneで完全オフライン動作するAIチャットアプリ。通信不要で使えます。", tag: "AI" },
-              { name: "News.xyz", href: "https://news.xyz", color: "#00ffff", access: "506", desc: "AIがニュースを自動収集・配信。複数テーマから好みの記事を読めます。", tag: "メディア" },
-            ].map((p) => (
-              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{ color: p.color }}>{p.name}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 border" style={{ color: p.color, borderColor: `${p.color}40` }}>{p.tag}</span>
-                </div>
-                <p className="text-[#888] text-xs leading-relaxed mb-2">{p.desc}</p>
-                <span className="text-[#555] text-[10px]">{p.access} visits/mo</span>
-              </a>
-            ))}
+            <ProductCTACard
+              name="Chatweb.ai"
+              href="https://chatweb.ai"
+              color="#ffaa00"
+              access="289"
+              desc="音声やテキストで指示するだけで、AIがWeb操作を自動化。LINE・Telegramでも使えます。"
+              tag="AI"
+              price="$9/月"
+              users="1,200+"
+              trial={true}
+            />
+            <ProductCTACard
+              name="Wisbee"
+              href="https://wisbee.ai"
+              color="#00ff00"
+              access="613"
+              desc="Chatweb.aiと統合されたAIアシスタント。音声・テキスト・Web操作で使えます。"
+              tag="AI"
+              price="Free"
+              users="800+"
+              trial={false}
+            />
+            <ProductCTACard
+              name="Elio Chat"
+              href="https://elio.love"
+              color="#aa66ff"
+              access="506"
+              desc="iPhoneで完全オフライン動作するAIチャットアプリ。通信不要で使えます。"
+              tag="AI"
+              price="$4.99/月"
+              users="500+"
+              trial={true}
+            />
+            <ProductCTACard
+              name="News.xyz"
+              href="https://news.xyz"
+              color="#00ffff"
+              access="506"
+              desc="AIがニュースを自動収集・配信。複数テーマから好みの記事を読めます。"
+              tag="メディア"
+              price="Free"
+              users="600+"
+              trial={false}
+            />
           </div>
 
           {/* ビジネスツール */}
@@ -235,7 +284,6 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
               { name: "JitsuFlow", href: "https://jitsuflow.app", color: "#4488ff", access: "1.31k", desc: "ブラジリアン柔術の練習記録・道場運営をスマートに管理するアプリ。", tag: "アプリ" },
-              { name: "Murata BJJ", href: "https://muratabjj.com", color: "#4488ff", access: "1.61k", desc: "ブラジリアン柔術コミュニティサイト。技術情報やイベント情報を発信。", tag: "BJJ" },
             ].map((p) => (
               <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
                 <div className="flex items-center justify-between mb-2">
@@ -439,6 +487,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ===== Newsletter CTA ===== */}
+      <NewsletterCTA />
 
       {/* ===== Founder ===== */}
       <section className="py-12 sm:py-16">
