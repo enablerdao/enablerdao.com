@@ -278,6 +278,8 @@ cmd_projects() {
     "News.xyz" "AI-powered news aggregation" "https://news.xyz"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
     "News.cloud" "News API platform for developers" "https://news.cloud"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "ChatNews.link" "AI news explainer & summarizer" "https://chatnews.link"
   echo ""
 
   # ── Business Tools ──
@@ -295,13 +297,11 @@ cmd_projects() {
     "Enabler" "Lifestyle service platform" "https://enabler.fun"
   echo ""
 
-  # ── Security ──
-  printf "  ${RED}Security${RESET}\n"
+  # ── Security & Education ──
+  printf "  ${RED}Security & Education${RESET}\n"
   printf "  ${DIM}──────────────────────────────────────────────────────────────${RESET}\n"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
     "Security Scan" "Free web security scanner (A-F grade)" "https://chatnews.tech"
-  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
-    "ChatNews.link" "AI news explainer platform" "https://chatnews.link"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
     "PhishGuard" "Phishing prevention SaaS" "https://enabler.cc"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
@@ -312,7 +312,7 @@ cmd_projects() {
   printf "  ${BRIGHT_MAGENTA}Lifestyle & Events${RESET}\n"
   printf "  ${DIM}──────────────────────────────────────────────────────────────${RESET}\n"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
-    "Enabler.cc" "Premium lifestyle service" "https://enabler.fun"
+    "Enabler" "Premium lifestyle service" "https://enabler.fun"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
     "SOLUNA" "Real events platform (ZAMNA.hawaii)" "https://solun.art"
   echo ""

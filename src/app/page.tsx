@@ -1,6 +1,7 @@
 import Link from "next/link";
 import NewsletterCTA from "@/components/NewsletterCTA";
 import ProductCTACard from "@/components/ProductCTACard";
+import CopyButton from "@/components/CopyButton";
 
 const asciiLogo = `
  ███████╗███╗   ██╗ █████╗ ██████╗ ██╗     ███████╗██████╗
@@ -248,6 +249,17 @@ export default function Home() {
               users="300+"
               trial={false}
             />
+            <ProductCTACard
+              name="ChatNews.link"
+              href="https://chatnews.link"
+              color="#00ffaa"
+              access="95"
+              desc="AIがニュースをわかりやすく要約・解説。時事問題の理解を深めるAIアシスタント。"
+              tag="AI"
+              price="Free"
+              users="200+"
+              trial={false}
+            />
           </div>
 
           {/* ビジネスツール */}
@@ -276,7 +288,6 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
             {[
               { name: "Security Scanner", href: "https://chatnews.tech", color: "#00ff00", access: "113", desc: "URLを入れるだけでWebサイトの安全性をチェック。A〜Fで評価します。", tag: "無料" },
-              { name: "ChatNews.link", href: "https://chatnews.link", color: "#00ffaa", access: "95", desc: "AIニュース解説プラットフォーム。ニュースをわかりやすく要約・解説します。", tag: "AI" },
               { name: "DojoC", href: "https://www.dojoc.io", color: "#4488ff", access: "250", desc: "実践的なサイバーセキュリティトレーニングプラットフォーム。ハンズオンで学べます。", tag: "教育" },
             ].map((p) => (
               <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
@@ -432,18 +443,42 @@ export default function Home() {
       <section className="py-12 sm:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="terminal-box p-4 sm:p-6">
-            <h2 className="text-[#00ff00] text-sm mb-3 text-glow">
-              開発者向け
+            <h2 className="text-[#00ff00] text-lg mb-4 text-glow">
+              開発者向け — CLIツールで貢献開始
             </h2>
 
-            <pre className="text-[#888] text-xs mb-3 overflow-x-auto">
-<span className="text-[#44ff88]">$ git clone https://github.com/yukihamada/enablerdao.git</span>
-<span className="text-[#44ff88]">$ cd enablerdao && npm install</span>
-<span className="text-[#44ff88]">$ npm run dev</span>
-            </pre>
+            <p className="text-[#888] text-sm mb-4">
+              EnablerDAO CLIをインストールすると、プロジェクトの探索、コード修正、PR作成まで
+              <span className="text-[#00ffff]">一気通貫で実行</span>できます。
+            </p>
 
-            <p className="text-[#666] text-xs">
-              GitHubで貢献 → PRマージ → EBR獲得
+            <div className="mb-4">
+              <p className="text-[#555] text-xs mb-2">1行でインストール:</p>
+              <div className="bg-[#0d0d0d] border border-[#1a3a1a] p-3 mb-2">
+                <code className="text-[#44ff88] text-xs">curl -fsSL https://enablerdao.com/install.sh | bash</code>
+              </div>
+              <CopyButton text="curl -fsSL https://enablerdao.com/install.sh | bash" />
+            </div>
+
+            <div className="border-t border-[#1a3a1a] pt-4 mt-4">
+              <p className="text-[#555] text-xs mb-2">インストール後の使い方:</p>
+              <pre className="text-[#888] text-xs overflow-x-auto">
+<span className="text-[#44ff88]">$ enablerdao projects</span>          <span className="text-[#555]"># 全プロジェクト一覧</span>
+<span className="text-[#44ff88]">$ enablerdao work &lt;repo&gt;</span>        <span className="text-[#555]"># Fork→Clone→開発開始</span>
+<span className="text-[#44ff88]">$ enablerdao pr &lt;repo&gt;</span>          <span className="text-[#555]"># コミット→PR作成</span>
+              </pre>
+            </div>
+
+            <p className="text-[#666] text-xs mt-4">
+              <span className="text-[#00ff00]">✓</span> プロジェクト探索
+              <span className="text-[#555] mx-2">→</span>
+              <span className="text-[#00ff00]">✓</span> 自動Fork/Clone
+              <span className="text-[#555] mx-2">→</span>
+              <span className="text-[#00ff00]">✓</span> コード修正
+              <span className="text-[#555] mx-2">→</span>
+              <span className="text-[#00ff00]">✓</span> PR作成
+              <span className="text-[#555] mx-2">→</span>
+              <span className="text-[#00ff00]">✓</span> EBR獲得
             </p>
           </div>
         </div>

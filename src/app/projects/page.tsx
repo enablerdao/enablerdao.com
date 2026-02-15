@@ -60,6 +60,23 @@ const projects = [
     ],
   },
   {
+    name: "ChatNews.link",
+    tagline: "AIニュース解説プラットフォーム",
+    description:
+      "AIがニュースを要約・解説するプラットフォーム。複雑なニュースをわかりやすく解説し、背景情報や関連情報を自動で補足。時事問題の理解を深めるための学習ツールとしても活用可能。",
+    href: "https://chatnews.link",
+    github: "https://github.com/yukihamada",
+    badge: "ACTIVE",
+    status: "beta" as const,
+    lastUpdate: "2025-02-15",
+    features: [
+      "AIによるニュース要約",
+      "わかりやすい解説",
+      "背景情報の自動補足",
+      "時事問題学習ツール",
+    ],
+  },
+  {
     name: "SOLUNA",
     tagline: "リアルイベントプラットフォーム",
     description:
@@ -110,22 +127,6 @@ const saveJapanProducts = [
       "HTTPS / SSL証明書の検証",
       "A-Fグレードによる評価",
       "Proプランで継続的モニタリング",
-    ],
-  },
-  {
-    name: "ChatNews.link",
-    tagline: "AIニュース解説プラットフォーム",
-    description:
-      "AIがニュースを要約・解説するプラットフォーム。複雑なニュースをわかりやすく解説し、背景情報や関連情報を自動で補足。時事問題の理解を深めるための学習ツールとしても活用可能。",
-    href: "https://chatnews.link",
-    github: "https://github.com/yukihamada",
-    status: "beta" as const,
-    lastUpdate: "2025-02-15",
-    features: [
-      "AIによるニュース要約",
-      "わかりやすい解説",
-      "背景情報の自動補足",
-      "時事問題学習ツール",
     ],
   },
   {

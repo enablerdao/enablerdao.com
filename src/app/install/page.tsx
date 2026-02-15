@@ -333,6 +333,7 @@ export default function InstallPage() {
                     ["Elio Chat", "Offline AI chat for iPhone", "elio.love"],
                     ["News.xyz", "AI-powered news", "news.xyz"],
                     ["News.cloud", "News API platform", "news.cloud"],
+                    ["ChatNews.link", "AI news explainer", "chatnews.link"],
                   ].map(([name, desc, url]) => (
                     <p key={name}>
                       <span className="text-[#00ff00]">{name}</span>
@@ -367,11 +368,10 @@ export default function InstallPage() {
 
               {/* Security */}
               <div>
-                <p className="text-[#ff6666] mb-1">Security</p>
+                <p className="text-[#ff6666] mb-1">Security & Education</p>
                 <div className="space-y-0.5 pl-2">
                   {[
                     ["Security Scan", "Web security scanner (A-F)", "chatnews.tech"],
-                    ["ChatNews.link", "AI news explainer", "chatnews.link"],
                     ["PhishGuard", "Phishing prevention SaaS", "enabler.cc"],
                     ["DojoC", "Cybersecurity learning", "dojoc.io"],
                   ].map(([name, desc, url]) => (
