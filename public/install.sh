@@ -494,26 +494,18 @@ cmd_work() {
     # Popular projects list with descriptions and API info
     printf "  ${CYAN}[1]${RESET} ${GREEN}Chatweb.ai${RESET}          ${DIM}AI web automation (Anthropic Claude API)${RESET}\n"
     printf "  ${CYAN}[2]${RESET} ${GREEN}enablerdao.com${RESET}      ${DIM}Main DAO website (Next.js)${RESET}\n"
-    printf "  ${CYAN}[3]${RESET} ${GREEN}wisbee${RESET}              ${DIM}Private AI assistant (Local LLM)${RESET}\n"
-    printf "  ${CYAN}[4]${RESET} ${GREEN}OptimaChain${RESET}         ${DIM}Next-gen blockchain platform${RESET}\n"
-    printf "  ${CYAN}[5]${RESET} ${GREEN}MindBridge-iOS${RESET}      ${DIM}On-device AI chat (Qwen3-4B)${RESET}\n"
-    printf "  ${CYAN}[6]${RESET} ${GREEN}stayflow${RESET}            ${DIM}Vacation rental management${RESET}\n"
-    printf "  ${CYAN}[7]${RESET} ${GREEN}OpenHands${RESET}           ${DIM}Code assistant (OpenAI/Anthropic API)${RESET}\n"
-    printf "  ${CYAN}[8]${RESET} ${GREEN}task-enabler-ai${RESET}     ${DIM}Task management with LINE${RESET}\n"
+    printf "  ${CYAN}[3]${RESET} ${GREEN}stayflow${RESET}            ${DIM}Vacation rental management${RESET}\n"
+    printf "  ${CYAN}[4]${RESET} ${GREEN}OpenHands${RESET}           ${DIM}Code assistant (OpenAI/Anthropic API)${RESET}\n"
     printf "  ${CYAN}[0]${RESET} ${DIM}See all repositories${RESET}\n"
     echo ""
-    printf "  ${YELLOW}Enter number [1-8, 0 for all]:${RESET} "
+    printf "  ${YELLOW}Enter number [1-4, 0 for all]:${RESET} "
     read -r _choice
 
     case "$_choice" in
       1) _repo="chatweb.ai" ;;
       2) _repo="enablerdao.com" ;;
-      3) _repo="wisbee" ;;
-      4) _repo="OptimaChain" ;;
-      5) _repo="MindBridge-iOS" ;;
-      6) _repo="stayflow" ;;
-      7) _repo="OpenHands" ;;
-      8) _repo="task-enabler-ai" ;;
+      3) _repo="stayflow" ;;
+      4) _repo="OpenHands" ;;
       0) cmd_repos; echo ""; printf "  ${YELLOW}Enter repository name:${RESET} "; read -r _repo ;;
       *) errormsg "Invalid choice"; exit 1 ;;
     esac
