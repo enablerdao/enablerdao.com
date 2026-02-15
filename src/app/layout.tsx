@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s | EnablerDAO",
   },
   description:
-    "EnablerDAOは、オープンソースソフトウェアの開発を通じて日本のサイバーセキュリティとAI技術の発展に貢献する分散型自律組織です。SaveJapan Security Suite、Chatweb.ai等のプロジェクトを展開。",
+    "EnablerDAOは、オープンソースソフトウェアの開発を通じて日本のサイバーセキュリティとAI技術の発展に貢献する分散型自律組織です。EnablerDAO Security Security Suite、Chatweb.ai等のプロジェクトを展開。",
   icons: {
     icon: "/favicon.svg",
   },

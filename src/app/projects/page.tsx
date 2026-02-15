@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "プロジェクト一覧",
   description:
-    "EnablerDAOが展開するプロジェクト一覧。Chatweb.ai、SaveJapanなど、AIとセキュリティでイノベーションを加速。",
+    "EnablerDAOが展開するプロジェクト一覧。Chatweb.ai、EnablerDAO Securityなど、AIとセキュリティでイノベーションを加速。",
 };
 
 const projects = [
@@ -347,7 +347,7 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      {/* SaveJapan Suite */}
+      {/* EnablerDAO Security Suite */}
       <section className="py-8 sm:py-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-[#555] text-xs mb-1">
@@ -358,7 +358,7 @@ export default function ProjectsPage() {
             <span className="text-[#555]">[</span>
             <span className="text-[#aa66ff]">SUITE</span>
             <span className="text-[#555]">]</span>
-            <span className="text-[#888]"> SaveJapan Security Suite -- サイバーセキュリティツール群</span>
+            <span className="text-[#888]"> EnablerDAO Security Security Suite -- サイバーセキュリティツール群</span>
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
