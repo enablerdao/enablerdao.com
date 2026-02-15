@@ -330,9 +330,9 @@ export default function InstallPage() {
                 <div className="space-y-0.5 pl-2">
                   {[
                     ["Chatweb.ai", "AI-driven web automation", "chatweb.ai"],
-                    ["Wisbee", "Private AI assistant", "wisbee.ai"],
                     ["Elio Chat", "Offline AI chat for iPhone", "elio.love"],
                     ["News.xyz", "AI-powered news", "news.xyz"],
+                    ["News.cloud", "News API platform", "news.cloud"],
                   ].map(([name, desc, url]) => (
                     <p key={name}>
                       <span className="text-[#00ff00]">{name}</span>
@@ -371,7 +371,8 @@ export default function InstallPage() {
                 <div className="space-y-0.5 pl-2">
                   {[
                     ["Security Scan", "Web security scanner (A-F)", "chatnews.tech"],
-                    ["PhishGuard", "Phishing training", "enabler.cc"],
+                    ["ChatNews.link", "AI news explainer", "chatnews.link"],
+                    ["PhishGuard", "Phishing prevention SaaS", "enabler.cc"],
                     ["DojoC", "Cybersecurity learning", "dojoc.io"],
                   ].map(([name, desc, url]) => (
                     <p key={name}>
@@ -385,8 +386,27 @@ export default function InstallPage() {
                 </div>
               </div>
 
+              {/* Lifestyle & Events */}
+              <div>
+                <p className="text-[#ff6688] mb-1">Lifestyle & Events</p>
+                <div className="space-y-0.5 pl-2">
+                  {[
+                    ["Enabler", "Premium lifestyle service", "enabler.fun"],
+                    ["SOLUNA", "Real events (ZAMNA.hawaii)", "solun.art"],
+                  ].map(([name, desc, url]) => (
+                    <p key={name}>
+                      <span className="text-[#00ff00]">{name}</span>
+                      <span className="text-[#555]"> -- </span>
+                      <span className="text-[#888]">{desc}</span>
+                      <span className="text-[#555]"> -- </span>
+                      <span className="text-[#00aa00]">{url}</span>
+                    </p>
+                  ))}
+                </div>
+              </div>
+
               <p className="text-[#555]">
-                Total: 13 active projects
+                Total: 15 active projects
               </p>
             </div>
           </div>
@@ -412,11 +432,15 @@ export default function InstallPage() {
                 {[
                   ["enablerdao.com", "UP", "142ms", "200"],
                   ["chatweb.ai", "UP", "89ms", "200"],
-                  ["wisbee.ai", "UP", "124ms", "200"],
                   ["elio.love", "UP", "203ms", "200"],
+                  ["news.xyz", "UP", "178ms", "200"],
+                  ["news.cloud", "UP", "156ms", "200"],
+                  ["chatnews.link", "UP", "145ms", "200"],
                   ["stayflowapp.com", "UP", "167ms", "200"],
                   ["banto.work", "UP", "95ms", "200"],
-                  ["news.xyz", "UP", "178ms", "200"],
+                  ["enabler.cc", "UP", "134ms", "200"],
+                  ["enabler.fun", "UP", "189ms", "200"],
+                  ["solun.art", "UP", "212ms", "200"],
                 ].map(([svc, status, time, code]) => (
                   <p key={svc}>
                     <span className="text-[#888] inline-block w-40">

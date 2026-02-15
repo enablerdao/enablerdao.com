@@ -95,6 +95,12 @@ export default function Home() {
               >
                 無料で始める
               </Link>
+              <Link
+                href="/status"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#111] border border-[#1a3a1a] text-[#888] text-sm hover:text-[#00ffff] hover:border-[#00ffff]/30 transition-colors"
+              >
+                Project Status
+              </Link>
               <a
                 href="https://github.com/yukihamada"
                 target="_blank"
@@ -117,7 +123,11 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-[#ffaa00] rounded-full"></div>
-                <span className="text-[#888]"><span className="text-[#ffaa00]">100%</span>オープンソース</span>
+                <span className="text-[#888]"><span className="text-[#ffaa00]">28</span>貢献者</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[#aa66ff] rounded-full"></div>
+                <span className="text-[#888]"><span className="text-[#aa66ff]">2,840+</span>コミット</span>
               </div>
             </div>
           </div>
@@ -207,24 +217,12 @@ export default function Home() {
               trial={true}
             />
             <ProductCTACard
-              name="Wisbee"
-              href="https://wisbee.ai"
-              color="#00ff00"
-              access="613"
-              desc="Chatweb.aiと統合されたAIアシスタント。音声・テキスト・Web操作で使えます。"
-              tag="AI"
-              price="Free"
-              users="800+"
-              trial={false}
-            />
-            <ProductCTACard
               name="Elio Chat"
               href="https://elio.love"
               color="#aa66ff"
               access="506"
               desc="iPhoneで完全オフライン動作するAIチャットアプリ。通信不要で使えます。"
               tag="AI"
-              price="$4.99/月"
               users="500+"
               trial={true}
             />
@@ -239,6 +237,17 @@ export default function Home() {
               users="600+"
               trial={false}
             />
+            <ProductCTACard
+              name="News.cloud"
+              href="https://news.cloud"
+              color="#60a5fa"
+              access="892"
+              desc="News APIプラットフォーム。リアルタイムニュースデータを開発者向けに提供。"
+              tag="API"
+              price="Free"
+              users="300+"
+              trial={false}
+            />
           </div>
 
           {/* ビジネスツール */}
@@ -249,7 +258,7 @@ export default function Home() {
               { name: "BANTO", href: "https://banto.work", color: "#ffaa00", access: "186", desc: "建設業者向けの請求書・見積書管理アプリ。面倒な事務作業を簡単に。", tag: "SaaS" },
               { name: "Totonos", href: "https://totonos.jp", color: "#00ffff", access: "103", desc: "企業の財務業務を自動化する次世代プラットフォーム。", tag: "SaaS" },
               { name: "VOLT", href: "https://volt.tokyo", color: "#ff6688", access: "205", desc: "「買い物は、戦いだ」日本初のライブオークションプラットフォーム。", tag: "EC" },
-              { name: "Enabler", href: "https://enabler.fun", color: "#aa66ff", access: "107", desc: "世界中で上質な日常生活を実現するライフスタイルサービス。", tag: "生活" },
+              { name: "Enabler.cc", href: "https://enabler.cc", color: "#00ff00", access: "150", desc: "フィッシング詐欺を防止するセキュリティSaaS。URLの安全性を自動判定。", tag: "SaaS" },
             ].map((p) => (
               <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
                 <div className="flex items-center justify-between mb-2">
@@ -263,10 +272,30 @@ export default function Home() {
           </div>
 
           {/* セキュリティ & 教育 */}
-          <h3 className="text-[#00ff00] text-sm mb-3">セキュリティ</h3>
+          <h3 className="text-[#00ff00] text-sm mb-3">セキュリティ & 教育</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
             {[
               { name: "Security Scanner", href: "https://chatnews.tech", color: "#00ff00", access: "113", desc: "URLを入れるだけでWebサイトの安全性をチェック。A〜Fで評価します。", tag: "無料" },
+              { name: "ChatNews.link", href: "https://chatnews.link", color: "#00ffaa", access: "95", desc: "AIニュース解説プラットフォーム。ニュースをわかりやすく要約・解説します。", tag: "AI" },
+              { name: "DojoC", href: "https://www.dojoc.io", color: "#4488ff", access: "250", desc: "実践的なサイバーセキュリティトレーニングプラットフォーム。ハンズオンで学べます。", tag: "教育" },
+            ].map((p) => (
+              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold" style={{ color: p.color }}>{p.name}</span>
+                  <span className="text-[10px] px-1.5 py-0.5 border" style={{ color: p.color, borderColor: `${p.color}40` }}>{p.tag}</span>
+                </div>
+                <p className="text-[#888] text-xs leading-relaxed mb-2">{p.desc}</p>
+                <span className="text-[#555] text-[10px]">{p.access} visits/mo</span>
+              </a>
+            ))}
+          </div>
+
+          {/* ライフスタイル & イベント */}
+          <h3 className="text-[#ff6688] text-sm mb-3">ライフスタイル & イベント</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+            {[
+              { name: "Enabler", href: "https://enabler.fun", color: "#aa66ff", access: "107", desc: "世界中で上質な日常生活を実現するライフスタイルサービス。", tag: "生活" },
+              { name: "SOLUNA", href: "https://solun.art", color: "#ff6688", access: "892", desc: "ハワイ発のリアルイベントプラットフォーム。ZAMNA.hawaiiを運営。", tag: "イベント" },
             ].map((p) => (
               <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
                 <div className="flex items-center justify-between mb-2">
@@ -353,7 +382,7 @@ export default function Home() {
       <section className="py-12 sm:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-[#00ff00] text-lg sm:text-xl mb-6 text-glow">
-            参加するには？（3ステップ）
+            参加するには？
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -362,11 +391,11 @@ export default function Home() {
                 <div className="w-10 h-10 bg-[#1a3a1a] flex items-center justify-center text-[#00ff00] text-xl pixel-border-green">
                   1
                 </div>
-                <span className="text-[#00ff00] text-sm">まず使ってみる</span>
+                <span className="text-[#00ff00] text-sm">まず使う</span>
               </div>
               <p className="text-[#888] text-xs leading-relaxed">
-                Security Scannerで自分のサイトを診断したり、DojoC で勉強してみたり。
-                まずは無料で触ってみてください。
+                無料ツールを使ってみる。
+                <br/>Security Scanner、DojoC など
               </p>
             </div>
 
@@ -375,11 +404,11 @@ export default function Home() {
                 <div className="w-10 h-10 bg-[#1a3a1a] flex items-center justify-center text-[#00ff00] text-xl pixel-border-green">
                   2
                 </div>
-                <span className="text-[#00ff00] text-sm">意見を伝える</span>
+                <span className="text-[#00ff00] text-sm">貢献する</span>
               </div>
               <p className="text-[#888] text-xs leading-relaxed">
-                「ここが使いにくい」「こんな機能がほしい」など、感じたことをGitHubで教えてください。
-                プログラムが書けなくてもOKです。
+                バグ報告、コード修正、ドキュメント作成など。
+                <br/><span className="text-[#44ff88]">→ EBR獲得</span>
               </p>
             </div>
 
@@ -388,13 +417,34 @@ export default function Home() {
                 <div className="w-10 h-10 bg-[#1a3a1a] flex items-center justify-center text-[#00ff00] text-xl pixel-border-green">
                   3
                 </div>
-                <span className="text-[#00ff00] text-sm">EBRトークンで投票</span>
+                <span className="text-[#00ff00] text-sm">投票する</span>
               </div>
               <p className="text-[#888] text-xs leading-relaxed">
-                貢献するとEBRトークンがもらえます。
-                このトークンを使って、次に何を作るかの投票に参加できます。
+                EBRで次の方針を投票。
+                <br/>Discord + Snapshot
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 開発に参加 ===== */}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="terminal-box p-4 sm:p-6">
+            <h2 className="text-[#00ff00] text-sm mb-3 text-glow">
+              開発者向け
+            </h2>
+
+            <pre className="text-[#888] text-xs mb-3 overflow-x-auto">
+<span className="text-[#44ff88]">$ git clone https://github.com/yukihamada/enablerdao.git</span>
+<span className="text-[#44ff88]">$ cd enablerdao && npm install</span>
+<span className="text-[#44ff88]">$ npm run dev</span>
+            </pre>
+
+            <p className="text-[#666] text-xs">
+              GitHubで貢献 → PRマージ → EBR獲得
+            </p>
           </div>
         </div>
       </section>
@@ -403,25 +453,37 @@ export default function Home() {
       <section className="py-12 sm:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="terminal-box p-4 sm:p-6">
-            <h2 className="text-[#00ff00] text-lg mb-4 text-glow">EBRトークンってなに？</h2>
+            <h2 className="text-[#00ff00] text-lg mb-6 text-glow">EBRトークン詳細</h2>
 
-            <div className="border-l-2 border-[#00ff00]/30 pl-4 space-y-3">
-              <p className="text-[#888] text-sm leading-relaxed">
-                EBRは、EnablerDAOの<span className="text-[#00ffff]">「投票券」</span>のようなものです。
-              </p>
-              <p className="text-[#888] text-sm leading-relaxed">
-                プロジェクトに貢献（プログラムを書く、バグを報告する、文章を書く等）すると、
-                お礼としてEBRトークンがもらえます。
-                このトークンを持っていると、EnablerDAOの<span className="text-[#00ff00]">方向性を決める投票</span>に参加できます。
-              </p>
+            <p className="text-[#888] text-sm mb-4">
+              貢献度に応じて配布される<span className="text-[#00ffff]">ガバナンストークン</span>
+            </p>
 
-              <div className="bg-[#1a1a0a] border border-[#ffaa00]/20 p-3 mt-3">
-                <p className="text-[#ffaa00] text-xs">
-                  EBRは投資や売買を目的としたものではありません。
-                  EnablerDAOの運営に参加するためのツールです。
-                </p>
+            {/* EBR獲得・使用 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+              <div className="border border-[#1a1a1a] p-3">
+                <h3 className="text-[#00ffff] text-xs mb-2">獲得方法</h3>
+                <div className="text-[#888] text-xs space-y-1">
+                  <p>コード: <span className="text-[#44ff88]">100-1000</span></p>
+                  <p>バグ報告: <span className="text-[#44ff88]">50-500</span></p>
+                  <p>ドキュメント: <span className="text-[#44ff88]">10-200</span></p>
+                  <p>コミュニティ: <span className="text-[#44ff88]">5-500</span></p>
+                </div>
+              </div>
+
+              <div className="border border-[#1a1a1a] p-3">
+                <h3 className="text-[#ffaa00] text-xs mb-2">使い道</h3>
+                <div className="text-[#888] text-xs space-y-1">
+                  <p>• 提案への投票</p>
+                  <p>• プロジェクト提案 (1000+)</p>
+                  <p>• ステーキング報酬（準備中）</p>
+                </div>
               </div>
             </div>
+
+            <p className="text-[#666] text-xs">
+              ※ EBRは投資商品ではなく、ガバナンス参加用トークンです
+            </p>
 
             <div className="flex flex-wrap items-center gap-3 mt-4 pt-3 border-t border-[#1a3a1a]">
               <Link
@@ -444,6 +506,42 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                 </svg>
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== DAO運営システム ===== */}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="terminal-box p-4 sm:p-6">
+            <h2 className="text-[#aa66ff] text-lg mb-4 text-glow">
+              DAO運営の仕組み
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="border border-[#1a1a1a] p-3">
+                <h3 className="text-[#00ff00] text-sm mb-2">投票で決める</h3>
+                <p className="text-[#888] text-xs">EBRトークン保有者が提案・投票。多数決で方針を決定</p>
+              </div>
+              <div className="border border-[#1a1a1a] p-3">
+                <h3 className="text-[#00ffff] text-sm mb-2">報酬を分配</h3>
+                <p className="text-[#888] text-xs">貢献度に応じて自動的にEBRを配布。透明性100%</p>
+              </div>
+            </div>
+
+            <div className="mt-4 p-3 border border-[#aa66ff]/20 bg-[#0d0a0f]">
+              <p className="text-[#666] text-xs">
+                <span className="text-[#aa66ff]">参考:</span> ELSOUL LABOのDAO運営モデルを採用
+                <a
+                  href="https://labo.elsoul.nl/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#aa66ff] hover:text-[#cc88ff] ml-2"
+                >
+                  →
+                </a>
+              </p>
             </div>
           </div>
         </div>
@@ -541,6 +639,54 @@ export default function Home() {
                   <span className="text-[10px] px-2 py-0.5 border border-[#aa66ff]/30 text-[#aa66ff]">
                     enablerdao.eth
                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Founder ===== */}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="terminal-box p-4 sm:p-6">
+            <h2 className="text-[#00ff00] text-lg sm:text-xl mb-6 text-glow">
+              Founder
+            </h2>
+            <div className="flex flex-col sm:flex-row gap-6 items-start">
+              <div className="flex-shrink-0">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 border border-[#1a3a1a] overflow-hidden">
+                  <img
+                    src="/yuki-profile.jpg"
+                    alt="Yuki Hamada"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-[#00ffff] text-base sm:text-lg mb-2">
+                  Yuki Hamada
+                </h3>
+                <p className="text-[#888] text-sm leading-relaxed mb-3">
+                  セキュリティエンジニア / DAO創設者
+                </p>
+                <p className="text-[#666] text-xs leading-relaxed">
+                  インターネットをもっと安全で使いやすくしたい。
+                  <br className="hidden sm:block" />
+                  そんな思いでEnablerDAOを立ち上げました。
+                  <br className="hidden sm:block" />
+                  誰もが自由に参加できる組織で、一緒により良いツールを作っていきましょう。
+                </p>
+                <div className="mt-4">
+                  <a
+                    href="https://github.com/yukihamada"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[#00ff00] text-xs hover:text-[#44ff88] transition-colors"
+                  >
+                    <span>@yukihamada</span>
+                    <span className="text-[#555]">→</span>
+                  </a>
                 </div>
               </div>
             </div>

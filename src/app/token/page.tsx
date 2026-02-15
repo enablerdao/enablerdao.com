@@ -251,7 +251,7 @@ export default function TokenPage() {
             <div className="space-y-2">
               {[
                 { cmd: "git commit", label: "プロジェクトへの貢献", desc: "コードの提出、バグ修正、機能追加" },
-                { cmd: "npm start", label: "プロダクトの利用", desc: "Chatweb.ai、ElioChat、SaveJapanの活用" },
+                { cmd: "npm start", label: "プロダクトの利用", desc: "Chatweb.ai、Elio Chat、News.cloud、SaveJapanの活用" },
                 { cmd: "gh issue", label: "フィードバック提供", desc: "バグ報告、機能リクエスト、改善提案" },
                 { cmd: "vim docs/", label: "コンテンツ作成", desc: "ドキュメント、チュートリアル、翻訳" },
               ].map((item) => (

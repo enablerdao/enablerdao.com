@@ -90,7 +90,6 @@ function generateReply(
     category = "join";
   } else if (
     lowerBody.includes("ai") ||
-    lowerBody.includes("wisbee") ||
     lowerBody.includes("elio") ||
     lowerBody.includes("chatweb")
   ) {
@@ -141,9 +140,9 @@ function generateReply(
       <p>EnablerDAOでは以下のAIサービスを開発・運営しています：</p>
       <ul>
         <li><strong>Chatweb.ai</strong>（<a href="https://chatweb.ai">chatweb.ai</a>）- 音声・テキストでAIがWeb操作を自動化</li>
-        <li><strong>Wisbee</strong>（<a href="https://wisbee.ai">wisbee.ai</a>）- プライバシー重視のAIアシスタント</li>
         <li><strong>Elio Chat</strong>（<a href="https://elio.love">elio.love</a>）- 完全オフラインAIチャット</li>
         <li><strong>News.xyz</strong>（<a href="https://news.xyz">news.xyz</a>）- AIニュース配信</li>
+        <li><strong>News.cloud</strong>（<a href="https://news.cloud">news.cloud</a>）- News APIプラットフォーム</li>
       </ul>
       <p>担当者より改めてご連絡いたします。</p>
     `,

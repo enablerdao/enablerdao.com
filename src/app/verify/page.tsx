@@ -802,7 +802,7 @@ export default function VerifyPage() {
                   <div className="space-y-1">
                     <p className="text-[#555] text-[10px]">アクティブユーザー = 貢献者</p>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {["Chatweb.ai", "ElioChat", "Scanner"].map((s) => (
+                      {["Chatweb.ai", "Elio Chat", "News.cloud", "Scanner"].map((s) => (
                         <span key={s} className="text-[10px] px-1.5 py-0.5 bg-[#00ffff]/5 border border-[#00ffff]/20 text-[#00ffff]">{s}</span>
                       ))}
                     </div>

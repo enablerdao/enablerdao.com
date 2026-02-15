@@ -19,11 +19,6 @@ name = "enablerdao-preview"
 # Build command: npm run build
 # Output directory: .vercel/output/static
 
-# Functions configuration (for API routes)
-[build]
-command = "npm run build"
-cwd = ""
-
 # Custom domains will be configured in Cloudflare Pages Dashboard
 # Primary domain: enablerdao.com
 # www subdomain: www.enablerdao.com

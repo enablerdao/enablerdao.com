@@ -12,9 +12,20 @@
     "deploy": "npm run pages:build && wrangler pages deploy",
     "cf:dev": "wrangler pages dev .vercel/output/static --compatibility-date=2024-01-01",
     "deploy:fly": "fly deploy",
+    "deploy:staging": "fly deploy -c fly-staging.toml",
+    "deploy:prod": "fly deploy -c fly.toml",
     "logs:fly": "fly logs",
+    "logs:staging": "fly logs -a enablerdao-staging",
+    "logs:prod": "fly logs -a enablerdao",
     "status:fly": "fly status",
-    "open:fly": "fly open"
+    "status:staging": "fly status -a enablerdao-staging",
+    "status:prod": "fly status -a enablerdao",
+    "open:fly": "fly open",
+    "open:staging": "fly open -a enablerdao-staging",
+    "open:prod": "fly open -a enablerdao",
+    "test:deploy": "bash scripts/post-deploy-test.sh",
+    "monitor:deploy": "bash scripts/monitor-deployment.sh",
+    "check:analytics": "bash scripts/check-analytics.sh"
   },
   "dependencies": {
     "next": "^15.5.12",
@@ -23,15 +34,14 @@
     "resend": "^6.9.2"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.16",
-    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10",
     "eslint": "^9",
     "eslint-config-next": "^15.5.12",
-    "tailwindcss": "^4",
-    "typescript": "^5",
-    "wrangler": "^4.65.0"
+    "postcss": "^8",
+    "tailwindcss": "^3.4",
+    "typescript": "^5"
   }
 }

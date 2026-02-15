@@ -1,0 +1,75 @@
+============================================
+Cloudflare Pages デプロイチェックリスト
+EnablerDAO プロジェクト
+============================================
+
+[ ] STEP 1: Cloudflareダッシュボードアクセス
+    URL: https://dash.cloudflare.com
+    → ログイン（既存アカウント）
+    → Workers & Pages をクリック
+
+[ ] STEP 2: 新規プロジェクト作成
+    → Create application ボタン
+    → Pages タブ選択
+    → Connect to Git をクリック
+
+[ ] STEP 3: GitHub連携
+    → Sign in with GitHub
+    → リポジトリアクセス許可
+    → yukihamada/d-enablerdao を選択
+    → Begin setup をクリック
+
+[ ] STEP 4: ビルド設定
+    Project name: enablerdao
+    Production branch: main (または master)
+
+    Build settings:
+    ┌─────────────────────────────────────────┐
+    │ Framework preset: Next.js               │
+    │ Build command: npx @cloudflare/next-on-pages │
+    │ Build output directory: .vercel/output/static │
+    │ Root directory: (空欄のまま)             │
+    └─────────────────────────────────────────┘
+
+[ ] STEP 5: 環境変数設定
+    → Environment variables (advanced) を展開
+
+    Production環境:
+    RESEND_API_KEY = [取得したAPIキー]
+    NEXT_PUBLIC_GA_MEASUREMENT_ID = G-XXXXXXXXXX
+    NEXT_PUBLIC_NEWSLETTER_ENABLED = true
+    NODE_VERSION = 20
+
+    Preview環境も同じ値を設定
+
+[ ] STEP 6: デプロイ開始
+    → Save and Deploy ボタンをクリック
+    → ビルドログ表示（約2-3分）
+    → 成功: "Success! Your site is live!" 表示
+
+[ ] STEP 7: デプロイURL確認
+    → https://enablerdao.pages.dev でアクセス確認
+    → トップページ表示確認
+    → Newsletter CTA動作確認
+
+[ ] STEP 8: カスタムドメイン設定
+    → Custom domains タブ
+    → Set up a custom domain
+    → enablerdao.com を入力
+    → Add domain
+    → DNS設定指示に従う
+
+[ ] STEP 9: SSL証明書確認
+    → Custom domains タブで証明書ステータス確認
+    → "Active" になるまで待機（数分）
+
+[ ] STEP 10: 最終動作確認
+    → https://enablerdao.com でアクセス
+    → すべてのセクション表示確認
+    → Newsletter登録テスト
+    → モバイル表示確認
+
+============================================
+所要時間: 約10-15分
+サポート: docs/CLOUDFLARE_SETUP_STEP_BY_STEP.md
+============================================

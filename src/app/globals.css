@@ -1,32 +1,34 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme inline {
+:root {
   --color-background: #0a0a0a;
-  --color-foreground: #00ff00;
-  --color-terminal-green: #00ff00;
-  --color-terminal-dim: #00aa00;
-  --color-terminal-bright: #33ff33;
+  --color-foreground: #e8e8e8;
+  --color-terminal-green: #44ff88;
+  --color-terminal-dim: #666;
+  --color-terminal-bright: #e8e8e8;
   --color-terminal-cyan: #00ffff;
   --color-terminal-amber: #ffaa00;
-  --color-terminal-red: #ff3333;
+  --color-terminal-red: #ff4444;
   --color-terminal-violet: #aa66ff;
   --color-terminal-bg: #0a0a0a;
-  --color-terminal-surface: #111111;
-  --color-terminal-border: #1a3a1a;
-  --font-mono: "Geist Mono", "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", monospace;
+  --color-terminal-surface: #141414;
+  --color-terminal-border: #1a1a1a;
+  --font-mono: "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Consolas", monospace;
 }
 
-/* Base terminal styles */
+/* WorldMonitor Extreme Minimal */
 html {
   scroll-behavior: smooth;
 }
 
 body {
   background: var(--color-terminal-bg);
-  color: var(--color-terminal-green);
+  color: var(--color-foreground);
   font-family: var(--font-mono);
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 /* Selection */
@@ -35,54 +37,23 @@ body {
   color: #00ff00;
 }
 
-/* Scrollbar */
+/* Minimal Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: #0a0a0a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1a3a1a;
-  border-radius: 3px;
+  background: #1a1a1a;
+  border: 1px solid #0a0a0a;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00aa00;
+  background: #666;
 }
 
-/* ===== CRT / Scanline Effects ===== */
-.crt-screen {
-  position: relative;
-}
-.crt-screen::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 255, 0, 0.015) 2px,
-    rgba(0, 255, 0, 0.015) 4px
-  );
-  pointer-events: none;
-  z-index: 9999;
-}
-.crt-screen::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);
-  pointer-events: none;
-  z-index: 9998;
-}
+/* WorldMonitor: No CRT Effects - Pure Minimal */
 
 /* ===== Cursor Blink ===== */
 @keyframes blink {
@@ -109,32 +80,23 @@ body {
   animation: typing 2s steps(40, end);
 }
 
-/* ===== Terminal text glow ===== */
+/* WorldMonitor: Subtle Glow Only */
 .text-glow {
-  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5), 0 0 10px rgba(0, 255, 0, 0.2);
+  text-shadow: 0 0 4px currentColor;
 }
 .text-glow-cyan {
-  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5), 0 0 10px rgba(0, 255, 255, 0.2);
+  text-shadow: 0 0 4px rgba(0, 255, 255, 0.8);
 }
 .text-glow-amber {
-  text-shadow: 0 0 5px rgba(255, 170, 0, 0.5), 0 0 10px rgba(255, 170, 0, 0.2);
+  text-shadow: 0 0 4px rgba(255, 170, 0, 0.8);
 }
 
-/* ===== Terminal Box ===== */
+/* WorldMonitor: Extreme Minimal Box */
 .terminal-box {
-  background: #0d0d0d;
-  border: 1px solid #1a3a1a;
+  background: #141414;
+  border: 1px solid #1a1a1a;
   border-radius: 0;
-  position: relative;
-}
-.terminal-box::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #00ff0033, transparent);
+  padding: 4px;
 }
 
 /* ===== Pixel / Block style borders ===== */
@@ -162,12 +124,13 @@ body {
   background-position: 0 0, 0 4px, 4px -4px, -4px 0;
 }
 
-/* Grid background */
+/* WorldMonitor: 1px Grid Background */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+    repeating-linear-gradient(0deg, transparent, transparent 19px, #1a1a1a 19px, #1a1a1a 20px),
+    repeating-linear-gradient(90deg, transparent, transparent 19px, #1a1a1a 19px, #1a1a1a 20px);
   background-size: 20px 20px;
+  min-height: 100vh;
 }
 
 /* ===== Fade In Animations ===== */
@@ -243,13 +206,13 @@ body {
   color: #00ffff;
 }
 
-/* ===== Card hover effect ===== */
+/* WorldMonitor: Minimal Hover */
 .card-hover {
   transition: all 0.2s ease;
 }
 .card-hover:hover {
-  border-color: #00ff0044 !important;
-  box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+  border-color: #44ff88 !important;
+  box-shadow: 0 0 8px rgba(68, 255, 136, 0.2);
 }
 
 /* ===== Flicker effect ===== */
@@ -294,9 +257,13 @@ a {
   text-decoration-skip-ink: auto;
 }
 
-/* ===== Responsive terminal width ===== */
+/* WorldMonitor: Mobile Extreme Minimal */
 @media (max-width: 640px) {
-  body {
-    font-size: 12px;
+  html, body {
+    font-size: 11px;
+  }
+
+  .terminal-box {
+    padding: 3px;
   }
 }

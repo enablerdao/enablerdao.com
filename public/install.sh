@@ -273,11 +273,11 @@ cmd_projects() {
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
     "Chatweb.ai" "AI-driven web automation agent" "https://chatweb.ai"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
-    "Wisbee" "Private AI assistant (runs locally)" "https://wisbee.ai"
-  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
     "Elio Chat" "Offline AI chat for iPhone" "https://elio.love"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
     "News.xyz" "AI-powered news aggregation" "https://news.xyz"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "News.cloud" "News API platform for developers" "https://news.cloud"
   echo ""
 
   # ── Business Tools ──
@@ -301,9 +301,20 @@ cmd_projects() {
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
     "Security Scan" "Free web security scanner (A-F grade)" "https://chatnews.tech"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
-    "PhishGuard" "Employee phishing training" "https://enabler.cc"
+    "ChatNews.link" "AI news explainer platform" "https://chatnews.link"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "PhishGuard" "Phishing prevention SaaS" "https://enabler.cc"
   printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
     "DojoC" "Cybersecurity learning platform" "https://www.dojoc.io"
+  echo ""
+
+  # ── Lifestyle & Events ──
+  printf "  ${BRIGHT_MAGENTA}Lifestyle & Events${RESET}\n"
+  printf "  ${DIM}──────────────────────────────────────────────────────────────${RESET}\n"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "Enabler.cc" "Premium lifestyle service" "https://enabler.fun"
+  printf "  ${GREEN}%-16s${RESET} ${DIM}%-42s${RESET} %s\n" \
+    "SOLUNA" "Real events platform (ZAMNA.hawaii)" "https://solun.art"
   echo ""
 
   # ── Sports & Community ──
@@ -317,7 +328,7 @@ cmd_projects() {
 
   printf "${DIM}  ═══════════════════════════════════════════════════════════════════${RESET}\n"
   echo ""
-  printf "  ${DIM}Total: 13 active projects${RESET}\n"
+  printf "  ${DIM}Total: 15 active projects${RESET}\n"
   printf "  ${DIM}View all: https://enablerdao.com/projects${RESET}\n"
   echo ""
 }
@@ -332,7 +343,7 @@ cmd_status() {
   printf "  ${DIM}%-20s %-10s %s${RESET}\n" "────────────────────" "──────────" "────────────────"
 
   # List of services to check
-  _services="enablerdao.com chatweb.ai wisbee.ai elio.love stayflowapp.com banto.work news.xyz"
+  _services="enablerdao.com chatweb.ai elio.love news.xyz news.cloud chatnews.link stayflowapp.com banto.work enabler.cc enabler.fun solun.art"
 
   for _svc in $_services; do
     printf "  ${DIM}%-20s${RESET} " "$_svc"

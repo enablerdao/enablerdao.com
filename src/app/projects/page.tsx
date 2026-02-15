@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "プロジェクト一覧",
   description:
-    "EnablerDAOが展開するプロジェクト一覧。Chatweb.ai、ElioChat、SaveJapanなど、AIとセキュリティでイノベーションを加速。",
+    "EnablerDAOが展開するプロジェクト一覧。Chatweb.ai、SaveJapanなど、AIとセキュリティでイノベーションを加速。",
 };
 
 const projects = [
@@ -26,20 +26,71 @@ const projects = [
     ],
   },
   {
-    name: "ElioChat",
-    tagline: "AIコミュニケーション基盤（開発中）",
+    name: "Elio Chat",
+    tagline: "完全オフラインAIチャット（iOS）",
     description:
-      "AIアシスタントを統合したコミュニケーションプラットフォーム。チーム内の情報共有や会議要約の自動化を目指して開発中です。現在アルファ段階。",
-    href: "#",
+      "iPhoneで完全オフライン動作するAIチャットアプリ。通信不要でプライバシーを完全保護。Core MLを活用した高速な応答を実現。Swift + SwiftUIで構築。",
+    href: "https://elio.love",
     github: "",
-    badge: "DEV",
+    badge: "ACTIVE",
     status: "beta" as const,
-    lastUpdate: "2025-02-08",
+    lastUpdate: "2025-02-12",
     features: [
-      "AIアシスタント統合チャット",
-      "リアルタイム翻訳",
-      "会議要約の自動生成",
-      "ナレッジベース連携（計画中）",
+      "完全オフライン動作",
+      "プライバシー完全保護",
+      "Core ML高速処理",
+      "音声認識対応",
+    ],
+  },
+  {
+    name: "News.cloud",
+    tagline: "News APIプラットフォーム",
+    description:
+      "開発者向けリアルタイムニュースAPIプラットフォーム。215+ RSS feedsからAIが自動収集・配信。高速Rust実装で低レイテンシーを実現。",
+    href: "https://news.cloud",
+    github: "https://github.com/yukihamada/hypernews",
+    badge: "ACTIVE",
+    status: "passing" as const,
+    lastUpdate: "2025-02-15",
+    features: [
+      "リアルタイムニュースAPI",
+      "215+ RSS feeds対応",
+      "AI自動分類・要約",
+      "Rust高速実装",
+    ],
+  },
+  {
+    name: "SOLUNA",
+    tagline: "リアルイベントプラットフォーム",
+    description:
+      "ハワイ発のリアルイベントプラットフォーム。ZAMNA.hawaiiを運営し、音楽・アート・カルチャーを融合した体験型イベントを提供。コミュニティ主導の持続可能なイベント運営を実現。",
+    href: "https://solun.art",
+    github: "",
+    badge: "ACTIVE",
+    status: "passing" as const,
+    lastUpdate: "2025-02-15",
+    features: [
+      "ZAMNA.hawaii運営",
+      "音楽・アート・カルチャー融合",
+      "体験型イベント",
+      "コミュニティ主導",
+    ],
+  },
+  {
+    name: "Enabler",
+    tagline: "プレミアムライフスタイルサービス",
+    description:
+      "世界中で上質な日常生活を実現するライフスタイルサービス。宿泊・移動・体験を統合し、シームレスな旅行体験を提供。会員制コミュニティで特別な体験を共有。",
+    href: "https://enabler.fun",
+    github: "",
+    badge: "ACTIVE",
+    status: "beta" as const,
+    lastUpdate: "2025-02-13",
+    features: [
+      "統合ライフスタイルサービス",
+      "シームレスな旅行体験",
+      "会員制コミュニティ",
+      "特別な体験共有",
     ],
   },
 ];
@@ -59,6 +110,22 @@ const saveJapanProducts = [
       "HTTPS / SSL証明書の検証",
       "A-Fグレードによる評価",
       "Proプランで継続的モニタリング",
+    ],
+  },
+  {
+    name: "ChatNews.link",
+    tagline: "AIニュース解説プラットフォーム",
+    description:
+      "AIがニュースを要約・解説するプラットフォーム。複雑なニュースをわかりやすく解説し、背景情報や関連情報を自動で補足。時事問題の理解を深めるための学習ツールとしても活用可能。",
+    href: "https://chatnews.link",
+    github: "https://github.com/yukihamada",
+    status: "beta" as const,
+    lastUpdate: "2025-02-15",
+    features: [
+      "AIによるニュース要約",
+      "わかりやすい解説",
+      "背景情報の自動補足",
+      "時事問題学習ツール",
     ],
   },
   {
@@ -142,13 +209,23 @@ export default function ProjectsPage() {
               {"\n"}
               <span className="text-[#555]">{"├── "}</span>
               <span className="text-[#00ffff]">eliochat/</span>
-              <span className="text-[#555]">  # AIコミュニケーション基盤</span>
+              <span className="text-[#555]">  # 完全オフラインAIチャット</span>
               {"\n"}
               <span className="text-[#555]">{"│   ├── "}</span>
               <span className="text-[#888]">src/</span>
               {"\n"}
               <span className="text-[#555]">{"│   └── "}</span>
-              <span className="text-[#888]">package.json</span>
+              <span className="text-[#888]">Elio.xcodeproj</span>
+              {"\n"}
+              <span className="text-[#555]">{"├── "}</span>
+              <span className="text-[#00ffff]">news.cloud/</span>
+              <span className="text-[#555]">  # News APIプラットフォーム</span>
+              {"\n"}
+              <span className="text-[#555]">{"│   ├── "}</span>
+              <span className="text-[#888]">src/</span>
+              {"\n"}
+              <span className="text-[#555]">{"│   └── "}</span>
+              <span className="text-[#888]">Cargo.toml</span>
               {"\n"}
               <span className="text-[#555]">{"└── "}</span>
               <span className="text-[#00ffff]">savejapan/</span>

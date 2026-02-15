@@ -122,7 +122,6 @@ EnablerDAOでは、運営する全プロジェクトに対して包括的なセ�
 | Elio Chat iOS | Swift / SwiftUI | API整合性、HTTP status check、@StateObject修正 |
 | elio-api | Cloudflare Workers / TypeScript | API一貫性、重複排除、エラーレスポンス統一 |
 | Nanobot | Rust / Axum | CORS設定、セッションID形式、SSEイベント処理 |
-| Wisbee Web | 静的HTML / JavaScript | プライバシーポリシー修正、APIドメイン修正 |
 | EnablerDAO | Next.js 16 / TypeScript | XSS対策、Webhook認証、レースコンディション修正 |
 | DojoC | Next.js 16 / TypeScript | メジャーアップグレード（14→16）、セキュリティ脆弱性全解消 |
 
@@ -137,8 +136,6 @@ Resend Webhookのリクエストに対して、HMAC-SHA256署名検証を実装�
 ### レースコンディション対策
 Q&Aストアのファイル書き込みにロック機構を追加。複数のリクエストが同時にファイルを書き込んだ際にデータが破損する問題を解消しました。
 
-### プライバシーポリシーの正確性（Wisbee）
-「会話履歴はブラウザ内にのみ保存されます」という記述が実際のAPI通信と矛盾していたため、正確な表現に修正。AI推論のためにサーバーに送信されるが長期保存はされないことを明記しました。
 
 ## EnablerDAO CLIツールの開発
 
@@ -182,7 +179,6 @@ DojoC（セキュリティ教育プラットフォーム）をNext.js 14.2.5か�
 | Elio iOS Xcode build | BUILD SUCCEEDED |
 | elio-api tsc --noEmit | 0 errors |
 | Nanobot cargo check + clippy | 0 errors |
-| Wisbee Web HTML/JS validation | valid |
 | EnablerDAO Next.js build | 16/16 pages OK |
 | DojoC Next.js build | 24/24 pages OK |
 
