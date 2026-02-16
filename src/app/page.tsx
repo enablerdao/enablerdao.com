@@ -1,7 +1,7 @@
 import Link from "next/link";
 import NewsletterCTA from "@/components/NewsletterCTA";
-import ProductCTACard from "@/components/ProductCTACard";
 import CopyButton from "@/components/CopyButton";
+import KPIStats from "@/components/KPIStats";
 
 const asciiLogo = `
  ███████╗███╗   ██╗ █████╗ ██████╗ ██╗     ███████╗██████╗
@@ -22,36 +22,43 @@ const roadmap = [
     hash: "a1b2c3d",
     date: "2024-12",
     title: "EnablerDAO設立",
-    description: "チームを結成し、最初のプロダクト開発をスタート",
+    description: "チーム結成、最初のプロダクト開発をスタート",
     status: "merged",
   },
   {
     hash: "e4f5g6h",
     date: "2025-Q1",
-    title: "セキュリティツール3つをリリース",
-    description: "Webサイト診断・フィッシング訓練・学習プラットフォームを公開",
+    title: "プロダクト群を構築",
+    description: "セキュリティツール、AIチャット、SaaSプロダクトを次々リリース",
     status: "merged",
   },
   {
     hash: "i7j8k9l",
-    date: "2025-Q2",
-    title: "セキュリティ強化",
-    description: "自社サイトのセキュリティを最高レベルに引き上げ",
+    date: "2025-Q2-Q4",
+    title: "インフラ整備 & ユーザー獲得",
+    description: "Rust製Lambda基盤構築、14+チャネル統合、210ユーザー到達",
     status: "merged",
   },
   {
     hash: "m0n1o2p",
-    date: "2025-Q3-Q4",
-    title: "仲間を増やす",
-    description: "みんなで方向性を決める仕組みを導入、参加者への報酬を開始",
-    status: "merged",
+    date: "2026-Q1",
+    title: "収益化フェーズ（いまここ）",
+    description: "StayFlow Stripe連携完了、Chatweb.ai 30K req/日、JitsuFlow 355選手DB",
+    status: "HEAD",
   },
   {
     hash: "q3r4s5t",
-    date: "2026-",
-    title: "もっと大きく（いまここ）",
-    description: "新しいプロジェクトを立ち上げ、より多くの人が参加できる組織へ",
-    status: "HEAD",
+    date: "2026-Q2",
+    title: "MRR ¥100万突破",
+    description: "StayFlow有料化Go Live → 60-75人/月の有料顧客獲得を目指す",
+    status: "planned",
+  },
+  {
+    hash: "r6s7t8u",
+    date: "2026-H2",
+    title: "MRR ¥300万到達",
+    description: "3プロダクト合計でMRR ¥300万。DAO報酬の本格運用開始",
+    status: "planned",
   },
 ];
 
@@ -91,6 +98,18 @@ export default function Home() {
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <Link
+                href="/live"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#00ff00] to-[#00ffff] text-[#000] font-bold text-sm hover:opacity-90 transition-opacity animate-pulse"
+              >
+                🚀 Live Collaboration
+              </Link>
+              <Link
+                href="/dao"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#aa66ff] to-[#ff6688] text-white font-bold text-sm hover:opacity-90 transition-opacity"
+              >
+                🏛️ DAO Governance
+              </Link>
+              <Link
                 href="#products"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#00ff00]/10 border border-[#00ff00]/30 text-[#00ff00] text-sm hover:bg-[#00ff00]/20 transition-colors"
               >
@@ -112,28 +131,31 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Trust badges */}
+            {/* Trust badges — real data */}
             <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-[#00ff00] rounded-full animate-pulse"></div>
-                <span className="text-[#888]"><span className="text-[#00ff00]">12</span>製品</span>
+                <span className="text-[#888]"><span className="text-[#00ff00]">30K+</span> req/day</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-[#00ffff] rounded-full"></div>
-                <span className="text-[#888]"><span className="text-[#00ffff]">6,000+</span>ユーザー</span>
+                <span className="text-[#888]"><span className="text-[#00ffff]">210</span>ユーザー</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-[#ffaa00] rounded-full"></div>
-                <span className="text-[#888]"><span className="text-[#ffaa00]">28</span>貢献者</span>
+                <span className="text-[#888]"><span className="text-[#ffaa00]">99.99%</span> uptime</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-[#aa66ff] rounded-full"></div>
-                <span className="text-[#888]"><span className="text-[#aa66ff]">2,840+</span>コミット</span>
+                <span className="text-[#888]"><span className="text-[#aa66ff]">3</span>収益化プロダクト</span>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* ===== KPI Stats ===== */}
+      <KPIStats />
 
       {/* ===== DAOってなに？ セクション ===== */}
       <section className="py-12 sm:py-16">
@@ -193,145 +215,152 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== 私たちが作っているもの ===== */}
+      {/* ===== Flagship Products ===== */}
       <section id="products" className="py-12 sm:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-[#00ff00] text-lg sm:text-xl mb-2 text-glow">
-            私たちが作っているもの
+            Flagship Products
           </h2>
           <p className="text-[#555] text-xs mb-6">
-            月間100アクセス以上のアクティブなプロダクト
+            収益化フェーズのプロダクト — 実データで検証済み
           </p>
 
-          {/* AI & テクノロジー */}
-          <h3 className="text-[#00ffff] text-sm mb-3">AI & テクノロジー</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-            <ProductCTACard
-              name="Chatweb.ai"
-              href="https://chatweb.ai"
-              color="#ffaa00"
-              access="289"
-              desc="音声やテキストで指示するだけで、AIがWeb操作を自動化。LINE・Telegramでも使えます。"
-              tag="AI"
-              price="$9/月"
-              users="1,200+"
-              trial={true}
-            />
-            <ProductCTACard
-              name="Elio Chat"
-              href="https://elio.love"
-              color="#aa66ff"
-              access="506"
-              desc="iPhoneで完全オフライン動作するAIチャットアプリ。通信不要で使えます。"
-              tag="AI"
-              users="500+"
-              trial={true}
-            />
-            <ProductCTACard
-              name="News.xyz"
-              href="https://news.xyz"
-              color="#00ffff"
-              access="506"
-              desc="AIがニュースを自動収集・配信。複数テーマから好みの記事を読めます。"
-              tag="メディア"
-              price="Free"
-              users="600+"
-              trial={false}
-            />
-            <ProductCTACard
-              name="News.cloud"
-              href="https://news.cloud"
-              color="#60a5fa"
-              access="892"
-              desc="News APIプラットフォーム。リアルタイムニュースデータを開発者向けに提供。"
-              tag="API"
-              price="Free"
-              users="300+"
-              trial={false}
-            />
-            <ProductCTACard
-              name="ChatNews.link"
-              href="https://chatnews.link"
-              color="#00ffaa"
-              access="95"
-              desc="AIがニュースをわかりやすく要約・解説。時事問題の理解を深めるAIアシスタント。"
-              tag="AI"
-              price="Free"
-              users="200+"
-              trial={false}
-            />
+          {/* 3 Flagships */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+            {/* StayFlow — #1 Priority */}
+            <a href="https://stayflowapp.com" target="_blank" rel="noopener noreferrer" className="terminal-box p-5 card-hover block group relative border-[#00ff00]/30 hover:border-[#00ff00]/60">
+              <div className="absolute top-3 right-3 text-[9px] px-2 py-0.5 bg-[#00ff00]/20 border border-[#00ff00]/40 text-[#00ff00] animate-pulse">
+                Revenue Ready
+              </div>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-lg font-bold text-[#00ff00]">StayFlow</span>
+                <span className="text-[10px] px-1.5 py-0.5 border border-[#00ff00]/40 text-[#00ff00]">SaaS</span>
+              </div>
+              <p className="text-[#888] text-xs leading-relaxed mb-4">
+                民泊・宿泊施設の運営を一元管理。予約・清掃・チェックインを自動化。
+                <span className="text-[#00ffff]">日本唯一の「無料 x AI x 日本語」</span>ソリューション。
+              </p>
+              <div className="grid grid-cols-2 gap-2 mb-3 text-[10px]">
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#00ff00] font-bold text-sm">1,860</div>
+                  <div className="text-[#555]">UV/月</div>
+                </div>
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#00ffff] font-bold text-sm">500+</div>
+                  <div className="text-[#555]">導入施設</div>
+                </div>
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#ffaa00] font-bold text-sm">43</div>
+                  <div className="text-[#555]">Edge Functions</div>
+                </div>
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#aa66ff] font-bold text-sm">406</div>
+                  <div className="text-[#555]">commits</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-3 border-t border-[#1a3a1a]">
+                <div className="text-[10px] text-[#888]">Free / &#165;2,900 / &#165;7,900</div>
+                <span className="text-[10px] px-3 py-1 bg-[#00ff00]/10 border border-[#00ff00]/40 text-[#00ff00]">
+                  試してみる →
+                </span>
+              </div>
+            </a>
+
+            {/* Chatweb.ai — #2 Priority */}
+            <a href="https://chatweb.ai" target="_blank" rel="noopener noreferrer" className="terminal-box p-5 card-hover block group relative border-[#ffaa00]/30 hover:border-[#ffaa00]/60">
+              <div className="absolute top-3 right-3 text-[9px] px-2 py-0.5 bg-[#ffaa00]/20 border border-[#ffaa00]/40 text-[#ffaa00]">
+                PMF Phase
+              </div>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-lg font-bold text-[#ffaa00]">Chatweb.ai</span>
+                <span className="text-[10px] px-1.5 py-0.5 border border-[#ffaa00]/40 text-[#ffaa00]">AI Agent</span>
+              </div>
+              <p className="text-[#888] text-xs leading-relaxed mb-4">
+                マルチモデルAIエージェント。LINE・Telegram・Webから利用可能。
+                Rust製Lambda、<span className="text-[#00ffff]">14+チャネル統合</span>。
+              </p>
+              <div className="grid grid-cols-2 gap-2 mb-3 text-[10px]">
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#ffaa00] font-bold text-sm">30K+</div>
+                  <div className="text-[#555]">req/日</div>
+                </div>
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#00ffff] font-bold text-sm">210</div>
+                  <div className="text-[#555]">ユーザー</div>
+                </div>
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#00ff00] font-bold text-sm">99.99%</div>
+                  <div className="text-[#555]">uptime</div>
+                </div>
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#aa66ff] font-bold text-sm">v275</div>
+                  <div className="text-[#555]">Lambda ver</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-3 border-t border-[#1a3a1a]">
+                <div className="text-[10px] text-[#888]">Free / $9 / $29</div>
+                <span className="text-[10px] px-3 py-1 bg-[#ffaa00]/10 border border-[#ffaa00]/40 text-[#ffaa00]">
+                  試してみる →
+                </span>
+              </div>
+            </a>
+
+            {/* JitsuFlow — #3 Priority */}
+            <a href="https://jiuflow.art" target="_blank" rel="noopener noreferrer" className="terminal-box p-5 card-hover block group relative border-[#4488ff]/30 hover:border-[#4488ff]/60">
+              <div className="absolute top-3 right-3 text-[9px] px-2 py-0.5 bg-[#4488ff]/20 border border-[#4488ff]/40 text-[#4488ff]">
+                Content Growth
+              </div>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-lg font-bold text-[#4488ff]">JitsuFlow</span>
+                <span className="text-[10px] px-1.5 py-0.5 border border-[#4488ff]/40 text-[#4488ff]">BJJ</span>
+              </div>
+              <p className="text-[#888] text-xs leading-relaxed mb-4">
+                ブラジリアン柔術の総合プラットフォーム。選手・道場・大会データベース。
+                <span className="text-[#00ffff]">世界最大級のBJJデータ</span>を蓄積中。
+              </p>
+              <div className="grid grid-cols-2 gap-2 mb-3 text-[10px]">
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#4488ff] font-bold text-sm">355</div>
+                  <div className="text-[#555]">選手</div>
+                </div>
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#00ffff] font-bold text-sm">227</div>
+                  <div className="text-[#555]">道場</div>
+                </div>
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#00ff00] font-bold text-sm">229</div>
+                  <div className="text-[#555]">大会</div>
+                </div>
+                <div className="border border-[#1a3a1a] p-2">
+                  <div className="text-[#ffaa00] font-bold text-sm">130</div>
+                  <div className="text-[#555]">会場</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-3 border-t border-[#1a3a1a]">
+                <div className="text-[10px] text-[#888]">Rust SSR / Fly.io</div>
+                <span className="text-[10px] px-3 py-1 bg-[#4488ff]/10 border border-[#4488ff]/40 text-[#4488ff]">
+                  見てみる →
+                </span>
+              </div>
+            </a>
           </div>
 
-          {/* ビジネスツール */}
-          <h3 className="text-[#ffaa00] text-sm mb-3">ビジネスツール</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+          {/* Other Products */}
+          <h3 className="text-[#555] text-sm mb-3">Other Products</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {[
-              { name: "StayFlow", href: "https://stayflowapp.com", color: "#00ff00", access: "1.84k", desc: "民泊・宿泊施設の運営を一元管理。予約・清掃・チェックインを効率化します。", tag: "SaaS" },
-              { name: "BANTO", href: "https://banto.work", color: "#ffaa00", access: "186", desc: "建設業者向けの請求書・見積書管理アプリ。面倒な事務作業を簡単に。", tag: "SaaS" },
-              { name: "Totonos", href: "https://totonos.jp", color: "#00ffff", access: "103", desc: "企業の財務業務を自動化する次世代プラットフォーム。", tag: "SaaS" },
-              { name: "VOLT", href: "https://volt.tokyo", color: "#ff6688", access: "205", desc: "「買い物は、戦いだ」日本初のライブオークションプラットフォーム。", tag: "EC" },
-              { name: "Enabler.cc", href: "https://enabler.cc", color: "#00ff00", access: "150", desc: "フィッシング詐欺を防止するセキュリティSaaS。URLの安全性を自動判定。", tag: "SaaS" },
+              { name: "Elio Chat", href: "https://elio.love", color: "#aa66ff", desc: "オフラインAIチャット (iOS)" },
+              { name: "News.cloud", href: "https://news.cloud", color: "#60a5fa", desc: "News APIプラットフォーム" },
+              { name: "BANTO", href: "https://banto.work", color: "#ffaa00", desc: "建設業向け請求書管理" },
+              { name: "VOLT", href: "https://volt.tokyo", color: "#ff6688", desc: "ライブオークション" },
+              { name: "Totonos", href: "https://totonos.jp", color: "#00ffff", desc: "財務自動化" },
+              { name: "DojoC", href: "https://www.dojoc.io", color: "#4488ff", desc: "セキュリティ教育" },
+              { name: "SOLUNA", href: "https://solun.art", color: "#ff6688", desc: "イベントプラットフォーム" },
+              { name: "Enabler.cc", href: "https://enabler.cc", color: "#00ff00", desc: "フィッシング防止" },
             ].map((p) => (
-              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{ color: p.color }}>{p.name}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 border" style={{ color: p.color, borderColor: `${p.color}40` }}>{p.tag}</span>
-                </div>
-                <p className="text-[#888] text-xs leading-relaxed mb-2">{p.desc}</p>
-                <span className="text-[#555] text-[10px]">{p.access} visits/mo</span>
-              </a>
-            ))}
-          </div>
-
-          {/* セキュリティ & 教育 */}
-          <h3 className="text-[#00ff00] text-sm mb-3">セキュリティ & 教育</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-            {[
-              { name: "Security Scanner", href: "https://chatnews.tech", color: "#00ff00", access: "113", desc: "URLを入れるだけでWebサイトの安全性をチェック。A〜Fで評価します。", tag: "無料" },
-              { name: "DojoC", href: "https://www.dojoc.io", color: "#4488ff", access: "250", desc: "実践的なサイバーセキュリティトレーニングプラットフォーム。ハンズオンで学べます。", tag: "教育" },
-            ].map((p) => (
-              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{ color: p.color }}>{p.name}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 border" style={{ color: p.color, borderColor: `${p.color}40` }}>{p.tag}</span>
-                </div>
-                <p className="text-[#888] text-xs leading-relaxed mb-2">{p.desc}</p>
-                <span className="text-[#555] text-[10px]">{p.access} visits/mo</span>
-              </a>
-            ))}
-          </div>
-
-          {/* ライフスタイル & イベント */}
-          <h3 className="text-[#ff6688] text-sm mb-3">ライフスタイル & イベント</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-            {[
-              { name: "Enabler", href: "https://enabler.fun", color: "#aa66ff", access: "107", desc: "世界中で上質な日常生活を実現するライフスタイルサービス。", tag: "生活" },
-              { name: "SOLUNA", href: "https://solun.art", color: "#ff6688", access: "892", desc: "ハワイ発のリアルイベントプラットフォーム。ZAMNA.hawaiiを運営。", tag: "イベント" },
-            ].map((p) => (
-              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{ color: p.color }}>{p.name}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 border" style={{ color: p.color, borderColor: `${p.color}40` }}>{p.tag}</span>
-                </div>
-                <p className="text-[#888] text-xs leading-relaxed mb-2">{p.desc}</p>
-                <span className="text-[#555] text-[10px]">{p.access} visits/mo</span>
-              </a>
-            ))}
-          </div>
-
-          {/* スポーツ & コミュニティ */}
-          <h3 className="text-[#4488ff] text-sm mb-3">スポーツ & コミュニティ</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {[
-              { name: "JitsuFlow", href: "https://jitsuflow.app", color: "#4488ff", access: "1.31k", desc: "ブラジリアン柔術の練習記録・道場運営をスマートに管理するアプリ。", tag: "アプリ" },
-            ].map((p) => (
-              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-4 card-hover block group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{ color: p.color }}>{p.name}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 border" style={{ color: p.color, borderColor: `${p.color}40` }}>{p.tag}</span>
-                </div>
-                <p className="text-[#888] text-xs leading-relaxed mb-2">{p.desc}</p>
-                <span className="text-[#555] text-[10px]">{p.access} visits/mo</span>
+              <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" className="terminal-box p-3 card-hover block group">
+                <span className="text-xs font-bold block mb-1" style={{ color: p.color }}>{p.name}</span>
+                <p className="text-[#555] text-[10px] leading-relaxed">{p.desc}</p>
               </a>
             ))}
           </div>
@@ -595,6 +624,8 @@ export default function Home() {
                     <span className={`w-2.5 h-2.5 rounded-full ${
                       item.status === "HEAD"
                         ? "bg-[#00ffff] animate-pulse"
+                        : item.status === "planned"
+                        ? "bg-[#333] border border-[#555]"
                         : "bg-[#00ff00]"
                     }`} />
                     {index < roadmap.length - 1 && (
@@ -606,8 +637,13 @@ export default function Home() {
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                       <span className="text-[#00ff00] text-sm">{item.title}</span>
                       {item.status === "HEAD" && (
-                        <span className="text-[#00ffff] text-[10px] px-1.5 py-0.5 border border-[#00ffff]/30">
+                        <span className="text-[#00ffff] text-[10px] px-1.5 py-0.5 border border-[#00ffff]/30 animate-pulse">
                           いまここ
+                        </span>
+                      )}
+                      {item.status === "planned" && (
+                        <span className="text-[#555] text-[10px] px-1.5 py-0.5 border border-[#333]">
+                          next
                         </span>
                       )}
                       <span className="text-[#555]">({item.date})</span>
@@ -632,13 +668,17 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 pixel-border-green bg-[#0d0d0d] flex items-center justify-center text-[#00ff00] text-xl">
-                  YH
+                <div className="w-20 h-20 sm:w-24 sm:h-24 border border-[#1a3a1a] overflow-hidden">
+                  <img
+                    src="/yuki-profile.jpg"
+                    alt="Yuki Hamada"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
 
               <div className="flex-1">
-                <h3 className="text-[#00ffff] text-sm">Yuki Hamada（濱田優貴）</h3>
+                <h3 className="text-[#00ffff] text-sm sm:text-base">Yuki Hamada（濱田優貴）</h3>
                 <a
                   href="https://yukihamada.jp"
                   target="_blank"
@@ -674,54 +714,12 @@ export default function Home() {
                   <span className="text-[10px] px-2 py-0.5 border border-[#aa66ff]/30 text-[#aa66ff]">
                     enablerdao.eth
                   </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Founder ===== */}
-      <section className="py-12 sm:py-16">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="terminal-box p-4 sm:p-6">
-            <h2 className="text-[#00ff00] text-lg sm:text-xl mb-6 text-glow">
-              Founder
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-6 items-start">
-              <div className="flex-shrink-0">
-                <div className="w-24 h-24 sm:w-32 sm:h-32 border border-[#1a3a1a] overflow-hidden">
-                  <img
-                    src="/yuki-profile.jpg"
-                    alt="Yuki Hamada"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-[#00ffff] text-base sm:text-lg mb-2">
-                  Yuki Hamada
-                </h3>
-                <p className="text-[#888] text-sm leading-relaxed mb-3">
-                  セキュリティエンジニア / DAO創設者
-                </p>
-                <p className="text-[#666] text-xs leading-relaxed">
-                  インターネットをもっと安全で使いやすくしたい。
-                  <br className="hidden sm:block" />
-                  そんな思いでEnablerDAOを立ち上げました。
-                  <br className="hidden sm:block" />
-                  誰もが自由に参加できる組織で、一緒により良いツールを作っていきましょう。
-                </p>
-                <div className="mt-4">
-                  <a
-                    href="https://github.com/yukihamada"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[#00ff00] text-xs hover:text-[#44ff88] transition-colors"
-                  >
-                    <span>@yukihamada</span>
-                    <span className="text-[#555]">→</span>
-                  </a>
+                  <span className="text-[10px] px-2 py-0.5 border border-[#aa66ff]/30 text-[#aa66ff]">
+                    yukihamada.eth
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 border border-[#ffaa00]/30 text-[#ffaa00]">
+                    yukihamada.sol
+                  </span>
                 </div>
               </div>
             </div>
