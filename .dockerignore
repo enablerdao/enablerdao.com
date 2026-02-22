@@ -1,0 +1,10 @@
+backend-simple/target
+backend/target
+backend/crates
+backend/feeds.toml
+backend/infra
+backend/Cargo.*
+.git
+.gitignore
+*.md
+fly.toml

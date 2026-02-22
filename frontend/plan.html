@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Plan — yukihamada/nanobot | EnablerDAO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  background: #0a0a0a;
+  color: #888;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 14px;
+  line-height: 1.8;
+  background-image:
+    linear-gradient(rgba(0,255,0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,0,0.02) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+a { color: #00ffff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+/* nav */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.nav-logo { color: #00ff00; font-weight: 700; font-size: 16px; text-shadow: 0 0 10px rgba(0,255,0,0.4); }
+.nav-links { display: flex; gap: 20px; font-size: 12px; color: #555; }
+.nav-links a { color: #555; }
+.nav-links a:hover { color: #00ff00; text-decoration: none; }
+
+/* header */
+.plan-header { margin-bottom: 40px; }
+.plan-prompt { color: #555; font-size: 12px; margin-bottom: 8px; }
+.plan-title { font-size: clamp(22px, 4vw, 32px); font-weight: 900; color: #fff; margin-bottom: 12px; letter-spacing: 0.02em; }
+.plan-meta { display: flex; gap: 16px; flex-wrap: wrap; }
+.plan-tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border: 1px solid;
+}
+.tag-repo   { border-color: rgba(0,255,255,0.3); color: #00ffff; }
+.tag-lang   { border-color: rgba(170,102,255,0.3); color: #aa66ff; }
+.tag-reward { border-color: rgba(255,170,0,0.3); color: #ffaa00; }
+.tag-status { border-color: rgba(0,255,0,0.3); color: #00ff00; }
+
+/* section */
+.section { margin-bottom: 48px; }
+.section-title {
+  font-size: 11px;
+  color: #555;
+  letter-spacing: 0.12em;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1a1a1a;
+}
+.section-title span { color: #00ff00; }
+
+/* task list */
+.tasks { display: flex; flex-direction: column; gap: 12px; }
+.task {
+  border: 1px solid #1a1a1a;
+  border-left: 2px solid;
+  padding: 16px 20px;
+  background: #0f0f0f;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: start;
+}
+.task.priority-high   { border-left-color: #ff5f56; }
+.task.priority-mid    { border-left-color: #ffaa00; }
+.task.priority-low    { border-left-color: #00ff00; }
+.task-title { color: #ddd; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.task-desc  { color: #666; font-size: 12px; line-height: 1.6; }
+.task-reward {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffaa00;
+  white-space: nowrap;
+  padding: 3px 10px;
+  border: 1px solid rgba(255,170,0,0.25);
+  align-self: start;
+}
+.task-labels { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.task-label {
+  font-size: 10px;
+  padding: 2px 7px;
+  border: 1px solid #2a2a2a;
+  color: #555;
+}
+
+/* command block */
+.cmd-block {
+  background: #111;
+  border: 1px solid #1a3a1a;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow-x: auto;
+}
+.cmd-block pre {
+  color: #00ff00;
+  font-size: 13px;
+  line-height: 1.9;
+  white-space: pre;
+}
+.cmd-comment { color: #555; font-style: italic; }
+.cmd-copy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 10px;
+  color: #555;
+  background: transparent;
+  border: 1px solid #333;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.cmd-copy:hover, .cmd-copy.copied { color: #00ff00; border-color: #00ff00; }
+
+/* flow */
+.flow { display: flex; flex-direction: column; gap: 0; }
+.flow-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #111;
+}
+.flow-item:last-child { border-bottom: none; }
+.flow-num {
+  font-size: 11px;
+  color: #00ff00;
+  font-weight: 700;
+  flex-shrink: 0;
+  width: 32px;
+  padding-top: 2px;
+}
+.flow-content {}
+.flow-title { color: #ccc; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.flow-desc  { color: #666; font-size: 12px; line-height: 1.7; }
+.flow-desc code {
+  color: #00ffff;
+  font-size: 11px;
+  background: rgba(0,255,255,0.05);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+.stat-box {
+  border: 1px solid #1a1a1a;
+  padding: 16px;
+  background: #0f0f0f;
+  text-align: center;
+}
+.stat-val { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: -0.02em; }
+.stat-val.green  { color: #00ff00; }
+.stat-val.orange { color: #ffaa00; }
+.stat-val.cyan   { color: #00ffff; }
+.stat-label { font-size: 10px; color: #555; margin-top: 4px; letter-spacing: 0.08em; }
+
+/* CTA */
+.plan-cta {
+  border: 1px solid rgba(0,255,0,0.2);
+  border-top: 2px solid #00ff00;
+  padding: 32px;
+  text-align: center;
+  background: rgba(0,255,0,0.02);
+}
+.plan-cta-title { color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+.plan-cta-sub   { color: #666; font-size: 13px; margin-bottom: 24px; line-height: 1.7; }
+.plan-cta-btn {
+  display: inline-block;
+  background: #00ff00;
+  color: #000;
+  font-weight: 700;
+  padding: 14px 32px;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s;
+}
+.plan-cta-btn:hover { opacity: 0.85; color: #000; text-decoration: none; }
+
+@media (max-width: 600px) {
+  .task { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <a class="nav-logo" href="/">$ enablerdao</a>
+    <div class="nav-links">
+      <a href="/">home</a>
+      <a href="/#products">products</a>
+      <a href="/#join">join</a>
+      <a href="https://github.com/yukihamada/nanobot" target="_blank">github</a>
+    </div>
+  </nav>
+
+  <header class="plan-header">
+    <p class="plan-prompt">$ cat enablerdao/plan.md — yukihamada/nanobot</p>
+    <h1 class="plan-title">改善プラン — nanobot (chatweb.ai)</h1>
+    <div class="plan-meta">
+      <span class="plan-tag tag-repo">yukihamada/nanobot</span>
+      <span class="plan-tag tag-lang">Rust</span>
+      <span class="plan-tag tag-reward">報酬: 50〜150 EBR / PR</span>
+      <span class="plan-tag tag-status">● active</span>
+    </div>
+  </header>
+
+  <!-- stats -->
+  <div class="section">
+    <p class="section-title"><span>//</span> 現在のプロジェクト状況</p>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-val green">342</div>
+        <div class="stat-label">STARS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val orange">12</div>
+        <div class="stat-label">OPEN ISSUES</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val cyan">8,542</div>
+        <div class="stat-label">MONTHLY USERS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:#aa66ff;">67</div>
+        <div class="stat-label">FORKS</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- what is nanobot -->
+  <div class="section">
+    <p class="section-title"><span>//</span> nanobot とは</p>
+    <p style="color:#888;font-size:13px;line-height:2;max-width:640px;">
+      <strong style="color:#fff;">chatweb.ai</strong> のコアエンジン。複数のLLM（GPT-4o, Claude, Geminiなど）を
+      同時比較できるマルチモデルプラットフォームをRustで実装したもの。
+      高速・軽量・低コストが特徴で、AI開発者・研究者が主なユーザー。
+      enabler-cli がこのリポジトリを自動改善し、PRを作成します。
+    </p>
+  </div>
+
+  <!-- tasks -->
+  <div class="section">
+    <p class="section-title"><span>//</span> 改善タスク一覧（AI自動実行）</p>
+    <div class="tasks">
+
+      <div class="task priority-high">
+        <div>
+          <div class="task-title">#1 レスポンスキャッシュの実装</div>
+          <div class="task-desc">同一プロンプトへの重複APIコールを削減。Redis または in-memory LRU キャッシュで応答速度を改善し、APIコストを最大40%削減。</div>
+          <div class="task-labels">
+            <span class="task-label">performance</span>
+            <span class="task-label">backend</span>
+            <span class="task-label">Rust</span>
+          </div>
+        </div>
+        <span class="task-reward">100-150 EBR</span>
+      </div>
+
+      <div class="task priority-high">
+        <div>
+          <div class="task-title">#2 エラーハンドリングの強化</div>
+          <div class="task-desc">各LLM APIのタイムアウト・レート制限エラーを適切に処理。ユーザーへの分かりやすいエラーメッセージと自動リトライ機構を追加。</div>
+          <div class="task-labels">
+            <span class="task-label">reliability</span>
+            <span class="task-label">ux</span>
+          </div>
+        </div>
+        <span class="task-reward">80-120 EBR</span>
+      </div>
+
+      <div class="task priority-mid">
+        <div>
+          <div class="task-title">#3 ストリーミングレスポンスの最適化</div>
+          <div class="task-desc">SSE（Server-Sent Events）のバッファリング処理を改善。大きなレスポンスでもUIがフリーズしないよう非同期処理を最適化。</div>
+          <div class="task-labels">
+            <span class="task-label">streaming</span>
+            <span class="task-label">async</span>
+          </div>
+        </div>
+        <span class="task-reward">70-100 EBR</span>
+      </div>
+
+      <div class="task priority-mid">
+        <div>
+          <div class="task-title">#4 テストカバレッジの向上</div>
+          <div class="task-desc">現在のカバレッジ約35%を70%以上に引き上げ。特にAPI統合テストと境界値テストを追加。CI/CDパイプラインに組み込む。</div>
+          <div class="task-labels">
+            <span class="task-label">testing</span>
+            <span class="task-label">ci</span>
+          </div>
+        </div>
+        <span class="task-reward">50-80 EBR</span>
+      </div>
+
+      <div class="task priority-low">
+        <div>
+          <div class="task-title">#5 ドキュメント整備</div>
+          <div class="task-desc">APIエンドポイントのOpenAPI仕様書を自動生成。README の英語・日本語両対応と、開発者向けセットアップガイドを追加。</div>
+          <div class="task-labels">
+            <span class="task-label">docs</span>
+            <span class="task-label">api</span>
+          </div>
+        </div>
+        <span class="task-reward">30-50 EBR</span>
+      </div>
+
+      <div class="task priority-low">
+        <div>
+          <div class="task-title">#6 セキュリティ監査</div>
+          <div class="task-desc">APIキーの安全な保管・ローテーション機構。依存クレートの脆弱性スキャン（cargo audit）。入力値のサニタイゼーション強化。</div>
+          <div class="task-labels">
+            <span class="task-label">security</span>
+            <span class="task-label">audit</span>
+          </div>
+        </div>
+        <span class="task-reward">50-100 EBR</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- how AI works -->
+  <div class="section">
+    <p class="section-title"><span>//</span> enabler-cli の動作フロー</p>
+    <div class="flow">
+      <div class="flow-item">
+        <span class="flow-num">[1]</span>
+        <div class="flow-content">
+          <div class="flow-title">リポジトリ解析</div>
+          <div class="flow-desc"><code>yukihamada/nanobot</code> をクローンし、コード構造・依存関係・テストカバレッジを分析。上記タスクリストと照合して着手箇所を決定。</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num">[2]</span>
+        <div class="flow-content">
+          <div class="flow-title">chatweb.ai で改善案を生成</div>
+          <div class="flow-desc">あなたの <code>CHATWEB_API_KEY</code> を使って複数のLLMに改善コードを生成させ、最善案を選択。Claude / GPT-4o / Gemini を比較して品質を担保。</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num">[3]</span>
+        <div class="flow-content">
+          <div class="flow-title">テスト & PR 自動作成</div>
+          <div class="flow-desc">生成したコードに対しテストを実行し、パスしたらGitHubにブランチを作成して <code>enablerdao improve</code> コマンドでPRを提出。</div>
+        </div>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num">[4]</span>
+        <div class="flow-content">
+          <div class="flow-title">PR レビュー & EBR 付与</div>
+          <div class="flow-desc">メンテナーがPRをレビュー。採用されると <code>EBRトークン</code> が自動付与される。継続してコントリビュートするほど報酬が増える仕組み。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- start command -->
+  <div class="section">
+    <p class="section-title"><span>//</span> 今すぐ始める</p>
+    <p style="color:#666;font-size:12px;margin-bottom:16px;">chatweb.ai で APIキーを取得後、以下を実行してください：</p>
+    <div class="cmd-block">
+      <button class="cmd-copy" onclick="copyCmdBlock(this)">copy</button>
+      <pre><span class="cmd-comment"># 1. chatweb.ai でAPIキーを取得: https://chatweb.ai</span>
+<span class="cmd-comment"># 2. 以下のコマンドでインストール & nanobot 改善を開始</span>
+
+CHATWEB_API_KEY=your_api_key_here \
+  curl -fsSL https://enablerdao.com/install.sh | bash</pre>
+    </div>
+    <p style="color:#555;font-size:11px;margin-top:8px;">
+      ※ インストールには git と curl が必要です（macOS / Linux / WSL2 対応）
+    </p>
+  </div>
+
+  <!-- CTA -->
+  <div class="plan-cta">
+    <div class="plan-cta-title">準備はできましたか？</div>
+    <div class="plan-cta-sub">
+      chatweb.ai のAPIキーを取得して enabler-cli を起動するだけ。<br>
+      あとはAIが自動でnanobotを改善し、PRを作成します。
+    </div>
+    <a class="plan-cta-btn" href="/#join">chatweb.ai でAPIキーを取得 →</a>
+  </div>
+
+</div>
+
+<script>
+function copyCmdBlock(btn) {
+  var pre = btn.nextElementSibling;
+  var text = pre.textContent
+    .replace(/^# .*\n/gm, '')   // remove comment lines
+    .trim();
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'copied!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = 'copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

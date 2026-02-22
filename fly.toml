@@ -1,0 +1,49 @@
+app = 'enablerdao'
+primary_region = 'nrt'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ['app']
+
+[[services]]
+  protocol = 'tcp'
+  internal_port = 8080
+  processes = ['app']
+
+  [[services.ports]]
+    port = 80
+    handlers = ['http']
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ['tls', 'http']
+
+  [[services.tcp_checks]]
+    interval = '15s'
+    timeout = '10s'
+    grace_period = '30s'
+
+  [[services.http_checks]]
+    interval = '30s'
+    timeout = '10s'
+    grace_period = '30s'
+    method = 'get'
+    path = '/health'
+    protocol = 'http'
+
+[env]
+  PORT = '8080'
+  STATIC_DIR = '/app/frontend'
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
