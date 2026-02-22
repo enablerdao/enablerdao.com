@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Project — EnablerDAO</title>
+<meta name="description" content="EnablerDAO プロジェクト詳細。OSSに貢献してEBRトークンを獲得。">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta property="og:title" content="Project — EnablerDAO">
+<meta property="og:url" content="https://enablerdao.com/projects/">
+<meta property="og:image" content="https://enablerdao.com/common/images/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  background: #0a0a0a;
+  color: #888;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 14px;
+  line-height: 1.8;
+}
+a { color: #00ffff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.header {
+  border-bottom: 1px solid #1a1a1a;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header .logo { color: #00ff00; font-size: 18px; font-weight: 700; text-decoration: none; }
+.header nav a { color: #555; margin-left: 20px; font-size: 13px; }
+.header nav a:hover { color: #00ffff; text-decoration: none; }
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+.loading { text-align: center; color: #555; padding: 80px 0; }
+.error { text-align: center; color: #ff5555; padding: 80px 0; }
+.error a { display: inline-block; margin-top: 12px; border: 1px solid #333; padding: 8px 20px; color: #00ff00; }
+
+/* Project detail */
+.proj-name { color: #fff; font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+.proj-repo { color: #555; font-size: 13px; margin-bottom: 20px; }
+.proj-repo a { color: #00ffff; }
+.proj-desc { color: #aaa; font-size: 15px; line-height: 1.8; margin-bottom: 24px; }
+.proj-stats {
+  display: flex; gap: 24px; margin-bottom: 24px;
+  font-size: 14px; color: #888;
+}
+.proj-stats span strong { color: #fff; }
+.proj-reward {
+  border-left: 2px solid #00ff00;
+  padding: 12px 16px;
+  background: rgba(0,255,0,0.03);
+  color: #ffaa00;
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+.proj-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.proj-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: 'SF Mono','Fira Code',monospace;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.proj-btn-primary { background: #00ff00; color: #000; }
+.proj-btn-primary:hover { opacity: 0.85; text-decoration: none; }
+.proj-btn-secondary { border: 1px solid #333; color: #888; background: transparent; }
+.proj-btn-secondary:hover { color: #00ffff; border-color: #00ffff; text-decoration: none; }
+
+.back { margin-top: 40px; color: #555; font-size: 13px; }
+.back a { color: #555; }
+.back a:hover { color: #00ffff; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="/" class="logo">$ enablerdao</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/#products">Products</a>
+    <a href="/#join">Join</a>
+  </nav>
+</div>
+
+<div class="wrap">
+  <div id="projectDetail" class="loading">// loading project...</div>
+</div>
+
+<script>
+(function() {
+  var container = document.getElementById('projectDetail');
+
+  // Get project name from URL: /projects/?name=xxx or /projects/xxx
+  var params = new URLSearchParams(window.location.search);
+  var name = params.get('name');
+
+  if (!name) {
+    // Try path-based: /projects/chatweb.ai → extract last segment
+    var parts = window.location.pathname.replace(/\/$/, '').split('/');
+    name = parts[parts.length - 1];
+    if (name === 'projects') name = null;
+  }
+
+  if (!name) {
+    // Show project list
+    fetch('/api/projects')
+      .then(function(r) { return r.json(); })
+      .then(function(projects) {
+        document.title = 'Projects — EnablerDAO';
+        var html = '<h1 style="color:#00ffff;font-size:13px;letter-spacing:0.1em;margin-bottom:24px;">// ALL PROJECTS</h1>';
+        projects.forEach(function(p) {
+          html += '<div style="border-left:2px solid #333;padding:12px 16px;margin-bottom:16px;background:#0f0f0f;">'
+            + '<a href="/projects/?name=' + encodeURIComponent(p.name) + '" style="color:#fff;font-size:16px;font-weight:700;">' + p.name + '</a>'
+            + '<span style="color:#555;margin-left:12px;font-size:12px;">' + p.language + '</span>'
+            + '<p style="color:#888;font-size:13px;margin-top:4px;">' + p.description + '</p>'
+            + '<span style="color:#ffaa00;font-size:12px;">reward: ' + p.reward + '</span>'
+            + '</div>';
+        });
+        container.className = '';
+        container.innerHTML = html;
+      })
+      .catch(function() {
+        container.className = 'error';
+        container.innerHTML = '// failed to load projects<br><a href="/" >&lt; back to home</a>';
+      });
+    return;
+  }
+
+  // Fetch single project
+  fetch('/api/projects/' + encodeURIComponent(name))
+    .then(function(r) {
+      if (!r.ok) throw new Error('not found');
+      return r.json();
+    })
+    .then(function(p) {
+      document.title = p.name + ' — EnablerDAO';
+      var issuesUrl = 'https://github.com/' + p.repo + '/issues';
+      var repoUrl = 'https://github.com/' + p.repo;
+
+      var serviceBtn = p.service_url
+        ? '<a class="proj-btn proj-btn-primary" href="' + p.service_url + '" target="_blank">&gt; Use Service</a>'
+        : '';
+
+      container.className = '';
+      container.innerHTML = ''
+        + '<div class="proj-name">' + p.name + '</div>'
+        + '<div class="proj-repo"><a href="' + repoUrl + '" target="_blank">' + p.repo + '</a></div>'
+        + '<p class="proj-desc">' + p.description + '</p>'
+        + '<div class="proj-stats">'
+        + '  <span>★ <strong>' + p.stars + '</strong> stars</span>'
+        + '  <span>⑂ <strong>' + p.forks + '</strong> forks</span>'
+        + '  <span>⚠ <strong>' + p.issues + '</strong> issues</span>'
+        + '</div>'
+        + '<div class="proj-reward">reward: ' + p.reward + ' per merged PR</div>'
+        + '<div class="proj-actions">'
+        + '  ' + serviceBtn
+        + '  <a class="proj-btn proj-btn-secondary" href="' + repoUrl + '" target="_blank">&gt; View Code</a>'
+        + '  <a class="proj-btn proj-btn-secondary" href="' + issuesUrl + '" target="_blank">&gt; Find Bugs</a>'
+        + '  <a class="proj-btn proj-btn-secondary" href="/#join">&gt; Start Contributing</a>'
+        + '</div>'
+        + '<div class="back"><a href="/projects/">&lt; all projects</a></div>';
+    })
+    .catch(function() {
+      container.className = 'error';
+      container.innerHTML = '// project "' + name + '" not found<br><a href="/projects/">&lt; all projects</a>';
+    });
+})();
+</script>
+
+</body>
+</html>

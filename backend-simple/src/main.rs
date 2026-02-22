@@ -1,5 +1,5 @@
 use axum::{
-    extract::{Json, State},
+    extract::{Json, Path, State},
     http::StatusCode,
     routing::{get, post},
     Router,
@@ -193,6 +193,7 @@ fn build_router(state: AppState, static_dir: &str) -> Router {
 
     Router::new()
         .route("/api/projects", get(get_projects))
+        .route("/api/projects/:name", get(get_project_by_name))
         .route("/api/subscribe", post(subscribe))
         .route("/health", get(health))
         .fallback_service(ServeDir::new(static_dir).append_index_html_on_directories(true))
@@ -363,6 +364,37 @@ async fn subscribe(
     }
 }
 
+async fn get_project_by_name(
+    State(state): State<AppState>,
+    Path(name): Path<String>,
+) -> Result<Json<Project>, StatusCode> {
+    // Reuse cached projects
+    let projects = {
+        let cache = state.cache.read().await;
+        if let Some(ref c) = *cache {
+            if c.updated_at.elapsed() < CACHE_TTL {
+                c.projects.clone()
+            } else {
+                drop(cache);
+                fetch_projects_with_github(&state.http_client).await
+            }
+        } else {
+            drop(cache);
+            fetch_projects_with_github(&state.http_client).await
+        }
+    };
+
+    let name_lower = name.to_lowercase();
+    projects
+        .into_iter()
+        .find(|p| {
+            p.name.to_lowercase() == name_lower
+                || p.repo.to_lowercase().ends_with(&format!("/{}", name_lower))
+        })
+        .map(Json)
+        .ok_or(StatusCode::NOT_FOUND)
+}
+
 async fn health() -> &'static str {
     "OK"
 }
@@ -508,6 +540,7 @@ mod tests {
         let state = test_state();
         Router::new()
             .route("/api/projects", get(get_projects))
+            .route("/api/projects/:name", get(get_project_by_name))
             .route("/api/subscribe", post(subscribe))
             .route("/health", get(health))
             .with_state(state)
@@ -681,5 +714,82 @@ mod tests {
             assert!(!def.description.is_empty());
             assert!(!def.reward.is_empty());
         }
+    }
+
+    async fn test_state_with_cache() -> AppState {
+        let state = test_state();
+        // Pre-populate cache so tests don't depend on GitHub API
+        let projects = PROJECT_DEFS
+            .iter()
+            .map(|def| Project {
+                name: def.name.into(),
+                repo: def.repo.into(),
+                description: def.description.into(),
+                language: def.default_language.into(),
+                stars: def.default_stars,
+                forks: def.default_forks,
+                issues: def.default_issues,
+                traffic: 0,
+                reward: def.reward.into(),
+                url: format!("https://github.com/{}", def.repo),
+                service_url: def.service_url.into(),
+            })
+            .collect();
+        let mut cache = state.cache.write().await;
+        *cache = Some(ProjectCache {
+            projects,
+            updated_at: std::time::Instant::now(),
+        });
+        drop(cache);
+        state
+    }
+
+    #[tokio::test]
+    async fn test_get_project_by_name_found() {
+        let state = test_state_with_cache().await;
+        // Verify cache is populated
+        {
+            let cache = state.cache.read().await;
+            let c = cache.as_ref().unwrap();
+            assert_eq!(c.projects.len(), 4);
+            assert_eq!(c.projects[1].name, "hypernews");
+        }
+
+        let app = Router::new()
+            .route("/api/projects/:name", get(get_project_by_name))
+            .with_state(state);
+
+        let resp = app
+            .oneshot(
+                Request::get("/api/projects/hypernews")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(resp.status(), StatusCode::OK);
+        let body = axum::body::to_bytes(resp.into_body(), 65536).await.unwrap();
+        let project: Project = serde_json::from_slice(&body).unwrap();
+        assert_eq!(project.name, "hypernews");
+    }
+
+    #[tokio::test]
+    async fn test_get_project_by_name_not_found() {
+        let state = test_state_with_cache().await;
+        let app = Router::new()
+            .route("/api/projects/:name", get(get_project_by_name))
+            .with_state(state);
+
+        let resp = app
+            .oneshot(
+                Request::get("/api/projects/nonexistent")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(resp.status(), StatusCode::NOT_FOUND);
     }
 }
