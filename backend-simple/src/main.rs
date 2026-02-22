@@ -233,9 +233,13 @@ async fn fetch_projects_with_github(client: &reqwest::Client) -> Vec<Project> {
     let mut projects = Vec::with_capacity(PROJECT_DEFS.len());
 
     for def in PROJECT_DEFS {
-        let (stars, forks, issues, language) = fetch_github_stats(client, def.repo)
-            .await
-            .unwrap_or((def.default_stars, def.default_forks, def.default_issues, def.default_language.to_string()));
+        let (stars, forks, issues, language) =
+            fetch_github_stats(client, def.repo).await.unwrap_or((
+                def.default_stars,
+                def.default_forks,
+                def.default_issues,
+                def.default_language.to_string(),
+            ));
 
         projects.push(Project {
             name: def.name.into(),
@@ -289,7 +293,10 @@ async fn subscribe(
     if email.is_empty() || !email.contains('@') {
         return (
             StatusCode::BAD_REQUEST,
-            Json(SubscribeResponse { ok: false, error: Some("invalid email".into()) }),
+            Json(SubscribeResponse {
+                ok: false,
+                error: Some("invalid email".into()),
+            }),
         );
     }
 
@@ -298,7 +305,13 @@ async fn subscribe(
     let api_key = std::env::var("RESEND_API_KEY").unwrap_or_default();
     if api_key.is_empty() {
         info!("RESEND_API_KEY not set — skipping email send");
-        return (StatusCode::OK, Json(SubscribeResponse { ok: true, error: None }));
+        return (
+            StatusCode::OK,
+            Json(SubscribeResponse {
+                ok: true,
+                error: None,
+            }),
+        );
     }
 
     let payload = ResendEmail {
@@ -308,7 +321,8 @@ async fn subscribe(
         html: welcome_email_html(&email),
     };
 
-    match state.http_client
+    match state
+        .http_client
         .post("https://api.resend.com/emails")
         .bearer_auth(&api_key)
         .json(&payload)
@@ -317,21 +331,33 @@ async fn subscribe(
     {
         Ok(res) if res.status().is_success() => {
             info!(email = %email, "Welcome email sent");
-            (StatusCode::OK, Json(SubscribeResponse { ok: true, error: None }))
+            (
+                StatusCode::OK,
+                Json(SubscribeResponse {
+                    ok: true,
+                    error: None,
+                }),
+            )
         }
         Ok(res) => {
             let status = res.status();
             tracing::error!(email = %email, status = %status, "Resend API error");
             (
                 StatusCode::INTERNAL_SERVER_ERROR,
-                Json(SubscribeResponse { ok: false, error: Some("email send failed".into()) }),
+                Json(SubscribeResponse {
+                    ok: false,
+                    error: Some("email send failed".into()),
+                }),
             )
         }
         Err(e) => {
             tracing::error!(email = %email, err = %e, "Resend request failed");
             (
                 StatusCode::INTERNAL_SERVER_ERROR,
-                Json(SubscribeResponse { ok: false, error: Some("email send failed".into()) }),
+                Json(SubscribeResponse {
+                    ok: false,
+                    error: Some("email send failed".into()),
+                }),
             )
         }
     }
@@ -351,7 +377,8 @@ async fn shutdown_signal() {
 // ── Email template ──────────────────────────────────
 
 fn welcome_email_html(email: &str) -> String {
-    format!(r#"<!DOCTYPE html>
+    format!(
+        r#"<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -452,7 +479,9 @@ enablerdao status         # サービス稼働状況確認</div>
 
 </div>
 </body>
-</html>"#, email = email)
+</html>"#,
+        email = email
+    )
 }
 
 // ── Tests ───────────────────────────────────────────

@@ -1,13 +1,16 @@
-FROM rust:1.83-slim as builder
+FROM rust:1.84-slim AS builder
 
 WORKDIR /build
 
-# Copy backend files
-COPY backend-simple/Cargo.toml backend-simple/Cargo.lock* ./
-COPY backend-simple/src ./src
+# Copy manifest first for dependency caching
+COPY backend-simple/Cargo.toml backend-simple/Cargo.lock ./
 
-# Build release binary
-RUN cargo build --release
+# Create dummy src to cache dependencies
+RUN mkdir src && echo "fn main() {}" > src/main.rs && cargo build --release && rm -rf src
+
+# Copy actual source and rebuild
+COPY backend-simple/src ./src
+RUN touch src/main.rs && cargo build --release
 
 # Runtime stage
 FROM debian:bookworm-slim

@@ -1,25 +1,35 @@
 # EnablerDAO.com — TODO
 
-## P0: 基盤整備（今すぐ）
+## P0: 基盤整備 ✅
 
-- [ ] **Git初期化** — `git init` + `.gitignore` 作成（target/, .env, node_modules）
-- [ ] **初回コミット** — 現状をスナップショットとして保存
-- [ ] **install.sh 作成** — サイト上で案内しているのに実体がない。最低限のスクリプトを用意
-- [ ] **frontend/blog/ ディレクトリ作成** — `generate-blog-post.sh` の出力先が存在しない
+- [x] **Git初期化** — `git init` + `.gitignore` 作成
+- [x] **初回コミット** — 現状をスナップショットとして保存
+- [x] **install.sh 作成** — enabler-cli インストーラー
+- [x] **frontend/blog/ ディレクトリ作成** — ブログ生成先
 
-## P1: 品質向上（今週中）
+## P1: 品質向上 ✅
 
-- [ ] **バックエンドテスト** — `/api/projects` と `/api/subscribe` の基本テスト（`#[tokio::test]`）
-- [ ] **GitHub API連携** — プロジェクトデータをハードコードからGitHub API取得に変更
-- [ ] **エラーハンドリング統一** — フロントエンドのfetch失敗時のUI改善
-- [ ] **アクセシビリティ** — alt属性、aria-label、キーボードナビゲーション確認
+- [x] **バックエンドテスト** — 10テスト（health, projects, subscribe正常/異常, キャッシュ等）
+- [x] **GitHub API連携** — stars/forks/issuesを動的取得、5分キャッシュ、デフォルト値フォールバック
+- [x] **エラーハンドリング統一** — loading/error/retryのUI
+- [x] **アクセシビリティ** — alt属性、aria-label、sr-only、aria-expanded
 
-## P2: デプロイ・運用（来週）
+## P2: デプロイ・運用 ✅
 
-- [ ] **GitHub Actions CI** — `cargo test` + `cargo clippy` + Docker build をPR時に自動実行
-- [ ] **Fly.ioデプロイ確認** — `fly deploy` でエンドツーエンド動作検証
-- [ ] **RESEND_API_KEY設定** — Fly.io secrets に登録し、メール送信を本番有効化
-- [ ] **ANTHROPIC_API_KEY設定** — ブログ自動生成用（Fly.io secrets or cron環境）
+- [x] **GitHub Actions CI** — test + clippy + fmt + Docker build（`.github/workflows/ci.yml`）
+- [x] **CD workflow** — main push時にFly.ioへ自動デプロイ（`.github/workflows/deploy.yml`）
+- [x] **Dockerfile最適化** — 依存キャッシュ層分離、Rust 1.84
+- [ ] **Secrets設定** — 下記コマンドで手動設定が必要:
+
+```bash
+# Fly.io secrets（本番環境変数）
+fly secrets set RESEND_API_KEY=re_xxxxxxxx
+fly secrets set GITHUB_TOKEN=ghp_xxxxxxxx
+
+# GitHub Actions secrets（CD用）
+# リポジトリ Settings → Secrets → Actions で設定:
+#   FLY_API_TOKEN — `fly tokens create deploy` で取得
+```
 
 ## P3: 機能追加（余裕があれば）
 
