@@ -133,11 +133,80 @@ type SharedCache = Arc<RwLock<Option<ProjectCache>>>;
 
 const CACHE_TTL: std::time::Duration = std::time::Duration::from_secs(300); // 5 min
 
+// ── Availability ────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PropertyAvailability {
+    pub property_id: String,
+    pub property_name: String,
+    pub booked_ranges: Vec<DateRange>,
+    pub updated_at: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DateRange {
+    pub start: String, // YYYY-MM-DD
+    pub end: String,   // YYYY-MM-DD
+}
+
+#[allow(dead_code)]
+struct PropertyDef {
+    id: &'static str,
+    name: &'static str,
+    airbnb_id: &'static str, // Used for reference / future Airbnb link generation
+    // Set iCal URL here once available.
+    // Format: https://www.airbnb.com/calendar/ical/{ID}.ics?s={SECRET}
+    ical_url: Option<&'static str>,
+}
+
+const PROPERTY_DEFS: &[PropertyDef] = &[
+    PropertyDef {
+        id: "property01",
+        name: "ホワイトハウス 熱海",
+        airbnb_id: "53223988",
+        ical_url: None, // TODO: Set iCal export URL
+    },
+    PropertyDef {
+        id: "property02",
+        name: "ザ・ロッジ 弟子屈",
+        airbnb_id: "597239384272621732",
+        ical_url: None,
+    },
+    PropertyDef {
+        id: "property03",
+        name: "ザ・ネスト 弟子屈",
+        airbnb_id: "911857804615412559",
+        ical_url: None,
+    },
+    PropertyDef {
+        id: "property04",
+        name: "ビーチハウス ホノルル",
+        airbnb_id: "1226550388535476490",
+        ical_url: None,
+    },
+    PropertyDef {
+        id: "property05",
+        name: "ガレージハウス ホノルル",
+        airbnb_id: "936009273046846679",
+        ical_url: None,
+    },
+];
+
+struct AvailabilityCache {
+    data: Vec<PropertyAvailability>,
+    updated_at: std::time::Instant,
+}
+
+type SharedAvailCache = Arc<RwLock<Option<AvailabilityCache>>>;
+
+const AVAIL_CACHE_TTL: std::time::Duration = std::time::Duration::from_secs(1800); // 30 min
+
 // ── App state ───────────────────────────────────────
 
 #[derive(Clone)]
 struct AppState {
     cache: SharedCache,
+    avail_cache: SharedAvailCache,
     http_client: reqwest::Client,
 }
 
@@ -160,6 +229,7 @@ async fn main() {
 
     let state = AppState {
         cache: Arc::new(RwLock::new(None)),
+        avail_cache: Arc::new(RwLock::new(None)),
         http_client: reqwest::Client::builder()
             .user_agent("enablerdao-server/0.1")
             .timeout(std::time::Duration::from_secs(10))
@@ -194,6 +264,8 @@ fn build_router(state: AppState, static_dir: &str) -> Router {
     Router::new()
         .route("/api/projects", get(get_projects))
         .route("/api/projects/:name", get(get_project_by_name))
+        .route("/api/availability", get(get_all_availability))
+        .route("/api/availability/:property_id", get(get_availability))
         .route("/api/subscribe", post(subscribe))
         .route("/health", get(health))
         .fallback_service(ServeDir::new(static_dir).append_index_html_on_directories(true))
@@ -395,6 +467,158 @@ async fn get_project_by_name(
         .ok_or(StatusCode::NOT_FOUND)
 }
 
+// ── Availability handlers ───────────────────────────
+
+async fn get_all_availability(State(state): State<AppState>) -> Json<Vec<PropertyAvailability>> {
+    let avail = fetch_all_availability(&state).await;
+    Json(avail)
+}
+
+async fn get_availability(
+    State(state): State<AppState>,
+    Path(property_id): Path<String>,
+) -> Result<Json<PropertyAvailability>, StatusCode> {
+    let avail = fetch_all_availability(&state).await;
+    let id_lower = property_id.to_lowercase();
+    avail
+        .into_iter()
+        .find(|a| a.property_id == id_lower)
+        .map(Json)
+        .ok_or(StatusCode::NOT_FOUND)
+}
+
+async fn fetch_all_availability(state: &AppState) -> Vec<PropertyAvailability> {
+    // Check cache
+    {
+        let cache = state.avail_cache.read().await;
+        if let Some(ref c) = *cache {
+            if c.updated_at.elapsed() < AVAIL_CACHE_TTL {
+                return c.data.clone();
+            }
+        }
+    }
+
+    let now = chrono::Utc::now();
+    let mut all = Vec::new();
+
+    for def in PROPERTY_DEFS {
+        let booked = if let Some(url) = def.ical_url {
+            fetch_and_parse_ical(&state.http_client, url).await
+        } else {
+            generate_demo_bookings(def.id, &now)
+        };
+
+        all.push(PropertyAvailability {
+            property_id: def.id.into(),
+            property_name: def.name.into(),
+            booked_ranges: booked,
+            updated_at: now.format("%Y-%m-%dT%H:%M:%SZ").to_string(),
+        });
+    }
+
+    // Update cache
+    {
+        let mut cache = state.avail_cache.write().await;
+        *cache = Some(AvailabilityCache {
+            data: all.clone(),
+            updated_at: std::time::Instant::now(),
+        });
+    }
+
+    all
+}
+
+/// Parse iCal (.ics) data and extract booked date ranges.
+fn parse_ical_events(ical_text: &str) -> Vec<DateRange> {
+    let mut ranges = Vec::new();
+    let mut in_event = false;
+    let mut start = String::new();
+    let mut end = String::new();
+
+    for line in ical_text.lines() {
+        let line = line.trim();
+        if line == "BEGIN:VEVENT" {
+            in_event = true;
+            start.clear();
+            end.clear();
+        } else if line == "END:VEVENT" {
+            if in_event && !start.is_empty() && !end.is_empty() {
+                // Convert YYYYMMDD → YYYY-MM-DD
+                let fmt = |s: &str| {
+                    if s.len() >= 8 {
+                        format!("{}-{}-{}", &s[..4], &s[4..6], &s[6..8])
+                    } else {
+                        s.to_string()
+                    }
+                };
+                ranges.push(DateRange {
+                    start: fmt(&start),
+                    end: fmt(&end),
+                });
+            }
+            in_event = false;
+        } else if in_event {
+            if let Some(val) = line.strip_prefix("DTSTART;VALUE=DATE:") {
+                start = val.to_string();
+            } else if let Some(val) = line.strip_prefix("DTSTART:") {
+                start = val.chars().take(8).collect();
+            } else if let Some(val) = line.strip_prefix("DTEND;VALUE=DATE:") {
+                end = val.to_string();
+            } else if let Some(val) = line.strip_prefix("DTEND:") {
+                end = val.chars().take(8).collect();
+            }
+        }
+    }
+
+    ranges
+}
+
+async fn fetch_and_parse_ical(client: &reqwest::Client, url: &str) -> Vec<DateRange> {
+    match client.get(url).send().await {
+        Ok(resp) if resp.status().is_success() => {
+            if let Ok(text) = resp.text().await {
+                parse_ical_events(&text)
+            } else {
+                Vec::new()
+            }
+        }
+        _ => Vec::new(),
+    }
+}
+
+/// Generate demo bookings so the calendar looks realistic before iCal URLs are set.
+fn generate_demo_bookings(
+    property_id: &str,
+    now: &chrono::DateTime<chrono::Utc>,
+) -> Vec<DateRange> {
+    use chrono::Duration;
+
+    let today = now.date_naive();
+
+    // Deterministic "random" offsets based on property_id hash
+    let seed: u32 = property_id.bytes().map(|b| b as u32).sum();
+
+    let mut ranges = Vec::new();
+    let offsets: &[(i64, i64)] = match seed % 5 {
+        0 => &[(2, 5), (10, 14), (20, 23), (30, 35), (45, 49), (60, 64)],
+        1 => &[(1, 3), (8, 12), (18, 21), (28, 32), (42, 46), (55, 60)],
+        2 => &[(3, 7), (12, 15), (22, 26), (35, 38), (48, 52), (62, 66)],
+        3 => &[(0, 4), (9, 13), (19, 22), (31, 34), (43, 47), (58, 63)],
+        _ => &[(4, 8), (14, 17), (25, 29), (37, 41), (50, 54), (65, 69)],
+    };
+
+    for (start_offset, end_offset) in offsets {
+        let s = today + Duration::days(*start_offset);
+        let e = today + Duration::days(*end_offset);
+        ranges.push(DateRange {
+            start: s.format("%Y-%m-%d").to_string(),
+            end: e.format("%Y-%m-%d").to_string(),
+        });
+    }
+
+    ranges
+}
+
 async fn health() -> &'static str {
     "OK"
 }
@@ -528,6 +752,7 @@ mod tests {
     fn test_state() -> AppState {
         AppState {
             cache: Arc::new(RwLock::new(None)),
+            avail_cache: Arc::new(RwLock::new(None)),
             http_client: reqwest::Client::builder()
                 .user_agent("enablerdao-test/0.1")
                 .timeout(std::time::Duration::from_secs(5))
@@ -541,6 +766,7 @@ mod tests {
         Router::new()
             .route("/api/projects", get(get_projects))
             .route("/api/projects/:name", get(get_project_by_name))
+            .route("/api/availability", get(get_all_availability))
             .route("/api/subscribe", post(subscribe))
             .route("/health", get(health))
             .with_state(state)
@@ -791,5 +1017,67 @@ mod tests {
             .unwrap();
 
         assert_eq!(resp.status(), StatusCode::NOT_FOUND);
+    }
+
+    #[test]
+    fn test_parse_ical_events() {
+        let ical = "\
+BEGIN:VCALENDAR\r\n\
+VERSION:2.0\r\n\
+BEGIN:VEVENT\r\n\
+DTSTART;VALUE=DATE:20260315\r\n\
+DTEND;VALUE=DATE:20260320\r\n\
+SUMMARY:Reserved\r\n\
+END:VEVENT\r\n\
+BEGIN:VEVENT\r\n\
+DTSTART;VALUE=DATE:20260401\r\n\
+DTEND;VALUE=DATE:20260405\r\n\
+SUMMARY:Not available\r\n\
+END:VEVENT\r\n\
+END:VCALENDAR";
+
+        let ranges = parse_ical_events(ical);
+        assert_eq!(ranges.len(), 2);
+        assert_eq!(ranges[0].start, "2026-03-15");
+        assert_eq!(ranges[0].end, "2026-03-20");
+        assert_eq!(ranges[1].start, "2026-04-01");
+        assert_eq!(ranges[1].end, "2026-04-05");
+    }
+
+    #[test]
+    fn test_parse_ical_empty() {
+        let ranges = parse_ical_events("");
+        assert!(ranges.is_empty());
+    }
+
+    #[test]
+    fn test_demo_bookings_generated() {
+        let now = chrono::Utc::now();
+        let bookings = generate_demo_bookings("property01", &now);
+        assert!(!bookings.is_empty());
+        // All dates should be valid YYYY-MM-DD format
+        for b in &bookings {
+            assert_eq!(b.start.len(), 10);
+            assert_eq!(b.end.len(), 10);
+            assert!(b.start < b.end);
+        }
+    }
+
+    #[tokio::test]
+    async fn test_get_all_availability() {
+        let app = test_app();
+        let resp = app
+            .oneshot(
+                Request::get("/api/availability")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(resp.status(), StatusCode::OK);
+        let body = axum::body::to_bytes(resp.into_body(), 65536).await.unwrap();
+        let avail: Vec<PropertyAvailability> = serde_json::from_slice(&body).unwrap();
+        assert_eq!(avail.len(), 5); // 5 properties
     }
 }

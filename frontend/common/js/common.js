@@ -257,6 +257,104 @@ function loadProducts() {
 
 loadProducts();
 
+// --- Availability Calendar ---
+(function() {
+  var MONTH_NAMES = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  var DOW = ['日','月','火','水','木','金','土'];
+
+  function isBooked(dateStr, bookedRanges) {
+    for (var i = 0; i < bookedRanges.length; i++) {
+      if (dateStr >= bookedRanges[i].start && dateStr < bookedRanges[i].end) return true;
+    }
+    return false;
+  }
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function renderMonth(year, month, bookedRanges) {
+    var today = new Date();
+    var todayStr = today.getFullYear() + '-' + pad(today.getMonth() + 1) + '-' + pad(today.getDate());
+    var firstDay = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    var html = '<div class="avail-month">';
+    html += '<div class="avail-month-name">' + year + '年 ' + MONTH_NAMES[month] + '</div>';
+    html += '<div class="avail-grid">';
+
+    // Day of week headers
+    for (var d = 0; d < 7; d++) {
+      html += '<div class="avail-dow">' + DOW[d] + '</div>';
+    }
+
+    // Empty cells before first day
+    for (var e = 0; e < firstDay; e++) {
+      html += '<div class="avail-day empty"></div>';
+    }
+
+    for (var day = 1; day <= daysInMonth; day++) {
+      var dateStr = year + '-' + pad(month + 1) + '-' + pad(day);
+      var cls = 'avail-day';
+      var dateObj = new Date(year, month, day);
+
+      if (dateStr === todayStr) cls += ' today';
+      else if (dateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate())) cls += ' past';
+      else if (isBooked(dateStr, bookedRanges)) cls += ' booked';
+
+      html += '<div class="' + cls + '">' + day + '</div>';
+    }
+
+    html += '</div></div>';
+    return html;
+  }
+
+  function renderCalendar(container, bookedRanges) {
+    var now = new Date();
+    var html = '<div class="avail-title">// 空き状況</div>';
+    html += '<div class="avail-months">';
+
+    // Show 3 months
+    for (var i = 0; i < 3; i++) {
+      var m = now.getMonth() + i;
+      var y = now.getFullYear();
+      if (m >= 12) { m -= 12; y++; }
+      html += renderMonth(y, m, bookedRanges);
+    }
+
+    html += '</div>';
+    html += '<div class="avail-legend">';
+    html += '<span class="leg-avail">空き</span>';
+    html += '<span class="leg-booked">予約済</span>';
+    html += '</div>';
+
+    container.innerHTML = html;
+  }
+
+  function loadAvailability() {
+    fetch('/api/availability')
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function(data) {
+        data.forEach(function(prop) {
+          var containers = document.querySelectorAll('#' + prop.property_id + ' .availability-cal');
+          containers.forEach(function(el) {
+            renderCalendar(el, prop.booked_ranges);
+          });
+        });
+      })
+      .catch(function() {
+        // Silently fail — calendar is not critical
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadAvailability);
+  } else {
+    loadAvailability();
+  }
+})();
+
 $(function(){
 
 	$("#op").delay(4500).fadeOut(100);

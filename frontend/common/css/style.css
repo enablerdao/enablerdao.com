@@ -885,6 +885,111 @@ header {
   background: rgba(0,255,0,0.05);
 }
 
+/* ── Availability Calendar ─────── */
+.availability-cal {
+  margin: 24px 0;
+}
+.avail-title {
+  font-family: 'SF Mono','Fira Code',monospace;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+.avail-months {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+.avail-month {
+  flex-shrink: 0;
+  min-width: 200px;
+}
+.avail-month-name {
+  font-family: 'SF Mono','Fira Code',monospace;
+  font-size: 11px;
+  color: #aaa;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.avail-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.avail-dow {
+  font-size: 9px;
+  color: #555;
+  text-align: center;
+  font-family: 'SF Mono','Fira Code',monospace;
+  padding: 2px 0;
+}
+.avail-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-family: 'SF Mono','Fira Code',monospace;
+  border-radius: 2px;
+  color: #888;
+  background: rgba(0,255,0,0.08);
+  transition: background 0.15s;
+}
+.avail-day.booked {
+  background: rgba(255,60,60,0.15);
+  color: #664444;
+  text-decoration: line-through;
+}
+.avail-day.today {
+  outline: 1px solid #00ff00;
+  color: #00ff00;
+  font-weight: 700;
+}
+.avail-day.past {
+  background: transparent;
+  color: #333;
+}
+.avail-day.empty {
+  background: transparent;
+}
+.avail-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 10px;
+  font-family: 'SF Mono','Fira Code',monospace;
+  color: #666;
+}
+.avail-legend span::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.avail-legend .leg-avail::before { background: rgba(0,255,0,0.15); }
+.avail-legend .leg-booked::before { background: rgba(255,60,60,0.2); }
+
+/* Villa mode overrides for calendar */
+[data-mode="villa"] .avail-day {
+  background: rgba(26,107,58,0.08);
+  color: #666;
+}
+[data-mode="villa"] .avail-day.booked {
+  background: rgba(180,80,80,0.12);
+  color: #999;
+}
+[data-mode="villa"] .avail-day.today {
+  outline-color: #1a6b3a;
+  color: #1a6b3a;
+}
+
 /* ////////////////////////////////////////////////////////////////////////////////
 
 	Join — chatweb.ai connect flow
