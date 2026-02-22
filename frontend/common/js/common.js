@@ -230,13 +230,32 @@ function renderProducts(projects) {
   grid.innerHTML = html;
 }
 
-fetch('/api/projects')
-  .then(function(r) { return r.json(); })
-  .then(renderProducts)
-  .catch(function() {
-    var grid = document.getElementById('productGrid');
-    if (grid) grid.innerHTML = '<p style="text-align:center;color:#555;font-family:monospace;">// loading...</p>';
-  });
+function showProductLoading() {
+  var grid = document.getElementById('productGrid');
+  if (grid) grid.innerHTML = '<p class="productGrid-status">// loading projects...</p>';
+}
+
+function showProductError() {
+  var grid = document.getElementById('productGrid');
+  if (!grid) return;
+  grid.innerHTML = '<div class="productGrid-status">'
+    + '<p>// failed to load projects</p>'
+    + '<button onclick="loadProducts()" class="productGrid-retry">&gt; retry</button>'
+    + '</div>';
+}
+
+function loadProducts() {
+  showProductLoading();
+  fetch('/api/projects')
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(renderProducts)
+    .catch(showProductError);
+}
+
+loadProducts();
 
 $(function(){
 
@@ -246,12 +265,14 @@ $(function(){
     e.stopPropagation();
 		$("#globalNav").fadeToggle(300);
 		$("#menuButton").toggleClass("active");
+		var expanded = $("#menuButton").hasClass("active");
+		$("#menuButton").attr("aria-expanded", expanded);
 	});
 
   $(document).on('click', function (e) {
     if (!$('#globalNav').is(e.target) && $('#globalNav').has(e.target).length === 0 && !$('#menuButton').is(e.target)) {
       $('#globalNav').fadeOut(300);
-      $("#menuButton").removeClass("active");
+      $("#menuButton").removeClass("active").attr("aria-expanded", "false");
     }
   });
 
