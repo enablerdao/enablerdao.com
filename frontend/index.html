@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <title>enabler — 極上を、おすそわけ。</title>
-<meta name="description" content="別荘もコードも、みんなのもの。極上のヴィラとOSSプロジェクトを分かち合うDAO。">
+<meta name="description" content="熱海・北海道・ハワイの別荘をシェアし、OSSを育てて報酬を得るDAO。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="canonical" href="https://enablerdao.com/">
 <link rel="alternate" hreflang="ja" href="https://enablerdao.com/">
-<link rel="alternate" hreflang="en" href="https://enablerdao.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://enablerdao.com/">
 
 <!-- OpenGraph -->
 <meta property="og:locale" content="ja_JP">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="enabler">
 <meta property="og:title" content="enabler — 極上を、おすそわけ。">
-<meta property="og:description" content="別荘もコードも、みんなのもの。極上のヴィラとOSSプロジェクトを分かち合うDAO。">
+<meta property="og:description" content="熱海・北海道・ハワイの別荘をシェアし、OSSを育てて報酬を得るDAO。">
 <meta property="og:url" content="https://enablerdao.com/">
 <meta property="og:image" content="https://enablerdao.com/common/images/ogp.png">
 <meta property="og:image:width" content="1200">
@@ -25,8 +25,45 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="enabler — 極上を、おすそわけ。">
-<meta name="twitter:description" content="別荘もコードも、みんなのもの。極上のヴィラとOSSプロジェクトを分かち合うDAO。">
+<meta name="twitter:description" content="熱海・北海道・ハワイの別荘をシェアし、OSSを育てて報酬を得るDAO。">
 <meta name="twitter:image" content="https://enablerdao.com/common/images/ogp.png">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "enabler",
+  "alternateName": "EnablerDAO",
+  "url": "https://enablerdao.com",
+  "logo": "https://enablerdao.com/common/images/ogp.png",
+  "description": "熱海・北海道・ハワイの別荘をシェアし、OSSを育てて報酬を得るDAO。",
+  "foundingDate": "2021-10-21",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "九段南1-5-6 りそな九段ビル5階KSフロア",
+    "addressLocality": "千代田区",
+    "addressRegion": "東京都",
+    "postalCode": "102-0074",
+    "addressCountry": "JP"
+  },
+  "sameAs": [
+    "https://www.instagram.com/enabler.fun/",
+    "https://x.com/enablerofficial",
+    "https://www.youtube.com/channel/UC09Mz20YCqqCwSYfNLALnFA",
+    "https://github.com/enablerdao"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "enabler",
+  "url": "https://enablerdao.com",
+  "inLanguage": ["ja", "en"]
+}
+</script>
 
 <script>
   (function(d) {
@@ -45,6 +82,7 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" defer></script>
 <script src="common/js/slick.js" defer></script>
+<script src="https://unpkg.com/@solana/web3.js@1.95.3/lib/index.iife.min.js" defer></script>
 <script src="common/js/common.js" defer></script>
 
 <!-- Google tag (gtag.js) -->
@@ -61,6 +99,27 @@
   <div id="op">
     <img class="mark" src="common/images/logo_mark.svg" alt="">
     <img class="title" src="common/images/logo_title.svg" alt="enabler">
+  </div>
+
+  <!-- Mode Selection Splash (first visit only) -->
+  <div id="modeSplash" style="display:none;">
+    <div class="splash-inner">
+      <img class="splash-logo" src="common/images/logo_mark.svg" alt="">
+      <p class="splash-question">あなたの目的は？</p>
+      <div class="splash-options">
+        <button class="splash-btn splash-btn-villa" data-mode="villa">
+          <span class="splash-emoji">🏖</span>
+          <span class="splash-btn-title">別荘に泊まりたい</span>
+          <span class="splash-btn-sub">物件情報・予約・空き状況</span>
+        </button>
+        <button class="splash-btn splash-btn-code" data-mode="code">
+          <span class="splash-emoji">💻</span>
+          <span class="splash-btn-title">コードで貢献したい</span>
+          <span class="splash-btn-sub">OSS・DAO・EBRトークン</span>
+        </button>
+      </div>
+      <button class="splash-skip" id="splashSkip">とりあえず見る →</button>
+    </div>
   </div>
 
   <button id="modeToggle" aria-label="モード切替">
@@ -91,9 +150,15 @@
             <a href="#property05"><span>ガレージハウスホノルル</span></a>
           </div>
         </li>
+        <li id="navMembers" style="display:none;"><a href="#members" class="inner-link nav-members">Members</a></li>
         <li><a href="#story" class="inner-link">Project Story</a></li>
         <li><a href="#message" class="inner-link">Message</a></li>
       </ul>
+
+      <div class="nav-wallet-wrap">
+        <button id="walletBtn" class="wallet-btn">Connect Wallet</button>
+        <a href="#members" id="peekMembersLink" class="peek-members-link inner-link">ウォレットなしで見る</a>
+      </div>
 
       <ul class="snsList">
         <li><a href="https://www.instagram.com/enabler.fun/" target="_blank" aria-label="Instagram"><i class="snsIcon icon-in"></i></a></li>
@@ -122,10 +187,11 @@
         <h2 class="anim">(Mission)</h2>
         <p class="lead anim mission-lead">極上を、おすそわけ。</p>
         <div class="aboutText anim">
-          <p>最高のモノは、分かち合うともっと最高になる。<br>
-          別荘もコードも、みんなのもの。</p>
+          <p>熱海・北海道・ハワイの別荘を、みんなでシェアして泊まる。<br>
+          オープンソースを、みんなで育てて報酬を得る。<br>
+          <strong>「いいものは独り占めしない」</strong>をコードにしたDAO（自律分散型コミュニティ）です。</p>
         </div>
-        <div class="btnWrap anim"><a href="#property">物件はこちら</a></div>
+        <div class="btnWrap anim"><a href="#property">物件を見る</a><a href="#explainer" class="inner-link" style="margin-left:16px;">enablerって何？</a></div>
       </div>
     </section>
 
@@ -133,7 +199,7 @@
     <section id="philosophy">
       <div class="inner">
         <h2 class="anim">(Philosophy)</h2>
-        <p class="philosophy-subtitle anim">— Erich Fromm「愛するということ」より、わりと自由に解釈。</p>
+        <p class="philosophy-subtitle anim">enablerが大事にしている4つのこと</p>
         <div class="terminal anim">
           <div class="terminal-header">
             <span class="terminal-dot red"></span>
@@ -141,27 +207,23 @@
             <span class="terminal-dot green"></span>
             <span class="terminal-title">enabler.values.js</span>
           </div>
-          <pre class="terminal-body"><code><span class="code-comment">// 愛の技術、enabler版</span>
-<span class="code-comment">// フロムは言った。愛は技術だ、と。</span>
-<span class="code-comment">// まあ、やってみよう。</span>
+          <pre class="terminal-body"><code><span class="code-keyword">const</span> <span class="code-var">enabler</span> = {
 
-<span class="code-keyword">const</span> <span class="code-var">love</span> = {
-
-  <span class="code-key">care</span>:           <span class="code-string">"いいもの見つけたら、分ける"</span>,
-  <span class="code-comment">// ↑ シェアするほど、豊かになる</span>
+  <span class="code-key">share</span>:          <span class="code-string">"いいもの見つけたら、独り占めしない"</span>,
+  <span class="code-comment">// 別荘もコードも、シェアするほど価値が上がる</span>
 
   <span class="code-key">respect</span>:        <span class="code-string">"あなたの最高は、あなたが決める"</span>,
-  <span class="code-comment">// ↑ 押し付けない。でもいい場所は教える</span>
+  <span class="code-comment">// 押し付けない。でもいい場所は教える</span>
 
-  <span class="code-key">knowledge</span>:      <span class="code-string">"まず行く。まず感じる。話はそれから"</span>,
-  <span class="code-comment">// ↑ 百聞は一見に如かず（古いけど真理）</span>
+  <span class="code-key">experience</span>:     <span class="code-string">"まず泊まる。まずコードを書く。話はそれから"</span>,
+  <span class="code-comment">// 百聞は一見に如かず</span>
 
   <span class="code-key">responsibility</span>: <span class="code-string">"言い出しっぺが、最後までやる"</span>,
-  <span class="code-comment">// ↑ これが一番カッコいい</span>
+  <span class="code-comment">// これが一番大事</span>
 
 };
 
-<span class="code-keyword">export default</span> love;
+<span class="code-keyword">export default</span> enabler;
 </code></pre>
         </div>
       </div>
@@ -171,8 +233,74 @@
     <section id="products">
       <div class="inner">
         <h2 class="anim">(Products)</h2>
-        <p class="products-subtitle anim">コードはみんなのもの。使って、育てて、分かち合おう。</p>
+        <p class="products-subtitle anim">メンバーが作ったオープンソースプロジェクト。バグ修正やPRでEBRトークンが貯まります。</p>
         <div id="productGrid" class="productGrid anim"></div>
+      </div>
+    </section>
+
+
+    <section id="numbers">
+      <div class="inner">
+        <h2 class="anim">(Numbers)</h2>
+        <div class="numbers-grid anim">
+          <div class="numbers-item">
+            <span class="numbers-value">5</span>
+            <span class="numbers-label">物件</span>
+            <span class="numbers-sub">熱海・北海道・ハワイ</span>
+          </div>
+          <div class="numbers-item">
+            <span class="numbers-value">3,200+</span>
+            <span class="numbers-label">宿泊者数</span>
+            <span class="numbers-sub">2022年〜累計</span>
+          </div>
+          <div class="numbers-item">
+            <span class="numbers-value">★ 4.8</span>
+            <span class="numbers-label">Airbnb平均</span>
+            <span class="numbers-sub">全物件レビュー平均</span>
+          </div>
+          <div class="numbers-item">
+            <span class="numbers-value">30+</span>
+            <span class="numbers-label">OSSリポジトリ</span>
+            <span class="numbers-sub">GitHub公開プロジェクト</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="explainer">
+      <div class="inner">
+        <h2 class="anim">(What is enabler?)</h2>
+        <div class="explainer-grid anim">
+
+          <div class="explainer-card">
+            <div class="explainer-icon">🏠</div>
+            <h3 class="explainer-card-title">別荘に泊まれる</h3>
+            <p class="explainer-card-body">熱海・北海道・ハワイに5つの別荘があります。<br>Airbnbから誰でも予約OK。メンバーは特別価格で宿泊できます。</p>
+          </div>
+
+          <div class="explainer-card">
+            <div class="explainer-icon">💻</div>
+            <h3 class="explainer-card-title">コードで稼げる</h3>
+            <p class="explainer-card-body">enablerのOSSプロジェクトにPRを出すと<strong>EBRトークン</strong>で報酬がもらえます。<br>EBRはメンバー特典や別荘の割引に使えます。</p>
+          </div>
+
+          <div class="explainer-card">
+            <div class="explainer-icon">🤝</div>
+            <h3 class="explainer-card-title">みんなで運営</h3>
+            <p class="explainer-card-body">enablerはDAO（自律分散型組織）。社長がいません。<br>物件の管理もプロジェクトの方針も、メンバーの投票で決めます。</p>
+          </div>
+
+        </div>
+
+        <div class="explainer-cta anim">
+          <p class="explainer-lead">あなたはどっち？</p>
+          <div class="explainer-paths">
+            <a href="#property" class="explainer-path-btn path-villa inner-link">🏖 別荘に泊まりたい</a>
+            <a href="#join" class="explainer-path-btn path-code inner-link">💻 コードで稼ぎたい</a>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -224,14 +352,14 @@
               <p class="join-prompt"><span class="join-caret">✓</span> chatweb.ai を開きました</p>
               <p class="join-sub" style="margin-bottom:20px;">
                 APIキーを取得したら以下に貼り付けてください。<br>
-                <span style="color:#555;font-size:0.9em;">Settings → API Keys → Create new key</span>
+                <span style="color:#999;font-size:0.9em;">Settings → API Keys → Create new key</span>
               </p>
               <div class="join-apikey-form">
                 <label for="apiKeyInput" class="sr-only">APIキー</label>
                 <input
                   id="apiKeyInput"
                   class="join-input"
-                  type="text"
+                  type="password"
                   placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx"
                   autocomplete="off"
                   spellcheck="false"
@@ -449,12 +577,69 @@
             <p>ホノルル中心街から車で15分のロケーション。<br>砂浜まで徒歩0分で、毎晩絶景サンセットをお楽しみいただけます。</p>
             <p>ココヘッドを望む絶景オーシャンビューを眺めながらのBBQは、非日常そのもの。</p>
           </div>
-          <div class="availability-cal anim"></div>
+          <div class="property-chat anim" id="property05Chat">
+            <div class="chat-header">
+              <span class="chat-title">コンシェルジュに相談</span>
+              <span class="chat-status">AI対応</span>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+              <div class="chat-bubble ai">こんにちは！ガレージハウス ホノルルの専属AIコンシェルジュです。空き日程、料金、設備など、何でもお気軽にお聞きください。</div>
+            </div>
+            <div class="chat-input-wrap">
+              <input type="text" id="chatInput" placeholder="空き日程、料金、設備について何でも聞いてください" autocomplete="off">
+              <button id="chatSend">送信</button>
+            </div>
+          </div>
           <div class="btnWrap airb anim"><a href="https://www.airbnb.jp/rooms/936009273046846679" target="_blank">詳しくはこちら</a></div>
         </div>
       </div>
     </section>
 
+
+    <section id="members" style="display:none;">
+      <div class="inner">
+        <h2 class="anim">(Members Only)</h2>
+        <p class="members-subtitle anim">EBRトークンホルダー限定</p>
+        <div class="members-wallet-info anim">
+          <span class="members-badge">verified</span>
+          <span id="membersWalletAddr" class="members-addr"></span>
+        </div>
+
+        <!-- Enabler Properties -->
+        <div class="members-section-header anim">
+          <h3 class="members-section-title">enabler properties</h3>
+          <p class="members-section-desc">enabler が所有・運営する物件の空き状況</p>
+        </div>
+        <div id="membersEnablerGrid" class="membersGrid anim"></div>
+
+        <!-- NOT A HOTEL -->
+        <div class="members-section-header members-nah-header anim">
+          <h3 class="members-section-title nah-title">NOT A HOTEL</h3>
+          <p class="members-section-desc">NOT A HOTEL DAO 提携物件の空き状況</p>
+        </div>
+        <div id="membersFilter" class="members-filter anim" style="display:none;"></div>
+        <div id="membersGrid" class="membersGrid anim"></div>
+      </div>
+    </section>
+
+    <div id="inquiryModal" class="inquiry-modal" style="display:none;">
+      <div class="inquiry-modal-overlay"></div>
+      <div class="inquiry-modal-content">
+        <button class="inquiry-modal-close">&times;</button>
+        <h3>物件について問い合わせ</h3>
+        <form id="inquiryForm">
+          <p id="inquiryPropName" class="inquiry-prop-name"></p>
+          <input type="hidden" id="inquiryPropId">
+          <input type="hidden" id="inquiryHouseGroupId">
+          <label>チェックイン<input type="date" id="inquiryCheckIn" required></label>
+          <label>チェックアウト<input type="date" id="inquiryCheckOut" required></label>
+          <label>人数<input type="number" id="inquiryGuests" min="1" max="20" value="2"></label>
+          <label>メッセージ<textarea id="inquiryMessage" rows="3"></textarea></label>
+          <button type="submit" class="inquiry-submit">送信する</button>
+          <p id="inquiryStatus" class="inquiry-status"></p>
+        </form>
+      </div>
+    </div>
 
     <section id="story">
       <div class="inner">
@@ -475,15 +660,14 @@
       <div class="inner">
         <h2 class="anim">(Message)</h2>
         <div class="messageText anim">
-          <h3>「この場所で過ごした時間が、<br class="sp">人生の一部になる。」</h3>
-          <p>旅とは、ただ移動することではない。<br>
-          そこにどんな風が吹き、どんな光が差し込み、どんな音が響くのか——。<br>
-          僕は、「本当に心が震える場所で、最高の時間を過ごす」ことにこだわり続けてきました。<br>
-          だから、自分でも買ってしまうほどに惚れ込んだ特別な場所を、あなたとシェアしたい。<br>
-          五感を揺さぶるロケーション、心がほどける空間。<br>
-          ただ泊まるのではなく、そこに滞在することでしか味わえない"体験"がある。<br>
-          その場所での時間が、あなたの人生の一部になる——。<br>
-          そんな瞬間を、一緒に創りませんか？</p>
+          <h3>「少しだけ、<br class="sp">立ち止まってみませんか。」</h3>
+          <p>僕が惚れ込み、自分でも手に入れた特別な場所。<br>
+          そこは日常のノイズから離れ、ただ静かに自分を取り戻せる空間です。</p>
+          <p>なぜ、ここをあなたにシェアしたいのか。<br>
+          それは、美しい建築やソフトウェアのように、時代を超えて残る「本当にいいもの」を世の中に増やしていきたいからです。<br>
+          次の世代へ繋がる、より豊かなライフスタイルの形を。</p>
+          <p>そんな未来へ続く時間をみんなで創っていくために。<br>
+          まずは一度、この場所で過ごす心地よさを体験してみませんか？</p>
           <p class="signature">代表　<strong>濱田優貴</strong></p>
         </div>
         <div class="btnWrap anim"><a href="https://www.yukihamada.jp/" target="_blank">代表プロフィール</a></div>
@@ -503,16 +687,54 @@
       </div>
     </section>
 
+    <section id="availability-summary">
+      <div class="inner">
+        <h2 class="anim">(Availability)</h2>
+        <p class="avs-subtitle anim">直近の空き状況 — 今すぐ泊まれる日</p>
+        <div id="avsSummaryGrid" class="avs-grid anim">
+          <p class="avs-loading">// loading availability...</p>
+        </div>
+      </div>
+    </section>
+
+    <div id="bookModal" class="book-modal" style="display:none;">
+      <div class="book-modal-overlay"></div>
+      <div class="book-modal-content">
+        <button class="book-modal-close">&times;</button>
+        <h3 class="book-modal-title" id="bookModalTitle"></h3>
+        <form id="bookForm">
+          <input type="hidden" id="bookPropId">
+          <label>チェックイン<input type="date" id="bookCheckIn" required></label>
+          <label>チェックアウト<input type="date" id="bookCheckOut" required></label>
+          <label>人数<input type="number" id="bookGuests" min="1" max="20" value="2"></label>
+          <label>お名前<input type="text" id="bookName" placeholder="山田 太郎"></label>
+          <label>メール<input type="email" id="bookEmail" placeholder="you@example.com"></label>
+          <label>電話<input type="tel" id="bookPhone" placeholder="090-xxxx-xxxx"></label>
+          <label>メッセージ<textarea id="bookMessage" rows="2" placeholder="ご要望があれば"></textarea></label>
+          <button type="submit" class="book-submit">予約リクエスト送信</button>
+          <p id="bookStatus" class="book-status"></p>
+        </form>
+      </div>
+    </div>
+
   </main>
 
 
   <footer>
+    <div class="footer-links">
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a href="/faq/">FAQ</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="mailto:info@enablerdao.com">Contact</a>
+      <a href="https://github.com/enablerdao" target="_blank">GitHub</a>
+    </div>
     <ul class="snsList">
       <li><a href="https://www.instagram.com/enabler.fun/" target="_blank" aria-label="Instagram"><i class="snsIcon icon-in"></i></a></li>
       <li><a href="https://x.com/enablerofficial" target="_blank" aria-label="X (Twitter)"><i class="snsIcon icon-x"></i></a></li>
       <li><a href="https://www.youtube.com/channel/UC09Mz20YCqqCwSYfNLALnFA" target="_blank" aria-label="YouTube"><i class="snsIcon icon-yt"></i></a></li>
     </ul>
-    <p class="copy">&copy; 2025 enabler — 極上を、おすそわけ。</p>
+    <p class="copy">&copy; 2026 enabler — 極上を、おすそわけ。</p>
 
     <div class="pageTop on"><a href="#">
       <p>Page Top</p>
@@ -523,6 +745,24 @@
     </div>
   </footer>
   <div id="scrollLog" aria-hidden="true"></div>
+
+  <!-- Floating Chat Button & Modal -->
+  <button id="chatFab" class="chat-fab" aria-label="チャットで相談">💬</button>
+  <div id="chatModal" class="chat-modal" style="display:none;">
+    <div class="chat-modal-inner">
+      <div class="chat-header">
+        <span class="chat-title">コンシェルジュに相談</span>
+        <button id="chatModalClose" class="chat-modal-close" aria-label="閉じる">&times;</button>
+      </div>
+      <div class="chat-messages" id="chatModalMessages">
+        <div class="chat-bubble ai">こんにちは！ガレージハウス ホノルルの専属AIコンシェルジュです。空き日程、料金、設備など、何でもお気軽にお聞きください。</div>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatModalInput" placeholder="何でも聞いてください" autocomplete="off">
+        <button id="chatModalSend">送信</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
