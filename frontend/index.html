@@ -175,7 +175,8 @@
         <div class="brandLogo"><img src="common/images/logo_mark.svg" alt="ブランドロゴ"></div>
         <h1><img src="common/images/logo_title.svg" alt="enabler"></h1>
         <p class="catch"><span id="typewriter-main"></span><span class="cursor">|</span>
-        <span class="en">"The best things are meant to be shared."</span></p>
+        <span class="en mode-villa-only">"The best things are meant to be shared."</span>
+        <span class="en mode-code-only">RWA × OSS × Token Economy</span></p>
       </div>
       <div class="mvRight"><img src="common/images/mv_img.jpg" alt="enablerの別荘からの景色"></div>
       <a class="scroll" href="#about"><span><img src="common/images/arrow_mv.png" alt="Scroll Down"></span>Scroll Down</a>
@@ -187,11 +188,17 @@
         <h2 class="anim">(Mission)</h2>
         <p class="lead anim mission-lead">極上を、おすそわけ。</p>
         <div class="aboutText anim">
-          <p>熱海・北海道・ハワイの別荘を、みんなでシェアして泊まる。<br>
-          オープンソースを、みんなで育てて報酬を得る。<br>
-          <strong>「いいものは独り占めしない」</strong>をコードにしたDAO（自律分散型コミュニティ）です。</p>
+          <p class="mode-villa-only">熱海・北海道・ハワイにある5つの別荘に、誰でも泊まれます。<br>
+          Airbnbで予約するだけ。オーナーが惚れ込んだ特別な場所を、あなたとシェアします。</p>
+          <p class="mode-code-only">RWA（実物資産）× OSS × トークンエコノミー。<br>
+          貢献にインセンティブを設計した分散型コミュニティプロトコル。</p>
         </div>
-        <div class="btnWrap anim"><a href="#property">物件を見る</a><a href="#explainer" class="inner-link" style="margin-left:16px;">enablerって何？</a></div>
+        <div class="btnWrap anim">
+          <a href="#property" class="mode-villa-only">物件を見る</a>
+          <a href="#explainer" class="inner-link mode-villa-only" style="margin-left:16px;">enablerって何？</a>
+          <a href="#join" class="mode-code-only">Start Contributing</a>
+          <a href="#explainer" class="inner-link mode-code-only" style="margin-left:16px;">Architecture →</a>
+        </div>
       </div>
     </section>
 
@@ -199,8 +206,9 @@
     <section id="philosophy">
       <div class="inner">
         <h2 class="anim">(Philosophy)</h2>
-        <p class="philosophy-subtitle anim">enablerが大事にしている4つのこと</p>
-        <div class="terminal anim">
+        <p class="philosophy-subtitle anim mode-villa-only">enablerが大事にしていること</p>
+        <p class="philosophy-subtitle anim mode-code-only">enabler.config.ts — Core Protocol Values</p>
+        <div class="terminal anim mode-villa-only">
           <div class="terminal-header">
             <span class="terminal-dot red"></span>
             <span class="terminal-dot yellow"></span>
@@ -209,21 +217,47 @@
           </div>
           <pre class="terminal-body"><code><span class="code-keyword">const</span> <span class="code-var">enabler</span> = {
 
-  <span class="code-key">share</span>:          <span class="code-string">"いいもの見つけたら、独り占めしない"</span>,
-  <span class="code-comment">// 別荘もコードも、シェアするほど価値が上がる</span>
+  <span class="code-key">share</span>:          <span class="code-string">"いいもの見つけたら、みんなで楽しむ"</span>,
+  <span class="code-comment">// 別荘も体験も、分け合うほど豊かになる</span>
 
   <span class="code-key">respect</span>:        <span class="code-string">"あなたの最高は、あなたが決める"</span>,
   <span class="code-comment">// 押し付けない。でもいい場所は教える</span>
 
-  <span class="code-key">experience</span>:     <span class="code-string">"まず泊まる。まずコードを書く。話はそれから"</span>,
+  <span class="code-key">experience</span>:     <span class="code-string">"まず泊まってみる。話はそれから"</span>,
   <span class="code-comment">// 百聞は一見に如かず</span>
 
-  <span class="code-key">responsibility</span>: <span class="code-string">"言い出しっぺが、最後までやる"</span>,
-  <span class="code-comment">// これが一番大事</span>
+  <span class="code-key">trust</span>:          <span class="code-string">"言い出しっぺが、最後までやる"</span>,
+  <span class="code-comment">// だから安心して任せられる</span>
 
 };
 
 <span class="code-keyword">export default</span> enabler;
+</code></pre>
+        </div>
+        <div class="terminal anim mode-code-only">
+          <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">enabler.config.ts</span>
+          </div>
+          <pre class="terminal-body"><code><span class="code-keyword">const</span> <span class="code-var">PROTOCOL_VALUES</span> = {
+
+  <span class="code-key">openSource</span>:     <span class="code-string">"fork it, improve it, ship it"</span>,
+  <span class="code-comment">// all repos are public. PRs earn EBR tokens</span>
+
+  <span class="code-key">decentralized</span>: <span class="code-string">"no single point of failure"</span>,
+  <span class="code-comment">// governance by token holders, not a CEO</span>
+
+  <span class="code-key">rwa</span>:            <span class="code-string">"real-world assets, on-chain access"</span>,
+  <span class="code-comment">// 5 properties tokenized as member perks</span>
+
+  <span class="code-key">permissionless</span>: <span class="code-string">"contribute first, ask later"</span>,
+  <span class="code-comment">// ship code → earn tokens → unlock perks</span>
+
+} <span class="code-keyword">as const</span>;
+
+<span class="code-keyword">export default</span> PROTOCOL_VALUES;
 </code></pre>
         </div>
       </div>
@@ -233,7 +267,8 @@
     <section id="products">
       <div class="inner">
         <h2 class="anim">(Products)</h2>
-        <p class="products-subtitle anim">メンバーが作ったオープンソースプロジェクト。バグ修正やPRでEBRトークンが貯まります。</p>
+        <p class="products-subtitle anim mode-villa-only">メンバーが運営しているサービス。宿泊予約やAIチャットなど、便利なツールが揃っています。</p>
+        <p class="products-subtitle anim mode-code-only">全リポジトリOSS。PR merged → EBR minted。バウンティ付きissueは<a href="https://github.com/enablerdao" target="_blank" style="color:inherit;text-decoration:underline;">GitHub</a>で確認。</p>
         <div id="productGrid" class="productGrid anim"></div>
       </div>
     </section>
@@ -242,7 +277,8 @@
     <section id="numbers">
       <div class="inner">
         <h2 class="anim">(Numbers)</h2>
-        <div class="numbers-grid anim">
+        <!-- Villa numbers -->
+        <div class="numbers-grid anim mode-villa-only">
           <div class="numbers-item">
             <span class="numbers-value">5</span>
             <span class="numbers-label">物件</span>
@@ -255,13 +291,36 @@
           </div>
           <div class="numbers-item">
             <span class="numbers-value">★ 4.8</span>
-            <span class="numbers-label">Airbnb平均</span>
-            <span class="numbers-sub">全物件レビュー平均</span>
+            <span class="numbers-label">Airbnb評価</span>
+            <span class="numbers-sub">全物件の平均</span>
           </div>
           <div class="numbers-item">
+            <span class="numbers-value">24h</span>
+            <span class="numbers-label">AI対応</span>
+            <span class="numbers-sub">チャット&LINE</span>
+          </div>
+        </div>
+        <!-- Code numbers -->
+        <div class="numbers-grid anim mode-code-only">
+          <div class="numbers-item">
             <span class="numbers-value">30+</span>
-            <span class="numbers-label">OSSリポジトリ</span>
-            <span class="numbers-sub">GitHub公開プロジェクト</span>
+            <span class="numbers-label">Repos</span>
+            <span class="numbers-sub">全てOSS / MIT</span>
+          </div>
+          <div class="numbers-item">
+            <span class="numbers-value">5</span>
+            <span class="numbers-label">RWA Properties</span>
+            <span class="numbers-sub">tokenized access</span>
+          </div>
+          <div class="numbers-item">
+            <span class="numbers-value">EBR</span>
+            <span class="numbers-label">Utility Token</span>
+            <span class="numbers-sub">PR merge → mint</span>
+          </div>
+          <div class="numbers-item">
+            <span class="numbers-value">DAO</span>
+            <span class="numbers-label">Governance</span>
+            <span class="numbers-sub">on-chain voting</span>
           </div>
         </div>
       </div>
@@ -271,33 +330,52 @@
     <section id="explainer">
       <div class="inner">
         <h2 class="anim">(What is enabler?)</h2>
-        <div class="explainer-grid anim">
+        <!-- Villa mode explainer -->
+        <div class="explainer-grid anim mode-villa-only">
+          <div class="explainer-card">
+            <div class="explainer-icon">🏖</div>
+            <h3 class="explainer-card-title">予約はかんたん</h3>
+            <p class="explainer-card-body">Airbnbから好きな日程を選ぶだけ。<br>熱海・北海道・ハワイの5つの別荘に泊まれます。</p>
+          </div>
+          <div class="explainer-card">
+            <div class="explainer-icon">✨</div>
+            <h3 class="explainer-card-title">オーナーこだわりの空間</h3>
+            <p class="explainer-card-body">Airbnb平均★4.8の高評価。<br>海が見えるテラス、北海道の大自然、ハワイのビーチハウス。</p>
+          </div>
+          <div class="explainer-card">
+            <div class="explainer-icon">💬</div>
+            <h3 class="explainer-card-title">AIコンシェルジュ付き</h3>
+            <p class="explainer-card-body">空き日程・料金・周辺情報をAIが24時間ご案内。<br>LINEからも気軽に相談できます。</p>
+          </div>
+        </div>
 
+        <!-- Code mode explainer -->
+        <div class="explainer-grid anim mode-code-only">
+          <div class="explainer-card">
+            <div class="explainer-icon">⛓</div>
+            <h3 class="explainer-card-title">Token Economics</h3>
+            <p class="explainer-card-body">EBR = enablerのユーティリティトークン。<br>OSS貢献(PR merge)でmint、物件アクセス権・投票権として機能。</p>
+          </div>
+          <div class="explainer-card">
+            <div class="explainer-icon">🏛</div>
+            <h3 class="explainer-card-title">DAO Governance</h3>
+            <p class="explainer-card-body">EBRホルダーによるオンチェーン投票。<br>物件運営・予算配分・プロトコル変更をdecentralizedに意思決定。</p>
+          </div>
           <div class="explainer-card">
             <div class="explainer-icon">🏠</div>
-            <h3 class="explainer-card-title">別荘に泊まれる</h3>
-            <p class="explainer-card-body">熱海・北海道・ハワイに5つの別荘があります。<br>Airbnbから誰でも予約OK。メンバーは特別価格で宿泊できます。</p>
+            <h3 class="explainer-card-title">RWA (Real World Assets)</h3>
+            <p class="explainer-card-body">5物件のアクセス権をトークンゲート。<br>コードを書いて現実世界のperksをアンロックする新しいモデル。</p>
           </div>
-
-          <div class="explainer-card">
-            <div class="explainer-icon">💻</div>
-            <h3 class="explainer-card-title">コードで稼げる</h3>
-            <p class="explainer-card-body">enablerのOSSプロジェクトにPRを出すと<strong>EBRトークン</strong>で報酬がもらえます。<br>EBRはメンバー特典や別荘の割引に使えます。</p>
-          </div>
-
-          <div class="explainer-card">
-            <div class="explainer-icon">🤝</div>
-            <h3 class="explainer-card-title">みんなで運営</h3>
-            <p class="explainer-card-body">enablerはDAO（自律分散型組織）。社長がいません。<br>物件の管理もプロジェクトの方針も、メンバーの投票で決めます。</p>
-          </div>
-
         </div>
 
         <div class="explainer-cta anim">
-          <p class="explainer-lead">あなたはどっち？</p>
+          <p class="explainer-lead mode-villa-only">まずは気軽に</p>
+          <p class="explainer-lead mode-code-only">Get Started</p>
           <div class="explainer-paths">
-            <a href="#property" class="explainer-path-btn path-villa inner-link">🏖 別荘に泊まりたい</a>
-            <a href="#join" class="explainer-path-btn path-code inner-link">💻 コードで稼ぎたい</a>
+            <a href="#property" class="explainer-path-btn path-villa inner-link mode-villa-only">🏖 物件を見てみる</a>
+            <a href="#message" class="explainer-path-btn path-villa inner-link mode-villa-only">💬 オーナーについて</a>
+            <a href="#join" class="explainer-path-btn path-code inner-link mode-code-only">⚡ Start Contributing</a>
+            <a href="https://github.com/enablerdao" target="_blank" class="explainer-path-btn path-code mode-code-only">🔗 View on GitHub</a>
           </div>
         </div>
 
