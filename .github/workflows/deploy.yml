@@ -1,7 +1,9 @@
 name: Deploy
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
@@ -9,8 +11,10 @@ jobs:
   deploy:
     name: Deploy to Fly.io
     runs-on: ubuntu-latest
-    # Only deploy if CI passes
-    needs: []
+    # Only deploy if CI passed (skip on workflow_dispatch to allow manual override)
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
     concurrency:
       group: deploy
       cancel-in-progress: true

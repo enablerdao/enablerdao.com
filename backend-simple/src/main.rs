@@ -376,6 +376,32 @@ struct NahMemberCache {
 
 type SharedNahMemberCache = Arc<RwLock<Option<NahMemberCache>>>;
 
+// ── Beds24 API ─────────────────────────────────────
+
+const BEDS24_API_BASE: &str = "https://beds24.com/api/v2";
+const BEDS24_TOKEN_TTL: std::time::Duration = std::time::Duration::from_secs(82800); // 23h
+
+struct Beds24TokenCache {
+    access_token: String,
+    expires_at: std::time::Instant,
+}
+
+type SharedBeds24Token = Arc<RwLock<Option<Beds24TokenCache>>>;
+
+fn parse_beds24_property_map() -> HashMap<String, u64> {
+    let map_str = std::env::var("BEDS24_PROPERTY_MAP").unwrap_or_default();
+    let mut map = HashMap::new();
+    for pair in map_str.split(',') {
+        let parts: Vec<&str> = pair.splitn(2, '=').collect();
+        if parts.len() == 2 {
+            if let Ok(id) = parts[1].parse::<u64>() {
+                map.insert(parts[0].to_string(), id);
+            }
+        }
+    }
+    map
+}
+
 // ── App state ───────────────────────────────────────
 
 #[derive(Clone)]
@@ -386,6 +412,7 @@ struct AppState {
     sessions: SessionStore,
     nah_token: SharedNahToken,
     nah_member_cache: SharedNahMemberCache,
+    beds24_token: SharedBeds24Token,
 }
 
 // ── Main ────────────────────────────────────────────
@@ -416,6 +443,7 @@ async fn main() {
         sessions: Arc::new(RwLock::new(HashMap::new())),
         nah_token: Arc::new(RwLock::new(None)),
         nah_member_cache: Arc::new(RwLock::new(None)),
+        beds24_token: Arc::new(RwLock::new(None)),
     };
 
     let app = build_router(state, &static_dir);
@@ -456,6 +484,7 @@ fn build_router(state: AppState, static_dir: &str) -> Router {
         .route("/api/members/inquiry", post(member_inquiry))
         .route("/api/chat", post(chat_handler))
         .route("/api/chat/checkout", post(chat_checkout))
+        .route("/api/book", post(beds24_book))
         .route("/api/line/webhook", post(line_webhook))
         .route("/health", get(health))
         .fallback_service(ServeDir::new(static_dir).append_index_html_on_directories(true))
@@ -1024,8 +1053,8 @@ fn generate_session_token() -> String {
 async fn refresh_nah_firebase_token(client: &reqwest::Client) -> Result<String, String> {
     let refresh_token =
         std::env::var("NAH_REFRESH_TOKEN").map_err(|_| "NAH_REFRESH_TOKEN not set".to_string())?;
-    let api_key = std::env::var("NAH_API_KEY")
-        .unwrap_or_else(|_| "AIzaSyDcBbDRK_itVPPQwkDPGwqfSuqsAJfFlh8".into());
+    let api_key =
+        std::env::var("NAH_API_KEY").map_err(|_| "NAH_API_KEY not set".to_string())?;
 
     let url = format!(
         "https://securetoken.googleapis.com/v1/token?key={}",
@@ -2092,6 +2121,29 @@ async fn send_line_reply(client: &reqwest::Client, reply_token: &str, text: &str
     }
 }
 
+/// Push a message to a specific LINE user (for delayed responses when reply token expires).
+async fn send_line_push(client: &reqwest::Client, user_id: &str, text: &str) {
+    let token = match std::env::var("LINE_CHANNEL_ACCESS_TOKEN") {
+        Ok(t) if !t.is_empty() => t,
+        _ => return,
+    };
+    let payload = LinePushMessage {
+        to: user_id.to_string(),
+        messages: vec![LineMessage::Text {
+            text: text.to_string(),
+        }],
+    };
+    if let Err(e) = client
+        .post("https://api.line.me/v2/bot/message/push")
+        .bearer_auth(&token)
+        .json(&payload)
+        .send()
+        .await
+    {
+        tracing::warn!(err = %e, "LINE push (delayed reply) failed");
+    }
+}
+
 /// Forward user text to the chat AI (reuses the same LLM config as chat_handler).
 async fn forward_to_chat_ai(client: &reqwest::Client, user_text: &str) -> String {
     let llm_url = std::env::var("CHAT_LLM_URL")
@@ -2186,11 +2238,45 @@ async fn line_webhook(
                     if let (Some(ref msg), Some(ref reply_token)) =
                         (event.message, event.reply_token)
                     {
-                        if msg.message_type == "text" {
-                            if let Some(ref user_text) = msg.text {
-                                let ai_reply =
-                                    forward_to_chat_ai(&client, user_text).await;
-                                send_line_reply(&client, reply_token, &ai_reply).await;
+                        match msg.message_type.as_str() {
+                            "text" => {
+                                if let Some(ref user_text) = msg.text {
+                                    // Use timeout to respect reply token expiry (~30s)
+                                    let ai_future = forward_to_chat_ai(&client, user_text);
+                                    match tokio::time::timeout(
+                                        std::time::Duration::from_secs(25),
+                                        ai_future,
+                                    )
+                                    .await
+                                    {
+                                        Ok(ai_reply) => {
+                                            send_line_reply(&client, reply_token, &ai_reply)
+                                                .await;
+                                        }
+                                        Err(_) => {
+                                            // Reply token may be expired; use Push API
+                                            if let Some(ref source) = event.source {
+                                                if let Some(ref uid) = source.user_id {
+                                                    send_line_push(
+                                                        &client,
+                                                        uid,
+                                                        "応答に時間がかかっています。しばらくお待ちください。",
+                                                    )
+                                                    .await;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            "sticker" => {} // Silent ignore
+                            _ => {
+                                send_line_reply(
+                                    &client,
+                                    reply_token,
+                                    "テキストメッセージでご質問ください。画像・動画には対応しておりません。",
+                                )
+                                .await;
                             }
                         }
                     }
@@ -2232,6 +2318,200 @@ fn verify_line_signature(channel_secret: &str, body: &[u8], signature: &str) -> 
     let result = mac.finalize().into_bytes();
     let expected = base64::Engine::encode(&base64::engine::general_purpose::STANDARD, result);
     expected == signature
+}
+
+// ── Beds24 Booking ─────────────────────────────────
+
+async fn get_beds24_token(state: &AppState) -> Result<String, String> {
+    // Check cache
+    {
+        let cache = state.beds24_token.read().await;
+        if let Some(ref c) = *cache {
+            if c.expires_at > std::time::Instant::now() {
+                return Ok(c.access_token.clone());
+            }
+        }
+    }
+
+    let refresh_token = std::env::var("BEDS24_REFRESH_TOKEN").unwrap_or_default();
+    if refresh_token.is_empty() {
+        return Err("Beds24 not configured".into());
+    }
+
+    let resp = state
+        .http_client
+        .get(format!("{}/authentication/token", BEDS24_API_BASE))
+        .header("refreshToken", &refresh_token)
+        .header("Accept", "application/json")
+        .send()
+        .await
+        .map_err(|e| format!("Beds24 token request failed: {e}"))?;
+
+    if !resp.status().is_success() {
+        let status = resp.status();
+        return Err(format!("Beds24 token refresh failed: {status}"));
+    }
+
+    let data: serde_json::Value = resp
+        .json()
+        .await
+        .map_err(|e| format!("Beds24 token parse failed: {e}"))?;
+
+    let token = data["token"]
+        .as_str()
+        .ok_or_else(|| "No token in Beds24 response".to_string())?
+        .to_string();
+
+    let expires_in = data["expiresIn"].as_u64().unwrap_or(86400);
+
+    // Cache token
+    {
+        let mut cache = state.beds24_token.write().await;
+        *cache = Some(Beds24TokenCache {
+            access_token: token.clone(),
+            expires_at: std::time::Instant::now()
+                + std::time::Duration::from_secs(expires_in.saturating_sub(300)),
+        });
+    }
+
+    info!("Beds24 token refreshed");
+    Ok(token)
+}
+
+#[derive(Deserialize)]
+pub struct Beds24BookRequest {
+    pub property_id: String,
+    pub check_in: String,
+    pub check_out: String,
+    pub guests: u32,
+    #[serde(default)]
+    pub first_name: Option<String>,
+    #[serde(default)]
+    pub last_name: Option<String>,
+    #[serde(default)]
+    pub email: Option<String>,
+    #[serde(default)]
+    pub phone: Option<String>,
+    #[serde(default)]
+    pub message: Option<String>,
+}
+
+#[derive(Serialize)]
+pub struct Beds24BookResponse {
+    pub ok: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub booking_id: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error: Option<String>,
+}
+
+async fn beds24_book(
+    State(state): State<AppState>,
+    Json(body): Json<Beds24BookRequest>,
+) -> (StatusCode, Json<Beds24BookResponse>) {
+    let fail = |code: StatusCode, msg: &str| {
+        (
+            code,
+            Json(Beds24BookResponse {
+                ok: false,
+                booking_id: None,
+                error: Some(msg.into()),
+            }),
+        )
+    };
+
+    // Resolve Beds24 property ID
+    let prop_map = parse_beds24_property_map();
+    let beds24_prop_id = match prop_map.get(&body.property_id) {
+        Some(id) => *id,
+        None => return fail(StatusCode::BAD_REQUEST, "物件IDが不正です"),
+    };
+
+    // Validate
+    if body.check_in.is_empty() || body.check_out.is_empty() {
+        return fail(StatusCode::BAD_REQUEST, "日付を指定してください");
+    }
+    if body.guests == 0 || body.guests > 20 {
+        return fail(StatusCode::BAD_REQUEST, "人数は1〜20名で指定してください");
+    }
+
+    // Get Beds24 token
+    let token = match get_beds24_token(&state).await {
+        Ok(t) => t,
+        Err(e) => {
+            tracing::error!(err = %e, "Beds24 token error");
+            return fail(StatusCode::SERVICE_UNAVAILABLE, "予約システムに接続できません");
+        }
+    };
+
+    // Create booking via Beds24 API
+    let booking_payload = serde_json::json!([{
+        "propertyId": beds24_prop_id,
+        "arrival": body.check_in,
+        "departure": body.check_out,
+        "numAdult": body.guests,
+        "firstName": body.first_name.as_deref().unwrap_or(""),
+        "lastName": body.last_name.as_deref().unwrap_or("Guest"),
+        "email": body.email.as_deref().unwrap_or(""),
+        "phone": body.phone.as_deref().unwrap_or(""),
+        "notes": body.message.as_deref().unwrap_or(""),
+        "status": 1,
+        "referer": "enablerdao.com"
+    }]);
+
+    let resp = state
+        .http_client
+        .post(format!("{}/bookings", BEDS24_API_BASE))
+        .header("token", &token)
+        .header("Accept", "application/json")
+        .json(&booking_payload)
+        .send()
+        .await;
+
+    match resp {
+        Ok(r) if r.status().is_success() => {
+            let data: serde_json::Value = r.json().await.unwrap_or_default();
+            let booking_id = data
+                .get("data")
+                .and_then(|d| d.as_array())
+                .and_then(|arr| arr.first())
+                .and_then(|b| b["id"].as_u64());
+
+            info!(
+                property = %body.property_id,
+                beds24_id = beds24_prop_id,
+                check_in = %body.check_in,
+                check_out = %body.check_out,
+                booking_id = ?booking_id,
+                "Beds24 booking created"
+            );
+
+            (
+                StatusCode::OK,
+                Json(Beds24BookResponse {
+                    ok: true,
+                    booking_id,
+                    error: None,
+                }),
+            )
+        }
+        Ok(r) => {
+            let status = r.status();
+            let body_text = r.text().await.unwrap_or_default();
+            tracing::error!(status = %status, body = %body_text, "Beds24 booking failed");
+            fail(
+                StatusCode::BAD_GATEWAY,
+                "予約の登録に失敗しました。時間をおいて再度お試しください。",
+            )
+        }
+        Err(e) => {
+            tracing::error!(err = %e, "Beds24 request error");
+            fail(
+                StatusCode::BAD_GATEWAY,
+                "予約システムとの通信に失敗しました。",
+            )
+        }
+    }
 }
 
 async fn health() -> &'static str {
@@ -2376,6 +2656,7 @@ mod tests {
             sessions: Arc::new(RwLock::new(HashMap::new())),
             nah_token: Arc::new(RwLock::new(None)),
             nah_member_cache: Arc::new(RwLock::new(None)),
+            beds24_token: Arc::new(RwLock::new(None)),
         }
     }
 
