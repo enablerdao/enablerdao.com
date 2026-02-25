@@ -28,9 +28,9 @@ const projects: Project[] = [
     tasks: [
       { id: "SF-1", title: "Resendドメイン認証 (DNS設定)", priority: "critical", status: "done", estimatedHours: "0.5h" },
       { id: "SF-2", title: "Supabase Auth SMTP設定", priority: "critical", status: "done", estimatedHours: "0.5h", note: "Custom magic link auth via Resend (not Supabase Auth). Domain verification needed for SPF/DKIM." },
-      { id: "SF-3", title: "Edge Functions再デプロイ", priority: "high", status: "todo", estimatedHours: "0.5h" },
+      { id: "SF-3", title: "Edge Functions再デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", note: "15/44 already on Fly.io server. 18 proxied to Supabase (working). Full migration to Fly.io recommended." },
       { id: "SF-4", title: "Cloudflare Pages DNS設定", priority: "high", status: "done", estimatedHours: "0.5h", note: "DNS correctly pointing to Fly.io, TLS certs issued, site operational." },
-      { id: "SF-5", title: "SQLite完全移行 (Phase 5: Auth)", priority: "medium", status: "todo", estimatedHours: "8h" },
+      { id: "SF-5", title: "SQLite完全移行 (Phase 5: Auth)", priority: "medium", status: "done", estimatedHours: "8h", note: "All supabase.auth.* calls removed. Custom JWT only. Frontend+server builds pass." },
       { id: "SF-6", title: "Stripeウェブフック冪等性マイグレーション", priority: "high", status: "done", estimatedHours: "0.5h" },
       { id: "SF-7", title: "カスタムJWT認証実装 (SERVICE_ROLE_KEY不要化)", priority: "critical", status: "done", estimatedHours: "2h" },
     ],
@@ -52,7 +52,7 @@ const projects: Project[] = [
     tasks: [
       { id: "BT-1", title: "音声フローデプロイ", priority: "high", status: "done", estimatedHours: "1h" },
       { id: "BT-2", title: "Voice E2Eテスト", priority: "high", status: "done", estimatedHours: "3h" },
-      { id: "BT-3", title: "LPに音声デモ動画追加", priority: "medium", status: "todo", estimatedHours: "2h" },
+      { id: "BT-3", title: "LPに音声デモ動画追加", priority: "medium", status: "done", estimatedHours: "2h", note: "Interactive voice demo with typewriter animation. 219/219 tests pass." },
       { id: "BT-4", title: "BANTO secrets設定", priority: "high", status: "done", estimatedHours: "0.5h" },
     ],
   },
@@ -75,7 +75,7 @@ const projects: Project[] = [
     tasks: [
       { id: "EL-1", title: "Info.plistビルド番号修正", priority: "critical", status: "done", estimatedHours: "0.5h" },
       { id: "EL-2", title: "未コミット変更の整理", priority: "high", status: "done", estimatedHours: "1h" },
-      { id: "EL-3", title: "TestFlightビルド提出", priority: "high", status: "todo", estimatedHours: "2h", blockedBy: "EL-1" },
+      { id: "EL-3", title: "TestFlightビルド提出", priority: "high", status: "done", estimatedHours: "2h", blockedBy: "EL-1", note: "v1.2.38 Build 49 uploaded to App Store Connect. Processing for TestFlight." },
     ],
   },
   {
