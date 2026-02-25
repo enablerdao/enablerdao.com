@@ -6,12 +6,22 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Terminal-style links grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-          {/* Projects */}
+          {/* Products */}
           <div>
             <p className="text-[#00aa00] text-xs mb-3">
               <span className="text-[#555]"># </span>ls ./projects/
             </p>
             <ul className="space-y-1">
+              <li>
+                <a
+                  href="https://stayflowapp.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
+                >
+                  stayflowapp.com/
+                </a>
+              </li>
               <li>
                 <a
                   href="https://chatweb.ai"
@@ -24,22 +34,22 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://chatnews.tech"
+                  href="https://jiuflow.art"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
                 >
-                  chatnews.tech/
+                  jiuflow.art/
                 </a>
               </li>
               <li>
                 <a
-                  href="https://enabler.cc"
+                  href="https://elio.love"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
                 >
-                  enabler.cc/
+                  elio.love/
                 </a>
               </li>
               <li>
@@ -63,6 +73,22 @@ export default function Footer() {
             <ul className="space-y-1">
               <li>
                 <Link
+                  href="/projects"
+                  className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
+                >
+                  PROJECTS.md
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/ideas"
+                  className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
+                >
+                  IDEAS.md
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/token"
                   className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
                 >
@@ -71,18 +97,43 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/install"
+                  href="/dao"
                   className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
                 >
-                  install.sh
+                  GOVERNANCE.md
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/projects"
+                  href="/blog"
                   className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
                 >
-                  PROJECTS.md
+                  BLOG.md
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/qa"
+                  className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
+                >
+                  QA_LOG.md
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <p className="text-[#00aa00] text-xs mb-3">
+              <span className="text-[#555]"># </span>ls ./docs/
+            </p>
+            <ul className="space-y-1">
+              <li>
+                <Link
+                  href="/install"
+                  className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
+                >
+                  install.sh
                 </Link>
               </li>
               <li>
@@ -95,10 +146,18 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/qa"
+                  href="/security"
                   className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
                 >
-                  QA_LOG.md
+                  SECURITY.md
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/status"
+                  className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
+                >
+                  STATUS.md
                 </Link>
               </li>
             </ul>
@@ -138,23 +197,11 @@ export default function Footer() {
                   x.com/yukihamada
                 </a>
               </li>
-            </ul>
-          </div>
-
-          {/* ENS / Web3 */}
-          <div>
-            <p className="text-[#00aa00] text-xs mb-3">
-              <span className="text-[#555]"># </span>whois
-            </p>
-            <ul className="space-y-1">
-              <li className="text-xs text-[#555]">
+              <li className="text-xs text-[#555] pt-2">
                 <span className="text-[#00ffff]">ENS:</span> enablerdao.eth
               </li>
               <li className="text-xs text-[#555]">
-                <span className="text-[#00ffff]">ENS:</span> yukihamada.eth
-              </li>
-              <li className="text-xs text-[#555]">
-                <span className="text-[#00ffff]">NET:</span> Solana + Ethereum
+                <span className="text-[#00ffff]">SOL:</span> yukihamada.sol
               </li>
             </ul>
           </div>
@@ -162,11 +209,6 @@ export default function Footer() {
 
         {/* Divider */}
         <div className="border-t border-[#1a3a1a] pt-6">
-          {/* ASCII art mini border */}
-          <pre className="text-[#1a3a1a] text-[10px] leading-tight mb-4 hidden sm:block select-none">
-{`+${"=".repeat(72)}+`}
-          </pre>
-
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-xs">
               <span className="text-[#333]">

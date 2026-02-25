@@ -257,13 +257,35 @@ a {
   text-decoration-skip-ink: auto;
 }
 
-/* WorldMonitor: Mobile Extreme Minimal */
+/* Mobile responsive */
 @media (max-width: 640px) {
   html, body {
     font-size: 11px;
   }
 
   .terminal-box {
-    padding: 3px;
+    padding: 8px;
   }
+
+  /* Ensure touch targets are at least 44px */
+  button, a {
+    min-height: 36px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

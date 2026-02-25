@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { blogPosts } from "@/data/blog";
+import NewsletterCTA from "@/components/NewsletterCTA";
 
 export const metadata: Metadata = {
   title: "ブログ — EnablerDAO",
@@ -59,6 +60,11 @@ export default function BlogPage() {
               </div>
             </Link>
           ))}
+        </div>
+
+        {/* Newsletter CTA */}
+        <div className="mt-10">
+          <NewsletterCTA />
         </div>
 
         {blogPosts.length === 0 && (

@@ -24,11 +24,16 @@ export default function NewsletterCTA() {
         setStatus("success");
         setMessage("登録完了！ウェルカムメールをご確認ください。");
         setEmail("");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if (typeof window !== 'undefined' && (window as any).plausible) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (window as any).plausible('Newsletter Signup');
+        }
       } else {
         setStatus("error");
         setMessage(data.error || "エラーが発生しました。");
       }
-    } catch (error) {
+    } catch (_error) {
       setStatus("error");
       setMessage("通信エラーが発生しました。");
     }

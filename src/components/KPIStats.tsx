@@ -22,7 +22,7 @@ export default function KPIStats() {
         const userData = await userRes.json();
         const reposData = await reposRes.json();
         const totalStars = Array.isArray(reposData)
-          ? reposData.reduce((sum: number, r: any) => sum + (r.stargazers_count || 0), 0)
+          ? reposData.reduce((sum: number, r: { stargazers_count?: number }) => sum + (r.stargazers_count || 0), 0)
           : 0;
         setGh({
           stars: totalStars,

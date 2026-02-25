@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, unlinkSync } from "fs";
 import { join, dirname } from "path";
 
 export interface QAItem {
@@ -40,7 +40,7 @@ function acquireLock(): void {
       const lockTime = parseInt(lockStat, 10);
       if (Date.now() - lockTime > LOCK_TIMEOUT_MS) {
         // Stale lock, remove it
-        try { require("fs").unlinkSync(LOCK_FILE); } catch { /* ignore */ }
+        try { unlinkSync(LOCK_FILE); } catch { /* ignore */ }
         break;
       }
     } catch {
@@ -50,7 +50,7 @@ function acquireLock(): void {
 
     if (Date.now() - startTime > LOCK_TIMEOUT_MS) {
       // Waited too long, force break stale lock
-      try { require("fs").unlinkSync(LOCK_FILE); } catch { /* ignore */ }
+      try { unlinkSync(LOCK_FILE); } catch { /* ignore */ }
       break;
     }
 
@@ -63,7 +63,7 @@ function acquireLock(): void {
 
 function releaseLock(): void {
   try {
-    require("fs").unlinkSync(LOCK_FILE);
+    unlinkSync(LOCK_FILE);
   } catch {
     // Lock already released
   }

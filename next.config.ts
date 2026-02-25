@@ -1,14 +1,27 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
   // Cloudflare Pages requires 'export' for static output
   // but we keep 'standalone' for flexibility with @cloudflare/next-on-pages
   output: "standalone",
+  outputFileTracingRoot: path.join(__dirname),
   reactStrictMode: true,
   images: {
     unoptimized: true, // Required for Cloudflare Pages
   },
   poweredByHeader: false,
+  webpack: (config, { isServer }) => {
+    // Suppress optional peer dependency warning from resend package
+    if (isServer) {
+      config.resolve = config.resolve || {};
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        "@react-email/render": false,
+      };
+    }
+    return config;
+  },
   async headers() {
     return [
       {
@@ -40,7 +53,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://plausible.io; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://plausible.io https://api.github.com https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
           },
           {
             key: 'Server',

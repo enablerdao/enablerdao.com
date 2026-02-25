@@ -9,6 +9,8 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ARG NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XWZTCMLK4M
+ENV NEXT_PUBLIC_GA_MEASUREMENT_ID=${NEXT_PUBLIC_GA_MEASUREMENT_ID}
 RUN npm run build
 
 FROM base AS runner

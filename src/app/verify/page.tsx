@@ -281,7 +281,7 @@ export default function VerifyPage() {
   }, []);
 
   // ===== OSS Contributor =====
-  const handleOssCheck = useCallback(() => {
+  const _handleOssCheck = useCallback(() => {
     if (!state.oss.username) return;
     setState((s) => ({
       ...s,

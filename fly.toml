@@ -30,6 +30,10 @@ primary_region = 'nrt'
     method = "GET"
     path = "/"
 
+[mounts]
+  source = "data"
+  destination = "/data"
+
 [[vm]]
   memory = '512mb'
   cpu_kind = 'shared'

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import TokenStats from "@/components/TokenStats";
 
 export const metadata: Metadata = {
   title: "EBR Token - ガバナンストークン",
@@ -186,18 +187,29 @@ export default function TokenPage() {
         </div>
       </section>
 
+      {/* Real-time Token Stats */}
+      <section className="py-8 sm:py-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-[#555] text-xs mb-4">
+            <span className="text-[#00aa00]">$ </span>
+            curl https://public-api.solscan.io/token/meta
+          </p>
+          <TokenStats />
+        </div>
+      </section>
+
       {/* Token Allocation - ASCII Progress Bars */}
       <section className="py-8 sm:py-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-[#555] text-xs mb-4">
             <span className="text-[#00aa00]">$ </span>
-            cat ALLOCATION.md
+            cat ALLOCATION_PLAN.md
           </p>
 
           <div className="terminal-box p-4 sm:p-6">
-            <h2 className="text-[#00ff00] text-sm mb-2"># EBRトークン配分</h2>
+            <h2 className="text-[#00ff00] text-sm mb-2"># EBRトークン配分計画</h2>
             <p className="text-[#555] text-[10px] mb-4">
-              {`// 総発行量: 7,021,100 EBR`}
+              {`// 計画段階の配分 - 実際の配分は上記「実際のトークン配分」セクションを参照`}
             </p>
 
             <div className="space-y-3">
@@ -227,6 +239,12 @@ export default function TokenPage() {
                   {item.label} ({item.percentage}%)
                 </span>
               ))}
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-[#1a3a1a]">
+              <p className="text-xs text-[#ffaa00]">
+                ⚠️ 注意: これは初期計画段階の配分です。実際のオンチェーン配分は上記「実際のトークン配分」を参照してください。
+              </p>
             </div>
           </div>
         </div>

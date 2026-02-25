@@ -31,6 +31,7 @@ const projects: Project[] = [
       { id: "SF-4", title: "Cloudflare Pages DNS設定", priority: "high", status: "todo", estimatedHours: "0.5h" },
       { id: "SF-5", title: "SQLite完全移行 (Phase 5: Auth)", priority: "medium", status: "todo", estimatedHours: "8h" },
       { id: "SF-6", title: "Stripeウェブフック冪等性マイグレーション", priority: "high", status: "todo", estimatedHours: "0.5h" },
+      { id: "SF-7", title: "Supabase SERVICE_ROLE_KEY設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
     ],
   },
   {
@@ -48,9 +49,10 @@ const projects: Project[] = [
     repo: "banto",
     url: "https://banto.work",
     tasks: [
-      { id: "BT-1", title: "音声フローデプロイ", priority: "high", status: "todo", estimatedHours: "1h" },
+      { id: "BT-1", title: "音声フローデプロイ", priority: "high", status: "done", estimatedHours: "1h" },
       { id: "BT-2", title: "Voice E2Eテスト", priority: "high", status: "todo", estimatedHours: "3h" },
       { id: "BT-3", title: "LPに音声デモ動画追加", priority: "medium", status: "todo", estimatedHours: "2h" },
+      { id: "BT-4", title: "BANTO secrets設定", priority: "high", status: "todo", estimatedHours: "0.5h" },
     ],
   },
   {
@@ -61,7 +63,8 @@ const projects: Project[] = [
       { id: "DC-1", title: "Stripe本番シークレット設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
       { id: "DC-2", title: "Resendメール統合", priority: "critical", status: "todo", estimatedHours: "1h" },
       { id: "DC-3", title: "決済フローE2Eテスト", priority: "high", status: "todo", estimatedHours: "2h", blockedBy: "DC-1" },
-      { id: "DC-5", title: "本番デプロイ", priority: "high", status: "todo", estimatedHours: "0.5h", blockedBy: "DC-1" },
+      { id: "DC-5", title: "本番デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", blockedBy: "DC-1" },
+      { id: "DC-6", title: "Fly.io secrets設定 (4つ)", priority: "critical", status: "todo", estimatedHours: "0.5h" },
     ],
   },
   {
@@ -69,7 +72,7 @@ const projects: Project[] = [
     repo: "elio",
     url: "https://elio.love",
     tasks: [
-      { id: "EL-1", title: "Info.plistビルド番号修正", priority: "critical", status: "todo", estimatedHours: "0.5h" },
+      { id: "EL-1", title: "Info.plistビルド番号修正", priority: "critical", status: "done", estimatedHours: "0.5h" },
       { id: "EL-2", title: "未コミット変更の整理", priority: "high", status: "todo", estimatedHours: "1h" },
       { id: "EL-3", title: "TestFlightビルド提出", priority: "high", status: "todo", estimatedHours: "2h", blockedBy: "EL-1" },
     ],
@@ -81,7 +84,7 @@ const projects: Project[] = [
     tasks: [
       { id: "MB-1", title: "Resendドメイン認証", priority: "high", status: "todo", estimatedHours: "0.5h" },
       { id: "MB-2", title: "ONNXモデル配置", priority: "medium", status: "todo", estimatedHours: "1h" },
-      { id: "MB-3", title: "ペアリングコードマイグレーション", priority: "high", status: "todo", estimatedHours: "0.5h" },
+      { id: "MB-3", title: "ペアリングコードマイグレーション", priority: "high", status: "done", estimatedHours: "0.5h" },
     ],
   },
 ];

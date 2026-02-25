@@ -1,9 +1,7 @@
-import Link from "next/link";
+"use client";
 
-export const metadata = {
-  title: "Project Status - EnablerDAO",
-  description: "EnablerDAOの全プロジェクトのリアルタイムステータス",
-};
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface Project {
   name: string;
@@ -193,7 +191,58 @@ function StatusBadge({ status }: { status: Project["status"] }) {
   );
 }
 
+interface DomainStatus {
+  name: string;
+  url: string;
+  status: "checking" | "online" | "slow" | "down";
+  latency: number | null;
+}
+
+const INITIAL_DOMAINS: DomainStatus[] = [
+  { name: "chatweb.ai", url: "https://chatweb.ai", status: "checking", latency: null },
+  { name: "teai.io", url: "https://teai.io", status: "checking", latency: null },
+  { name: "elio.love", url: "https://elio.love", status: "checking", latency: null },
+];
+
 export default function StatusPage() {
+  const [domainStatuses, setDomainStatuses] = useState<DomainStatus[]>(INITIAL_DOMAINS);
+
+  useEffect(() => {
+    const checkDomains = async () => {
+      const results = await Promise.all(
+        INITIAL_DOMAINS.map(async (domain) => {
+          const startTime = performance.now();
+          try {
+            const response = await fetch(`${domain.url}/api/v1/status/ping`, {
+              mode: 'cors',
+              cache: 'no-cache',
+            });
+            const latency = Math.round(performance.now() - startTime);
+
+            if (!response.ok) throw new Error('HTTP error');
+
+            return {
+              ...domain,
+              status: latency > 1000 ? "slow" : "online",
+              latency,
+            } as DomainStatus;
+          } catch (_error) {
+            return {
+              ...domain,
+              status: "down",
+              latency: null,
+            } as DomainStatus;
+          }
+        })
+      );
+      setDomainStatuses(results);
+    };
+
+    checkDomains();
+    const interval = setInterval(checkDomains, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
   const totalTraffic = projects.reduce((sum, p) => {
     const num = parseFloat(p.traffic.replace(/[^0-9.]/g, ''));
     const multiplier = p.traffic.includes('k') ? 1000 : 1;
@@ -244,6 +293,56 @@ export default function StatusPage() {
               <div className="text-[#555] text-xs mb-1">Avg Progress</div>
               <div className="text-[#ffaa00] text-2xl font-bold">{avgProgress}%</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Infrastructure Status */}
+      <section className="py-6">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="terminal-box p-6">
+            <h2 className="text-[#00ffff] text-sm font-bold mb-3 flex items-center gap-2">
+              <span>🌐</span>
+              <span>Core Infrastructure Status (Failover Ready)</span>
+            </h2>
+            <p className="text-[#888] text-xs mb-4">
+              全てのドメインが同一インフラで稼働。いずれか1つでも稼働していれば、サービスは継続利用可能です。
+            </p>
+            <div className="space-y-2">
+              {domainStatuses.map((domain) => (
+                <div key={domain.name} className="flex items-center justify-between p-3 bg-[#0d0d0d] border border-[#1a3a1a]">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-2 h-2 rounded-full ${
+                      domain.status === "checking" ? "bg-[#555] animate-pulse" :
+                      domain.status === "online" ? "bg-[#00ff00] shadow-[0_0_8px_rgba(0,255,0,0.5)]" :
+                      domain.status === "slow" ? "bg-[#ffaa00] shadow-[0_0_8px_rgba(255,170,0,0.5)]" :
+                      "bg-[#ff0000] shadow-[0_0_8px_rgba(255,0,0,0.5)]"
+                    }`} />
+                    <a
+                      href={domain.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#00ff00] text-sm hover:text-[#33ff33]"
+                    >
+                      {domain.name}
+                    </a>
+                  </div>
+                  <div className={`text-xs ${
+                    domain.status === "checking" ? "text-[#555]" :
+                    domain.status === "online" ? "text-[#00ff00]" :
+                    domain.status === "slow" ? "text-[#ffaa00]" :
+                    "text-[#ff0000]"
+                  }`}>
+                    {domain.status === "checking" ? "Checking..." :
+                     domain.status === "down" ? "Down" :
+                     `${domain.latency}ms`}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-[#555] text-xs mt-3">
+              ステータス更新: 30秒ごと
+            </p>
           </div>
         </div>
       </section>

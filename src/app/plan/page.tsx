@@ -105,6 +105,16 @@ const projects: ProjectPlan[] = [
         labels: ["database", "stripe"],
         estimatedHours: "0.5h",
       },
+      {
+        id: "SF-7",
+        title: "Supabase SERVICE_ROLE_KEY設定",
+        description:
+          "fly secrets set SUPABASE_SERVICE_ROLE_KEY=... -a stayflow-ssr でマジックリンク認証を有効化",
+        priority: "critical",
+        status: "todo",
+        labels: ["secrets", "auth"],
+        estimatedHours: "0.5h",
+      },
     ],
   },
   {
@@ -161,7 +171,7 @@ const projects: ProjectPlan[] = [
         description:
           "VoiceFlow.tsx + useVoiceRecognition + useVoiceSynthesis をプロダクションにデプロイ。Vercelまたは Fly.io。",
         priority: "high",
-        status: "todo",
+        status: "done",
         labels: ["deploy"],
         estimatedHours: "1h",
       },
@@ -184,6 +194,16 @@ const projects: ProjectPlan[] = [
         status: "todo",
         labels: ["marketing", "frontend"],
         estimatedHours: "2h",
+      },
+      {
+        id: "BT-4",
+        title: "BANTO secrets設定",
+        description:
+          "STRIPE, LINE, OPENAI, RESEND keys を banto-api に設定",
+        priority: "high",
+        status: "todo",
+        labels: ["secrets"],
+        estimatedHours: "0.5h",
       },
     ],
   },
@@ -242,10 +262,20 @@ const projects: ProjectPlan[] = [
         description:
           "認証・課金・コンテンツゲーティング全て統合済み。fly deploy -a security-education --remote-only でデプロイ。",
         priority: "high",
-        status: "todo",
+        status: "done",
         labels: ["deploy"],
         estimatedHours: "0.5h",
         blockedBy: "DC-1",
+      },
+      {
+        id: "DC-6",
+        title: "Fly.io secrets設定 (4つ)",
+        description:
+          "STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET, RESEND_API_KEY を savejapan-education に設定",
+        priority: "critical",
+        status: "todo",
+        labels: ["secrets"],
+        estimatedHours: "0.5h",
       },
     ],
   },
@@ -263,7 +293,7 @@ const projects: ProjectPlan[] = [
         description:
           "CFBundleVersion が \"2\" のまま (正しくは \"49\")。project.pbxprojと同期させる。TestFlight拒否の原因になる。",
         priority: "critical",
-        status: "todo",
+        status: "done",
         labels: ["ios", "build"],
         estimatedHours: "0.5h",
       },
@@ -324,7 +354,7 @@ const projects: ProjectPlan[] = [
         description:
           "002_pairing_codes.sql を本番PostgreSQLに適用。カメラ↔スマホのペアリング機能に必要。",
         priority: "high",
-        status: "todo",
+        status: "done",
         labels: ["database"],
         estimatedHours: "0.5h",
       },

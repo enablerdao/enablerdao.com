@@ -213,7 +213,7 @@ export async function POST(request: NextRequest) {
       to,
       subject,
       text,
-      html: emailHtml,
+      html: _emailHtml,
     } = payload;
 
     // Extract sender name and email
