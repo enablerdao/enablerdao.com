@@ -25,6 +25,7 @@ export default function Header() {
     { href: "/ideas", label: "~/ideas" },
     { href: "/qa", label: "~/qa" },
     { href: "/dashboard", label: "~/dashboard" },
+    { href: "/metrics", label: "~/metrics" },
   ];
 
   // Close "more" dropdown when clicking outside
