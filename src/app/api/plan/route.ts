@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 // Task data served as JSON for the CLI tool (`enablerdao plan`)
-// This mirrors the data in /plan/page.tsx but as a JSON API
+// Synced with /plan/page.tsx
 
 interface Task {
   id: string;
@@ -11,6 +11,7 @@ interface Task {
   estimatedHours: string;
   blockedBy?: string;
   note?: string;
+  completedDate?: string;
 }
 
 interface Project {
@@ -22,27 +23,16 @@ interface Project {
 
 const projects: Project[] = [
   {
-    name: "StayFlow",
-    repo: "stayflow",
-    url: "https://stayflowapp.com",
+    name: "enablerdao.com",
+    repo: "enablerdao.com",
+    url: "https://enablerdao.com",
     tasks: [
-      { id: "SF-1", title: "Resendドメイン認証 (DNS設定)", priority: "critical", status: "done", estimatedHours: "0.5h" },
-      { id: "SF-2", title: "Supabase Auth SMTP設定", priority: "critical", status: "done", estimatedHours: "0.5h", note: "Custom magic link auth via Resend (not Supabase Auth). Domain verification needed for SPF/DKIM." },
-      { id: "SF-3", title: "Edge Functions再デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", note: "15/44 already on Fly.io server. 18 proxied to Supabase (working). Full migration to Fly.io recommended." },
-      { id: "SF-4", title: "Cloudflare Pages DNS設定", priority: "high", status: "done", estimatedHours: "0.5h", note: "DNS correctly pointing to Fly.io, TLS certs issued, site operational." },
-      { id: "SF-5", title: "SQLite完全移行 (Phase 5: Auth)", priority: "medium", status: "done", estimatedHours: "8h", note: "All supabase.auth.* calls removed. Custom JWT only. Frontend+server builds pass." },
-      { id: "SF-6", title: "Stripeウェブフック冪等性マイグレーション", priority: "high", status: "done", estimatedHours: "0.5h" },
-      { id: "SF-7", title: "カスタムJWT認証実装 (SERVICE_ROLE_KEY不要化)", priority: "critical", status: "done", estimatedHours: "2h" },
-    ],
-  },
-  {
-    name: "Chatweb.ai",
-    repo: "chatweb.ai",
-    url: "https://chatweb.ai",
-    tasks: [
-      { id: "CW-1", title: "Stripe WEBHOOK_SECRET設定", priority: "critical", status: "done", estimatedHours: "0.5h" },
-      { id: "CW-2", title: "Explore Mode UIポリッシュ", priority: "medium", status: "done", estimatedHours: "4h" },
-      { id: "CW-3", title: "管理ダッシュボード強化", priority: "medium", status: "done", estimatedHours: "6h" },
+      { id: "ED-1", title: "/metrics ページ追加", priority: "high", status: "done", estimatedHours: "4h", completedDate: "2026-02-26" },
+      { id: "ED-2", title: "/status ライブ監視ページ追加", priority: "high", status: "done", estimatedHours: "3h", completedDate: "2026-02-26" },
+      { id: "ED-3", title: "Stripe Unknown商品名修正", priority: "critical", status: "done", estimatedHours: "1h", completedDate: "2026-02-26", note: "Prices API経由で全商品名取得。MRR JPY: ¥0→¥53,840" },
+      { id: "ED-4", title: "GitHub Actions CI/CD", priority: "medium", status: "done", estimatedHours: "1h", completedDate: "2026-02-26" },
+      { id: "ED-5", title: "CHATWEB_ADMIN_KEY設定", priority: "medium", status: "todo", estimatedHours: "0.5h" },
+      { id: "ED-6", title: "Solscan EBRホルダー数取得修正", priority: "low", status: "todo", estimatedHours: "1h" },
     ],
   },
   {
@@ -50,50 +40,59 @@ const projects: Project[] = [
     repo: "banto",
     url: "https://banto.work",
     tasks: [
-      { id: "BT-1", title: "音声フローデプロイ", priority: "high", status: "done", estimatedHours: "1h" },
-      { id: "BT-2", title: "Voice E2Eテスト", priority: "high", status: "done", estimatedHours: "3h" },
-      { id: "BT-3", title: "LPに音声デモ動画追加", priority: "medium", status: "done", estimatedHours: "2h", note: "Interactive voice demo with typewriter animation. 219/219 tests pass." },
-      { id: "BT-4", title: "BANTO secrets設定", priority: "high", status: "done", estimatedHours: "0.5h" },
+      { id: "BT-1", title: "Stripe subscription管理実装", priority: "critical", status: "done", estimatedHours: "4h", completedDate: "2026-02-26" },
+      { id: "BT-2", title: "Pricing page追加", priority: "high", status: "done", estimatedHours: "2h", completedDate: "2026-02-26" },
+      { id: "BT-3", title: "banto-api デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26" },
+      { id: "BT-4", title: "Stripe Product+Price作成", priority: "high", status: "todo", estimatedHours: "0.5h" },
+      { id: "BT-5", title: "drizzle-kit push (subscriptions)", priority: "high", status: "todo", estimatedHours: "0.5h", blockedBy: "BT-4" },
+    ],
+  },
+  {
+    name: "Chatweb.ai",
+    repo: "nanobot",
+    url: "https://chatweb.ai",
+    tasks: [
+      { id: "CW-1", title: "/api/v1/health エンドポイント追加", priority: "high", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26" },
+      { id: "CW-2", title: "i18n言語切替UI有効化", priority: "medium", status: "done", estimatedHours: "2h", completedDate: "2026-02-26" },
+      { id: "CW-3", title: "Lambda v79デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26" },
+      { id: "CW-4", title: "Admin Stats API実装", priority: "medium", status: "todo", estimatedHours: "4h" },
+    ],
+  },
+  {
+    name: "JiuFlow SSR",
+    repo: "jiuflow-ssr",
+    url: "https://jiuflow.art",
+    tasks: [
+      { id: "JF-1", title: "19名の選手プロフィール追加", priority: "high", status: "done", estimatedHours: "2h", completedDate: "2026-02-26" },
+      { id: "JF-2", title: "GitHub Actions CI/CD追加", priority: "medium", status: "done", estimatedHours: "1h", completedDate: "2026-02-26" },
+      { id: "JF-3", title: "GitHub remote設定 + デプロイ", priority: "high", status: "todo", estimatedHours: "0.5h" },
+    ],
+  },
+  {
+    name: "StayFlow",
+    repo: "stayflow",
+    url: "https://stayflowapp.com",
+    tasks: [
+      { id: "SF-1", title: "Resend DNS設定 (SPF/DKIM/DMARC)", priority: "high", status: "todo", estimatedHours: "1h" },
+      { id: "SF-2", title: "Supabase → SQLite移行", priority: "medium", status: "in-progress", estimatedHours: "40h", note: "50%完了。残り4-7日。~$1,000/mo削減見込み" },
     ],
   },
   {
     name: "DojoC",
     repo: "security-education",
-    url: "https://www.dojoc.io",
+    url: "https://dojoc.io",
     tasks: [
-      { id: "DC-1", title: "Stripe本番シークレット設定", priority: "critical", status: "done", estimatedHours: "0.5h" },
-      { id: "DC-2", title: "Resendメール統合", priority: "critical", status: "done", estimatedHours: "1h" },
-      { id: "DC-3", title: "決済フローE2Eテスト (43テスト)", priority: "high", status: "done", estimatedHours: "2h" },
-      { id: "DC-5", title: "本番デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", blockedBy: "DC-1" },
-      { id: "DC-6", title: "Fly.io secrets設定 (4つ)", priority: "critical", status: "done", estimatedHours: "0.5h" },
-    ],
-  },
-  {
-    name: "Elio",
-    repo: "elio",
-    url: "https://elio.love",
-    tasks: [
-      { id: "EL-1", title: "Info.plistビルド番号修正", priority: "critical", status: "done", estimatedHours: "0.5h" },
-      { id: "EL-2", title: "未コミット変更の整理", priority: "high", status: "done", estimatedHours: "1h" },
-      { id: "EL-3", title: "TestFlightビルド提出", priority: "high", status: "done", estimatedHours: "2h", blockedBy: "EL-1", note: "v1.2.38 Build 49 uploaded to App Store Connect. Processing for TestFlight." },
-    ],
-  },
-  {
-    name: "ミセバンAI",
-    repo: "miseban-ai",
-    url: "https://misebanai.com",
-    tasks: [
-      { id: "MB-1", title: "Resendドメイン認証", priority: "high", status: "done", estimatedHours: "0.5h" },
-      { id: "MB-2", title: "ONNXモデル配置", priority: "medium", status: "done", estimatedHours: "1h" },
-      { id: "MB-3", title: "ペアリングコードマイグレーション", priority: "high", status: "done", estimatedHours: "0.5h" },
+      { id: "DC-1", title: "サーバー復旧 (fly machine start)", priority: "critical", status: "todo", estimatedHours: "0.5h" },
     ],
   },
 ];
 
 export async function GET() {
   const totalTasks = projects.reduce((a, p) => a + p.tasks.length, 0);
+  const doneTasks = projects.reduce((a, p) => a + p.tasks.filter((t) => t.status === "done").length, 0);
+  const todoTasks = totalTasks - doneTasks;
   const criticalCount = projects.reduce(
-    (a, p) => a + p.tasks.filter((t) => t.priority === "critical").length,
+    (a, p) => a + p.tasks.filter((t) => t.priority === "critical" && t.status !== "done").length,
     0
   );
 
@@ -102,8 +101,10 @@ export async function GET() {
       projects,
       summary: {
         totalTasks,
+        doneTasks,
+        todoTasks,
         criticalCount,
-        updatedAt: "2026-02-25",
+        updatedAt: "2026-02-26",
       },
     },
     {
