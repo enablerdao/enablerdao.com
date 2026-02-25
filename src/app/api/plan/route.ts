@@ -25,7 +25,7 @@ const projects: Project[] = [
     repo: "stayflow",
     url: "https://stayflowapp.com",
     tasks: [
-      { id: "SF-1", title: "Resendドメイン認証 (DNS設定)", priority: "critical", status: "todo", estimatedHours: "0.5h" },
+      { id: "SF-1", title: "Resendドメイン認証 (DNS設定)", priority: "critical", status: "done", estimatedHours: "0.5h" },
       { id: "SF-2", title: "Supabase Auth SMTP設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
       { id: "SF-3", title: "Edge Functions再デプロイ", priority: "high", status: "todo", estimatedHours: "0.5h", blockedBy: "SF-1" },
       { id: "SF-4", title: "Cloudflare Pages DNS設定", priority: "high", status: "todo", estimatedHours: "0.5h" },
@@ -82,7 +82,7 @@ const projects: Project[] = [
     repo: "miseban-ai",
     url: "https://misebanai.com",
     tasks: [
-      { id: "MB-1", title: "Resendドメイン認証", priority: "high", status: "todo", estimatedHours: "0.5h" },
+      { id: "MB-1", title: "Resendドメイン認証", priority: "high", status: "done", estimatedHours: "0.5h" },
       { id: "MB-2", title: "ONNXモデル配置", priority: "medium", status: "done", estimatedHours: "1h" },
       { id: "MB-3", title: "ペアリングコードマイグレーション", priority: "high", status: "done", estimatedHours: "0.5h" },
     ],
