@@ -60,58 +60,74 @@ const PRICE_MAP: Record<string, { name: string; currency: string; amount: number
 
 // --- Fetch functions ---
 
+async function fetchStripePriceLookup(key: string): Promise<Record<string, { name: string; currency: string; amount: number }>> {
+  try {
+    const res = await fetch(
+      "https://api.stripe.com/v1/prices?active=true&limit=100&expand[]=data.product",
+      { headers: { Authorization: `Bearer ${key}` } }
+    );
+    if (!res.ok) return {};
+    const data = await res.json();
+    const lookup: Record<string, { name: string; currency: string; amount: number }> = {};
+    for (const price of data.data || []) {
+      const productName = typeof price.product === "object" ? price.product?.name : null;
+      const name = productName || price.nickname || `Plan (${price.id.slice(-8)})`;
+      lookup[price.id] = { name, currency: price.currency || "usd", amount: price.unit_amount || 0 };
+    }
+    return lookup;
+  } catch {
+    return {};
+  }
+}
+
 async function fetchStripeData(): Promise<StripeData> {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) return { subscriptions: [], total_active: 0 };
 
-  const res = await fetch(
-    "https://api.stripe.com/v1/subscriptions?status=active&limit=100&expand[]=data.items.data.price&expand[]=data.items.data.price.product",
-    {
+  // Fetch subscriptions and price details in parallel
+  const [subsRes, priceLookup] = await Promise.all([
+    fetch("https://api.stripe.com/v1/subscriptions?status=active&limit=100", {
       headers: { Authorization: `Bearer ${key}` },
-    }
-  );
+    }),
+    fetchStripePriceLookup(key),
+  ]);
 
-  if (!res.ok) {
-    console.error(`[analytics] Stripe error: ${res.status}`);
+  if (!subsRes.ok) {
+    console.error(`[analytics] Stripe error: ${subsRes.status}`);
     return { subscriptions: [], total_active: 0 };
   }
 
-  const data = await res.json();
+  const data = await subsRes.json();
   const subs = data.data || [];
 
-  // Count active subscriptions per price ID, capture actual price data
-  const priceInfo: Record<string, { count: number; unit_amount: number; currency: string; product_name?: string }> = {};
+  // Merge PRICE_MAP with dynamic lookup (PRICE_MAP takes precedence)
+  const fullLookup = { ...priceLookup, ...PRICE_MAP };
+
+  // Count active subscriptions per price ID
+  const priceCounts: Record<string, number> = {};
   for (const sub of subs) {
     const items = sub.items?.data || [];
     for (const item of items) {
       const priceId = item.price?.id;
       if (priceId) {
-        if (!priceInfo[priceId]) {
-          priceInfo[priceId] = {
-            count: 0,
-            unit_amount: item.price?.unit_amount ?? 0,
-            currency: item.price?.currency ?? "usd",
-            product_name: typeof item.price?.product === "object" ? item.price.product?.name : undefined,
-          };
-        }
-        priceInfo[priceId].count += 1;
+        priceCounts[priceId] = (priceCounts[priceId] || 0) + 1;
       }
     }
   }
 
   // Build subscription breakdown
   const subscriptions: StripeSubscription[] = [];
-  for (const [priceId, info] of Object.entries(priceInfo)) {
-    const known = PRICE_MAP[priceId];
-    const name = known?.name ?? info.product_name ?? `Plan (${priceId.slice(-8)})`;
-    const currency = known?.currency ?? info.currency;
-    const amount = known?.amount ?? info.unit_amount;
+  for (const [priceId, count] of Object.entries(priceCounts)) {
+    const info = fullLookup[priceId];
+    const name = info?.name ?? `Plan (${priceId.slice(-8)})`;
+    const currency = info?.currency ?? "usd";
+    const amount = info?.amount ?? 0;
     subscriptions.push({
       product_name: name,
       currency,
       unit_amount: amount,
-      active_count: info.count,
-      mrr_contribution: amount * info.count,
+      active_count: count,
+      mrr_contribution: amount * count,
     });
   }
 
