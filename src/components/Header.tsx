@@ -1,23 +1,44 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  const navLinks = [
+  const primaryLinks = [
     { href: "/", label: "~/" },
     { href: "/projects", label: "~/projects" },
+    { href: "/plan", label: "~/plan" },
+    { href: "/blog", label: "~/blog" },
+    { href: "/install", label: "~/install" },
+  ];
+
+  const secondaryLinks = [
     { href: "/token", label: "~/token" },
     { href: "/verify", label: "~/verify" },
-    { href: "/install", label: "~/install" },
     { href: "/security", label: "~/security" },
-    { href: "/blog", label: "~/blog" },
+    { href: "/ideas", label: "~/ideas" },
     { href: "/qa", label: "~/qa" },
+    { href: "/dashboard", label: "~/dashboard" },
   ];
+
+  // Close "more" dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (moreRef.current && !moreRef.current.contains(event.target as Node)) {
+        setIsMoreOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const isSecondaryActive = secondaryLinks.some((link) => pathname === link.href);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0d0d0d]/95 backdrop-blur-sm border-b border-[#1a3a1a]">
@@ -43,7 +64,7 @@ export default function Header() {
 
           {/* Desktop Navigation - Tab style */}
           <nav className="hidden md:flex items-center gap-0">
-            {navLinks.map((link) => (
+            {primaryLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -56,6 +77,39 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+
+            {/* More dropdown */}
+            <div className="relative" ref={moreRef}>
+              <button
+                onClick={() => setIsMoreOpen(!isMoreOpen)}
+                className={`px-3 py-1 text-xs border border-[#1a3a1a] -ml-px transition-colors ${
+                  isSecondaryActive
+                    ? "bg-[#1a3a1a] text-[#00ff00] border-b-[#0d0d0d]"
+                    : "text-[#555] hover:text-[#00ff00] hover:bg-[#111]"
+                }`}
+              >
+                more{isMoreOpen ? " -" : " +"}
+              </button>
+              {isMoreOpen && (
+                <div className="absolute right-0 top-full mt-px bg-[#0d0d0d] border border-[#1a3a1a] rounded-b-md shadow-lg min-w-[160px] z-50">
+                  {secondaryLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsMoreOpen(false)}
+                      className={`block px-3 py-1.5 text-xs transition-colors ${
+                        pathname === link.href
+                          ? "text-[#00ff00] bg-[#1a3a1a]"
+                          : "text-[#555] hover:text-[#00ff00] hover:bg-[#111]"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <a
               href="https://github.com/yukihamada"
               target="_blank"
@@ -89,7 +143,7 @@ export default function Header() {
         {isMenuOpen && (
           <nav className="md:hidden py-2 border-t border-[#1a3a1a]">
             <div className="flex flex-col">
-              {navLinks.map((link) => (
+              {primaryLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -114,6 +168,26 @@ export default function Header() {
                 <span className="text-[#00aa00]">$ </span>
                 git remote -v
               </a>
+
+              {/* Secondary links under "more..." */}
+              <div className="mt-2 pt-2 border-t border-[#1a3a1a]">
+                <span className="px-2 text-[10px] text-[#333]"># more...</span>
+                {secondaryLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`px-2 py-1.5 text-xs transition-colors ${
+                      pathname === link.href
+                        ? "text-[#00ff00]"
+                        : "text-[#444] hover:text-[#00ff00]"
+                    }`}
+                  >
+                    <span className="text-[#00aa00]">$ </span>
+                    cd {link.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </nav>
         )}

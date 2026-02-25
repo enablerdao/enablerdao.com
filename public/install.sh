@@ -178,7 +178,7 @@ open_url() {
 # COMMANDS
 # ═══════════════════════════════════════════════
 
-# ─── (default) Show welcome / info ───
+# ─── (default) Interactive launcher ───
 cmd_info() {
   echo ""
   printf "${BRIGHT_GREEN}"
@@ -203,20 +203,135 @@ LOGO
   echo ""
   printf "  ${DIM}════════════════════════════════════════════════════${RESET}\n"
   echo ""
-  printf "  ${BRIGHT_GREEN}Website${RESET}   https://enablerdao.com\n"
-  printf "  ${BRIGHT_GREEN}GitHub${RESET}    https://github.com/enablerdao\n"
-  printf "  ${BRIGHT_GREEN}Token${RESET}     EBR on Solana\n"
-  printf "  ${BRIGHT_GREEN}Contact${RESET}   contact@enablerdao.com\n"
+
+  # Interactive mode (only if terminal is attached)
+  if [ -t 0 ]; then
+    printf "  ${BRIGHT_GREEN}何をしますか？${RESET}\n"
+    echo ""
+    printf "  ${CYAN}[1]${RESET} ${GREEN}auto${RESET}              ${DIM}最優先タスクを自動選択して開発開始${RESET}\n"
+    printf "  ${CYAN}[2]${RESET} ${GREEN}プロジェクト選択${RESET}  ${DIM}プロジェクトを選んで開発開始${RESET}\n"
+    printf "  ${CYAN}[3]${RESET} ${GREEN}plan${RESET}              ${DIM}やることリストを表示${RESET}\n"
+    printf "  ${CYAN}[4]${RESET} ${GREEN}status${RESET}            ${DIM}全サービスの稼働状況を確認${RESET}\n"
+    printf "  ${CYAN}[5]${RESET} ${GREEN}help${RESET}              ${DIM}全コマンド一覧${RESET}\n"
+    echo ""
+    printf "  ${YELLOW}選択 [1-5]:${RESET} "
+    read -r _choice
+
+    case "$_choice" in
+      1)
+        cmd_auto
+        ;;
+      2)
+        cmd_work ""
+        ;;
+      3)
+        cmd_plan ""
+        ;;
+      4)
+        cmd_status
+        ;;
+      5)
+        cmd_help
+        ;;
+      *)
+        # Treat as repo name if typed directly
+        if [ -n "$_choice" ]; then
+          cmd_work "$_choice"
+        else
+          cmd_help
+        fi
+        ;;
+    esac
+  else
+    # Non-interactive: show info
+    printf "  ${BRIGHT_GREEN}Website${RESET}   https://enablerdao.com\n"
+    printf "  ${BRIGHT_GREEN}GitHub${RESET}    https://github.com/enablerdao\n"
+    printf "  ${BRIGHT_GREEN}Plan${RESET}      https://enablerdao.com/plan\n"
+    printf "  ${BRIGHT_GREEN}Token${RESET}     EBR on Solana\n"
+    echo ""
+    printf "  ${CYAN}Quick commands:${RESET}\n"
+    printf "    ${GREEN}enablerdao${RESET}                 Interactive launcher\n"
+    printf "    ${GREEN}enablerdao auto${RESET}             Auto-pick top task & start\n"
+    printf "    ${GREEN}enablerdao work${RESET} <repo>      Fork, clone & start coding\n"
+    printf "    ${GREEN}enablerdao plan${RESET}             Show task list\n"
+    printf "    ${GREEN}enablerdao help${RESET}             Show all commands\n"
+    echo ""
+  fi
+}
+
+# ─── auto: Pick highest priority task and start working ───
+cmd_auto() {
   echo ""
-  printf "  ${DIM}════════════════════════════════════════════════════${RESET}\n"
+  printf "${BRIGHT_GREEN}  auto mode — 最優先タスクを選択中...${RESET}\n"
   echo ""
-  printf "  ${CYAN}Quick commands:${RESET}\n"
-  printf "    ${GREEN}enablerdao projects${RESET}    List all EnablerDAO projects\n"
-  printf "    ${GREEN}enablerdao status${RESET}      Check service status\n"
-  printf "    ${GREEN}enablerdao docs${RESET}        Open documentation in browser\n"
-  printf "    ${GREEN}enablerdao work${RESET} <repo> Fork, clone & start coding\n"
-  printf "    ${GREEN}enablerdao help${RESET}        Show all commands\n"
+
+  # Try to fetch plan from API
+  _plan_json=""
+  if command -v curl >/dev/null 2>&1; then
+    _plan_json=$(curl -fsSL --connect-timeout 5 "${API_BASE}/api/plan" 2>/dev/null) || _plan_json=""
+  fi
+
+  _auto_repo=""
+  _auto_task=""
+
+  if [ -n "$_plan_json" ] && command -v python3 >/dev/null 2>&1; then
+    # Parse JSON to find first critical/high task
+    _result=$(echo "$_plan_json" | python3 -c "
+import sys, json
+try:
+  data = json.load(sys.stdin)
+  for p in data.get('projects', []):
+    for t in p.get('tasks', []):
+      if t.get('priority') in ('critical', 'high') and t.get('status') == 'todo' and not t.get('blockedBy'):
+        print(f\"{p['repo']}\t{t['id']}\t{t['title']}\")
+        sys.exit(0)
+except: pass
+" 2>/dev/null) || _result=""
+
+    if [ -n "$_result" ]; then
+      _auto_repo=$(echo "$_result" | cut -f1)
+      _auto_task_id=$(echo "$_result" | cut -f2)
+      _auto_task=$(echo "$_result" | cut -f3)
+    fi
+  fi
+
+  # Fallback: hardcoded top priority
+  if [ -z "$_auto_repo" ]; then
+    _auto_repo="stayflow"
+    _auto_task_id="SF-1"
+    _auto_task="Resendドメイン認証 (DNS設定)"
+  fi
+
+  printf "  ${BRIGHT_GREEN}╔══════════════════════════════════════════════════════╗${RESET}\n"
+  printf "  ${BRIGHT_GREEN}║${RESET}  ${CYAN}Top Task:${RESET} ${YELLOW}${_auto_task_id}${RESET} ${_auto_task}"
+  # Pad to fit box
+  _len=$((48 - ${#_auto_task_id} - ${#_auto_task}))
+  _j=0
+  while [ $_j -lt $_len ] 2>/dev/null; do printf " "; _j=$((_j + 1)); done
+  printf "${BRIGHT_GREEN}║${RESET}\n"
+  printf "  ${BRIGHT_GREEN}║${RESET}  ${DIM}Repo: ${_auto_repo}${RESET}"
+  _len2=$((48 - ${#_auto_repo}))
+  _j=0
+  while [ $_j -lt $_len2 ] 2>/dev/null; do printf " "; _j=$((_j + 1)); done
+  printf "${BRIGHT_GREEN}║${RESET}\n"
+  printf "  ${BRIGHT_GREEN}╚══════════════════════════════════════════════════════╝${RESET}\n"
   echo ""
+
+  printf "  ${YELLOW}このタスクに取り掛かりますか？ [Y/n]:${RESET} "
+  if [ -t 0 ]; then
+    read -r _confirm
+    case "$_confirm" in
+      [nN]|[nN][oO])
+        echo ""
+        info "Cancelled. Run 'enablerdao plan' to see all tasks."
+        echo ""
+        return
+        ;;
+    esac
+  fi
+
+  echo ""
+  cmd_work "$_auto_repo"
 }
 
 # ─── help: Show all commands ───
@@ -228,8 +343,10 @@ cmd_help() {
   echo "  enablerdao <command> [args]"
   echo ""
   printf "${CYAN}GENERAL COMMANDS:${RESET}\n"
-  printf "  ${GREEN}(no command)${RESET}          Show welcome info\n"
+  printf "  ${GREEN}(no command)${RESET}          Interactive launcher (auto / select project)\n"
+  printf "  ${GREEN}auto${RESET}                  Auto-pick top priority task & start coding\n"
   printf "  ${GREEN}projects${RESET}              List all EnablerDAO projects & services\n"
+  printf "  ${GREEN}plan${RESET}                  Show task list / contribution opportunities\n"
   printf "  ${GREEN}status${RESET}                Check live status of EnablerDAO services\n"
   printf "  ${GREEN}docs${RESET}                  Open documentation in browser\n"
   printf "  ${GREEN}token${RESET}                 Show EBR token info\n"
@@ -398,6 +515,9 @@ cmd_docs() {
     projects)
       open_url "https://enablerdao.com/projects"
       ;;
+    plan|todo)
+      open_url "https://enablerdao.com/plan"
+      ;;
     github|gh)
       open_url "https://github.com/enablerdao"
       ;;
@@ -492,21 +612,27 @@ cmd_work() {
     echo ""
 
     # Popular projects list with descriptions and API info
-    printf "  ${CYAN}[1]${RESET} ${GREEN}Chatweb.ai${RESET}          ${DIM}AI web automation (Anthropic Claude API)${RESET}\n"
-    printf "  ${CYAN}[2]${RESET} ${GREEN}enablerdao.com${RESET}      ${DIM}Main DAO website (Next.js)${RESET}\n"
-    printf "  ${CYAN}[3]${RESET} ${GREEN}stayflow${RESET}            ${DIM}Vacation rental management${RESET}\n"
-    printf "  ${CYAN}[4]${RESET} ${GREEN}OpenHands${RESET}           ${DIM}Code assistant (OpenAI/Anthropic API)${RESET}\n"
-    printf "  ${CYAN}[0]${RESET} ${DIM}See all repositories${RESET}\n"
+    printf "  ${CYAN}[1]${RESET} ${GREEN}stayflow${RESET}            ${DIM}民泊管理SaaS${RESET}           ${DIM}github.com/enablerdao/stayflow${RESET}\n"
+    printf "  ${CYAN}[2]${RESET} ${GREEN}nanobot${RESET}             ${DIM}Chatweb.ai AIエージェント${RESET} ${DIM}github.com/yukihamada/nanobot${RESET}\n"
+    printf "  ${CYAN}[3]${RESET} ${GREEN}enablerdao.com${RESET}      ${DIM}メインサイト (Next.js)${RESET}  ${DIM}github.com/enablerdao/enablerdao.com${RESET}\n"
+    printf "  ${CYAN}[4]${RESET} ${GREEN}security-education${RESET}  ${DIM}DojoC セキュリティ教育${RESET}  ${DIM}github.com/yukihamada/security-education${RESET}\n"
+    printf "  ${CYAN}[5]${RESET} ${GREEN}elio${RESET}                ${DIM}オフラインAI iOS${RESET}       ${DIM}github.com/yukihamada/elio${RESET}\n"
+    printf "  ${CYAN}[6]${RESET} ${GREEN}miseban-ai${RESET}          ${DIM}店番AI${RESET}                ${DIM}github.com/yukihamada/miseban-ai${RESET}\n"
+    printf "  ${CYAN}[7]${RESET} ${GREEN}news.xyz${RESET}            ${DIM}AIニュース iOS${RESET}        ${DIM}github.com/yukihamada/news.xyz${RESET}\n"
+    printf "  ${CYAN}[0]${RESET} ${DIM}全リポジトリ一覧${RESET}\n"
     echo ""
-    printf "  ${YELLOW}Enter number [1-4, 0 for all]:${RESET} "
+    printf "  ${YELLOW}番号を選択 [0-7]:${RESET} "
     read -r _choice
 
     case "$_choice" in
-      1) _repo="chatweb.ai" ;;
-      2) _repo="enablerdao.com" ;;
-      3) _repo="stayflow" ;;
-      4) _repo="OpenHands" ;;
-      0) cmd_repos; echo ""; printf "  ${YELLOW}Enter repository name:${RESET} "; read -r _repo ;;
+      1) _repo="stayflow" ;;
+      2) _repo="nanobot" ;;
+      3) _repo="enablerdao.com" ;;
+      4) _repo="security-education" ;;
+      5) _repo="elio" ;;
+      6) _repo="miseban-ai" ;;
+      7) _repo="news.xyz" ;;
+      0) cmd_repos; echo ""; printf "  ${YELLOW}リポジトリ名を入力:${RESET} "; read -r _repo ;;
       *) errormsg "Invalid choice"; exit 1 ;;
     esac
 
@@ -516,11 +642,19 @@ cmd_work() {
     fi
   fi
 
+  # Resolve owner: some repos are under yukihamada, not enablerdao
+  _owner="${ORG}"
+  case "$_repo" in
+    nanobot|elio|miseban-ai|news.xyz|security-education|jitsuflow|news.cloud|chatnews.link)
+      _owner="yukihamada"
+      ;;
+  esac
+
   REPO_DIR="${WORKSPACE}/${_repo}"
 
   echo ""
   printf "${BRIGHT_GREEN}  ╔══════════════════════════════════════════╗${RESET}\n"
-  printf "${BRIGHT_GREEN}  ║${RESET}  Starting work on ${CYAN}${ORG}/${_repo}${RESET}"
+  printf "${BRIGHT_GREEN}  ║${RESET}  Starting work on ${CYAN}${_owner}/${_repo}${RESET}"
   # Pad the right side
   _pad=$((22 - ${#_repo}))
   _j=0
@@ -535,8 +669,8 @@ cmd_work() {
   # Check if gh is available for forking
   if command -v gh >/dev/null 2>&1; then
     # Fork the repository
-    info "Forking ${ORG}/${_repo}..."
-    if gh repo fork "${ORG}/${_repo}" --clone=false 2>/dev/null; then
+    info "Forking ${_owner}/${_repo}..."
+    if gh repo fork "${_owner}/${_repo}" --clone=false 2>/dev/null; then
       success "Repository forked"
     else
       warn "Fork may already exist, continuing..."
@@ -556,14 +690,14 @@ cmd_work() {
         gh repo clone "${GH_USER}/${_repo}" "${REPO_DIR}" 2>/dev/null || \
           git clone "https://github.com/${GH_USER}/${_repo}.git" "${REPO_DIR}"
       else
-        git clone "https://github.com/${ORG}/${_repo}.git" "${REPO_DIR}"
+        git clone "https://github.com/${_owner}/${_repo}.git" "${REPO_DIR}"
       fi
       success "Cloned to ${REPO_DIR}"
 
       # Set upstream
       cd "${REPO_DIR}"
-      git remote add upstream "https://github.com/${ORG}/${_repo}.git" 2>/dev/null || true
-      success "Upstream remote set to ${ORG}/${_repo}"
+      git remote add upstream "https://github.com/${_owner}/${_repo}.git" 2>/dev/null || true
+      success "Upstream remote set to ${_owner}/${_repo}"
     fi
   else
     # No gh, use plain git
@@ -574,7 +708,7 @@ cmd_work() {
       git pull --rebase 2>/dev/null || true
     else
       info "Cloning repository (install gh CLI to auto-fork)..."
-      git clone "https://github.com/${ORG}/${_repo}.git" "${REPO_DIR}"
+      git clone "https://github.com/${_owner}/${_repo}.git" "${REPO_DIR}"
       success "Cloned to ${REPO_DIR}"
     fi
   fi
@@ -640,7 +774,15 @@ cmd_pr() {
     exit 0
   fi
 
-  info "Preparing Pull Request for ${ORG}/${_repo}..."
+  # Resolve owner
+  _owner="${ORG}"
+  case "$_repo" in
+    nanobot|elio|miseban-ai|news.xyz|security-education|jitsuflow|news.cloud|chatnews.link)
+      _owner="yukihamada"
+      ;;
+  esac
+
+  info "Preparing Pull Request for ${_owner}/${_repo}..."
   echo ""
 
   # Show changes summary
@@ -686,7 +828,7 @@ $(git diff --name-only HEAD~1)
 
 ---
 *Automated with enablerdao CLI*" \
-      --repo "${ORG}/${_repo}" 2>/dev/null) || true
+      --repo "${_owner}/${_repo}" 2>/dev/null) || true
 
     if [ -n "${_pr_url}" ]; then
       echo ""
@@ -698,7 +840,7 @@ $(git diff --name-only HEAD~1)
     else
       warn "Could not create PR automatically"
       step "Push succeeded. Create PR manually at:"
-      step "https://github.com/${ORG}/${_repo}/pulls"
+      step "https://github.com/${_owner}/${_repo}/pulls"
     fi
   else
     warn "GitHub CLI (gh) not installed. Pushing changes only."
@@ -804,11 +946,81 @@ cmd_uninstall() {
   echo ""
 }
 
+# ─── plan: Show tasks / open plan page ───
+cmd_plan() {
+  _project="${1:-}"
+  echo ""
+  printf "${BRIGHT_GREEN}  EnablerDAO — やることリスト${RESET}\n"
+  printf "${DIM}  https://enablerdao.com/plan${RESET}\n"
+  echo ""
+  printf "${DIM}  ═══════════════════════════════════════════════════════════════════${RESET}\n"
+  echo ""
+
+  if [ -n "$_project" ]; then
+    info "Opening plan for: $_project"
+    open_url "https://enablerdao.com/plan#${_project}"
+    return
+  fi
+
+  # Fetch plan data from API (fallback to cached summary)
+  _plan_json=""
+  if command -v curl >/dev/null 2>&1; then
+    _plan_json=$(curl -fsSL --connect-timeout 5 "${API_BASE}/api/plan" 2>/dev/null) || _plan_json=""
+  fi
+
+  if [ -n "$_plan_json" ] && command -v python3 >/dev/null 2>&1; then
+    echo "$_plan_json" | python3 -c "
+import sys, json
+try:
+  data = json.load(sys.stdin)
+  for p in data.get('projects', []):
+    print(f\"  \033[1;32m{p['name']}\033[0m  \033[2m{p['url']}\033[0m\")
+    for t in p.get('tasks', []):
+      pri = t.get('priority','')
+      color = {'critical':'\033[0;31m','high':'\033[0;33m','medium':'\033[0;36m'}.get(pri,'\033[2m')
+      status = '[ ]' if t.get('status')=='todo' else '[~]' if t.get('status')=='in-progress' else '[x]'
+      print(f\"    {status} {color}{t['id']}\033[0m {t['title']}  \033[2m~{t.get('estimatedHours','?')}\033[0m\")
+    print()
+except: pass
+" 2>/dev/null
+  else
+    # Fallback: static summary
+    printf "  ${CYAN}StayFlow${RESET}          ${DIM}stayflowapp.com${RESET}\n"
+    printf "    [ ] ${RED}SF-1${RESET} Resendドメイン認証            ${DIM}~0.5h${RESET}\n"
+    printf "    [ ] ${RED}SF-2${RESET} Supabase Auth SMTP設定        ${DIM}~0.5h${RESET}\n"
+    printf "    [ ] ${YELLOW}SF-3${RESET} Edge Functions再デプロイ      ${DIM}~0.5h${RESET}\n"
+    echo ""
+    printf "  ${YELLOW}Chatweb.ai${RESET}        ${DIM}chatweb.ai${RESET}\n"
+    printf "    [ ] ${RED}CW-1${RESET} Stripe WEBHOOK_SECRET設定     ${DIM}~0.5h${RESET}\n"
+    echo ""
+    printf "  ${YELLOW}BANTO${RESET}             ${DIM}banto.work${RESET}\n"
+    printf "    [ ] ${YELLOW}BT-1${RESET} 音声フローデプロイ            ${DIM}~1h${RESET}\n"
+    echo ""
+    printf "  ${RED}DojoC${RESET}             ${DIM}dojoc.io${RESET}\n"
+    printf "    [ ] ${RED}DC-1${RESET} Stripe本番シークレット設定     ${DIM}~0.5h${RESET}\n"
+    printf "    [ ] ${RED}DC-2${RESET} Resendメール統合              ${DIM}~1h${RESET}\n"
+    echo ""
+    printf "  ${CYAN}Elio${RESET}              ${DIM}elio.love${RESET}\n"
+    printf "    [ ] ${RED}EL-1${RESET} Info.plistビルド番号修正       ${DIM}~0.5h${RESET}\n"
+    echo ""
+    printf "  ${BRIGHT_CYAN}ミセバンAI${RESET}        ${DIM}misebanai.com${RESET}\n"
+    printf "    [ ] ${YELLOW}MB-1${RESET} Resendドメイン認証            ${DIM}~0.5h${RESET}\n"
+    echo ""
+  fi
+
+  printf "${DIM}  ═══════════════════════════════════════════════════════════════════${RESET}\n"
+  echo ""
+  printf "  ${DIM}Full details:${RESET} ${CYAN}https://enablerdao.com/plan${RESET}\n"
+  printf "  ${DIM}Start work:${RESET}   ${GREEN}enablerdao work <repo>${RESET}\n"
+  echo ""
+}
+
 # ═══════════════════════════════════════════════
 # Main Router
 # ═══════════════════════════════════════════════
 case "${1:-}" in
   "")                        cmd_info ;;
+  auto|a)                    cmd_auto ;;
   projects|p)                cmd_projects ;;
   status|s)                  cmd_status ;;
   docs|d)                    cmd_docs "$2" ;;
@@ -816,6 +1028,7 @@ case "${1:-}" in
   repos|ls|list)             cmd_repos ;;
   work|w)                    cmd_work "$2" ;;
   pr)                        cmd_pr "$2" ;;
+  plan|todo)                 cmd_plan "$2" ;;
   dev-status|ds)             cmd_dev_status ;;
   update|up)                 cmd_update ;;
   uninstall|remove)          cmd_uninstall ;;
