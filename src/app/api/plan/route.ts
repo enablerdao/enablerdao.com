@@ -52,7 +52,7 @@ const projects: Project[] = [
       { id: "BT-1", title: "音声フローデプロイ", priority: "high", status: "done", estimatedHours: "1h" },
       { id: "BT-2", title: "Voice E2Eテスト", priority: "high", status: "todo", estimatedHours: "3h" },
       { id: "BT-3", title: "LPに音声デモ動画追加", priority: "medium", status: "todo", estimatedHours: "2h" },
-      { id: "BT-4", title: "BANTO secrets設定", priority: "high", status: "todo", estimatedHours: "0.5h" },
+      { id: "BT-4", title: "BANTO secrets設定", priority: "high", status: "done", estimatedHours: "0.5h" },
     ],
   },
   {
@@ -60,11 +60,11 @@ const projects: Project[] = [
     repo: "security-education",
     url: "https://www.dojoc.io",
     tasks: [
-      { id: "DC-1", title: "Stripe本番シークレット設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
+      { id: "DC-1", title: "Stripe本番シークレット設定", priority: "critical", status: "done", estimatedHours: "0.5h" },
       { id: "DC-2", title: "Resendメール統合", priority: "critical", status: "done", estimatedHours: "1h" },
-      { id: "DC-3", title: "決済フローE2Eテスト", priority: "high", status: "todo", estimatedHours: "2h", blockedBy: "DC-1" },
+      { id: "DC-3", title: "決済フローE2Eテスト", priority: "high", status: "todo", estimatedHours: "2h" },
       { id: "DC-5", title: "本番デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", blockedBy: "DC-1" },
-      { id: "DC-6", title: "Fly.io secrets設定 (4つ)", priority: "critical", status: "todo", estimatedHours: "0.5h" },
+      { id: "DC-6", title: "Fly.io secrets設定 (4つ)", priority: "critical", status: "done", estimatedHours: "0.5h" },
     ],
   },
   {
