@@ -39,7 +39,7 @@ const projects: Project[] = [
     repo: "chatweb.ai",
     url: "https://chatweb.ai",
     tasks: [
-      { id: "CW-1", title: "Stripe WEBHOOK_SECRET設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
+      { id: "CW-1", title: "Stripe WEBHOOK_SECRET設定", priority: "critical", status: "done", estimatedHours: "0.5h" },
       { id: "CW-2", title: "Explore Mode UIポリッシュ", priority: "medium", status: "done", estimatedHours: "4h" },
       { id: "CW-3", title: "管理ダッシュボード追加", priority: "medium", status: "todo", estimatedHours: "6h" },
     ],
