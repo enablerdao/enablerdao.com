@@ -168,19 +168,44 @@ async function fetchChatwebStats(): Promise<ChatwebData | null> {
   }
 }
 
+const EBR_MINT = "E1JxwaWRd8nw8vDdWMdqwdbXGBshqDcnTcinHzNMqg2Y";
+const SOLANA_RPC = "https://api.mainnet-beta.solana.com";
+
 async function fetchEBRHolders(): Promise<number> {
   try {
-    const res = await fetch(
-      "https://api.solscan.io/v2/token/holders?token=E1JxwaWRd8nw8vDdWMdqwdbXGBshqDcnTcinHzNMqg2Y&page=1&page_size=1",
-      { headers: { Accept: "application/json" } }
-    );
+    // Use Solana RPC getProgramAccounts to count token accounts for EBR mint.
+    // Solscan API v2 is deprecated/unreachable; this queries the chain directly.
+    const res = await fetch(SOLANA_RPC, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "getProgramAccounts",
+        params: [
+          "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          {
+            filters: [
+              { dataSize: 165 },
+              { memcmp: { offset: 0, bytes: EBR_MINT } },
+            ],
+            encoding: "base64",
+            dataSlice: { offset: 0, length: 0 },
+          },
+        ],
+      }),
+    });
 
     if (!res.ok) return 0;
 
     const data = await res.json();
-    return data.data?.total ?? data.total ?? 0;
+    if (data.error) {
+      console.error("[analytics] Solana RPC error:", data.error);
+      return 0;
+    }
+    return Array.isArray(data.result) ? data.result.length : 0;
   } catch (err) {
-    console.error("[analytics] Solscan fetch failed:", err);
+    console.error("[analytics] EBR holder count fetch failed:", err);
     return 0;
   }
 }

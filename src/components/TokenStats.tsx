@@ -21,6 +21,20 @@ function makeAsciiBar(percentage: number, width: number = 30): string {
 }
 
 const EBR_TOKEN_ADDRESS = "E1JxwaWRd8nw8vDdWMdqwdbXGBshqDcnTcinHzNMqg2Y";
+const SOLANA_RPC = "https://api.mainnet-beta.solana.com";
+
+// Helper to call Solana JSON-RPC
+async function solanaRpc(method: string, params: unknown[]) {
+  const res = await fetch(SOLANA_RPC, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
+  });
+  if (!res.ok) throw new Error(`RPC ${res.status}`);
+  const json = await res.json();
+  if (json.error) throw new Error(json.error.message);
+  return json.result;
+}
 
 export default function TokenStats() {
   const [tokenData, setTokenData] = useState<TokenData>({
@@ -35,47 +49,53 @@ export default function TokenStats() {
   useEffect(() => {
     const fetchTokenData = async () => {
       try {
-        // Fetch from Solscan API (public endpoint)
-        const response = await fetch(
-          `https://public-api.solscan.io/token/meta?tokenAddress=${EBR_TOKEN_ADDRESS}`
-        );
+        // Fetch supply + holder count + top holders from Solana RPC directly.
+        // Solscan public API is deprecated/unreachable.
+        const [supplyResult, holdersResult, largestResult] = await Promise.allSettled([
+          solanaRpc("getTokenSupply", [EBR_TOKEN_ADDRESS]),
+          solanaRpc("getProgramAccounts", [
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+            {
+              filters: [
+                { dataSize: 165 },
+                { memcmp: { offset: 0, bytes: EBR_TOKEN_ADDRESS } },
+              ],
+              encoding: "base64",
+              dataSlice: { offset: 0, length: 0 },
+            },
+          ]),
+          solanaRpc("getTokenLargestAccounts", [EBR_TOKEN_ADDRESS]),
+        ]);
 
-        let supply = 7021100; // Default value
+        const supply =
+          supplyResult.status === "fulfilled"
+            ? Number(supplyResult.value?.value?.uiAmount ?? 7021100)
+            : 7021100;
 
-        if (response.ok) {
-          const data = await response.json();
-          supply = data.supply ? data.supply / 1e9 : supply;
+        const holderCount =
+          holdersResult.status === "fulfilled" && Array.isArray(holdersResult.value)
+            ? holdersResult.value.length
+            : 0;
 
-          setTokenData(prev => ({
-            ...prev,
-            holders: data.holder || prev.holders,
-            totalSupply: supply
-          }));
+        // Build top holders from getTokenLargestAccounts
+        let topHolders: TokenData["topHolders"] = [];
+        if (largestResult.status === "fulfilled" && Array.isArray(largestResult.value?.value)) {
+          topHolders = largestResult.value.value
+            .slice(0, 6)
+            .map((acct: { address: string; uiAmount: number | null }) => ({
+              address: acct.address,
+              balance: acct.uiAmount ?? 0,
+              percentage: supply > 0 && acct.uiAmount ? (acct.uiAmount / supply) * 100 : 0,
+            }));
         }
 
-        // Fetch top holders
-        const holdersResponse = await fetch(
-          `https://public-api.solscan.io/token/holders?tokenAddress=${EBR_TOKEN_ADDRESS}&offset=0&limit=10`
-        );
-
-        if (holdersResponse.ok) {
-          const holdersData = await holdersResponse.json();
-
-          if (holdersData && Array.isArray(holdersData)) {
-            const topHolders = holdersData.slice(0, 6).map((holder: { owner?: string; address?: string; amount?: number }) => ({
-              address: holder.owner || holder.address || "Unknown",
-              balance: holder.amount ? holder.amount / 1e9 : 0,
-              percentage: holder.amount && supply
-                ? (holder.amount / (supply * 1e9)) * 100
-                : 0
-            }));
-
-            setTokenData(prev => ({
-              ...prev,
-              topHolders
-            }));
-          }
-        }
+        setTokenData({
+          totalSupply: supply,
+          holders: holderCount,
+          price: null,
+          marketCap: null,
+          topHolders,
+        });
 
         setLoading(false);
       } catch (err) {

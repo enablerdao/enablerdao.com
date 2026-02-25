@@ -32,7 +32,7 @@ const projects: Project[] = [
       { id: "ED-3", title: "Stripe Unknown商品名修正", priority: "critical", status: "done", estimatedHours: "1h", completedDate: "2026-02-26", note: "Prices API経由で全商品名取得。MRR JPY: ¥0→¥53,840" },
       { id: "ED-4", title: "GitHub Actions CI/CD", priority: "medium", status: "done", estimatedHours: "1h", completedDate: "2026-02-26" },
       { id: "ED-5", title: "CHATWEB_ADMIN_KEY設定", priority: "medium", status: "todo", estimatedHours: "0.5h" },
-      { id: "ED-6", title: "Solscan EBRホルダー数取得修正", priority: "low", status: "todo", estimatedHours: "1h" },
+      { id: "ED-6", title: "Solscan EBRホルダー数取得修正", priority: "low", status: "done", estimatedHours: "1h", completedDate: "2026-02-26", note: "Solscan API廃止→Solana RPC (getProgramAccounts) に移行。133ホルダー取得成功" },
     ],
   },
   {

@@ -193,7 +193,7 @@ const projects: ProjectPlan[] = [
       { id: "ED-3", title: "Stripe Unknown商品名修正", description: "Prices API経由で全商品名・金額を取得。MRR JPY: ¥0→¥53,840", priority: "critical", status: "done", labels: ["api", "stripe"], estimatedHours: "1h", completedDate: "2026-02-26" },
       { id: "ED-4", title: "GitHub Actions CI/CD", description: "PR lint/build + auto-deploy to Fly.io on push to master", priority: "medium", status: "done", labels: ["ci/cd"], estimatedHours: "1h", completedDate: "2026-02-26" },
       { id: "ED-5", title: "CHATWEB_ADMIN_KEY設定", description: "Fly.io secretsに設定し、Chatweb.aiユーザー数をdashboardに表示", priority: "medium", status: "todo", labels: ["secrets", "dashboard"], estimatedHours: "0.5h" },
-      { id: "ED-6", title: "Solscan EBRホルダー数取得修正", description: "Solscan API v2が0を返す問題を調査・修正", priority: "low", status: "todo", labels: ["api", "web3"], estimatedHours: "1h" },
+      { id: "ED-6", title: "Solscan EBRホルダー数取得修正", description: "Solscan API廃止→Solana RPC (getProgramAccounts) に移行。133ホルダー取得成功", priority: "low", status: "done", labels: ["api", "web3"], estimatedHours: "1h", completedDate: "2026-02-26" },
     ],
   },
   {
