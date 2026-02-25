@@ -119,7 +119,7 @@ const otherProducts: Product[] = [
 ];
 
 const appProduct: AppProduct = {
-  name: "Elio",
+  name: "Elio Chat",
   tagline: "完全オフラインで動くAIチャット。30+ LLMモデル搭載、プライバシー最優先。",
   href: "https://apps.apple.com/app/elio-chat/id6757635481",
   color: "#aa66ff",
@@ -193,7 +193,7 @@ export default function Home() {
           </h1>
           <p className="text-sm sm:text-base text-[#888] max-w-2xl mx-auto mb-6">
             EnablerDAOは、AIとオープンソースでプロダクトを開発・運営するDAO。
-            すべて無料で使えて、誰でも参加できます。
+            基本無料で始められて、誰でも参加できます。
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
             <Link href="#products" className="px-6 py-2.5 bg-[#00ff00] text-[#000] font-bold text-sm hover:bg-[#33ff33] transition-colors rounded">
@@ -266,12 +266,15 @@ export default function Home() {
             <h2 className="text-lg text-[#888] font-bold mb-6">ネイティブアプリ</h2>
             <a href={appProduct.appStoreUrl} target="_blank" rel="noopener noreferrer"
                className="flex flex-col sm:flex-row gap-5 p-5 border border-[#aa66ff]/30 rounded-xl hover:border-[#aa66ff]/60 transition-colors group">
-              {/* App Icon placeholder + badge */}
+              {/* App Icon + badge */}
               <div className="flex-shrink-0 flex flex-col items-center gap-3">
-                <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold"
-                     style={{ background: "linear-gradient(135deg, #aa66ff20, #aa66ff40)", color: "#aa66ff", border: "1px solid #aa66ff40" }}>
-                  E
-                </div>
+                <Image
+                  src="/screenshots/elio-icon.webp"
+                  alt="Elio Chat"
+                  width={80}
+                  height={80}
+                  className="w-20 h-20 rounded-2xl"
+                />
                 <Image
                   src="/screenshots/appstore-badge.svg"
                   alt="Download on the App Store"
@@ -313,10 +316,12 @@ export default function Home() {
                        fill
                        className="object-cover object-top opacity-60 group-hover:opacity-80 transition-opacity" loading="lazy" />
                   {/* SP screenshot (foreground right) */}
-                  <div className="absolute bottom-1 right-2 w-12 h-24 rounded-md overflow-hidden border border-[#333] shadow-lg bg-black relative">
-                    <Image src={p.spImage} alt={`${p.name} Mobile`}
-                         fill
-                         className="object-cover object-top" loading="lazy" />
+                  <div className="absolute bottom-1 right-2 w-14 h-28 z-10">
+                    <div className="relative w-full h-full rounded-md overflow-hidden border border-[#333] shadow-lg bg-black">
+                      <Image src={p.spImage} alt={`${p.name} Mobile`}
+                           fill
+                           className="object-cover object-top" loading="lazy" />
+                    </div>
                   </div>
                 </div>
                 {/* Info */}
@@ -474,8 +479,8 @@ export default function Home() {
               <p className="text-xs text-[#888]">メンバー全員の投票で方向性を決めるオープンな組織</p>
             </div>
             <div className="p-4 border border-[#1a3a1a] rounded-lg">
-              <h3 className="text-sm text-[#00ffff] mb-1">全部無料で使える</h3>
-              <p className="text-xs text-[#888]">基本機能は無料。有料プランで持続可能な運営を実現</p>
+              <h3 className="text-sm text-[#00ffff] mb-1">基本無料で始められる</h3>
+              <p className="text-xs text-[#888]">基本機能は無料で使えて、有料プランで高度な機能を解放</p>
             </div>
             <div className="p-4 border border-[#1a3a1a] rounded-lg">
               <h3 className="text-sm text-[#ffaa00] mb-1">貢献で報酬を獲得</h3>
