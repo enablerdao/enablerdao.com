@@ -50,7 +50,7 @@ const projects: Project[] = [
     url: "https://banto.work",
     tasks: [
       { id: "BT-1", title: "音声フローデプロイ", priority: "high", status: "done", estimatedHours: "1h" },
-      { id: "BT-2", title: "Voice E2Eテスト", priority: "high", status: "todo", estimatedHours: "3h" },
+      { id: "BT-2", title: "Voice E2Eテスト", priority: "high", status: "done", estimatedHours: "3h" },
       { id: "BT-3", title: "LPに音声デモ動画追加", priority: "medium", status: "todo", estimatedHours: "2h" },
       { id: "BT-4", title: "BANTO secrets設定", priority: "high", status: "done", estimatedHours: "0.5h" },
     ],
