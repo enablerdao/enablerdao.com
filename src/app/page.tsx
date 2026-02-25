@@ -349,105 +349,52 @@ export default function Home() {
             $ stayflow list --status=active --format=summary
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Property 1 */}
-            <div className="border border-[#1a3a1a] rounded-lg p-4 hover:border-[#00ff00]/30 transition-colors">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold text-[#e0e0e0]">渋谷スタジオ</span>
-                <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#00ff00]/10 text-[#00ff00] border border-[#00ff00]/30">稼働中</span>
-              </div>
-              <div className="space-y-1 text-[10px] text-[#888] font-mono mb-3">
-                <div>loc: 渋谷区 / guests: 4</div>
-                <div>price: <span className="text-[#00ffff]">¥12,000</span>~<span className="text-[#00ffff]">¥18,000</span>/泊</div>
-              </div>
-              <div className="mb-2">
-                <div className="flex items-center justify-between text-[10px] mb-1">
-                  <span className="text-[#555]">稼働率</span>
-                  <span className="text-[#00ff00]">92%</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { name: "WHITE HOUSE Atami", loc: "静岡県熱海市", img: "/properties/atami.jpg", features: ["オーシャンビュー", "プライベートヴィラ"], url: "https://www.airbnb.jp/rooms/53223988" },
+              { name: "THE LODGE Teshikaga", loc: "北海道弟子屈町", img: "/properties/teshikaga.jpg", features: ["天然温泉", "薪ストーブ", "BBQ"], url: "https://www.airbnb.jp/rooms/597239384272621732" },
+              { name: "THE NEST Teshikaga", loc: "北海道弟子屈町", img: "/properties/nest.jpg", features: ["天然温泉", "高断熱", "デジタルデザイン"], url: "https://www.airbnb.jp/rooms/911857804615412559" },
+              { name: "BEACH HOUSE Honolulu", loc: "ハワイ州ホノルル", img: "/properties/honolulu.jpg", features: ["ビーチフロント", "サンセットビュー"], url: "https://www.airbnb.jp/rooms/1226550388535476490" },
+              { name: "GARAGE HOUSE Honolulu", loc: "ハワイ州ホノルル", img: "/properties/garage.jpg", features: ["オーシャンビュー", "BBQ", "ココヘッド"], url: "https://www.airbnb.jp/rooms/936009273046846679" },
+            ].map((p) => (
+              <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer"
+                 className="border border-[#1a3a1a] rounded-lg overflow-hidden hover:border-[#00ff00]/30 transition-colors group">
+                <div className="relative h-36 bg-[#111] overflow-hidden">
+                  <Image src={p.img} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                  <div className="absolute top-2 right-2">
+                    <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#00ff00]/20 text-[#00ff00] border border-[#00ff00]/30 backdrop-blur-sm">稼働中</span>
+                  </div>
                 </div>
-                <div className="font-mono text-[10px] text-[#1a3a1a] bg-[#0a0a0a] rounded px-1 py-0.5 border border-[#1a3a1a]">
-                  <span className="text-[#00ff00]">████████████████████</span><span className="text-[#1a3a1a]">██</span>
+                <div className="p-3">
+                  <div className="text-sm font-bold text-[#e0e0e0] mb-1">{p.name}</div>
+                  <div className="text-[10px] text-[#888] font-mono mb-2">{p.loc}</div>
+                  <div className="flex flex-wrap gap-1">
+                    {p.features.map((f) => (
+                      <span key={f} className="text-[9px] px-1.5 py-0.5 rounded bg-[#1a1a1a] border border-[#333] text-[#888]">{f}</span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div className="text-[9px] text-[#00ff00]/60 border-t border-[#1a3a1a] pt-2">StayFlowで管理</div>
-            </div>
-
-            {/* Property 2 */}
-            <div className="border border-[#1a3a1a] rounded-lg p-4 hover:border-[#00ff00]/30 transition-colors">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold text-[#e0e0e0]">新宿プレミアム</span>
-                <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#00ff00]/10 text-[#00ff00] border border-[#00ff00]/30">稼働中</span>
-              </div>
-              <div className="space-y-1 text-[10px] text-[#888] font-mono mb-3">
-                <div>loc: 新宿区 / guests: 6</div>
-                <div>price: <span className="text-[#00ffff]">¥18,000</span>~<span className="text-[#00ffff]">¥28,000</span>/泊</div>
-              </div>
-              <div className="mb-2">
-                <div className="flex items-center justify-between text-[10px] mb-1">
-                  <span className="text-[#555]">稼働率</span>
-                  <span className="text-[#00ff00]">87%</span>
-                </div>
-                <div className="font-mono text-[10px] text-[#1a3a1a] bg-[#0a0a0a] rounded px-1 py-0.5 border border-[#1a3a1a]">
-                  <span className="text-[#00ff00]">███████████████████</span><span className="text-[#1a3a1a]">███</span>
-                </div>
-              </div>
-              <div className="text-[9px] text-[#00ff00]/60 border-t border-[#1a3a1a] pt-2">StayFlowで管理</div>
-            </div>
-
-            {/* Property 3 */}
-            <div className="border border-[#1a3a1a] rounded-lg p-4 hover:border-[#00ff00]/30 transition-colors">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold text-[#e0e0e0]">湘南ビーチハウス</span>
-                <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#ffaa00]/10 text-[#ffaa00] border border-[#ffaa00]/30">季節変動</span>
-              </div>
-              <div className="space-y-1 text-[10px] text-[#888] font-mono mb-3">
-                <div>loc: 藤沢市 / guests: 8</div>
-                <div>price: <span className="text-[#00ffff]">¥22,000</span>~<span className="text-[#00ffff]">¥45,000</span>/泊</div>
-              </div>
-              <div className="mb-2">
-                <div className="flex items-center justify-between text-[10px] mb-1">
-                  <span className="text-[#555]">稼働率</span>
-                  <span className="text-[#ffaa00]">74%</span>
-                </div>
-                <div className="font-mono text-[10px] text-[#1a3a1a] bg-[#0a0a0a] rounded px-1 py-0.5 border border-[#1a3a1a]">
-                  <span className="text-[#ffaa00]">████████████████</span><span className="text-[#1a3a1a]">██████</span>
-                </div>
-              </div>
-              <div className="text-[9px] text-[#00ff00]/60 border-t border-[#1a3a1a] pt-2">StayFlowで管理</div>
-            </div>
-
-            {/* Property 4 */}
-            <div className="border border-[#1a3a1a] rounded-lg p-4 hover:border-[#00ff00]/30 transition-colors">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold text-[#e0e0e0]">京都町家</span>
-                <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#00ff00]/10 text-[#00ff00] border border-[#00ff00]/30">稼働中</span>
-              </div>
-              <div className="space-y-1 text-[10px] text-[#888] font-mono mb-3">
-                <div>loc: 東山区 / guests: 5</div>
-                <div>price: <span className="text-[#00ffff]">¥25,000</span>~<span className="text-[#00ffff]">¥38,000</span>/泊</div>
-              </div>
-              <div className="mb-2">
-                <div className="flex items-center justify-between text-[10px] mb-1">
-                  <span className="text-[#555]">稼働率</span>
-                  <span className="text-[#00ff00]">89%</span>
-                </div>
-                <div className="font-mono text-[10px] text-[#1a3a1a] bg-[#0a0a0a] rounded px-1 py-0.5 border border-[#1a3a1a]">
-                  <span className="text-[#00ff00]">███████████████████</span><span className="text-[#1a3a1a]">███</span>
-                </div>
-              </div>
-              <div className="text-[9px] text-[#00ff00]/60 border-t border-[#1a3a1a] pt-2">StayFlowで管理</div>
-            </div>
+              </a>
+            ))}
           </div>
 
           {/* Summary + CTA */}
           <div className="mt-6 p-4 border border-[#1a3a1a] rounded-lg bg-[#0d0d0d]">
             <div className="font-mono text-xs text-[#888] space-y-1">
-              <div><span className="text-[#555]">$</span> stayflow stats --summary</div>
+              <div><span className="text-[#555]">$</span> enabler.fun stats --summary</div>
               <div className="pl-2">
-                total_properties: <span className="text-[#00ffff]">4</span> | avg_occupancy: <span className="text-[#00ff00]">85.5%</span> | monthly_revenue: <span className="text-[#ffaa00]">~¥2.8M</span>
+                total_properties: <span className="text-[#00ffff]">5</span> | locations: <span className="text-[#00ff00]">熱海・弟子屈・ホノルル</span> | managed_by: <span className="text-[#ffaa00]">StayFlow</span>
               </div>
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-3">
+              <a
+                href="https://enabler.fun"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-xs px-4 py-2 bg-[#00ffcc]/10 text-[#00ffcc] border border-[#00ffcc]/30 rounded hover:bg-[#00ffcc]/20 transition-colors"
+              >
+                enabler.fun で物件を見る →
+              </a>
               <a
                 href="https://stayflowapp.com"
                 target="_blank"
@@ -455,14 +402,6 @@ export default function Home() {
                 className="inline-block text-xs px-4 py-2 bg-[#00ff00]/10 text-[#00ff00] border border-[#00ff00]/30 rounded hover:bg-[#00ff00]/20 transition-colors"
               >
                 StayFlowで物件管理を始める →
-              </a>
-              <a
-                href="https://enabler.fun"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block text-xs px-4 py-2 bg-[#00ffcc]/10 text-[#00ffcc] border border-[#00ffcc]/30 rounded hover:bg-[#00ffcc]/20 transition-colors"
-              >
-                enabler.fun で直接予約 →
               </a>
             </div>
           </div>
