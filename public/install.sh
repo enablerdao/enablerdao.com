@@ -619,9 +619,11 @@ cmd_work() {
     printf "  ${CYAN}[5]${RESET} ${GREEN}elio${RESET}                ${DIM}オフラインAI iOS${RESET}       ${DIM}github.com/yukihamada/elio${RESET}\n"
     printf "  ${CYAN}[6]${RESET} ${GREEN}miseban-ai${RESET}          ${DIM}店番AI${RESET}                ${DIM}github.com/yukihamada/miseban-ai${RESET}\n"
     printf "  ${CYAN}[7]${RESET} ${GREEN}news.xyz${RESET}            ${DIM}AIニュース iOS${RESET}        ${DIM}github.com/yukihamada/news.xyz${RESET}\n"
+    printf "  ${CYAN}[8]${RESET} ${GREEN}banto${RESET}               ${DIM}建設業務管理${RESET}           ${DIM}github.com/yukihamada/banto${RESET}\n"
+    printf "  ${CYAN}[9]${RESET} ${GREEN}jiuflow-ssr${RESET}         ${DIM}柔術フロー (Rust SSR)${RESET}  ${DIM}github.com/yukihamada/jiuflow-ssr${RESET}\n"
     printf "  ${CYAN}[0]${RESET} ${DIM}全リポジトリ一覧${RESET}\n"
     echo ""
-    printf "  ${YELLOW}番号を選択 [0-7]:${RESET} "
+    printf "  ${YELLOW}番号を選択 [0-9]:${RESET} "
     read -r _choice
 
     case "$_choice" in
@@ -632,6 +634,8 @@ cmd_work() {
       5) _repo="elio" ;;
       6) _repo="miseban-ai" ;;
       7) _repo="news.xyz" ;;
+      8) _repo="banto" ;;
+      9) _repo="jiuflow-ssr" ;;
       0) cmd_repos; echo ""; printf "  ${YELLOW}リポジトリ名を入力:${RESET} "; read -r _repo ;;
       *) errormsg "Invalid choice"; exit 1 ;;
     esac
@@ -645,7 +649,7 @@ cmd_work() {
   # Resolve owner: some repos are under yukihamada, not enablerdao
   _owner="${ORG}"
   case "$_repo" in
-    nanobot|elio|miseban-ai|news.xyz|security-education|jitsuflow|news.cloud|chatnews.link)
+    nanobot|elio|miseban-ai|news.xyz|security-education|jitsuflow|news.cloud|chatnews.link|banto|jiuflow-ssr)
       _owner="yukihamada"
       ;;
   esac
@@ -777,7 +781,7 @@ cmd_pr() {
   # Resolve owner
   _owner="${ORG}"
   case "$_repo" in
-    nanobot|elio|miseban-ai|news.xyz|security-education|jitsuflow|news.cloud|chatnews.link)
+    nanobot|elio|miseban-ai|news.xyz|security-education|jitsuflow|news.cloud|chatnews.link|banto|jiuflow-ssr)
       _owner="yukihamada"
       ;;
   esac
@@ -984,27 +988,27 @@ try:
 except: pass
 " 2>/dev/null
   else
-    # Fallback: static summary
-    printf "  ${CYAN}StayFlow${RESET}          ${DIM}stayflowapp.com${RESET}\n"
-    printf "    [ ] ${RED}SF-1${RESET} Resendドメイン認証            ${DIM}~0.5h${RESET}\n"
-    printf "    [ ] ${RED}SF-2${RESET} Supabase Auth SMTP設定        ${DIM}~0.5h${RESET}\n"
-    printf "    [ ] ${YELLOW}SF-3${RESET} Edge Functions再デプロイ      ${DIM}~0.5h${RESET}\n"
-    echo ""
-    printf "  ${YELLOW}Chatweb.ai${RESET}        ${DIM}chatweb.ai${RESET}\n"
-    printf "    [ ] ${RED}CW-1${RESET} Stripe WEBHOOK_SECRET設定     ${DIM}~0.5h${RESET}\n"
+    # Fallback: static summary (synced with /api/plan 2026-02-26)
+    printf "  ${CYAN}enablerdao.com${RESET}    ${DIM}enablerdao.com${RESET}\n"
+    printf "    [ ] ${YELLOW}ED-5${RESET} CHATWEB_ADMIN_KEY設定         ${DIM}~0.5h${RESET}\n"
+    printf "    [ ] ${DIM}ED-6${RESET} Solscan EBRホルダー数取得修正  ${DIM}~1h${RESET}\n"
     echo ""
     printf "  ${YELLOW}BANTO${RESET}             ${DIM}banto.work${RESET}\n"
-    printf "    [ ] ${YELLOW}BT-1${RESET} 音声フローデプロイ            ${DIM}~1h${RESET}\n"
+    printf "    [ ] ${YELLOW}BT-4${RESET} Stripe Product+Price作成     ${DIM}~0.5h${RESET}\n"
+    printf "    [ ] ${YELLOW}BT-5${RESET} drizzle-kit push              ${DIM}~0.5h${RESET}\n"
+    echo ""
+    printf "  ${CYAN}Chatweb.ai${RESET}        ${DIM}chatweb.ai${RESET}\n"
+    printf "    [ ] ${YELLOW}CW-4${RESET} Admin Stats API実装           ${DIM}~4h${RESET}\n"
+    echo ""
+    printf "  ${CYAN}JiuFlow SSR${RESET}       ${DIM}jiuflow.art${RESET}\n"
+    printf "    [ ] ${YELLOW}JF-3${RESET} GitHub remote設定 + デプロイ  ${DIM}~0.5h${RESET}\n"
+    echo ""
+    printf "  ${CYAN}StayFlow${RESET}          ${DIM}stayflowapp.com${RESET}\n"
+    printf "    [ ] ${YELLOW}SF-1${RESET} Resend DNS設定 (SPF/DKIM)    ${DIM}~1h${RESET}\n"
+    printf "    [~] ${YELLOW}SF-2${RESET} Supabase → SQLite移行        ${DIM}~40h (50%%)${RESET}\n"
     echo ""
     printf "  ${RED}DojoC${RESET}             ${DIM}dojoc.io${RESET}\n"
-    printf "    [ ] ${RED}DC-1${RESET} Stripe本番シークレット設定     ${DIM}~0.5h${RESET}\n"
-    printf "    [ ] ${RED}DC-2${RESET} Resendメール統合              ${DIM}~1h${RESET}\n"
-    echo ""
-    printf "  ${CYAN}Elio${RESET}              ${DIM}elio.love${RESET}\n"
-    printf "    [ ] ${RED}EL-1${RESET} Info.plistビルド番号修正       ${DIM}~0.5h${RESET}\n"
-    echo ""
-    printf "  ${BRIGHT_CYAN}ミセバンAI${RESET}        ${DIM}misebanai.com${RESET}\n"
-    printf "    [ ] ${YELLOW}MB-1${RESET} Resendドメイン認証            ${DIM}~0.5h${RESET}\n"
+    printf "    [ ] ${RED}DC-1${RESET} サーバー復旧 (fly machine start) ${DIM}~0.5h${RESET}\n"
     echo ""
   fi
 
