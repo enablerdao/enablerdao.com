@@ -27,11 +27,11 @@ const projects: Project[] = [
     tasks: [
       { id: "SF-1", title: "Resendドメイン認証 (DNS設定)", priority: "critical", status: "done", estimatedHours: "0.5h" },
       { id: "SF-2", title: "Supabase Auth SMTP設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
-      { id: "SF-3", title: "Edge Functions再デプロイ", priority: "high", status: "todo", estimatedHours: "0.5h", blockedBy: "SF-1" },
+      { id: "SF-3", title: "Edge Functions再デプロイ", priority: "high", status: "todo", estimatedHours: "0.5h" },
       { id: "SF-4", title: "Cloudflare Pages DNS設定", priority: "high", status: "todo", estimatedHours: "0.5h" },
       { id: "SF-5", title: "SQLite完全移行 (Phase 5: Auth)", priority: "medium", status: "todo", estimatedHours: "8h" },
       { id: "SF-6", title: "Stripeウェブフック冪等性マイグレーション", priority: "high", status: "done", estimatedHours: "0.5h" },
-      { id: "SF-7", title: "Supabase SERVICE_ROLE_KEY設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
+      { id: "SF-7", title: "カスタムJWT認証実装 (SERVICE_ROLE_KEY不要化)", priority: "critical", status: "done", estimatedHours: "2h" },
     ],
   },
   {
@@ -41,7 +41,7 @@ const projects: Project[] = [
     tasks: [
       { id: "CW-1", title: "Stripe WEBHOOK_SECRET設定", priority: "critical", status: "done", estimatedHours: "0.5h" },
       { id: "CW-2", title: "Explore Mode UIポリッシュ", priority: "medium", status: "done", estimatedHours: "4h" },
-      { id: "CW-3", title: "管理ダッシュボード追加", priority: "medium", status: "todo", estimatedHours: "6h" },
+      { id: "CW-3", title: "管理ダッシュボード強化", priority: "medium", status: "done", estimatedHours: "6h" },
     ],
   },
   {
@@ -62,7 +62,7 @@ const projects: Project[] = [
     tasks: [
       { id: "DC-1", title: "Stripe本番シークレット設定", priority: "critical", status: "done", estimatedHours: "0.5h" },
       { id: "DC-2", title: "Resendメール統合", priority: "critical", status: "done", estimatedHours: "1h" },
-      { id: "DC-3", title: "決済フローE2Eテスト", priority: "high", status: "todo", estimatedHours: "2h" },
+      { id: "DC-3", title: "決済フローE2Eテスト (43テスト)", priority: "high", status: "done", estimatedHours: "2h" },
       { id: "DC-5", title: "本番デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", blockedBy: "DC-1" },
       { id: "DC-6", title: "Fly.io secrets設定 (4つ)", priority: "critical", status: "done", estimatedHours: "0.5h" },
     ],
