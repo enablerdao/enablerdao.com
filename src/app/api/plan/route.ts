@@ -30,7 +30,7 @@ const projects: Project[] = [
       { id: "SF-3", title: "Edge Functions再デプロイ", priority: "high", status: "todo", estimatedHours: "0.5h", blockedBy: "SF-1" },
       { id: "SF-4", title: "Cloudflare Pages DNS設定", priority: "high", status: "todo", estimatedHours: "0.5h" },
       { id: "SF-5", title: "SQLite完全移行 (Phase 5: Auth)", priority: "medium", status: "todo", estimatedHours: "8h" },
-      { id: "SF-6", title: "Stripeウェブフック冪等性マイグレーション", priority: "high", status: "todo", estimatedHours: "0.5h" },
+      { id: "SF-6", title: "Stripeウェブフック冪等性マイグレーション", priority: "high", status: "done", estimatedHours: "0.5h" },
       { id: "SF-7", title: "Supabase SERVICE_ROLE_KEY設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
     ],
   },
@@ -40,7 +40,7 @@ const projects: Project[] = [
     url: "https://chatweb.ai",
     tasks: [
       { id: "CW-1", title: "Stripe WEBHOOK_SECRET設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
-      { id: "CW-2", title: "Explore Mode UIポリッシュ", priority: "medium", status: "todo", estimatedHours: "4h" },
+      { id: "CW-2", title: "Explore Mode UIポリッシュ", priority: "medium", status: "done", estimatedHours: "4h" },
       { id: "CW-3", title: "管理ダッシュボード追加", priority: "medium", status: "todo", estimatedHours: "6h" },
     ],
   },
@@ -83,7 +83,7 @@ const projects: Project[] = [
     url: "https://misebanai.com",
     tasks: [
       { id: "MB-1", title: "Resendドメイン認証", priority: "high", status: "todo", estimatedHours: "0.5h" },
-      { id: "MB-2", title: "ONNXモデル配置", priority: "medium", status: "todo", estimatedHours: "1h" },
+      { id: "MB-2", title: "ONNXモデル配置", priority: "medium", status: "done", estimatedHours: "1h" },
       { id: "MB-3", title: "ペアリングコードマイグレーション", priority: "high", status: "done", estimatedHours: "0.5h" },
     ],
   },
