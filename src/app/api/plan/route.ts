@@ -10,6 +10,7 @@ interface Task {
   status: "todo" | "in-progress" | "blocked" | "done";
   estimatedHours: string;
   blockedBy?: string;
+  note?: string;
 }
 
 interface Project {
@@ -26,9 +27,9 @@ const projects: Project[] = [
     url: "https://stayflowapp.com",
     tasks: [
       { id: "SF-1", title: "Resendドメイン認証 (DNS設定)", priority: "critical", status: "done", estimatedHours: "0.5h" },
-      { id: "SF-2", title: "Supabase Auth SMTP設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
+      { id: "SF-2", title: "Supabase Auth SMTP設定", priority: "critical", status: "done", estimatedHours: "0.5h", note: "Custom magic link auth via Resend (not Supabase Auth). Domain verification needed for SPF/DKIM." },
       { id: "SF-3", title: "Edge Functions再デプロイ", priority: "high", status: "todo", estimatedHours: "0.5h" },
-      { id: "SF-4", title: "Cloudflare Pages DNS設定", priority: "high", status: "todo", estimatedHours: "0.5h" },
+      { id: "SF-4", title: "Cloudflare Pages DNS設定", priority: "high", status: "done", estimatedHours: "0.5h", note: "DNS correctly pointing to Fly.io, TLS certs issued, site operational." },
       { id: "SF-5", title: "SQLite完全移行 (Phase 5: Auth)", priority: "medium", status: "todo", estimatedHours: "8h" },
       { id: "SF-6", title: "Stripeウェブフック冪等性マイグレーション", priority: "high", status: "done", estimatedHours: "0.5h" },
       { id: "SF-7", title: "カスタムJWT認証実装 (SERVICE_ROLE_KEY不要化)", priority: "critical", status: "done", estimatedHours: "2h" },
