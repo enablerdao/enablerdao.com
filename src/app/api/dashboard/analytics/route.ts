@@ -65,7 +65,7 @@ async function fetchStripeData(): Promise<StripeData> {
   if (!key) return { subscriptions: [], total_active: 0 };
 
   const res = await fetch(
-    "https://api.stripe.com/v1/subscriptions?status=active&limit=100",
+    "https://api.stripe.com/v1/subscriptions?status=active&limit=100&expand[]=data.items.data.price&expand[]=data.items.data.price.product",
     {
       headers: { Authorization: `Bearer ${key}` },
     }
@@ -79,39 +79,40 @@ async function fetchStripeData(): Promise<StripeData> {
   const data = await res.json();
   const subs = data.data || [];
 
-  // Count active subscriptions per price ID
-  const priceCounts: Record<string, number> = {};
+  // Count active subscriptions per price ID, capture actual price data
+  const priceInfo: Record<string, { count: number; unit_amount: number; currency: string; product_name?: string }> = {};
   for (const sub of subs) {
     const items = sub.items?.data || [];
     for (const item of items) {
       const priceId = item.price?.id;
       if (priceId) {
-        priceCounts[priceId] = (priceCounts[priceId] || 0) + 1;
+        if (!priceInfo[priceId]) {
+          priceInfo[priceId] = {
+            count: 0,
+            unit_amount: item.price?.unit_amount ?? 0,
+            currency: item.price?.currency ?? "usd",
+            product_name: typeof item.price?.product === "object" ? item.price.product?.name : undefined,
+          };
+        }
+        priceInfo[priceId].count += 1;
       }
     }
   }
 
   // Build subscription breakdown
   const subscriptions: StripeSubscription[] = [];
-  for (const [priceId, count] of Object.entries(priceCounts)) {
+  for (const [priceId, info] of Object.entries(priceInfo)) {
     const known = PRICE_MAP[priceId];
-    if (known) {
-      subscriptions.push({
-        product_name: known.name,
-        currency: known.currency,
-        unit_amount: known.amount,
-        active_count: count,
-        mrr_contribution: known.amount * count,
-      });
-    } else {
-      subscriptions.push({
-        product_name: `Unknown (${priceId.slice(-8)})`,
-        currency: "usd",
-        unit_amount: 0,
-        active_count: count,
-        mrr_contribution: 0,
-      });
-    }
+    const name = known?.name ?? info.product_name ?? `Plan (${priceId.slice(-8)})`;
+    const currency = known?.currency ?? info.currency;
+    const amount = known?.amount ?? info.unit_amount;
+    subscriptions.push({
+      product_name: name,
+      currency,
+      unit_amount: amount,
+      active_count: info.count,
+      mrr_contribution: amount * info.count,
+    });
   }
 
   return {
