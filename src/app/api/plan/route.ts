@@ -61,7 +61,7 @@ const projects: Project[] = [
     url: "https://www.dojoc.io",
     tasks: [
       { id: "DC-1", title: "Stripe本番シークレット設定", priority: "critical", status: "todo", estimatedHours: "0.5h" },
-      { id: "DC-2", title: "Resendメール統合", priority: "critical", status: "todo", estimatedHours: "1h" },
+      { id: "DC-2", title: "Resendメール統合", priority: "critical", status: "done", estimatedHours: "1h" },
       { id: "DC-3", title: "決済フローE2Eテスト", priority: "high", status: "todo", estimatedHours: "2h", blockedBy: "DC-1" },
       { id: "DC-5", title: "本番デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", blockedBy: "DC-1" },
       { id: "DC-6", title: "Fly.io secrets設定 (4つ)", priority: "critical", status: "todo", estimatedHours: "0.5h" },
@@ -73,7 +73,7 @@ const projects: Project[] = [
     url: "https://elio.love",
     tasks: [
       { id: "EL-1", title: "Info.plistビルド番号修正", priority: "critical", status: "done", estimatedHours: "0.5h" },
-      { id: "EL-2", title: "未コミット変更の整理", priority: "high", status: "todo", estimatedHours: "1h" },
+      { id: "EL-2", title: "未コミット変更の整理", priority: "high", status: "done", estimatedHours: "1h" },
       { id: "EL-3", title: "TestFlightビルド提出", priority: "high", status: "todo", estimatedHours: "2h", blockedBy: "EL-1" },
     ],
   },
