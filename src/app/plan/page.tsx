@@ -64,7 +64,7 @@ const dailyReport = {
     commits: 7,
     deploys: 4,
     filesChanged: 20,
-    sitesOnline: 10,
+    sitesOnline: 11,
     sitesTotal: 11,
   },
   kpi: {
@@ -86,7 +86,7 @@ const dailyReport = {
     { service: "enablerdao.com", target: "Fly.io (nrt)", version: "x3 deploys", status: "live" as const, details: "Status page, Metrics page, Stripe product name fix" },
     { service: "banto.work", target: "Fly.io (nrt)", version: "banto-api", status: "live" as const, details: "Stripe subscription + Pricing page" },
     { service: "chatweb.ai", target: "AWS Lambda", version: "v79", status: "live" as const, details: "/api/v1/health + i18n language switcher" },
-    { service: "jiuflow-ssr", target: "Fly.io (nrt)", version: "-", status: "pending" as const, details: "Git remote not configured" },
+    { service: "jiuflow-ssr", target: "Fly.io (nrt)", version: "latest", status: "live" as const, details: "GitHub remote + Fly.io deploy完了" },
   ] as Deploy[],
   changes: [
     {
@@ -160,15 +160,13 @@ const dailyReport = {
     { name: "teai.io", url: "https://teai.io", status: "up" as const },
     { name: "SOLUNA", url: "https://solun.art", status: "up" as const },
     { name: "enabler.fun", url: "https://enabler.fun", status: "up" as const },
-    { name: "DojoC", url: "https://dojoc.io", status: "down" as const },
+    { name: "DojoC", url: "https://dojoc.io", status: "up" as const },
   ] as SiteHealth[],
   remaining: [
-    "DojoC server restart (fly machine start)",
-    "CHATWEB_ADMIN_KEY を Fly.io secrets に設定 → total_users 取得可能に",
-    "BANTO: Stripe Product + Price 作成、STRIPE_PRO_PRICE_ID 設定",
-    "BANTO: drizzle-kit push で subscriptions テーブル作成",
-    "jiuflow-ssr: GitHub remote 追加 + デプロイ",
-    "StayFlow: Resend DNS (SPF/DKIM/DMARC) setup",
+    "BANTO: Stripe Checkout疎通テスト (BT-6)",
+    "Chatweb.ai: Lambda v80デプロイ — Admin Stats API (CW-5)",
+    "StayFlow: USE_SQLITE=true 本番有効化 (SF-3)",
+    "enablerdao.com: ダッシュボード GA4→直接KPI置き換え (ED-7)",
   ],
   research: [
     "Supabase removal: ~$1,000/mo savings potential across projects",
@@ -192,8 +190,9 @@ const projects: ProjectPlan[] = [
       { id: "ED-2", title: "/status ライブ監視ページ追加", description: "11 sites monitored, response time, uptime sparklines, 24h localStorage history, 60s auto-refresh", priority: "high", status: "done", labels: ["frontend"], estimatedHours: "3h", completedDate: "2026-02-26" },
       { id: "ED-3", title: "Stripe Unknown商品名修正", description: "Prices API経由で全商品名・金額を取得。MRR JPY: ¥0→¥53,840", priority: "critical", status: "done", labels: ["api", "stripe"], estimatedHours: "1h", completedDate: "2026-02-26" },
       { id: "ED-4", title: "GitHub Actions CI/CD", description: "PR lint/build + auto-deploy to Fly.io on push to master", priority: "medium", status: "done", labels: ["ci/cd"], estimatedHours: "1h", completedDate: "2026-02-26" },
-      { id: "ED-5", title: "CHATWEB_ADMIN_KEY設定", description: "Fly.io secretsに設定し、Chatweb.aiユーザー数をdashboardに表示", priority: "medium", status: "todo", labels: ["secrets", "dashboard"], estimatedHours: "0.5h" },
-      { id: "ED-6", title: "Solscan EBRホルダー数取得修正", description: "Solscan API廃止→Solana RPC (getProgramAccounts) に移行。133ホルダー取得成功", priority: "low", status: "done", labels: ["api", "web3"], estimatedHours: "1h", completedDate: "2026-02-26" },
+      { id: "ED-5", title: "CHATWEB_ADMIN_KEY設定", description: "cw_* APIキー生成、Fly.io secrets設定済み", priority: "medium", status: "done", labels: ["secrets", "dashboard"], estimatedHours: "0.5h", completedDate: "2026-02-26" },
+      { id: "ED-6", title: "Solscan EBRホルダー数取得修正", description: "Solscan→Solana RPC getProgramAccounts、133ホルダー確認", priority: "low", status: "done", labels: ["api", "web3"], estimatedHours: "1h", completedDate: "2026-02-26" },
+      { id: "ED-7", title: "ダッシュボード GA4→直接KPI置き換え", description: "GA4依存を排除し、各サービスのAPIから直接KPIを取得する", priority: "high", status: "in-progress", labels: ["dashboard", "api"], estimatedHours: "4h" },
     ],
   },
   {
@@ -207,8 +206,9 @@ const projects: ProjectPlan[] = [
       { id: "BT-1", title: "Stripe subscription管理実装", description: "subscriptions table + checkout/portal/subscription API + webhook handlers", priority: "critical", status: "done", labels: ["backend", "stripe"], estimatedHours: "4h", completedDate: "2026-02-26" },
       { id: "BT-2", title: "Pricing page追加", description: "Free/Pro比較カード、Stripe Checkout redirect、FAQ", priority: "high", status: "done", labels: ["frontend"], estimatedHours: "2h", completedDate: "2026-02-26" },
       { id: "BT-3", title: "banto-api デプロイ", description: "Fly.io (nrt) へデプロイ完了", priority: "high", status: "done", labels: ["deploy"], estimatedHours: "0.5h", completedDate: "2026-02-26" },
-      { id: "BT-4", title: "Stripe Product+Price作成", description: "Stripe dashboardでPro Plan商品・価格を作成し STRIPE_PRO_PRICE_ID を設定", priority: "high", status: "todo", labels: ["stripe", "secrets"], estimatedHours: "0.5h" },
-      { id: "BT-5", title: "drizzle-kit push (subscriptions)", description: "本番DBにsubscriptionsテーブルをマイグレーション", priority: "high", status: "todo", labels: ["database"], estimatedHours: "0.5h", blockedBy: "BT-4" },
+      { id: "BT-4", title: "Stripe Product+Price作成", description: "BANTO Pro ¥2,980/mo, price_1T4ko9DqLakc8NxkMak0ZL0u", priority: "high", status: "done", labels: ["stripe", "secrets"], estimatedHours: "0.5h", completedDate: "2026-02-26" },
+      { id: "BT-5", title: "drizzle-kit push (subscriptions)", description: "subscriptionsテーブル本番push完了", priority: "high", status: "done", labels: ["database"], estimatedHours: "0.5h", completedDate: "2026-02-26" },
+      { id: "BT-6", title: "BANTO Stripe Checkout疎通テスト", description: "Stripe Checkout flow のE2E動作確認", priority: "high", status: "todo", labels: ["stripe", "testing"], estimatedHours: "1h" },
     ],
   },
   {
@@ -222,7 +222,8 @@ const projects: ProjectPlan[] = [
       { id: "CW-1", title: "/api/v1/health エンドポイント追加", description: "service, version, timestamp, providers を返す標準healthcheck", priority: "high", status: "done", labels: ["backend", "api"], estimatedHours: "0.5h", completedDate: "2026-02-26" },
       { id: "CW-2", title: "i18n言語切替UI有効化", description: "Desktop/Mobile/PWMのlanguage switcher unhide + ?lang= URL param + app-mode globe", priority: "medium", status: "done", labels: ["frontend", "i18n"], estimatedHours: "2h", completedDate: "2026-02-26" },
       { id: "CW-3", title: "Lambda v79デプロイ", description: "Rust rebuild (include_str!) + Lambda update + live alias", priority: "high", status: "done", labels: ["deploy"], estimatedHours: "6min", completedDate: "2026-02-26" },
-      { id: "CW-4", title: "Admin Stats API実装", description: "/api/v1/admin/stats — total_users, today_usage, sessions by channel. enablerdao dashboardから参照", priority: "medium", status: "todo", labels: ["backend", "admin"], estimatedHours: "4h" },
+      { id: "CW-4", title: "Admin Stats API実装", description: "ADMIN_KEY認証 + today_active追加、cargo check通過", priority: "medium", status: "done", labels: ["backend", "admin"], estimatedHours: "4h", completedDate: "2026-02-26" },
+      { id: "CW-5", title: "Lambda v80デプロイ (Admin Stats API)", description: "Admin Stats APIを含むLambda v80をデプロイ", priority: "high", status: "todo", labels: ["deploy"], estimatedHours: "0.5h" },
     ],
   },
   {
@@ -235,7 +236,7 @@ const projects: ProjectPlan[] = [
     tasks: [
       { id: "JF-1", title: "19名の選手プロフィール追加", description: "BJ Penn, Sakuraba, Ryan Hall, Eddie Cummings等 (356→375)", priority: "high", status: "done", labels: ["content"], estimatedHours: "2h", completedDate: "2026-02-26" },
       { id: "JF-2", title: "GitHub Actions CI/CD追加", description: "Rust CI (check/test/clippy) + Fly.io deploy workflows", priority: "medium", status: "done", labels: ["ci/cd"], estimatedHours: "1h", completedDate: "2026-02-26" },
-      { id: "JF-3", title: "GitHub remote設定 + デプロイ", description: "git remoteを追加し fly deploy", priority: "high", status: "todo", labels: ["deploy"], estimatedHours: "0.5h" },
+      { id: "JF-3", title: "GitHub remote設定 + デプロイ", description: "yukihamada/jiuflow-ssr private repo作成、Fly.ioデプロイ完了", priority: "high", status: "done", labels: ["deploy"], estimatedHours: "0.5h", completedDate: "2026-02-26" },
     ],
   },
   {
@@ -246,8 +247,9 @@ const projects: ProjectPlan[] = [
     color: "#00ff00",
     description: "民泊管理SaaS — Resend DNS + Supabase脱却",
     tasks: [
-      { id: "SF-1", title: "Resend DNS設定 (SPF/DKIM/DMARC)", description: "stayflowapp.comのメール認証DNS設定。29 Edge Functionsのメール送信元を統一", priority: "high", status: "todo", labels: ["dns", "email"], estimatedHours: "1h" },
-      { id: "SF-2", title: "Supabase → SQLite移行 (調査完了)", description: "50%完了済み。残り4-7日。~$1,000/mo削減見込み", priority: "medium", status: "in-progress", labels: ["backend", "migration"], estimatedHours: "40h" },
+      { id: "SF-1", title: "Resend DNS設定 (SPF/DKIM/DMARC)", description: "SPF/DKIM verified、DMARC追加", priority: "high", status: "done", labels: ["dns", "email"], estimatedHours: "1h", completedDate: "2026-02-26" },
+      { id: "SF-2", title: "Supabase → SQLite移行 (調査完了)", description: "65-70%完了。サーバー側90%、認証100%完了。USE_SQLITE有効化とデータ移行が残タスク", priority: "medium", status: "in-progress", labels: ["backend", "migration"], estimatedHours: "40h" },
+      { id: "SF-3", title: "USE_SQLITE=true 本番有効化", description: "USE_SQLITE環境変数を有効化し本番でSQLiteを使用開始", priority: "high", status: "todo", labels: ["backend", "deploy"], estimatedHours: "1h" },
     ],
   },
   {
@@ -256,9 +258,9 @@ const projects: ProjectPlan[] = [
     github: "https://github.com/yukihamada/security-education",
     url: "https://dojoc.io",
     color: "#ff6688",
-    description: "サイバーセキュリティ教育 — サーバー復旧必要",
+    description: "サイバーセキュリティ教育 — サーバー復旧完了",
     tasks: [
-      { id: "DC-1", title: "サーバー復旧 (fly machine start)", description: "Fly.io machine stopped. 手動でmachine startが必要", priority: "critical", status: "todo", labels: ["infra", "deploy"], estimatedHours: "0.5h" },
+      { id: "DC-1", title: "サーバー復旧 (fly machine start)", description: "Fly.io machine復旧完了", priority: "critical", status: "done", labels: ["infra", "deploy"], estimatedHours: "0.5h", completedDate: "2026-02-26" },
     ],
   },
 ];
@@ -351,7 +353,7 @@ export default function PlanPage() {
               <div className="border border-[#1a3a1a] rounded p-3">
                 <div className="text-[#555] text-[10px] uppercase tracking-wider">Sites Up</div>
                 <div className="text-[#00ff00] text-2xl font-bold">{r.summary.sitesOnline}/{r.summary.sitesTotal}</div>
-                <div className="text-[#555] text-[10px]">DojoC only down</div>
+                <div className="text-[#555] text-[10px]">all services operational</div>
               </div>
             </div>
           </div>

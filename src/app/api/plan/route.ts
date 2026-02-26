@@ -31,8 +31,9 @@ const projects: Project[] = [
       { id: "ED-2", title: "/status ライブ監視ページ追加", priority: "high", status: "done", estimatedHours: "3h", completedDate: "2026-02-26" },
       { id: "ED-3", title: "Stripe Unknown商品名修正", priority: "critical", status: "done", estimatedHours: "1h", completedDate: "2026-02-26", note: "Prices API経由で全商品名取得。MRR JPY: ¥0→¥53,840" },
       { id: "ED-4", title: "GitHub Actions CI/CD", priority: "medium", status: "done", estimatedHours: "1h", completedDate: "2026-02-26" },
-      { id: "ED-5", title: "CHATWEB_ADMIN_KEY設定", priority: "medium", status: "todo", estimatedHours: "0.5h" },
-      { id: "ED-6", title: "Solscan EBRホルダー数取得修正", priority: "low", status: "done", estimatedHours: "1h", completedDate: "2026-02-26", note: "Solscan API廃止→Solana RPC (getProgramAccounts) に移行。133ホルダー取得成功" },
+      { id: "ED-5", title: "CHATWEB_ADMIN_KEY設定", priority: "medium", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26", note: "cw_* APIキー生成、Fly.io secrets設定済み" },
+      { id: "ED-6", title: "Solscan EBRホルダー数取得修正", priority: "low", status: "done", estimatedHours: "1h", completedDate: "2026-02-26", note: "Solscan→Solana RPC getProgramAccounts、133ホルダー確認" },
+      { id: "ED-7", title: "ダッシュボード GA4→直接KPI置き換え", priority: "high", status: "in-progress", estimatedHours: "4h" },
     ],
   },
   {
@@ -43,8 +44,9 @@ const projects: Project[] = [
       { id: "BT-1", title: "Stripe subscription管理実装", priority: "critical", status: "done", estimatedHours: "4h", completedDate: "2026-02-26" },
       { id: "BT-2", title: "Pricing page追加", priority: "high", status: "done", estimatedHours: "2h", completedDate: "2026-02-26" },
       { id: "BT-3", title: "banto-api デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26" },
-      { id: "BT-4", title: "Stripe Product+Price作成", priority: "high", status: "todo", estimatedHours: "0.5h" },
-      { id: "BT-5", title: "drizzle-kit push (subscriptions)", priority: "high", status: "todo", estimatedHours: "0.5h", blockedBy: "BT-4" },
+      { id: "BT-4", title: "Stripe Product+Price作成", priority: "high", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26", note: "BANTO Pro ¥2,980/mo, price_1T4ko9DqLakc8NxkMak0ZL0u" },
+      { id: "BT-5", title: "drizzle-kit push (subscriptions)", priority: "high", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26", note: "subscriptionsテーブル本番push完了" },
+      { id: "BT-6", title: "BANTO Stripe Checkout疎通テスト", priority: "high", status: "todo", estimatedHours: "1h" },
     ],
   },
   {
@@ -55,7 +57,8 @@ const projects: Project[] = [
       { id: "CW-1", title: "/api/v1/health エンドポイント追加", priority: "high", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26" },
       { id: "CW-2", title: "i18n言語切替UI有効化", priority: "medium", status: "done", estimatedHours: "2h", completedDate: "2026-02-26" },
       { id: "CW-3", title: "Lambda v79デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26" },
-      { id: "CW-4", title: "Admin Stats API実装", priority: "medium", status: "todo", estimatedHours: "4h" },
+      { id: "CW-4", title: "Admin Stats API実装", priority: "medium", status: "done", estimatedHours: "4h", completedDate: "2026-02-26", note: "ADMIN_KEY認証 + today_active追加、cargo check通過" },
+      { id: "CW-5", title: "Lambda v80デプロイ (Admin Stats API)", priority: "high", status: "todo", estimatedHours: "0.5h" },
     ],
   },
   {
@@ -65,7 +68,7 @@ const projects: Project[] = [
     tasks: [
       { id: "JF-1", title: "19名の選手プロフィール追加", priority: "high", status: "done", estimatedHours: "2h", completedDate: "2026-02-26" },
       { id: "JF-2", title: "GitHub Actions CI/CD追加", priority: "medium", status: "done", estimatedHours: "1h", completedDate: "2026-02-26" },
-      { id: "JF-3", title: "GitHub remote設定 + デプロイ", priority: "high", status: "todo", estimatedHours: "0.5h" },
+      { id: "JF-3", title: "GitHub remote設定 + デプロイ", priority: "high", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26", note: "yukihamada/jiuflow-ssr private repo作成、Fly.ioデプロイ完了" },
     ],
   },
   {
@@ -73,8 +76,9 @@ const projects: Project[] = [
     repo: "stayflow",
     url: "https://stayflowapp.com",
     tasks: [
-      { id: "SF-1", title: "Resend DNS設定 (SPF/DKIM/DMARC)", priority: "high", status: "todo", estimatedHours: "1h" },
-      { id: "SF-2", title: "Supabase → SQLite移行", priority: "medium", status: "in-progress", estimatedHours: "40h", note: "50%完了。残り4-7日。~$1,000/mo削減見込み" },
+      { id: "SF-1", title: "Resend DNS設定 (SPF/DKIM/DMARC)", priority: "high", status: "done", estimatedHours: "1h", completedDate: "2026-02-26", note: "SPF/DKIM verified、DMARC追加" },
+      { id: "SF-2", title: "Supabase → SQLite移行", priority: "medium", status: "in-progress", estimatedHours: "40h", note: "65-70%完了。サーバー側90%、認証100%完了。USE_SQLITE有効化とデータ移行が残タスク" },
+      { id: "SF-3", title: "USE_SQLITE=true 本番有効化", priority: "high", status: "todo", estimatedHours: "1h" },
     ],
   },
   {
@@ -82,7 +86,7 @@ const projects: Project[] = [
     repo: "security-education",
     url: "https://dojoc.io",
     tasks: [
-      { id: "DC-1", title: "サーバー復旧 (fly machine start)", priority: "critical", status: "todo", estimatedHours: "0.5h" },
+      { id: "DC-1", title: "サーバー復旧 (fly machine start)", priority: "critical", status: "done", estimatedHours: "0.5h", completedDate: "2026-02-26" },
     ],
   },
 ];
