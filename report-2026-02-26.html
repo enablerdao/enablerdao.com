@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnablerDAO Daily Report — 2026-02-26</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --card: #111;
+    --border: #1a3a1a;
+    --green: #00ff00;
+    --green-dim: #00aa00;
+    --cyan: #00cccc;
+    --amber: #ffaa00;
+    --red: #ff4444;
+    --text: #ccc;
+    --text-dim: #666;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1, h2, h3 { color: var(--green); font-weight: 600; }
+  h1 { font-size: 1.4rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+  h2 { font-size: 1.1rem; margin: 2rem 0 1rem; }
+  h3 { font-size: 0.95rem; color: var(--cyan); margin: 1.2rem 0 0.5rem; }
+
+  .header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .header .dots { display: flex; gap: 6px; }
+  .header .dots span { width: 12px; height: 12px; border-radius: 50%; }
+  .header .dots .r { background: #ff5f57; }
+  .header .dots .y { background: #febc2e; }
+  .header .dots .g { background: #28c840; }
+  .header .title { color: var(--text-dim); font-size: 0.85rem; }
+
+  .summary-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem; margin: 1rem 0;
+  }
+  .summary-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+  }
+  .summary-card .label { color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+  .summary-card .value { color: var(--green); font-size: 1.8rem; font-weight: 700; margin: 0.3rem 0; }
+  .summary-card .detail { color: var(--text-dim); font-size: 0.8rem; }
+
+  table {
+    width: 100%; border-collapse: collapse; margin: 0.8rem 0;
+    font-size: 0.85rem;
+  }
+  th { text-align: left; color: var(--green-dim); border-bottom: 1px solid var(--border); padding: 0.4rem 0.6rem; font-weight: 600; }
+  td { border-bottom: 1px solid #1a1a1a; padding: 0.4rem 0.6rem; }
+  tr:hover td { background: #0f1f0f; }
+
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 3px;
+    font-size: 0.75rem; font-weight: 600;
+  }
+  .badge-done { background: #0a2a0a; color: var(--green); border: 1px solid #1a4a1a; }
+  .badge-deploy { background: #1a2a0a; color: var(--amber); border: 1px solid #3a4a1a; }
+  .badge-pending { background: #1a1a1a; color: var(--text-dim); border: 1px solid #2a2a2a; }
+  .badge-new { background: #0a1a2a; color: var(--cyan); border: 1px solid #1a3a5a; }
+  .badge-progress { background: #1a1a0a; color: var(--amber); border: 1px solid #3a3a1a; }
+
+  .commit-hash { color: var(--amber); font-size: 0.8rem; }
+  .file-path { color: var(--cyan); font-size: 0.8rem; }
+  .prompt { color: var(--green-dim); }
+  .prompt::before { content: '$ '; }
+
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.2rem;
+    margin: 1rem 0;
+  }
+
+  .kpi-bar {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin: 0.3rem 0;
+  }
+  .kpi-bar .bar {
+    height: 16px; background: var(--green-dim); border-radius: 2px;
+    min-width: 2px; transition: width 0.3s;
+  }
+  .kpi-bar .bar-label { color: var(--text-dim); font-size: 0.75rem; min-width: 140px; }
+  .kpi-bar .bar-value { color: var(--green); font-size: 0.8rem; min-width: 80px; text-align: right; }
+
+  ul { padding-left: 1.5rem; }
+  li { margin: 0.3rem 0; }
+  li::marker { color: var(--green-dim); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+  .status-dot.up { background: var(--green); }
+  .status-dot.down { background: var(--red); }
+
+  .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 0.75rem; text-align: center; }
+
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .links-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+  .link-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.8rem 1rem; display: flex; align-items: center; gap: 0.8rem;
+    transition: border-color 0.2s;
+  }
+  .link-card:hover { border-color: var(--green-dim); }
+  .link-card .icon { font-size: 1.5rem; min-width: 30px; text-align: center; }
+  .link-card .info .name { color: var(--green); font-weight: 600; font-size: 0.9rem; }
+  .link-card .info .url { color: var(--text-dim); font-size: 0.75rem; }
+
+  .task-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.5rem; }
+  .task-item {
+    background: #0a150a; border: 1px solid var(--border); border-radius: 4px;
+    padding: 0.5rem 0.8rem; font-size: 0.85rem;
+  }
+  .task-item.done { opacity: 0.6; }
+  .task-id { color: var(--amber); font-weight: 600; margin-right: 0.3rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+  <span class="title">enablerdao@ops:~/report — zsh</span>
+</div>
+
+<h1>Daily Engineering Report — 2026-02-26 (Final)</h1>
+
+<!-- ===== Summary Cards ===== -->
+<div class="summary-grid">
+  <div class="summary-card">
+    <div class="label">Tasks Done</div>
+    <div class="value">19</div>
+    <div class="detail">across 6 projects</div>
+  </div>
+  <div class="summary-card">
+    <div class="label">Deploys</div>
+    <div class="value">8</div>
+    <div class="detail">enablerdao x5 / BANTO / chatweb v79+v80 / jiuflow-ssr</div>
+  </div>
+  <div class="summary-card">
+    <div class="label">Sites Online</div>
+    <div class="value">11/11</div>
+    <div class="detail">All services operational</div>
+  </div>
+  <div class="summary-card">
+    <div class="label">MRR</div>
+    <div class="value">$9 + &yen;53,840</div>
+    <div class="detail">16 paid subscribers</div>
+  </div>
+</div>
+
+<!-- ===== Quick Links ===== -->
+<h2># Quick Links</h2>
+<div class="links-section">
+  <a href="https://enablerdao.com" class="link-card" target="_blank">
+    <span class="icon">&#127968;</span>
+    <div class="info"><div class="name">EnablerDAO</div><div class="url">enablerdao.com</div></div>
+  </a>
+  <a href="https://enablerdao.com/plan" class="link-card" target="_blank">
+    <span class="icon">&#128203;</span>
+    <div class="info"><div class="name">Plan / Tasks</div><div class="url">enablerdao.com/plan</div></div>
+  </a>
+  <a href="https://enablerdao.com/metrics" class="link-card" target="_blank">
+    <span class="icon">&#128200;</span>
+    <div class="info"><div class="name">Metrics Dashboard</div><div class="url">enablerdao.com/metrics</div></div>
+  </a>
+  <a href="https://enablerdao.com/status" class="link-card" target="_blank">
+    <span class="icon">&#128994;</span>
+    <div class="info"><div class="name">Status Monitor</div><div class="url">enablerdao.com/status</div></div>
+  </a>
+  <a href="https://enablerdao.com/dashboard" class="link-card" target="_blank">
+    <span class="icon">&#128176;</span>
+    <div class="info"><div class="name">Business KPI Dashboard</div><div class="url">enablerdao.com/dashboard</div></div>
+  </a>
+  <a href="https://chatweb.ai" class="link-card" target="_blank">
+    <span class="icon">&#129302;</span>
+    <div class="info"><div class="name">Chatweb.ai</div><div class="url">chatweb.ai</div></div>
+  </a>
+  <a href="https://stayflowapp.com" class="link-card" target="_blank">
+    <span class="icon">&#127960;</span>
+    <div class="info"><div class="name">StayFlow</div><div class="url">stayflowapp.com</div></div>
+  </a>
+  <a href="https://banto.work" class="link-card" target="_blank">
+    <span class="icon">&#128221;</span>
+    <div class="info"><div class="name">BANTO</div><div class="url">banto.work</div></div>
+  </a>
+  <a href="https://banto.work/pricing" class="link-card" target="_blank">
+    <span class="icon">&#128179;</span>
+    <div class="info"><div class="name">BANTO Pricing</div><div class="url">banto.work/pricing</div></div>
+  </a>
+  <a href="https://jiuflow.art" class="link-card" target="_blank">
+    <span class="icon">&#129354;</span>
+    <div class="info"><div class="name">JiuFlow</div><div class="url">jiuflow.art</div></div>
+  </a>
+  <a href="https://www.dojoc.io" class="link-card" target="_blank">
+    <span class="icon">&#128274;</span>
+    <div class="info"><div class="name">DojoC</div><div class="url">dojoc.io</div></div>
+  </a>
+  <a href="https://solun.art" class="link-card" target="_blank">
+    <span class="icon">&#127752;</span>
+    <div class="info"><div class="name">SOLUNA</div><div class="url">solun.art</div></div>
+  </a>
+  <a href="https://misebanai.com" class="link-card" target="_blank">
+    <span class="icon">&#128249;</span>
+    <div class="info"><div class="name">MisebanAI</div><div class="url">misebanai.com</div></div>
+  </a>
+  <a href="https://enabler.fun" class="link-card" target="_blank">
+    <span class="icon">&#127881;</span>
+    <div class="info"><div class="name">enabler.fun</div><div class="url">enabler.fun</div></div>
+  </a>
+  <a href="https://github.com/enablerdao" class="link-card" target="_blank">
+    <span class="icon">&#128187;</span>
+    <div class="info"><div class="name">GitHub (enablerdao)</div><div class="url">github.com/enablerdao</div></div>
+  </a>
+  <a href="https://github.com/yukihamada" class="link-card" target="_blank">
+    <span class="icon">&#128187;</span>
+    <div class="info"><div class="name">GitHub (yukihamada)</div><div class="url">github.com/yukihamada</div></div>
+  </a>
+</div>
+
+<!-- ===== Live KPIs ===== -->
+<h2># Live Business KPIs</h2>
+<div class="section">
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="label">Paid Subscribers</div>
+      <div class="value">16</div>
+      <div class="detail">+10 this month</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">MRR (USD)</div>
+      <div class="value">$9.00</div>
+      <div class="detail">Chatweb.ai Starter x1</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">MRR (JPY)</div>
+      <div class="value">&yen;53,840</div>
+      <div class="detail">JiuFlow 4 plans combined</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">EBR Holders</div>
+      <div class="value">133</div>
+      <div class="detail">Solana RPC verified</div>
+    </div>
+  </div>
+
+  <h3>Stripe Subscription Breakdown</h3>
+  <div class="kpi-bar"><span class="bar-label">Discount Monthly (&yen;1,900)</span><div class="bar" style="width:220px"></div><span class="bar-value">x11</span></div>
+  <div class="kpi-bar"><span class="bar-label">Founder Access 2026 (&yen;1,480)</span><div class="bar" style="width:40px"></div><span class="bar-value">x2</span></div>
+  <div class="kpi-bar"><span class="bar-label">Annual Plan (&yen;29,000)</span><div class="bar" style="width:20px"></div><span class="bar-value">x1</span></div>
+  <div class="kpi-bar"><span class="bar-label">Founder Access (&yen;980)</span><div class="bar" style="width:20px"></div><span class="bar-value">x1</span></div>
+  <div class="kpi-bar"><span class="bar-label">Chatweb.ai Starter ($9)</span><div class="bar" style="width:20px"></div><span class="bar-value">x1</span></div>
+  <div class="kpi-bar"><span class="bar-label">BANTO Pro (&yen;2,980)</span><div class="bar" style="width:1px"></div><span class="bar-value">new</span></div>
+</div>
+
+<!-- ===== All Tasks ===== -->
+<h2># Completed Tasks (19/25)</h2>
+<div class="section">
+<table>
+  <thead><tr><th>ID</th><th>Task</th><th>Project</th><th>Status</th><th>Note</th></tr></thead>
+  <tbody>
+    <tr><td class="task-id">ED-1</td><td>/metrics page</td><td><a href="https://enablerdao.com/metrics">enablerdao.com</a></td><td><span class="badge badge-done">DONE</span></td><td>KPI cards, growth chart, product breakdown</td></tr>
+    <tr><td class="task-id">ED-2</td><td>/status live monitor</td><td><a href="https://enablerdao.com/status">enablerdao.com</a></td><td><span class="badge badge-done">DONE</span></td><td>11 sites, sparklines, 60s refresh</td></tr>
+    <tr><td class="task-id">ED-3</td><td>Stripe Unknown fix</td><td><a href="https://enablerdao.com/metrics">enablerdao.com</a></td><td><span class="badge badge-done">DONE</span></td><td>Prices API lookup. MRR &yen;0&rarr;&yen;53,840</td></tr>
+    <tr><td class="task-id">ED-4</td><td>GitHub Actions CI/CD</td><td>enablerdao.com</td><td><span class="badge badge-done">DONE</span></td><td>PR lint + auto-deploy</td></tr>
+    <tr><td class="task-id">ED-5</td><td>CHATWEB_ADMIN_KEY</td><td>enablerdao.com</td><td><span class="badge badge-done">DONE</span></td><td>cw_* APIkey, Fly secrets set</td></tr>
+    <tr><td class="task-id">ED-6</td><td>Solscan EBR fix</td><td>enablerdao.com</td><td><span class="badge badge-done">DONE</span></td><td>Solscan&rarr;Solana RPC. 133 holders</td></tr>
+    <tr><td class="task-id">BT-1</td><td>Stripe subscription</td><td><a href="https://banto.work">BANTO</a></td><td><span class="badge badge-done">DONE</span></td><td>checkout/portal/subscription endpoints</td></tr>
+    <tr><td class="task-id">BT-2</td><td>Pricing page</td><td><a href="https://banto.work/pricing">BANTO</a></td><td><span class="badge badge-done">DONE</span></td><td>Free/Pro comparison + FAQ</td></tr>
+    <tr><td class="task-id">BT-3</td><td>banto-api deploy</td><td><a href="https://banto.work">BANTO</a></td><td><span class="badge badge-done">DONE</span></td><td>Fly.io deploy</td></tr>
+    <tr><td class="task-id">BT-4</td><td>Stripe Product+Price</td><td>BANTO</td><td><span class="badge badge-done">DONE</span></td><td>Pro &yen;2,980/mo + webhook</td></tr>
+    <tr><td class="task-id">BT-5</td><td>drizzle-kit push</td><td>BANTO</td><td><span class="badge badge-done">DONE</span></td><td>subscriptions table in prod DB</td></tr>
+    <tr><td class="task-id">CW-1</td><td>/api/v1/health</td><td><a href="https://api.chatweb.ai/api/v1/health">Chatweb.ai</a></td><td><span class="badge badge-done">DONE</span></td><td>providers: 5</td></tr>
+    <tr><td class="task-id">CW-2</td><td>i18n language switcher</td><td><a href="https://chatweb.ai">Chatweb.ai</a></td><td><span class="badge badge-done">DONE</span></td><td>7 languages, ?lang= param</td></tr>
+    <tr><td class="task-id">CW-3</td><td>Lambda v79 deploy</td><td>Chatweb.ai</td><td><span class="badge badge-done">DONE</span></td><td>health + i18n</td></tr>
+    <tr><td class="task-id">CW-4</td><td>Admin Stats API</td><td>Chatweb.ai</td><td><span class="badge badge-done">DONE</span></td><td>ADMIN_KEY auth, today_active, sessions</td></tr>
+    <tr><td class="task-id">JF-1</td><td>19 athlete profiles</td><td><a href="https://jiuflow.art">JiuFlow</a></td><td><span class="badge badge-done">DONE</span></td><td>356&rarr;375 athletes</td></tr>
+    <tr><td class="task-id">JF-2</td><td>GitHub Actions CI/CD</td><td>JiuFlow</td><td><span class="badge badge-done">DONE</span></td><td>Rust CI + Fly deploy</td></tr>
+    <tr><td class="task-id">JF-3</td><td>GitHub remote + deploy</td><td><a href="https://jiuflow.art">JiuFlow</a></td><td><span class="badge badge-done">DONE</span></td><td>yukihamada/jiuflow-ssr created, deployed</td></tr>
+    <tr><td class="task-id">DC-1</td><td>Server recovery</td><td><a href="https://www.dojoc.io">DojoC</a></td><td><span class="badge badge-done">DONE</span></td><td>2 machines started, www.dojoc.io up</td></tr>
+    <tr><td class="task-id">SF-1</td><td>Resend DNS (SPF/DKIM/DMARC)</td><td><a href="https://stayflowapp.com">StayFlow</a></td><td><span class="badge badge-done">DONE</span></td><td>SPF/DKIM verified, DMARC added</td></tr>
+  </tbody>
+</table>
+
+<h3 style="margin-top:1.5rem">In Progress / Remaining</h3>
+<table>
+  <thead><tr><th>ID</th><th>Task</th><th>Project</th><th>Status</th><th>Note</th></tr></thead>
+  <tbody>
+    <tr><td class="task-id">SF-2</td><td>Supabase &rarr; SQLite migration</td><td><a href="https://stayflowapp.com">StayFlow</a></td><td><span class="badge badge-progress">65-70%</span></td><td>Server 90%, Auth 100%. USE_SQLITE enable next</td></tr>
+    <tr><td class="task-id">SF-3</td><td>USE_SQLITE=true enable</td><td>StayFlow</td><td><span class="badge badge-progress">IN PROGRESS</span></td><td>Fly.io secrets set</td></tr>
+    <tr><td class="task-id">BT-6</td><td>Stripe Checkout test</td><td>BANTO</td><td><span class="badge badge-progress">IN PROGRESS</span></td><td>End-to-end flow verification</td></tr>
+    <tr><td class="task-id">CW-5</td><td>Lambda v80 deploy</td><td>Chatweb.ai</td><td><span class="badge badge-done">DONE</span></td><td>Admin Stats API live, 9 providers OK</td></tr>
+    <tr><td class="task-id">ED-7</td><td>Dashboard GA4&rarr;KPI</td><td><a href="https://enablerdao.com/dashboard">enablerdao.com</a></td><td><span class="badge badge-done">DONE</span></td><td>Stripe+Chatweb+Solana+GitHub KPIs</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ===== Deployments ===== -->
+<h2># Deployments</h2>
+<div class="section">
+<table>
+  <thead><tr><th>Service</th><th>Target</th><th>Version</th><th>Status</th><th>Details</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><a href="https://enablerdao.com">enablerdao.com</a></td>
+      <td>Fly.io (nrt)</td>
+      <td>5 deploys</td>
+      <td><span class="badge badge-done">LIVE</span></td>
+      <td>Status, Metrics, Stripe fix, screenshots, plan sync</td>
+    </tr>
+    <tr>
+      <td><a href="https://banto.work">banto.work</a></td>
+      <td>Fly.io (nrt)</td>
+      <td>banto-api</td>
+      <td><span class="badge badge-done">LIVE</span></td>
+      <td>Stripe subscription + Pricing + Product/Price + DB push</td>
+    </tr>
+    <tr>
+      <td><a href="https://chatweb.ai">chatweb.ai</a></td>
+      <td>AWS Lambda</td>
+      <td>v79 &rarr; v80</td>
+      <td><span class="badge badge-done">LIVE</span></td>
+      <td>health + i18n + Admin Stats API + ADMIN_KEY</td>
+    </tr>
+    <tr>
+      <td><a href="https://jiuflow.art">jiuflow-ssr</a></td>
+      <td>Fly.io (nrt)</td>
+      <td>deployed</td>
+      <td><span class="badge badge-done">LIVE</span></td>
+      <td>GitHub repo created + 19 athletes + CI/CD</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.dojoc.io">DojoC</a></td>
+      <td>Fly.io (nrt)</td>
+      <td>2 machines</td>
+      <td><span class="badge badge-done">LIVE</span></td>
+      <td>Server recovered, www.dojoc.io 200 OK</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ===== Site Health ===== -->
+<h2># Production Site Status</h2>
+<div class="section">
+<table>
+  <thead><tr><th>Site</th><th>URL</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td><span class="status-dot up"></span>EnablerDAO</td><td><a href="https://enablerdao.com">enablerdao.com</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>Chatweb.ai</td><td><a href="https://chatweb.ai">chatweb.ai</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>StayFlow</td><td><a href="https://stayflowapp.com">stayflowapp.com</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>BANTO</td><td><a href="https://banto.work">banto.work</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>JiuFlow</td><td><a href="https://jiuflow.art">jiuflow.art</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>DojoC</td><td><a href="https://www.dojoc.io">www.dojoc.io</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>MisebanAI</td><td><a href="https://misebanai.com">misebanai.com</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>SOLUNA</td><td><a href="https://solun.art">solun.art</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>enabler.fun</td><td><a href="https://enabler.fun">enabler.fun</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>Elio</td><td><a href="https://elio.love">elio.love</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+    <tr><td><span class="status-dot up"></span>teai.io</td><td><a href="https://teai.io">teai.io</a></td><td><span class="badge badge-done">200 OK</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ===== Bugs Fixed ===== -->
+<h2># Bugs Fixed</h2>
+<div class="section">
+  <table>
+    <thead><tr><th>Issue</th><th>Root Cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>"Unknown" product names</td>
+        <td>Deep Stripe expand didn't resolve products</td>
+        <td>Separate <code>GET /v1/prices?expand[]=data.product</code></td>
+      </tr>
+      <tr>
+        <td>MRR JPY = &yen;0</td>
+        <td>Unknown prices defaulted to <code>unit_amount: 0</code></td>
+        <td>Dynamic price lookup + static PRICE_MAP merge</td>
+      </tr>
+      <tr>
+        <td>Solscan API broken (EBR holders = 0)</td>
+        <td>Solscan v1/v2 APIs deprecated, DNS unreachable</td>
+        <td>Switched to Solana RPC <code>getProgramAccounts</code></td>
+      </tr>
+      <tr>
+        <td>DojoC down</td>
+        <td>App suspended, 2 machines stopped</td>
+        <td><code>fly machine start</code> x2, TLS cert re-created</td>
+      </tr>
+      <tr>
+        <td>enablerdao CLI <code>plan</code> command missing</td>
+        <td>Installed CLI v1.0.0 outdated vs install.sh v2.0</td>
+        <td>Run <code>enablerdao update</code>, added banto/jiuflow-ssr to owner resolution</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== Infrastructure ===== -->
+<h2># Infrastructure Changes</h2>
+<div class="section">
+  <ul>
+    <li><strong>BANTO Stripe</strong> &mdash; Product: BANTO Pro (prod_U2qU9AWpHseQgy), Price: &yen;2,980/mo, Webhook configured</li>
+    <li><strong>BANTO DB</strong> &mdash; <code>subscriptions</code> table pushed to prod PostgreSQL (13 cols, 5 indexes)</li>
+    <li><strong>StayFlow DNS</strong> &mdash; SPF + DKIM verified, DMARC (<code>p=quarantine</code>) added via Cloudflare</li>
+    <li><strong>chatweb.ai Lambda v80</strong> &mdash; Admin Stats API with ADMIN_KEY auth, today_active tracking</li>
+    <li><strong>enablerdao.com</strong> &mdash; CHATWEB_ADMIN_KEY secret set, dashboard now shows live chatweb stats</li>
+    <li><strong>jiuflow-ssr</strong> &mdash; GitHub repo yukihamada/jiuflow-ssr (private) created, Fly.io deployed</li>
+    <li><strong>enablerdao CLI</strong> &mdash; banto + jiuflow-ssr added to work menu + owner resolution</li>
+    <li><strong>Screenshots</strong> &mdash; All 8 product screenshots (PC+SP) recaptured and deployed</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p class="prompt">generated by claude-opus-4-6 at 2026-02-26T10:30:00+09:00</p>
+  <p style="margin-top:0.3rem">EnablerDAO Engineering &middot; <a href="https://enablerdao.com">enablerdao.com</a> &middot; <a href="https://enablerdao.com/plan">Plan</a> &middot; <a href="https://enablerdao.com/metrics">Metrics</a> &middot; <a href="https://enablerdao.com/status">Status</a></p>
+</div>
+
+</body>
+</html>

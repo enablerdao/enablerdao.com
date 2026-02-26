@@ -360,6 +360,48 @@ export default function PlanPage() {
         </div>
       </section>
 
+      {/* Quick Links */}
+      <section className="pb-8 sm:pb-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-[#555] text-xs mb-4">
+            <span className="text-[#00aa00]">$ </span>
+            enablerdao links
+          </p>
+          <div className="terminal-box p-4 sm:p-6">
+            <h2 className="text-[#00ff00] text-sm mb-4"># Quick Links</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+              {[
+                { name: "EnablerDAO", url: "https://enablerdao.com", icon: "&#127968;" },
+                { name: "Plan / Tasks", url: "https://enablerdao.com/plan", icon: "&#128203;" },
+                { name: "Metrics", url: "https://enablerdao.com/metrics", icon: "&#128200;" },
+                { name: "Status", url: "https://enablerdao.com/status", icon: "&#128994;" },
+                { name: "Dashboard", url: "https://enablerdao.com/dashboard", icon: "&#128176;" },
+                { name: "Chatweb.ai", url: "https://chatweb.ai", icon: "&#129302;" },
+                { name: "StayFlow", url: "https://stayflowapp.com", icon: "&#127960;" },
+                { name: "BANTO", url: "https://banto.work", icon: "&#128221;" },
+                { name: "Pricing", url: "https://banto.work/pricing", icon: "&#128179;" },
+                { name: "JiuFlow", url: "https://jiuflow.art", icon: "&#129354;" },
+                { name: "DojoC", url: "https://www.dojoc.io", icon: "&#128274;" },
+                { name: "SOLUNA", url: "https://solun.art", icon: "&#127752;" },
+                { name: "MisebanAI", url: "https://misebanai.com", icon: "&#128249;" },
+                { name: "enabler.fun", url: "https://enabler.fun", icon: "&#127881;" },
+                { name: "GitHub", url: "https://github.com/enablerdao", icon: "&#128187;" },
+                { name: "Install CLI", url: "https://enablerdao.com/install", icon: "&#128268;" },
+              ].map((l) => (
+                <a key={l.name} href={l.url} target="_blank" rel="noopener noreferrer"
+                  className="border border-[#1a3a1a] rounded p-2 hover:border-[#00aa00] transition-colors flex items-center gap-2">
+                  <span dangerouslySetInnerHTML={{ __html: l.icon }} />
+                  <div>
+                    <div className="text-[#00ff00] text-xs font-semibold">{l.name}</div>
+                    <div className="text-[#555] text-[9px]">{l.url.replace("https://", "")}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* KPI Section */}
       <section className="pb-8 sm:pb-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
