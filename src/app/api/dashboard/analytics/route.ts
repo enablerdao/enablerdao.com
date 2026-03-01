@@ -171,29 +171,40 @@ async function fetchChatwebStats(): Promise<ChatwebData | null> {
 const EBR_MINT = "E1JxwaWRd8nw8vDdWMdqwdbXGBshqDcnTcinHzNMqg2Y";
 const SOLANA_RPC = "https://api.mainnet-beta.solana.com";
 
+// Exponential backoff retry for Solana RPC 429 rate limits
+async function rpcCallWithRetry(body: object, maxRetries = 3): Promise<Response> {
+  for (let i = 0; i < maxRetries; i++) {
+    const res = await fetch(SOLANA_RPC, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (res.status !== 429) return res;
+    console.warn(`[analytics] Solana RPC 429, retry ${i + 1}/${maxRetries}`);
+    await new Promise((r) => setTimeout(r, Math.pow(2, i) * 500)); // 500ms, 1s, 2s
+  }
+  throw new Error("Solana RPC rate limit exceeded after retries");
+}
+
 async function fetchEBRHolders(): Promise<number> {
   try {
     // Use Solana RPC getProgramAccounts to count token accounts for EBR mint.
     // Solscan API v2 is deprecated/unreachable; this queries the chain directly.
-    const res = await fetch(SOLANA_RPC, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "getProgramAccounts",
-        params: [
-          "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
-          {
-            filters: [
-              { dataSize: 165 },
-              { memcmp: { offset: 0, bytes: EBR_MINT } },
-            ],
-            encoding: "base64",
-            dataSlice: { offset: 0, length: 0 },
-          },
-        ],
-      }),
+    const res = await rpcCallWithRetry({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "getProgramAccounts",
+      params: [
+        "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        {
+          filters: [
+            { dataSize: 165 },
+            { memcmp: { offset: 0, bytes: EBR_MINT } },
+          ],
+          encoding: "base64",
+          dataSlice: { offset: 0, length: 0 },
+        },
+      ],
     });
 
     if (!res.ok) return 0;
@@ -230,6 +241,9 @@ async function fetchGitHubStats(): Promise<{ stars: number; repos: number }> {
     return { stars: 0, repos: 0 };
   }
 }
+
+// Next.js route segment cache: revalidate every 5 minutes
+export const revalidate = 300;
 
 // --- Route handler ---
 

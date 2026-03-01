@@ -19,6 +19,7 @@ export default function Header() {
   ];
 
   const secondaryLinks = [
+    { href: "/booking", label: "~/booking" },
     { href: "/token", label: "~/token" },
     { href: "/verify", label: "~/verify" },
     { href: "/security", label: "~/security" },

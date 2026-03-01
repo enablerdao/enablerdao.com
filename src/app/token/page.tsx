@@ -105,7 +105,7 @@ export default function TokenPage() {
             </div>
 
             {/* JSON display */}
-            <pre className="text-xs leading-relaxed overflow-x-auto">
+            <pre className="text-xs leading-relaxed overflow-x-auto break-all">
               <span className="text-[#555]">{"{"}</span>{"\n"}
               {"  "}<span className="text-[#00ffff]">&quot;name&quot;</span><span className="text-[#555]">: </span><span className="text-[#00ff00]">&quot;Enabler&quot;</span><span className="text-[#555]">,</span>{"\n"}
               {"  "}<span className="text-[#00ffff]">&quot;symbol&quot;</span><span className="text-[#555]">: </span><span className="text-[#00ff00]">&quot;EBR&quot;</span><span className="text-[#555]">,</span>{"\n"}

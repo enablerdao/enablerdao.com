@@ -157,7 +157,7 @@ function DevicePreview({ product }: { product: Product }) {
       </div>
 
       {/* スマホ Frame（右下にオーバーラップ） */}
-      <div className="absolute -bottom-4 -right-2 sm:right-2 w-[72px] sm:w-[88px] rounded-xl overflow-hidden border-2 border-[#333] bg-[#000] shadow-2xl">
+      <div className="hidden sm:block absolute -bottom-4 right-2 w-[88px] rounded-xl overflow-hidden border-2 border-[#333] bg-[#000] shadow-2xl">
         {/* Notch */}
         <div className="h-3 bg-[#000] flex justify-center items-end">
           <div className="w-10 h-1.5 bg-[#1a1a1a] rounded-full" />

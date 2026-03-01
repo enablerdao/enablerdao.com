@@ -299,8 +299,8 @@ export default function DashboardClient() {
           {/* Dashboard content */}
           {authState === "authenticated" && dashboard && (
             <>
-              {/* KPI Cards — 4 columns */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+              {/* KPI Cards — responsive columns */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
                 {[
                   {
                     label: "Total Users",
@@ -345,7 +345,7 @@ export default function DashboardClient() {
                   # Revenue Breakdown (Stripe)
                 </p>
                 {dashboard.stripe.subscriptions.length > 0 ? (
-                  <div className="space-y-2">
+                  <div className="overflow-x-auto space-y-2">
                     {(() => {
                       const maxSubs = Math.max(
                         ...dashboard.stripe.subscriptions.map((s) => s.active_count),

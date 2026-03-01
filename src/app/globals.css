@@ -27,7 +27,7 @@ body {
   background: var(--color-terminal-bg);
   color: var(--color-foreground);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.5;
 }
 
