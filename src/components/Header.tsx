@@ -16,6 +16,7 @@ export default function Header() {
     { href: "/plan", label: "~/plan" },
     { href: "/blog", label: "~/blog" },
     { href: "/install", label: "~/install" },
+    { href: "/dogs", label: "~/dogs" },
   ];
 
   const secondaryLinks = [
