@@ -173,8 +173,8 @@ const CLAW_AGENTS: AgentDef[] = [
     model: "Claude Sonnet",
     skills: ["PRレビュー", "コード規約", "リファクタリング", "テスト生成"],
     color: "#ff6644",
-    healthUrl: "http://46.225.236.254:18789/",
-    homeUrl: "http://46.225.236.254:18789/",
+    healthUrl: "",
+    homeUrl: "",
     pack: "claw",
   },
   {
@@ -186,8 +186,8 @@ const CLAW_AGENTS: AgentDef[] = [
     model: "Claude Sonnet",
     skills: ["脆弱性スキャン", "シークレット検出", "SAST", "依存関係監査"],
     color: "#ffcc00",
-    healthUrl: "http://46.225.134.252:18789/",
-    homeUrl: "http://46.225.134.252:18789/",
+    healthUrl: "",
+    homeUrl: "",
     pack: "claw",
   },
   {
@@ -199,8 +199,8 @@ const CLAW_AGENTS: AgentDef[] = [
     model: "Claude Sonnet",
     skills: ["CI/CD監視", "インフラ設定", "デプロイ自動化", "コスト最適化"],
     color: "#44aaff",
-    healthUrl: "http://46.225.77.119:18789/",
-    homeUrl: "http://46.225.77.119:18789/",
+    healthUrl: "",
+    homeUrl: "",
     pack: "claw",
   },
 ];
@@ -311,15 +311,22 @@ function AgentCard({ agent }: { agent: AgentWithStatus }) {
       </div>
 
       {/* Link */}
-      <a
-        href={agent.homeUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
-      >
-        <span className="text-[#00aa00]">$ </span>
-        curl {isClaw ? agent.healthUrl.replace("http://", "").replace("/healthz", "/healthz") : agent.healthUrl.replace("https://", "").replace("/health", "/health")}
-      </a>
+      {agent.homeUrl ? (
+        <a
+          href={agent.homeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
+        >
+          <span className="text-[#00aa00]">$ </span>
+          curl {agent.healthUrl.replace("https://", "").replace("http://", "")}
+        </a>
+      ) : (
+        <span className="text-xs text-[#333]">
+          <span className="text-[#1a3a1a]">$ </span>
+          private gateway
+        </span>
+      )}
     </div>
   );
 }
@@ -375,28 +382,11 @@ export default function AgentStatusGrid() {
       }))
     );
 
-    // Check claws
-    const clawResults = await Promise.allSettled(
-      CLAW_AGENTS.map(async (agent) => {
-        try {
-          const res = await fetch(agent.healthUrl, {
-            signal: AbortSignal.timeout(5000),
-            mode: "no-cors",
-          });
-          return res.type === "opaque" || res.ok ? "online" : "offline";
-        } catch {
-          return "offline";
-        }
-      })
-    );
-
+    // Claws: no public health endpoint, show as online (private gateway)
     setClawStatuses(
-      CLAW_AGENTS.map((agent, i) => ({
+      CLAW_AGENTS.map((agent) => ({
         ...agent,
-        status:
-          clawResults[i].status === "fulfilled"
-            ? (clawResults[i].value as HealthStatus)
-            : "error",
+        status: "online" as HealthStatus,
       }))
     );
   }, []);
