@@ -395,8 +395,8 @@ export default function PlanPage() {
           <div className="terminal-box p-4 sm:p-6">
             <div className="flex items-center gap-2 mb-4">
               <h2 className="text-[#00ff00] text-sm"># Dog Pack Live Status</h2>
-              <Link href="/dogs" className="text-[10px] text-[#555] hover:text-[#00ffff] transition-colors ml-auto">
-                /dogs &rarr;
+              <Link href="/agents" className="text-[10px] text-[#555] hover:text-[#00ffff] transition-colors ml-auto">
+                /agents &rarr;
               </Link>
             </div>
             <DogReport />
@@ -429,7 +429,7 @@ export default function PlanPage() {
                 { name: "SOLUNA", url: "https://solun.art", icon: "&#127752;" },
                 { name: "MisebanAI", url: "https://misebanai.com", icon: "&#128249;" },
                 { name: "enabler.fun", url: "https://enabler.fun", icon: "&#127881;" },
-                { name: "Dog Pack", url: "https://enablerdao.com/dogs", icon: "&#128054;" },
+                { name: "Agents", url: "https://enablerdao.com/agents", icon: "&#128054;" },
                 { name: "Token", url: "https://enablerdao.com/token", icon: "&#129689;" },
                 { name: "GitHub", url: "https://github.com/enablerdao", icon: "&#128187;" },
                 { name: "Install CLI", url: "https://enablerdao.com/install", icon: "&#128268;" },

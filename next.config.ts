@@ -22,6 +22,15 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: '/dogs',
+        destination: '/agents',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
