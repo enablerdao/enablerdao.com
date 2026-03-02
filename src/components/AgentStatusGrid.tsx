@@ -209,6 +209,7 @@ type HealthStatus = "loading" | "online" | "offline" | "error";
 
 interface AgentWithStatus extends AgentDef {
   status: HealthStatus;
+  mumble?: string;
 }
 
 function StatusBadge({ status }: { status: HealthStatus }) {
@@ -285,6 +286,13 @@ function AgentCard({ agent }: { agent: AgentWithStatus }) {
         <span className="text-[10px] text-[#00ffff]">{agent.model}</span>
       </div>
 
+      {/* Mumble (thinking aloud) */}
+      {agent.mumble && (
+        <div className="mb-2 px-2 py-1.5 bg-[#0d1117] border border-[#1a3a1a] rounded text-[11px] text-[#888] italic">
+          <span className="not-italic">{agent.emoji}</span> {agent.mumble}
+        </div>
+      )}
+
       {/* Description */}
       <p className="text-[#888] text-xs leading-relaxed mb-4 flex-1">
         {agent.description}
@@ -325,18 +333,30 @@ export default function AgentStatusGrid() {
   );
 
   const checkHealth = useCallback(async () => {
-    // Check dogs
+    // Check dogs (try CORS first for mumble, fallback to no-cors)
     const dogResults = await Promise.allSettled(
-      DOG_AGENTS.map(async (agent) => {
+      DOG_AGENTS.map(async (agent): Promise<{ status: HealthStatus; mumble?: string }> => {
         try {
+          // Try with CORS to get JSON (mumble)
           const res = await fetch(agent.healthUrl, {
             signal: AbortSignal.timeout(5000),
-            mode: "no-cors",
           });
-          // no-cors returns opaque response (status 0), treat as online if no error thrown
-          return res.type === "opaque" || res.ok ? "online" : "offline";
+          if (res.ok) {
+            const data = await res.json();
+            return { status: "online", mumble: data.mumble || undefined };
+          }
+          return { status: "offline" };
         } catch {
-          return "offline";
+          // Fallback: no-cors (opaque = online but no mumble)
+          try {
+            const res = await fetch(agent.healthUrl, {
+              signal: AbortSignal.timeout(5000),
+              mode: "no-cors",
+            });
+            return { status: res.type === "opaque" ? "online" : "offline" };
+          } catch {
+            return { status: "offline" };
+          }
         }
       })
     );
@@ -346,8 +366,12 @@ export default function AgentStatusGrid() {
         ...agent,
         status:
           dogResults[i].status === "fulfilled"
-            ? (dogResults[i].value as HealthStatus)
+            ? dogResults[i].value.status
             : "error",
+        mumble:
+          dogResults[i].status === "fulfilled"
+            ? dogResults[i].value.mumble
+            : undefined,
       }))
     );
 
