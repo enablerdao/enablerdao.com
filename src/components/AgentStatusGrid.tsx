@@ -173,8 +173,8 @@ const CLAW_AGENTS: AgentDef[] = [
     model: "Claude Sonnet",
     skills: ["PRレビュー", "コード規約", "リファクタリング", "テスト生成"],
     color: "#ff6644",
-    healthUrl: "http://46.225.236.254:3000/healthz",
-    homeUrl: "http://46.225.236.254:3000/",
+    healthUrl: "http://46.225.236.254:18789/",
+    homeUrl: "http://46.225.236.254:18789/",
     pack: "claw",
   },
   {
@@ -186,8 +186,8 @@ const CLAW_AGENTS: AgentDef[] = [
     model: "Claude Sonnet",
     skills: ["脆弱性スキャン", "シークレット検出", "SAST", "依存関係監査"],
     color: "#ffcc00",
-    healthUrl: "http://46.225.134.252:3000/healthz",
-    homeUrl: "http://46.225.134.252:3000/",
+    healthUrl: "http://46.225.134.252:18789/",
+    homeUrl: "http://46.225.134.252:18789/",
     pack: "claw",
   },
   {
@@ -199,8 +199,8 @@ const CLAW_AGENTS: AgentDef[] = [
     model: "Claude Sonnet",
     skills: ["CI/CD監視", "インフラ設定", "デプロイ自動化", "コスト最適化"],
     color: "#44aaff",
-    healthUrl: "http://46.225.77.119:3000/healthz",
-    homeUrl: "http://46.225.77.119:3000/",
+    healthUrl: "http://46.225.77.119:18789/",
+    homeUrl: "http://46.225.77.119:18789/",
     pack: "claw",
   },
 ];
