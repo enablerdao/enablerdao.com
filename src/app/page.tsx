@@ -186,31 +186,32 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       {/* ===== Hero ===== */}
-      <section className="pt-20 pb-8 sm:pt-24 sm:pb-12">
+      <section className="pt-20 pb-10 sm:pt-28 sm:pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-2xl sm:text-4xl font-bold text-[#e0e0e0] mb-3">
-            みんなで作る、<span className="text-[#00ff00]">みんなのためのソフトウェア</span>
+          <h1 className="text-3xl sm:text-5xl font-bold text-[#e8e8e8] mb-4 leading-tight">
+            みんなで作る、<br className="sm:hidden" /><span className="text-[#00ff00]">みんなのためのソフトウェア</span>
           </h1>
-          <p className="text-sm sm:text-base text-[#888] max-w-2xl mx-auto mb-6">
+          <p className="text-base sm:text-lg text-[#aaa] max-w-2xl mx-auto mb-8">
             EnablerDAOは、AIとオープンソースでプロダクトを開発・運営するDAO。
             基本無料で始められて、誰でも参加できます。
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
-            <Link href="#products" className="px-6 py-2.5 bg-[#00ff00] text-[#000] font-bold text-sm hover:bg-[#33ff33] transition-colors rounded">
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+            <Link href="#products" className="px-8 py-3 bg-[#00ff00] text-[#000] font-bold text-base hover:bg-[#33ff33] transition-colors rounded">
               サービスを見る
             </Link>
-            <Link href="/ideas" className="px-6 py-2.5 border border-[#00ff00]/30 text-[#00ff00] text-sm hover:bg-[#00ff00]/10 transition-colors rounded">
+            <Link href="/ideas" className="px-8 py-3 border border-[#00ff00]/30 text-[#00ff00] text-base hover:bg-[#00ff00]/10 transition-colors rounded">
               アイデアを投稿
             </Link>
-            <Link href="/dao" className="px-6 py-2.5 border border-[#333] text-[#888] text-sm hover:text-[#e0e0e0] transition-colors rounded">
+            <Link href="/dao" className="px-8 py-3 border border-[#444] text-[#aaa] text-base hover:text-[#e0e0e0] transition-colors rounded">
               DAO Governance
             </Link>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-[#555]">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-[#777]">
             <span><span className="text-[#00ff00] font-bold">500+</span> 施設導入</span>
             <span><span className="text-[#ffaa00] font-bold">30K+</span> req/日</span>
             <span><span className="text-[#00ffff] font-bold">99.99%</span> uptime</span>
             <span><span className="text-[#aa66ff] font-bold">OSS</span> 全コード公開</span>
+            <span><span className="text-[#4488ff] font-bold">1B ENAI</span> Live</span>
           </div>
         </div>
       </section>
@@ -218,7 +219,7 @@ export default function Home() {
       {/* ===== Flagship Products ===== */}
       <section id="products" className="py-10 sm:py-14">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-lg text-[#00ff00] font-bold mb-8">主力サービス</h2>
+          <h2 className="text-xl text-[#00ff00] font-bold mb-8">主力サービス</h2>
 
           <div className="space-y-16 mb-16">
             {flagships.map((p, i) => (
@@ -232,9 +233,9 @@ export default function Home() {
                   {/* Info */}
                   <div className="w-full lg:w-2/5">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xl font-bold" style={{ color: p.color }}>{p.name}</span>
+                      <span className="text-2xl font-bold" style={{ color: p.color }}>{p.name}</span>
                       {p.badge && (
-                        <span className="text-[9px] px-2 py-0.5 rounded-full" style={{
+                        <span className="text-xs px-2.5 py-1 rounded-full" style={{
                           backgroundColor: `${p.color}20`,
                           color: p.color,
                           border: `1px solid ${p.color}40`,
@@ -243,12 +244,12 @@ export default function Home() {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-[#ccc] mb-3">{p.tagline}</p>
-                    <p className="text-xs text-[#555] mb-3">{p.stats}</p>
+                    <p className="text-base text-[#ccc] mb-3">{p.tagline}</p>
+                    <p className="text-sm text-[#777] mb-3">{p.stats}</p>
                     {p.price && (
-                      <p className="text-xs text-[#00ffff] mb-4">{p.price}</p>
+                      <p className="text-sm text-[#00ffff] mb-4">{p.price}</p>
                     )}
-                    <span className="inline-block text-xs px-4 py-2 rounded group-hover:opacity-80 transition-opacity" style={{
+                    <span className="inline-block text-sm px-5 py-2.5 rounded group-hover:opacity-80 transition-opacity" style={{
                       backgroundColor: `${p.color}15`,
                       color: p.color,
                       border: `1px solid ${p.color}40`,
@@ -263,7 +264,7 @@ export default function Home() {
 
           {/* ===== Native App (Elio) ===== */}
           <div className="mb-16">
-            <h2 className="text-lg text-[#888] font-bold mb-6">ネイティブアプリ</h2>
+            <h2 className="text-xl text-[#aaa] font-bold mb-6">ネイティブアプリ</h2>
             <a href={appProduct.appStoreUrl} target="_blank" rel="noopener noreferrer"
                className="flex flex-col sm:flex-row gap-5 p-5 border border-[#aa66ff]/30 rounded-xl hover:border-[#aa66ff]/60 transition-colors group">
               {/* App Icon + badge */}
@@ -286,25 +287,25 @@ export default function Home() {
               {/* Info */}
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-lg font-bold" style={{ color: appProduct.color }}>{appProduct.name}</span>
-                  <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#aa66ff]/20 text-[#aa66ff] border border-[#aa66ff]/40">
+                  <span className="text-xl font-bold" style={{ color: appProduct.color }}>{appProduct.name}</span>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-[#aa66ff]/20 text-[#aa66ff] border border-[#aa66ff]/40">
                     iOS/macOS App
                   </span>
                 </div>
-                <p className="text-sm text-[#ccc] mb-2">{appProduct.tagline}</p>
-                <p className="text-xs text-[#555] mb-2">{appProduct.stats}</p>
-                <div className="flex flex-wrap gap-2 text-[10px]">
-                  <span className="px-2 py-0.5 bg-[#1a1a1a] border border-[#333] rounded text-[#888]">完全無料</span>
-                  <span className="px-2 py-0.5 bg-[#1a1a1a] border border-[#333] rounded text-[#888]">オフライン動作</span>
-                  <span className="px-2 py-0.5 bg-[#1a1a1a] border border-[#333] rounded text-[#888]">P2P推論</span>
-                  <span className="px-2 py-0.5 bg-[#1a1a1a] border border-[#333] rounded text-[#888]">MCP対応</span>
+                <p className="text-base text-[#ccc] mb-2">{appProduct.tagline}</p>
+                <p className="text-sm text-[#777] mb-2">{appProduct.stats}</p>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] rounded text-[#aaa]">完全無料</span>
+                  <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] rounded text-[#aaa]">オフライン動作</span>
+                  <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] rounded text-[#aaa]">P2P推論</span>
+                  <span className="px-2.5 py-1 bg-[#1a1a1a] border border-[#333] rounded text-[#aaa]">MCP対応</span>
                 </div>
               </div>
             </a>
           </div>
 
           {/* ===== Other Products (PC+SP thumbnail grid) ===== */}
-          <h2 className="text-lg text-[#888] font-bold mb-6">その他のサービス</h2>
+          <h2 className="text-xl text-[#aaa] font-bold mb-6">その他のサービス</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {otherProducts.map((p) => (
               <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer"
@@ -327,11 +328,11 @@ export default function Home() {
                 {/* Info */}
                 <div className="p-3">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-bold" style={{ color: p.color }}>{p.name}</span>
-                    <span className="text-[9px] text-[#555]">{p.url}</span>
+                    <span className="text-sm font-bold" style={{ color: p.color }}>{p.name}</span>
+                    <span className="text-xs text-[#777]">{p.url}</span>
                   </div>
-                  <p className="text-[10px] text-[#888]">{p.tagline}</p>
-                  <p className="text-[9px] text-[#555] mt-1">{p.stats}</p>
+                  <p className="text-xs text-[#aaa]">{p.tagline}</p>
+                  <p className="text-xs text-[#777] mt-1">{p.stats}</p>
                 </div>
               </a>
             ))}
@@ -342,10 +343,10 @@ export default function Home() {
       {/* ===== Property Highlights ===== */}
       <section className="py-10 sm:py-14 border-t border-[#1a3a1a]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-lg text-[#00ff00] font-bold mb-2">
-            <span className="text-[#555]">#</span> 運用中の物件
+          <h2 className="text-xl text-[#00ff00] font-bold mb-2">
+            <span className="text-[#777]">#</span> 運用中の物件
           </h2>
-          <p className="text-xs text-[#555] mb-6 font-mono">
+          <p className="text-sm text-[#777] mb-6 font-mono">
             $ stayflow list --status=active --format=summary
           </p>
 
@@ -362,15 +363,15 @@ export default function Home() {
                 <div className="relative h-36 bg-[#111] overflow-hidden">
                   <Image src={p.img} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                   <div className="absolute top-2 right-2">
-                    <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#00ff00]/20 text-[#00ff00] border border-[#00ff00]/30 backdrop-blur-sm">稼働中</span>
+                    <span className="text-xs px-2 py-0.5 rounded bg-[#00ff00]/20 text-[#00ff00] border border-[#00ff00]/30 backdrop-blur-sm">稼働中</span>
                   </div>
                 </div>
                 <div className="p-3">
                   <div className="text-sm font-bold text-[#e0e0e0] mb-1">{p.name}</div>
-                  <div className="text-[10px] text-[#888] font-mono mb-2">{p.loc}</div>
+                  <div className="text-xs text-[#aaa] font-mono mb-2">{p.loc}</div>
                   <div className="flex flex-wrap gap-1">
                     {p.features.map((f) => (
-                      <span key={f} className="text-[9px] px-1.5 py-0.5 rounded bg-[#1a1a1a] border border-[#333] text-[#888]">{f}</span>
+                      <span key={f} className="text-xs px-2 py-0.5 rounded bg-[#1a1a1a] border border-[#333] text-[#aaa]">{f}</span>
                     ))}
                   </div>
                 </div>
@@ -380,8 +381,8 @@ export default function Home() {
 
           {/* Summary + CTA */}
           <div className="mt-6 p-4 border border-[#1a3a1a] rounded-lg bg-[#0d0d0d]">
-            <div className="font-mono text-xs text-[#888] space-y-1">
-              <div><span className="text-[#555]">$</span> enabler.fun stats --summary</div>
+            <div className="font-mono text-sm text-[#aaa] space-y-1">
+              <div><span className="text-[#777]">$</span> enabler.fun stats --summary</div>
               <div className="pl-2">
                 total_properties: <span className="text-[#00ffff]">5</span> | locations: <span className="text-[#00ff00]">熱海・弟子屈・ホノルル</span> | managed_by: <span className="text-[#ffaa00]">StayFlow</span>
               </div>
@@ -391,7 +392,7 @@ export default function Home() {
                 href="https://enabler.fun"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block text-xs px-4 py-2 bg-[#00ffcc]/10 text-[#00ffcc] border border-[#00ffcc]/30 rounded hover:bg-[#00ffcc]/20 transition-colors"
+                className="inline-block text-sm px-5 py-2.5 bg-[#00ffcc]/10 text-[#00ffcc] border border-[#00ffcc]/30 rounded hover:bg-[#00ffcc]/20 transition-colors"
               >
                 enabler.fun で物件を見る →
               </a>
@@ -399,7 +400,7 @@ export default function Home() {
                 href="https://stayflowapp.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block text-xs px-4 py-2 bg-[#00ff00]/10 text-[#00ff00] border border-[#00ff00]/30 rounded hover:bg-[#00ff00]/20 transition-colors"
+                className="inline-block text-sm px-5 py-2.5 bg-[#00ff00]/10 text-[#00ff00] border border-[#00ff00]/30 rounded hover:bg-[#00ff00]/20 transition-colors"
               >
                 StayFlowで物件管理を始める →
               </a>
@@ -411,19 +412,23 @@ export default function Home() {
       {/* ===== EnablerDAOとは (super compact) ===== */}
       <section className="py-10 sm:py-14 border-t border-[#1a3a1a]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-lg text-[#00ff00] font-bold mb-6">EnablerDAOとは</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 border border-[#1a3a1a] rounded-lg">
-              <h3 className="text-sm text-[#00ff00] mb-1">DAO = みんなで運営</h3>
-              <p className="text-xs text-[#888]">メンバー全員の投票で方向性を決めるオープンな組織</p>
+          <h2 className="text-xl text-[#00ff00] font-bold mb-6">EnablerDAOとは</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-5 border border-[#1a3a1a] rounded-lg">
+              <h3 className="text-base text-[#00ff00] mb-2">DAO = みんなで運営</h3>
+              <p className="text-sm text-[#aaa]">メンバー全員の投票で方向性を決めるオープンな組織</p>
             </div>
-            <div className="p-4 border border-[#1a3a1a] rounded-lg">
-              <h3 className="text-sm text-[#00ffff] mb-1">基本無料で始められる</h3>
-              <p className="text-xs text-[#888]">基本機能は無料で使えて、有料プランで高度な機能を解放</p>
+            <div className="p-5 border border-[#1a3a1a] rounded-lg">
+              <h3 className="text-base text-[#00ffff] mb-2">基本無料で始められる</h3>
+              <p className="text-sm text-[#aaa]">基本機能は無料で使えて、有料プランで高度な機能を解放</p>
             </div>
-            <div className="p-4 border border-[#1a3a1a] rounded-lg">
-              <h3 className="text-sm text-[#ffaa00] mb-1">貢献で報酬を獲得</h3>
-              <p className="text-xs text-[#888]">コード・バグ報告などの貢献でEBRトークンを獲得</p>
+            <div className="p-5 border border-[#1a3a1a] rounded-lg">
+              <h3 className="text-base text-[#ffaa00] mb-2">貢献で報酬を獲得</h3>
+              <p className="text-sm text-[#aaa]">コード・バグ報告などの貢献でEBRトークンを獲得</p>
+            </div>
+            <div className="p-5 border border-[#4488ff]/30 rounded-lg">
+              <h3 className="text-base text-[#4488ff] mb-2">ENAI = AI × Blockchain</h3>
+              <p className="text-sm text-[#aaa]">AIサービス利用 → ENAIで決済 → DePIN報酬</p>
             </div>
           </div>
         </div>
@@ -441,10 +446,10 @@ export default function Home() {
                 Yuki Hamada（濱田優貴）
                 <a href="https://yukihamada.jp" target="_blank" rel="noopener noreferrer" className="text-[#00aa00] text-xs ml-2 hover:text-[#00ff00]">yukihamada.jp</a>
               </h3>
-              <p className="text-xs text-[#888] mt-1 max-w-xl">ソフトウェアエンジニア。1人+AIで複数プロダクトを開発・運営中。</p>
-              <div className="flex flex-wrap gap-2 mt-2">
-                <a href="https://github.com/yukihamada" target="_blank" rel="noopener noreferrer" className="text-[10px] px-2 py-0.5 border border-[#333] text-[#888] hover:text-[#00ff00] rounded transition-colors">GitHub</a>
-                <a href="https://x.com/yukihamada" target="_blank" rel="noopener noreferrer" className="text-[10px] px-2 py-0.5 border border-[#333] text-[#888] hover:text-[#00ffff] rounded transition-colors">X</a>
+              <p className="text-sm text-[#aaa] mt-1 max-w-xl">ソフトウェアエンジニア。1人+AIで複数プロダクトを開発・運営中。</p>
+              <div className="flex flex-wrap gap-2 mt-3">
+                <a href="https://github.com/yukihamada" target="_blank" rel="noopener noreferrer" className="text-xs px-3 py-1.5 border border-[#333] text-[#aaa] hover:text-[#00ff00] rounded transition-colors">GitHub</a>
+                <a href="https://x.com/yukihamada" target="_blank" rel="noopener noreferrer" className="text-xs px-3 py-1.5 border border-[#333] text-[#aaa] hover:text-[#00ffff] rounded transition-colors">X</a>
               </div>
             </div>
           </div>
@@ -454,14 +459,14 @@ export default function Home() {
       {/* ===== Footer Links ===== */}
       <section className="py-8 border-t border-[#1a3a1a]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-4 text-xs">
-            <Link href="/blog" className="text-[#888] hover:text-[#00ff00] transition-colors">Blog</Link>
-            <Link href="/projects" className="text-[#888] hover:text-[#00ff00] transition-colors">Projects</Link>
-            <Link href="/dao" className="text-[#888] hover:text-[#00ff00] transition-colors">DAO</Link>
-            <Link href="/token" className="text-[#888] hover:text-[#00ff00] transition-colors">EBR Token</Link>
-            <Link href="/status" className="text-[#888] hover:text-[#00ff00] transition-colors">Status</Link>
-            <Link href="/security" className="text-[#888] hover:text-[#00ff00] transition-colors">Security</Link>
-            <a href="mailto:contact@enablerdao.com" className="text-[#888] hover:text-[#00ff00] transition-colors">Contact</a>
+          <div className="flex flex-wrap items-center justify-center gap-5 text-sm">
+            <Link href="/blog" className="text-[#aaa] hover:text-[#00ff00] transition-colors">Blog</Link>
+            <Link href="/projects" className="text-[#aaa] hover:text-[#00ff00] transition-colors">Projects</Link>
+            <Link href="/dao" className="text-[#aaa] hover:text-[#00ff00] transition-colors">DAO</Link>
+            <Link href="/token" className="text-[#aaa] hover:text-[#4488ff] transition-colors">ENAI Token</Link>
+            <Link href="/status" className="text-[#aaa] hover:text-[#00ff00] transition-colors">Status</Link>
+            <Link href="/security" className="text-[#aaa] hover:text-[#00ff00] transition-colors">Security</Link>
+            <a href="mailto:contact@enablerdao.com" className="text-[#aaa] hover:text-[#00ff00] transition-colors">Contact</a>
           </div>
         </div>
       </section>

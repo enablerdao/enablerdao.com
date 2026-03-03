@@ -3,6 +3,7 @@ import Link from "next/link";
 import TokenStats from "@/components/TokenStats";
 import BoneSection from "@/components/BoneSection";
 import TokenSwap from "@/components/TokenSwap";
+import EnaiPurchase from "@/components/EnaiPurchase";
 
 export const metadata: Metadata = {
   title: "EBR & BONE Token - EnablerDAO トークンエコノミー",
@@ -75,7 +76,13 @@ const tokenRoadmap = [
     phase: "Phase 4",
     title: "エコシステム拡大",
     description: "パートナーDAOとのトークン連携。EBR↔BONE交換。クロスチェーンブリッジ。",
-    status: "wip" as const,
+    status: "done" as const,
+  },
+  {
+    phase: "Phase 5",
+    title: "ENAI × AI決済エコノミー",
+    description: "ENAIトークン発行完了。chatweb.aiクレジット購入・DePINノード報酬・x402エージェント自律決済が本番稼働。",
+    status: "done" as const,
   },
 ];
 
@@ -91,8 +98,8 @@ export default function TokenPage() {
               <span className="text-[#00ff00] text-xs">cat TOKEN_ECOSYSTEM.json</span>
             </div>
 
-            {/* Four-token system overview */}
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
+            {/* Five-token system overview */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 mb-4">
               <div className="p-2 sm:p-3 border border-[#00ff00]/30 bg-[#00ff00]/5">
                 <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
                   <span>&#x1F4B0;</span>
@@ -120,6 +127,14 @@ export default function TokenPage() {
                   <span className="text-[#aa8844] text-[10px] sm:text-xs font-bold">POOP</span>
                 </div>
                 <p className="text-[#888] text-[9px] sm:text-[10px]">うんち。ユーザーが拾える</p>
+              </div>
+              <div className="p-2 sm:p-3 border border-[#4488ff]/30 bg-[#4488ff]/5">
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
+                  <span>&#x26A1;</span>
+                  <span className="text-[#4488ff] text-[10px] sm:text-xs font-bold">ENAI</span>
+                  <span className="text-[#ffaa00] text-[8px] ml-1">[NEW]</span>
+                </div>
+                <p className="text-[#888] text-[9px] sm:text-[10px]">AI決済。クレジット購入</p>
               </div>
             </div>
 
@@ -246,6 +261,86 @@ export default function TokenPage() {
               </a>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════ */}
+      {/* ENAI Token Section                                             */}
+      {/* ═══════════════════════════════════════════════════════════════ */}
+
+      <section className="py-8 sm:py-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-[#555] text-xs mb-4">
+            <span className="text-[#00aa00]">$ </span>
+            cat ENAI_TOKEN_INFO.json
+          </p>
+          <div className="terminal-box p-4 sm:p-6">
+            <h2 className="text-[#4488ff] text-sm mb-4">
+              # ENAI — AI決済トークン{" "}
+              <span className="text-[#ffaa00] text-xs ml-2">[NEW]</span>
+            </h2>
+
+            {/* JSON display */}
+            <pre className="text-[10px] sm:text-xs leading-relaxed overflow-x-auto break-all mb-4">
+              <span className="text-[#555]">{"{"}</span>{"\n"}
+              {"  "}<span className="text-[#00ffff]">&quot;name&quot;</span><span className="text-[#555]">: </span><span className="text-[#00ff00]">&quot;ENAI&quot;</span><span className="text-[#555]">,</span>{"\n"}
+              {"  "}<span className="text-[#00ffff]">&quot;symbol&quot;</span><span className="text-[#555]">: </span><span className="text-[#00ff00]">&quot;ENAI&quot;</span><span className="text-[#555]">,</span>{"\n"}
+              {"  "}<span className="text-[#00ffff]">&quot;network&quot;</span><span className="text-[#555]">: </span><span className="text-[#00ff00]">&quot;Solana&quot;</span><span className="text-[#555]">,</span>{"\n"}
+              {"  "}<span className="text-[#00ffff]">&quot;mint&quot;</span><span className="text-[#555]">: </span><span className="text-[#00ff00]">&quot;8CeusiVAeibuBGv5xcf7kt7JQZzqwTS5pD7u2CfyoWnL&quot;</span><span className="text-[#555]">,</span>{"\n"}
+              {"  "}<span className="text-[#00ffff]">&quot;treasury&quot;</span><span className="text-[#555]">: </span><span className="text-[#00ff00]">&quot;DK29rBGCvP83LUNjUGVM6xt6qPy6rycBFopXbFkg9XvQ&quot;</span><span className="text-[#555]">,</span>{"\n"}
+              {"  "}<span className="text-[#00ffff]">&quot;credits_per_enai&quot;</span><span className="text-[#555]">: </span><span className="text-[#ffaa00]">10</span><span className="text-[#555]">,</span>{"\n"}
+              {"  "}<span className="text-[#00ffff]">&quot;use_cases&quot;</span><span className="text-[#555]">: [</span>{"\n"}
+              {"    "}<span className="text-[#00ff00]">&quot;AI Credits&quot;</span><span className="text-[#555]">,</span>{"\n"}
+              {"    "}<span className="text-[#00ff00]">&quot;DePIN Rewards&quot;</span><span className="text-[#555]">,</span>{"\n"}
+              {"    "}<span className="text-[#00ff00]">&quot;DAO Governance&quot;</span><span className="text-[#555]">,</span>{"\n"}
+              {"    "}<span className="text-[#00ff00]">&quot;x402 Agent Payments&quot;</span>{"\n"}
+              {"  "}<span className="text-[#555]">]</span>{"\n"}
+              <span className="text-[#555]">{"}"}</span>
+            </pre>
+
+            {/* Use case list */}
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {[
+                { icon: "&#x26A1;", label: "AI Credits", desc: "chatweb.aiクレジット購入。1 ENAI = 10 credits" },
+                { icon: "&#x1F4E1;", label: "DePIN Rewards", desc: "ノード運営者へのインセンティブ報酬" },
+                { icon: "&#x1F3DB;", label: "DAO Governance", desc: "EnablerDAO意思決定への参加権" },
+                { icon: "&#x1F916;", label: "x402 Agent Payments", desc: "AIエージェント間の自律決済" },
+              ].map((item) => (
+                <div key={item.label} className="p-2 bg-[#0d0d0d] border border-[#1a3a1a]">
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <span className="text-xs" dangerouslySetInnerHTML={{ __html: item.icon }} />
+                    <span className="text-[#4488ff] text-[10px] sm:text-xs font-bold">{item.label}</span>
+                  </div>
+                  <p className="text-[#555] text-[9px] sm:text-[10px]">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-[#1a3a1a]">
+              <a
+                href="https://solscan.io/token/8CeusiVAeibuBGv5xcf7kt7JQZzqwTS5pD7u2CfyoWnL"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-[#4488ff] text-xs hover:text-[#6699ff] transition-colors"
+              >
+                <span className="text-[#555]">{`>`}</span> Solscanで確認
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ENAI Purchase Widget */}
+      <section className="py-8 sm:py-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-[#555] text-xs mb-4">
+            <span className="text-[#00aa00]">$ </span>
+            ./enai-purchase.sh --interactive
+          </p>
+          <EnaiPurchase />
         </div>
       </section>
 

@@ -3,6 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 
+// --- AI Analysis Types ---
+
+interface AIAnalysis {
+  summary: string;
+  impact: string;
+  recommendation: "for" | "against" | "neutral";
+  recommendation_reason: string;
+  confidence: number;
+}
+
 // --- Types ---
 
 interface Advisor {
@@ -197,6 +207,7 @@ const treasuryData = {
     { name: "SOL (Treasury)", amount: 1200, pct: 42 },
     { name: "USDC Reserve", amount: 842, pct: 30 },
     { name: "Monthly Revenue", amount: 798, pct: 28 },
+    { name: "ENAI (1B supply)", amount: 0, pct: 0, isToken: true },
   ],
 };
 
@@ -235,6 +246,33 @@ export default function DAOPage() {
   const [expandedAdvisor, setExpandedAdvisor] = useState<string | null>(null);
   const [activeSession, setActiveSession] = useState(0);
   const currentSession = sessions[activeSession];
+
+  // AI Analysis state
+  const [aiAnalyses, setAiAnalyses] = useState<Record<string, AIAnalysis>>({});
+  const [analyzingIds, setAnalyzingIds] = useState<Set<string>>(new Set());
+
+  async function analyzeWithAI(proposalId: string, description: string) {
+    setAnalyzingIds((prev) => new Set(prev).add(proposalId));
+    try {
+      const res = await fetch("/api/proposals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAiAnalyses((prev) => ({ ...prev, [proposalId]: data.analysis as AIAnalysis }));
+      }
+    } catch (e) {
+      console.error("AI analysis fetch error:", e);
+    } finally {
+      setAnalyzingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(proposalId);
+        return next;
+      });
+    }
+  }
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "advisory", label: "Advisory Board" },
@@ -494,6 +532,65 @@ export default function DAOPage() {
                       </button>
                     </div>
                   )}
+
+                  {/* AI Analysis Panel */}
+                  <div className="mt-3 border-t border-[#1a3a1a] pt-3">
+                    {!aiAnalyses[proposal.id] ? (
+                      <button
+                        onClick={() => analyzeWithAI(proposal.id, proposal.description)}
+                        disabled={analyzingIds.has(proposal.id)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1a1a3a] border border-[#3333aa]/50 text-[#8888ff] text-xs hover:bg-[#1a1a4a] transition-colors disabled:opacity-50"
+                      >
+                        {analyzingIds.has(proposal.id) ? (
+                          <>
+                            <span className="inline-block w-3 h-3 border border-[#8888ff] border-t-transparent rounded-full animate-spin" />
+                            分析中...
+                          </>
+                        ) : (
+                          <>AI分析</>
+                        )}
+                      </button>
+                    ) : (
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <p className="text-[10px] text-[#8888ff] font-bold">AI ANALYSIS</p>
+                          <div className="flex items-center gap-2">
+                            <span className={`text-[10px] px-2 py-0.5 rounded font-mono ${
+                              aiAnalyses[proposal.id].recommendation === "for"
+                                ? "bg-[#00ff00]/20 text-[#00ff00]"
+                                : aiAnalyses[proposal.id].recommendation === "against"
+                                ? "bg-[#ff6688]/20 text-[#ff6688]"
+                                : "bg-[#555]/20 text-[#888]"
+                            }`}>
+                              {aiAnalyses[proposal.id].recommendation === "for" ? "賛成" :
+                               aiAnalyses[proposal.id].recommendation === "against" ? "反対" : "中立"}
+                            </span>
+                            <span className="text-[10px] text-[#555] font-mono">
+                              {Math.round(aiAnalyses[proposal.id].confidence * 100)}%
+                            </span>
+                            <button
+                              onClick={() => analyzeWithAI(proposal.id, proposal.description)}
+                              disabled={analyzingIds.has(proposal.id)}
+                              className="text-[10px] text-[#555] hover:text-[#8888ff] transition-colors disabled:opacity-50"
+                            >
+                              再分析
+                            </button>
+                          </div>
+                        </div>
+                        <p className="text-xs text-[#ccc] leading-relaxed">
+                          {aiAnalyses[proposal.id].summary}
+                        </p>
+                        <p className="text-[10px] text-[#888] leading-relaxed">
+                          {aiAnalyses[proposal.id].impact}
+                        </p>
+                        {aiAnalyses[proposal.id].recommendation_reason && (
+                          <p className="text-[10px] text-[#8888ff]">
+                            推奨理由: {aiAnalyses[proposal.id].recommendation_reason}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}
@@ -555,17 +652,43 @@ export default function DAOPage() {
             {/* Assets */}
             <div className="terminal-box p-4">
               <p className="text-[#ffaa00] text-xs font-bold mb-3">ASSETS</p>
-              {treasuryData.assets.map((a, i) => (
-                <div key={i} className="mb-2">
-                  <div className="flex justify-between text-xs mb-0.5">
-                    <span className="text-[#888]">{a.name}</span>
-                    <span className="text-[#ccc] font-mono">${a.amount} ({a.pct}%)</span>
+              {treasuryData.assets.map((a, i) => {
+                const asset = a as typeof a & { isToken?: boolean };
+                if (asset.isToken) {
+                  return (
+                    <div key={i} className="mb-2 p-3 bg-[#0d0d0d] border border-[#4488ff]/30 rounded">
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-[#4488ff] font-bold">{a.name}</span>
+                        <a
+                          href="https://solscan.io/token/8CeusiVAeibuBGv5xcf7kt7JQZzqwTS5pD7u2CfyoWnL"
+                          target="_blank"
+                          rel="noopener"
+                          className="text-[#00ffff] hover:text-[#33ffff] text-[10px]"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Solscan →
+                        </a>
+                      </div>
+                      <div className="text-[10px] text-[#555] space-y-0.5">
+                        <div>Mint: <span className="text-[#888] font-mono">8Ceus...oWnL</span></div>
+                        <div>Treasury: <span className="text-[#888] font-mono">DK29r...9XvQ</span></div>
+                        <div className="text-[#4488ff]/80">1 ENAI = 10 chatweb.ai credits</div>
+                      </div>
+                    </div>
+                  );
+                }
+                return (
+                  <div key={i} className="mb-2">
+                    <div className="flex justify-between text-xs mb-0.5">
+                      <span className="text-[#888]">{a.name}</span>
+                      <span className="text-[#ccc] font-mono">${a.amount} ({a.pct}%)</span>
+                    </div>
+                    <div className="h-1.5 bg-[#0d0d0d] rounded-full overflow-hidden">
+                      <div className="h-full bg-[#00ff00]" style={{ width: `${a.pct}%` }} />
+                    </div>
                   </div>
-                  <div className="h-1.5 bg-[#0d0d0d] rounded-full overflow-hidden">
-                    <div className="h-full bg-[#00ff00]" style={{ width: `${a.pct}%` }} />
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="terminal-box p-3 bg-[#1a3a1a]/30">
@@ -641,6 +764,23 @@ export default function DAOPage() {
               >
                 $ git clone enablerdao && make contribute
               </Link>
+            </div>
+
+            <div className="terminal-box p-4 border-[#4488ff]/30">
+              <p className="text-[#4488ff] text-xs font-bold mb-3">ENAI CREDITS</p>
+              <div className="space-y-2 text-xs">
+                <div className="flex items-center gap-2 p-3 bg-[#0d0d0d] border border-[#4488ff]/20 rounded">
+                  <span className="font-mono text-[#555]">$</span>
+                  <span className="text-[#4488ff] font-mono">enai-buy</span>
+                  <span className="text-[#888]">ENAIでクレジット購入</span>
+                </div>
+                <p className="text-[#555] pl-1">
+                  1 ENAI = 10 chatweb.ai クレジット → <Link href="/token" className="text-[#4488ff] hover:text-[#6699ff]">/token で購入可能</Link>
+                </p>
+                <p className="text-[10px] text-[#444] pl-1">
+                  DePIN報酬・DAO投票 · Mint: 8Ceus...oWnL · Supply: 1,000,000,000
+                </p>
+              </div>
             </div>
           </div>
         )}
