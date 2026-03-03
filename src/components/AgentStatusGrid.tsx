@@ -9,12 +9,12 @@ interface AgentDef {
   emoji: string;
   role: string;
   description: string;
-  model: string;
   skills: string[];
   color: string;
   healthUrl: string;
   homeUrl: string;
   pack: "dog" | "claw";
+  telegramBot?: string;
 }
 
 const DOG_AGENTS: AgentDef[] = [
@@ -23,13 +23,13 @@ const DOG_AGENTS: AgentDef[] = [
     emoji: "\u{1F415}",
     role: "Project Lead",
     description:
-      "プロジェクト統括犬。全プロダクトを見守り、コード品質の管理と自動デプロイを司るボス。",
-    model: "Claude Opus",
-    skills: ["コードレビュー", "自動デプロイ", "品質管理", "プロダクト統括"],
+      "プロジェクト統括犬。全プロダクトを見守り、コード品質管理・自動デプロイ・トークンエコノミーを統括するボス。",
+    skills: ["コードレビュー", "自動デプロイ", "品質管理", "トークン経済"],
     color: "#00ff00",
     healthUrl: "https://rustdog-spin.fly.dev/health",
     homeUrl: "https://rustdog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "Enabler_Bossdog_bot",
   },
   {
     name: "Motherdog",
@@ -37,12 +37,12 @@ const DOG_AGENTS: AgentDef[] = [
     role: "Community Care",
     description:
       "コミュニティケア犬。新メンバーのオンボーディング、質問対応、温かいDAOコミュニティ作りを担当。",
-    model: "Claude Sonnet",
     skills: ["オンボーディング", "質問対応", "コミュニティ運営", "多言語対応"],
     color: "#f472b6",
     healthUrl: "https://motherdog-spin.fly.dev/health",
     homeUrl: "https://motherdog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "motherdog_enabler_bot",
   },
   {
     name: "Guarddog",
@@ -50,12 +50,12 @@ const DOG_AGENTS: AgentDef[] = [
     role: "Security",
     description:
       "セキュリティ番犬。全プロダクトの脆弱性チェック、OWASP Top 10対策、依存関係の監査を担当。",
-    model: "Gemini 2.5 Pro",
     skills: ["脆弱性スキャン", "OWASP対策", "依存関係監査", "シークレット検出"],
     color: "#ff4444",
     healthUrl: "https://guarddog-spin.fly.dev/health",
     homeUrl: "https://guarddog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "guarddog_enabler_bot",
   },
   {
     name: "Debugdog",
@@ -63,12 +63,12 @@ const DOG_AGENTS: AgentDef[] = [
     role: "Bug Hunter",
     description:
       "バグハンター犬。全プロダクトのバグ追跡、スタックトレース解析、エラーの根本原因分析を担当。",
-    model: "Qwen3 Coder 72B",
     skills: ["バグ追跡", "スタックトレース解析", "根本原因分析", "パフォーマンス診断"],
     color: "#ffaa00",
     healthUrl: "https://debugdog-spin.fly.dev/health",
     homeUrl: "https://debugdog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "debugdog_enabler_bot",
   },
   {
     name: "Chatwebdog",
@@ -76,7 +76,6 @@ const DOG_AGENTS: AgentDef[] = [
     role: "Chatweb.ai",
     description:
       "Chatweb.ai専門犬。Rust Lambda最適化、ストリーミング改善、マルチモデル対応を担当。",
-    model: "Qwen3 Coder 72B",
     skills: ["Rust Lambda", "ストリーミング", "マルチモデル", "API設計"],
     color: "#06b6d4",
     healthUrl: "https://chatwebdog-spin.fly.dev/health",
@@ -89,7 +88,6 @@ const DOG_AGENTS: AgentDef[] = [
     role: "JiuFlow",
     description:
       "JiuFlow専門犬。柔術アートプラットフォームのRust SSR改善、アスリートプロフィール充実を担当。",
-    model: "Qwen3 Coder 72B",
     skills: ["Rust SSR", "アスリートDB", "ビジュアル", "Supabase"],
     color: "#f59e0b",
     healthUrl: "https://jiuflowdog-spin.fly.dev/health",
@@ -102,7 +100,6 @@ const DOG_AGENTS: AgentDef[] = [
     role: "BANTO",
     description:
       "BANTO専門犬。ビジネス管理ツールのHono/Drizzle最適化、ダッシュボードUI向上を担当。",
-    model: "Qwen3 Coder 72B",
     skills: ["Hono/Drizzle", "PostgreSQL", "ダッシュボード", "レポート"],
     color: "#10b981",
     healthUrl: "https://bantodog-spin.fly.dev/health",
@@ -115,12 +112,12 @@ const DOG_AGENTS: AgentDef[] = [
     role: "Learning Guide",
     description:
       "学習ガイド犬。OSSコントリビュートの方法、プログラミング初心者の学習支援を担当。",
-    model: "Nemotron 9B",
     skills: ["プログラミング指導", "OSS貢献ガイド", "チュートリアル作成", "コード解説"],
     color: "#00ffff",
     healthUrl: "https://guidedog-spin.fly.dev/health",
     homeUrl: "https://guidedog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "guidedog_enabler_bot",
   },
   {
     name: "Stayflowdog",
@@ -128,7 +125,6 @@ const DOG_AGENTS: AgentDef[] = [
     role: "StayFlow",
     description:
       "StayFlow専門犬。不動産管理SaaSの機能改善、予約フロー最適化を担当。",
-    model: "Nemotron 9B",
     skills: ["予約最適化", "Supabase", "React UI", "不動産管理"],
     color: "#8b5cf6",
     healthUrl: "https://stayflowdog-spin.fly.dev/health",
@@ -141,7 +137,6 @@ const DOG_AGENTS: AgentDef[] = [
     role: "Elio",
     description:
       "Elio専門犬。P2P分散推論のSwift実装改善、EBRトークンゲート、PIIフィルタを担当。",
-    model: "Nemotron 9B",
     skills: ["Swift/iOS", "P2P推論", "Solana", "プライバシー"],
     color: "#ec4899",
     healthUrl: "https://eliodog-spin.fly.dev/health",
@@ -154,7 +149,6 @@ const DOG_AGENTS: AgentDef[] = [
     role: "Customer Support",
     description:
       "カスタマーサポート犬。全プロダクトのユーザーからの質問対応、トラブルシューティングを担当。",
-    model: "Nemotron 9B",
     skills: ["質問対応", "トラブルシュート", "ユーザーガイド", "フィードバック"],
     color: "#ef4444",
     healthUrl: "https://supportdog-spin.fly.dev/health",
@@ -170,7 +164,6 @@ const CLAW_AGENTS: AgentDef[] = [
     role: "Code Quality Patrol",
     description:
       "コード品質パトロール。PRレビュー、コード規約チェック、リファクタリング提案を自動実行。",
-    model: "Claude Sonnet",
     skills: ["PRレビュー", "コード規約", "リファクタリング", "テスト生成"],
     color: "#ff6644",
     healthUrl: "",
@@ -183,7 +176,6 @@ const CLAW_AGENTS: AgentDef[] = [
     role: "Security Patrol",
     description:
       "セキュリティパトロール。依存関係の脆弱性スキャン、シークレット漏洩検出、SAST解析を自動実行。",
-    model: "Claude Sonnet",
     skills: ["脆弱性スキャン", "シークレット検出", "SAST", "依存関係監査"],
     color: "#ffcc00",
     healthUrl: "",
@@ -196,7 +188,6 @@ const CLAW_AGENTS: AgentDef[] = [
     role: "DevOps Patrol",
     description:
       "DevOpsパトロール。CI/CDパイプライン監視、インフラ設定チェック、デプロイ自動化を担当。",
-    model: "Claude Sonnet",
     skills: ["CI/CD監視", "インフラ設定", "デプロイ自動化", "コスト最適化"],
     color: "#44aaff",
     healthUrl: "",
@@ -207,9 +198,18 @@ const CLAW_AGENTS: AgentDef[] = [
 
 type HealthStatus = "loading" | "online" | "offline" | "error";
 
+interface HealthData {
+  llm_model?: string;
+  poop_pool?: number;
+  poop_full?: boolean;
+  auto_heartbeat?: boolean;
+  version?: string;
+  mumble?: string;
+}
+
 interface AgentWithStatus extends AgentDef {
   status: HealthStatus;
-  mumble?: string;
+  health?: HealthData;
 }
 
 function StatusBadge({ status }: { status: HealthStatus }) {
@@ -229,10 +229,10 @@ function StatusBadge({ status }: { status: HealthStatus }) {
       animate: true,
     },
     offline: {
-      text: "[OFFLINE]",
-      textColor: "text-[#ff4444]",
-      borderColor: "border-[#3a1a1a]",
-      dotColor: "bg-[#ff4444]",
+      text: "[SLEEPING]",
+      textColor: "text-[#888]",
+      borderColor: "border-[#333]",
+      dotColor: "bg-[#888]",
       animate: false,
     },
     error: {
@@ -246,7 +246,7 @@ function StatusBadge({ status }: { status: HealthStatus }) {
 
   return (
     <span
-      className={`text-[10px] px-2 py-0.5 border ${config.textColor} ${config.borderColor} flex items-center gap-1.5`}
+      className={`text-xs px-2 py-0.5 border ${config.textColor} ${config.borderColor} flex items-center gap-1.5`}
     >
       <span
         className={`w-1.5 h-1.5 rounded-full ${config.dotColor} ${
@@ -259,7 +259,7 @@ function StatusBadge({ status }: { status: HealthStatus }) {
 }
 
 function AgentCard({ agent }: { agent: AgentWithStatus }) {
-  const isClaw = agent.pack === "claw";
+  const model = agent.health?.llm_model || "openrouter/auto";
 
   return (
     <div className="terminal-box card-hover p-5 flex flex-col">
@@ -274,27 +274,59 @@ function AgentCard({ agent }: { agent: AgentWithStatus }) {
             >
               {agent.name}
             </h2>
-            <span className="text-[10px] text-[#555]">{agent.role}</span>
+            <span className="text-xs text-[#777]">{agent.role}</span>
           </div>
         </div>
         <StatusBadge status={agent.status} />
       </div>
 
-      {/* Model */}
-      <div className="mb-2">
-        <span className="text-[10px] text-[#555]">model: </span>
-        <span className="text-[10px] text-[#00ffff]">{agent.model}</span>
+      {/* Live stats row */}
+      <div className="flex flex-wrap gap-3 mb-2 text-xs">
+        <span>
+          <span className="text-[#777]">model: </span>
+          <span className="text-[#00ffff]">{model}</span>
+        </span>
+        {agent.health?.version && (
+          <span>
+            <span className="text-[#777]">v</span>
+            <span className="text-[#aaa]">{agent.health.version}</span>
+          </span>
+        )}
       </div>
 
+      {/* POOP economy bar */}
+      {agent.health && typeof agent.health.poop_pool === "number" && (
+        <div className="mb-2">
+          <div className="flex items-center gap-2 text-xs mb-1">
+            <span className="text-[#777]">poop_pool:</span>
+            <span className={agent.health.poop_full ? "text-[#ff4444]" : "text-[#aaa]"}>
+              {agent.health.poop_pool}/100
+            </span>
+            {agent.health.poop_full && (
+              <span className="text-[#ff4444]">FULL</span>
+            )}
+          </div>
+          <div className="w-full h-1.5 bg-[#1a1a1a] rounded overflow-hidden">
+            <div
+              className="h-full rounded transition-all duration-500"
+              style={{
+                width: `${Math.min(agent.health.poop_pool, 100)}%`,
+                backgroundColor: agent.health.poop_full ? "#ff4444" : agent.health.poop_pool > 70 ? "#ffaa00" : "#00ff00",
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Mumble (thinking aloud) */}
-      {agent.mumble && (
-        <div className="mb-2 px-2 py-1.5 bg-[#0d1117] border border-[#1a3a1a] rounded text-[11px] text-[#888] italic">
-          <span className="not-italic">{agent.emoji}</span> {agent.mumble}
+      {agent.health?.mumble && (
+        <div className="mb-2 px-2 py-1.5 bg-[#0d1117] border border-[#1a3a1a] rounded text-xs text-[#aaa] italic">
+          <span className="not-italic">{agent.emoji}</span> {agent.health.mumble}
         </div>
       )}
 
       {/* Description */}
-      <p className="text-[#888] text-xs leading-relaxed mb-4 flex-1">
+      <p className="text-[#aaa] text-sm leading-relaxed mb-4 flex-1">
         {agent.description}
       </p>
 
@@ -303,30 +335,55 @@ function AgentCard({ agent }: { agent: AgentWithStatus }) {
         {agent.skills.map((skill) => (
           <span
             key={skill}
-            className="text-[10px] px-2 py-0.5 border border-[#1a1a1a] text-[#555]"
+            className="text-xs px-2 py-0.5 border border-[#1a1a1a] text-[#777]"
           >
             {skill}
           </span>
         ))}
       </div>
 
-      {/* Link */}
+      {/* CTA: Talk to Dog */}
       {agent.homeUrl ? (
-        <a
-          href={agent.homeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-[#555] hover:text-[#00ff00] transition-colors"
-        >
-          <span className="text-[#00aa00]">$ </span>
-          curl {agent.healthUrl.replace("https://", "").replace("http://", "")}
-        </a>
+        <div className="flex flex-wrap gap-2 mb-3">
+          <a
+            href={agent.homeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 text-center text-sm px-4 py-2.5 rounded font-bold transition-colors"
+            style={{
+              backgroundColor: `${agent.color}15`,
+              color: agent.color,
+              border: `1px solid ${agent.color}40`,
+            }}
+          >
+            {agent.emoji} 話しかける
+          </a>
+          {agent.telegramBot && (
+            <a
+              href={`https://t.me/${agent.telegramBot}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm px-4 py-2.5 rounded border border-[#29b6f6]/40 text-[#29b6f6] hover:bg-[#29b6f6]/10 transition-colors"
+            >
+              TG
+            </a>
+          )}
+        </div>
       ) : (
-        <span className="text-xs text-[#333]">
-          <span className="text-[#1a3a1a]">$ </span>
-          private gateway
-        </span>
+        <div className="mb-3">
+          <span className="text-xs text-[#555]">
+            <span className="text-[#1a3a1a]">$ </span>
+            private gateway
+          </span>
+        </div>
       )}
+
+      {/* Links (subtle) */}
+      <div className="text-xs text-[#555]">
+        {agent.homeUrl && (
+          <span>{agent.healthUrl.replace("https://", "").replace("http://", "")}</span>
+        )}
+      </div>
     </div>
   );
 }
@@ -340,21 +397,28 @@ export default function AgentStatusGrid() {
   );
 
   const checkHealth = useCallback(async () => {
-    // Check dogs (try CORS first for mumble, fallback to no-cors)
     const dogResults = await Promise.allSettled(
-      DOG_AGENTS.map(async (agent): Promise<{ status: HealthStatus; mumble?: string }> => {
+      DOG_AGENTS.map(async (agent): Promise<{ status: HealthStatus; health?: HealthData }> => {
         try {
-          // Try with CORS to get JSON (mumble)
           const res = await fetch(agent.healthUrl, {
-            signal: AbortSignal.timeout(5000),
+            signal: AbortSignal.timeout(8000),
           });
           if (res.ok) {
             const data = await res.json();
-            return { status: "online", mumble: data.mumble || undefined };
+            return {
+              status: "online",
+              health: {
+                llm_model: data.llm_model,
+                poop_pool: data.poop_pool,
+                poop_full: data.poop_full,
+                auto_heartbeat: data.auto_heartbeat,
+                version: data.version,
+                mumble: data.mumble,
+              },
+            };
           }
           return { status: "offline" };
         } catch {
-          // Fallback: no-cors (opaque = online but no mumble)
           try {
             const res = await fetch(agent.healthUrl, {
               signal: AbortSignal.timeout(5000),
@@ -375,14 +439,13 @@ export default function AgentStatusGrid() {
           dogResults[i].status === "fulfilled"
             ? dogResults[i].value.status
             : "error",
-        mumble:
+        health:
           dogResults[i].status === "fulfilled"
-            ? dogResults[i].value.mumble
+            ? dogResults[i].value.health
             : undefined,
       }))
     );
 
-    // Claws: no public health endpoint, show as online (private gateway)
     setClawStatuses(
       CLAW_AGENTS.map((agent) => ({
         ...agent,
@@ -403,29 +466,37 @@ export default function AgentStatusGrid() {
   return (
     <div>
       {/* Summary bar */}
-      <div className="terminal-box p-3 mb-6">
-        <div className="flex flex-wrap items-center gap-4 text-xs">
+      <div className="terminal-box p-4 mb-6">
+        <div className="flex flex-wrap items-center gap-5 text-sm">
           <div>
-            <span className="text-[#555]">total_agents: </span>
+            <span className="text-[#777]">total_agents: </span>
             <span className="text-[#00ff00] font-bold">
               {DOG_AGENTS.length + CLAW_AGENTS.length}
             </span>
           </div>
           <div>
-            <span className="text-[#555]">dogs_online: </span>
+            <span className="text-[#777]">dogs_online: </span>
             <span className="text-[#00ff00] font-bold">
               {dogOnline}/{DOG_AGENTS.length}
             </span>
           </div>
           <div>
-            <span className="text-[#555]">claws_online: </span>
+            <span className="text-[#777]">claws_online: </span>
             <span className="text-[#ff6644] font-bold">
               {clawOnline}/{CLAW_AGENTS.length}
             </span>
           </div>
+          <div>
+            <span className="text-[#777]">runtime: </span>
+            <span className="text-[#aaa]">Fermyon Spin (WASM)</span>
+          </div>
+          <div>
+            <span className="text-[#777]">region: </span>
+            <span className="text-[#aaa]">nrt (Tokyo)</span>
+          </div>
           <button
             onClick={checkHealth}
-            className="ml-auto text-[10px] text-[#555] hover:text-[#00ffff] transition-colors"
+            className="ml-auto text-xs text-[#777] hover:text-[#00ffff] transition-colors"
           >
             $ refresh
           </button>
@@ -438,8 +509,8 @@ export default function AgentStatusGrid() {
           <span className="text-2xl">{"\u{1F415}"}</span>
           Dog Pack
         </h2>
-        <p className="text-[#555] text-xs mb-4">
-          11 Rust/WASM agents on Fly.io | Fermyon Spin runtime
+        <p className="text-[#777] text-sm mb-4">
+          11 Rust/WASM agents on Fly.io (Tokyo) | OpenRouter Auto | NFT-gated access | KIBBLE/POOP token economy
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {dogStatuses.map((agent) => (
@@ -454,7 +525,7 @@ export default function AgentStatusGrid() {
           <span className="text-2xl">{"\u{1F980}"}</span>
           Claw Pack
         </h2>
-        <p className="text-[#555] text-xs mb-4">
+        <p className="text-[#777] text-sm mb-4">
           3 OpenClaw agents on Hetzner VPS | Claude Sonnet powered
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
