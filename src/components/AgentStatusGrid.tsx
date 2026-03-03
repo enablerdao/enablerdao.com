@@ -81,6 +81,7 @@ const DOG_AGENTS: AgentDef[] = [
     healthUrl: "https://chatwebdog-spin.fly.dev/health",
     homeUrl: "https://chatwebdog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "chatwebdog_enabler_bot",
   },
   {
     name: "Jiuflowdog",
@@ -93,6 +94,7 @@ const DOG_AGENTS: AgentDef[] = [
     healthUrl: "https://jiuflowdog-spin.fly.dev/health",
     homeUrl: "https://jiuflowdog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "jiuflowdog_enabler_bot",
   },
   {
     name: "Bantodog",
@@ -105,6 +107,7 @@ const DOG_AGENTS: AgentDef[] = [
     healthUrl: "https://bantodog-spin.fly.dev/health",
     homeUrl: "https://bantodog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "bantodog_enabler_bot",
   },
   {
     name: "Guidedog",
@@ -130,6 +133,7 @@ const DOG_AGENTS: AgentDef[] = [
     healthUrl: "https://stayflowdog-spin.fly.dev/health",
     homeUrl: "https://stayflowdog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "stayflowdog_enabler_bot",
   },
   {
     name: "Eliodog",
@@ -142,6 +146,7 @@ const DOG_AGENTS: AgentDef[] = [
     healthUrl: "https://eliodog-spin.fly.dev/health",
     homeUrl: "https://eliodog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "eliodog_enabler_bot",
   },
   {
     name: "Supportdog",
@@ -154,6 +159,7 @@ const DOG_AGENTS: AgentDef[] = [
     healthUrl: "https://supportdog-spin.fly.dev/health",
     homeUrl: "https://supportdog-spin.fly.dev/",
     pack: "dog",
+    telegramBot: "supportdog_enabler_bot",
   },
 ];
 
