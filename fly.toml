@@ -1,5 +1,11 @@
 # fly.toml app configuration file for enablerdao.com
 # See https://fly.io/docs/reference/configuration/
+#
+# IMPORTANT: Before deploying, create the persistent volume if it doesn't exist:
+#   fly volumes create data --region nrt --size 1
+#
+# The volume is mounted at /app/data (matching Dockerfile WORKDIR=/app and
+# Next.js process.cwd()/data used by qa-store.ts / data persistence layer).
 
 app = 'enablerdao'
 primary_region = 'nrt'
@@ -23,16 +29,29 @@ primary_region = 'nrt'
     hard_limit = 25
     soft_limit = 20
 
+  # Health check for root route
   [[http_service.checks]]
     interval = "10s"
     timeout = "5s"
-    grace_period = "30s"
+    grace_period = "60s"
     method = "GET"
     path = "/"
 
+  # Health check for /plan route — ensures this SSR page is reachable
+  # (Fixes: Issue #2 — /plan page 404)
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "10s"
+    grace_period = "60s"
+    method = "GET"
+    path = "/plan"
+
 [mounts]
+  # Mount persistent volume at /app/data so Next.js (WORKDIR=/app) can persist
+  # qa.json and other data files via process.cwd()/data paths.
+  # Previously was "/data" (root) which never matched the app's write path.
   source = "data"
-  destination = "/data"
+  destination = "/app/data"
 
 [[vm]]
   memory = '512mb'
