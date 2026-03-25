@@ -19,6 +19,13 @@ const IMG_TESHIKAGA: &[u8] = include_bytes!("../../static/properties/teshikaga.j
 const IMG_NEST: &[u8] = include_bytes!("../../static/properties/nest.jpg");
 const IMG_HONOLULU: &[u8] = include_bytes!("../../static/properties/honolulu.jpg");
 
+// Screenshots
+const SS_KAGI: &[u8] = include_bytes!("../../static/screenshots/kagi-home.jpg");
+const SS_PASHA: &[u8] = include_bytes!("../../static/screenshots/pasha-home.jpg");
+const SS_CHARIN: &[u8] = include_bytes!("../../static/screenshots/charin-home.jpg");
+const SS_PON: &[u8] = include_bytes!("../../static/screenshots/pon-home.jpg");
+const SS_SAKUTSU: &[u8] = include_bytes!("../../static/screenshots/sakutsu-home.jpg");
+
 // ── Cache header applied to every static response ────────────────────────────
 
 const CACHE_CONTROL: &str = "public, max-age=86400";
@@ -41,6 +48,14 @@ pub fn serve_static(path: &str) -> Option<Response> {
         "/static/properties/honolulu.jpg" => Some(bytes_response(IMG_HONOLULU, "image/jpeg")),
 
         "/static/enabler.html" => Some(text_response(ENABLER_HTML, "text/html")),
+
+        // Screenshots
+        "/static/screenshots/kagi-home.jpg" => Some(bytes_response(SS_KAGI, "image/jpeg")),
+        "/static/screenshots/pasha-home.jpg" => Some(bytes_response(SS_PASHA, "image/jpeg")),
+        "/static/screenshots/charin-home.jpg" => Some(bytes_response(SS_CHARIN, "image/jpeg")),
+        "/static/screenshots/pon-home.jpg" => Some(bytes_response(SS_PON, "image/jpeg")),
+        "/static/screenshots/sakutsu-home.jpg" => Some(bytes_response(SS_SAKUTSU, "image/jpeg")),
+
         _ => None,
     }
 }
