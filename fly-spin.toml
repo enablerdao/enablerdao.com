@@ -1,0 +1,28 @@
+# Fly.io config for EnablerDAO Spin WASM
+app = "enablerdao-spin"
+primary_region = "nrt"
+
+[build]
+  dockerfile = "Dockerfile.spin"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    interval = "300s"
+    timeout = "120s"
+    grace_period = "30s"
+    method = "GET"
+    path = "/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+[mounts]
+  source = "data"
+  destination = "/data"

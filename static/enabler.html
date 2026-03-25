@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Enabler — ローカルファースト × オープンソース × ユーザー所有。あなたのデータは、あなたのもの。">
+<meta name="theme-color" content="#06060e">
+<meta property="og:title" content="Enabler — あなたのデータは、あなたのもの。">
+<meta property="og:description" content="使う人が作り、使う人が所有するソフトウェアエコシステム。">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://pasha.run/enabler">
+<title>Enabler — あなたのデータは、あなたのもの。</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06060e;--surface:#0a0a16;--card:#0e0e1c;
+  --glass:rgba(255,255,255,.03);--glass-border:rgba(255,255,255,.08);
+  --text:#f0f0f8;--dim:#8888a4;--muted:#55556a;
+  --kagi:#E8A838;--pasha:#FF6B6B;--charin:#4ECDC4;--pon:#9B59B6;--saku:#2ECC71;
+  --radius:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP','Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--kagi);color:#000}
+
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes spin-slow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes drift{0%{transform:translate(0,0)}25%{transform:translate(30px,-20px)}50%{transform:translate(-10px,15px)}75%{transform:translate(-25px,-10px)}100%{transform:translate(0,0)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);background:rgba(6,6,14,.7);border-bottom:1px solid rgba(255,255,255,.05);transition:.3s}
+.nav-logo{font-size:20px;font-weight:800;letter-spacing:-.5px;text-decoration:none;color:var(--text)}
+.nav-logo svg{vertical-align:middle;margin-right:8px}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{color:var(--dim);font-size:13px;text-decoration:none;font-weight:500;transition:color .2s;letter-spacing:.3px}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{padding:8px 20px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:var(--text) !important;font-weight:600 !important;transition:.2s}
+.nav-cta:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)}
+@media(max-width:768px){.nav-links a:not(.nav-cta){display:none}}
+
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:140px 24px 120px;text-align:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.35;animation:drift 20s ease-in-out infinite}
+.hero-orb-1{width:500px;height:500px;background:var(--kagi);top:-15%;right:-10%;animation-delay:0s}
+.hero-orb-2{width:400px;height:400px;background:var(--pasha);bottom:-10%;left:-8%;animation-delay:-7s}
+.hero-orb-3{width:300px;height:300px;background:var(--charin);top:40%;left:50%;animation-delay:-14s}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 60% 50% at 50% 50%,black,transparent)}
+.hero-inner{position:relative;z-index:1;max-width:800px;animation:fadeUp .9s cubic-bezier(.16,1,.3,1)}
+.hero-stats{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.hero-stat{font-size:13px;font-weight:500;color:var(--dim);letter-spacing:.5px}
+.hero-stat strong{color:var(--text);font-weight:700}
+.hero h1{font-size:clamp(48px,10vw,96px);font-weight:900;letter-spacing:-4px;line-height:.95;margin-bottom:24px;background:linear-gradient(135deg,var(--text) 0%,var(--kagi) 50%,var(--pasha) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(16px,2.2vw,22px);color:var(--dim);margin-bottom:48px;font-weight:400;letter-spacing:-.3px;line-height:1.6}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-radius:14px;background:var(--text);color:var(--bg);font-size:15px;font-weight:700;text-decoration:none;transition:.3s;letter-spacing:-.2px}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,255,255,.15)}
+.hero-cta svg{transition:transform .3s}
+.hero-cta:hover svg{transform:translateX(4px)}
+
+/* ── Showcase (Main Products) ── */
+.showcase{padding:0}
+.showcase-item{padding:120px 0;position:relative;overflow:hidden}
+.showcase-item::before{content:'';position:absolute;inset:0;opacity:.03;pointer-events:none}
+.showcase-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.showcase-item:nth-child(even) .showcase-inner{direction:rtl}
+.showcase-item:nth-child(even) .showcase-inner > *{direction:ltr}
+.showcase-text{max-width:480px}
+.showcase-logo{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.showcase-logo svg{flex-shrink:0}
+.showcase-name{font-size:32px;font-weight:900;letter-spacing:-1px}
+.showcase-tagline{font-size:18px;font-weight:500;margin-bottom:28px;line-height:1.5}
+.showcase-features{list-style:none;margin-bottom:32px}
+.showcase-features li{font-size:14px;color:var(--dim);padding:8px 0;display:flex;align-items:center;gap:10px;line-height:1.5}
+.showcase-features li::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.showcase-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;transition:.3s;border:1px solid rgba(255,255,255,.12);color:var(--text)}
+.showcase-btn:hover{transform:translateY(-2px)}
+
+/* Phone Mockup */
+.phone-wrap{display:flex;justify-content:center}
+.phone{width:260px;height:520px;border-radius:40px;border:3px solid rgba(255,255,255,.12);position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.05)}
+.phone::before{content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);width:90px;height:28px;background:var(--bg);border-radius:14px;z-index:10}
+.phone::after{content:'';position:absolute;top:18px;left:50%;transform:translateX(-50%);width:8px;height:8px;background:rgba(255,255,255,.08);border-radius:50%;z-index:11;margin-left:25px}
+.phone-screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px 24px;gap:12px}
+
+/* Per-app phone content */
+.phone-kagi .phone-screen{background:linear-gradient(160deg,#1a1400,#2a1d00)}
+.phone-pasha .phone-screen{background:linear-gradient(160deg,#1a0808,#2a1010)}
+.phone-charin .phone-screen{background:linear-gradient(160deg,#081a18,#0a2a26)}
+.phone-pon .phone-screen{background:linear-gradient(160deg,#140a1e,#1e102e)}
+.phone-saku .phone-screen{background:linear-gradient(160deg,#081a0e,#0a2a14)}
+
+.phone-ui-icon{opacity:.8;margin-bottom:8px}
+.phone-ui-text{font-size:13px;color:rgba(255,255,255,.5);font-weight:500;text-align:center;letter-spacing:.3px}
+.phone-ui-text-lg{font-size:18px;color:rgba(255,255,255,.7);font-weight:700;margin-bottom:4px;text-align:center}
+.phone-ui-bar{width:80%;height:40px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.phone-ui-row{display:flex;gap:8px;width:80%}
+.phone-ui-btn{flex:1;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:rgba(255,255,255,.7)}
+.phone-ui-card{width:80%;padding:16px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
+.phone-ui-card-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.phone-ui-card-label{font-size:10px;color:rgba(255,255,255,.4)}
+.phone-ui-card-value{font-size:14px;font-weight:700;color:rgba(255,255,255,.7)}
+.phone-ui-dots{display:flex;gap:6px;margin-top:4px}
+.phone-ui-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15)}
+
+/* Showcase Colors */
+.sc-kagi{--sc:#E8A838}
+.sc-pasha{--sc:#FF6B6B}
+.sc-charin{--sc:#4ECDC4}
+.sc-pon{--sc:#9B59B6}
+.sc-saku{--sc:#2ECC71}
+.sc-kagi .showcase-tagline,.sc-kagi .showcase-name{color:var(--kagi)}
+.sc-pasha .showcase-tagline,.sc-pasha .showcase-name{color:var(--pasha)}
+.sc-charin .showcase-tagline,.sc-charin .showcase-name{color:var(--charin)}
+.sc-pon .showcase-tagline,.sc-pon .showcase-name{color:var(--pon)}
+.sc-saku .showcase-tagline,.sc-saku .showcase-name{color:var(--saku)}
+.sc-kagi .showcase-features li::before{background:var(--kagi)}
+.sc-pasha .showcase-features li::before{background:var(--pasha)}
+.sc-charin .showcase-features li::before{background:var(--charin)}
+.sc-pon .showcase-features li::before{background:var(--pon)}
+.sc-saku .showcase-features li::before{background:var(--saku)}
+.sc-kagi .showcase-btn{border-color:rgba(232,168,56,.3);color:var(--kagi)}
+.sc-kagi .showcase-btn:hover{background:rgba(232,168,56,.1);box-shadow:0 8px 30px rgba(232,168,56,.15)}
+.sc-pasha .showcase-btn{border-color:rgba(255,107,107,.3);color:var(--pasha)}
+.sc-pasha .showcase-btn:hover{background:rgba(255,107,107,.1);box-shadow:0 8px 30px rgba(255,107,107,.15)}
+.sc-charin .showcase-btn{border-color:rgba(78,205,196,.3);color:var(--charin)}
+.sc-charin .showcase-btn:hover{background:rgba(78,205,196,.1);box-shadow:0 8px 30px rgba(78,205,196,.15)}
+.sc-pon .showcase-btn{border-color:rgba(155,89,182,.3);color:var(--pon)}
+.sc-pon .showcase-btn:hover{background:rgba(155,89,182,.1);box-shadow:0 8px 30px rgba(155,89,182,.15)}
+.sc-saku .showcase-btn{border-color:rgba(46,204,113,.3);color:var(--saku)}
+.sc-saku .showcase-btn:hover{background:rgba(46,204,113,.1);box-shadow:0 8px 30px rgba(46,204,113,.15)}
+
+.showcase-item:nth-child(1)::before{background:radial-gradient(ellipse at 70% 50%,var(--kagi),transparent 60%)}
+.showcase-item:nth-child(2)::before{background:radial-gradient(ellipse at 30% 50%,var(--pasha),transparent 60%)}
+.showcase-item:nth-child(3)::before{background:radial-gradient(ellipse at 70% 50%,var(--charin),transparent 60%)}
+.showcase-item:nth-child(4)::before{background:radial-gradient(ellipse at 30% 50%,var(--pon),transparent 60%)}
+.showcase-item:nth-child(5)::before{background:radial-gradient(ellipse at 70% 50%,var(--saku),transparent 60%)}
+
+@media(max-width:768px){
+  .showcase-inner{grid-template-columns:1fr;gap:48px;text-align:center}
+  .showcase-item:nth-child(even) .showcase-inner{direction:ltr}
+  .showcase-logo{justify-content:center}
+  .showcase-features{display:inline-block;text-align:left}
+  .showcase-text{max-width:100%}
+  .phone{width:200px;height:400px;border-radius:32px}
+  .phone::before{width:70px;height:22px;top:10px;border-radius:11px}
+}
+
+/* ── Other Products ── */
+.others{padding:120px 0;background:var(--surface)}
+.others-header{text-align:center;margin-bottom:64px}
+.others-header h2{font-size:clamp(28px,5vw,40px);font-weight:900;letter-spacing:-1.5px;margin-bottom:12px}
+.others-header p{color:var(--dim);font-size:15px}
+.others-inner{max-width:1100px;margin:0 auto;padding:0 24px}
+.category-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:20px;margin-top:48px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.category-label:first-child{margin-top:0}
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.mini-card{padding:24px;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);transition:.3s;text-decoration:none;display:block}
+.mini-card:hover{border-color:rgba(255,255,255,.14);transform:translateY(-2px);background:rgba(255,255,255,.04)}
+.mini-card-name{font-size:16px;font-weight:700;margin-bottom:4px;color:var(--text);letter-spacing:-.3px}
+.mini-card-desc{font-size:12px;color:var(--dim);line-height:1.6}
+.mini-card-tag{display:inline-block;margin-top:10px;font-size:10px;font-weight:600;letter-spacing:.5px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,.04);color:var(--dim)}
+
+/* ── Philosophy ── */
+.philosophy{padding:120px 0;position:relative;overflow:hidden}
+.philosophy::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,black,transparent);pointer-events:none}
+.philosophy-inner{max-width:1000px;margin:0 auto;padding:0 24px}
+.philosophy h2{font-size:clamp(28px,5vw,40px);font-weight:900;letter-spacing:-1.5px;text-align:center;margin-bottom:64px}
+.pillar-row{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+.pillar{text-align:center}
+.pillar-icon{width:64px;height:64px;border-radius:18px;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
+.pillar h3{font-size:18px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
+.pillar p{font-size:14px;color:var(--dim);line-height:1.8;max-width:280px;margin:0 auto}
+@media(max-width:768px){.pillar-row{grid-template-columns:1fr;gap:40px}}
+
+/* ── DAO ── */
+.dao{padding:120px 0;background:var(--surface)}
+.dao-inner{max-width:1100px;margin:0 auto;padding:0 24px}
+.dao-quote{font-size:clamp(24px,4vw,40px);font-weight:900;text-align:center;letter-spacing:-1.5px;line-height:1.2;margin-bottom:80px;background:linear-gradient(135deg,var(--kagi),var(--text));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.timeline{display:flex;gap:0;position:relative;justify-content:center}
+.timeline::before{content:'';position:absolute;top:50%;left:10%;right:10%;height:2px;background:linear-gradient(90deg,var(--kagi),var(--charin),var(--saku));border-radius:2px;transform:translateY(-50%)}
+.tl-phase{flex:1;max-width:300px;text-align:center;position:relative;padding-top:48px}
+.tl-dot{position:absolute;top:0;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;border:3px solid;background:var(--surface);z-index:1}
+.tl-phase:nth-child(1) .tl-dot{border-color:var(--kagi);box-shadow:0 0 20px rgba(232,168,56,.3)}
+.tl-phase:nth-child(2) .tl-dot{border-color:var(--charin);box-shadow:0 0 20px rgba(78,205,196,.3)}
+.tl-phase:nth-child(3) .tl-dot{border-color:var(--saku);box-shadow:0 0 20px rgba(46,204,113,.3)}
+.tl-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.tl-phase:nth-child(1) .tl-label{color:var(--kagi)}
+.tl-phase:nth-child(2) .tl-label{color:var(--charin)}
+.tl-phase:nth-child(3) .tl-label{color:var(--saku)}
+.tl-title{font-size:18px;font-weight:800;margin-bottom:10px;letter-spacing:-.3px}
+.tl-desc{font-size:13px;color:var(--dim);line-height:1.7}
+@media(max-width:768px){
+  .timeline{flex-direction:column;gap:40px;align-items:center}
+  .timeline::before{top:0;bottom:0;left:50%;right:auto;width:2px;height:100%;transform:none}
+  .tl-phase{padding-top:0;padding-left:48px;text-align:left;max-width:100%}
+  .tl-dot{left:0;top:4px;transform:none}
+}
+
+/* ── Pricing ── */
+.pricing{padding:120px 0}
+.pricing-inner{max-width:1000px;margin:0 auto;padding:0 24px}
+.pricing h2{font-size:clamp(28px,5vw,40px);font-weight:900;letter-spacing:-1.5px;text-align:center;margin-bottom:12px}
+.pricing-sub{font-size:15px;color:var(--dim);text-align:center;margin-bottom:56px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pricing-card{padding:40px 28px;border-radius:20px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);position:relative;transition:.3s}
+.pricing-card:hover{border-color:rgba(255,255,255,.12)}
+.pricing-card.featured{border-color:rgba(232,168,56,.25);background:linear-gradient(to bottom,rgba(232,168,56,.04),rgba(255,255,255,.02));transform:scale(1.02)}
+.pricing-card.featured::before{content:'';position:absolute;top:-1px;left:20%;right:20%;height:2px;background:linear-gradient(90deg,transparent,var(--kagi),transparent);border-radius:2px}
+.pricing-label{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.pricing-price{font-size:40px;font-weight:900;letter-spacing:-2px;margin-bottom:4px}
+.pricing-price small{font-size:14px;font-weight:400;color:var(--dim)}
+.pricing-desc{font-size:13px;color:var(--muted);margin-bottom:28px}
+.pricing-list{list-style:none;margin-bottom:32px}
+.pricing-list li{font-size:13px;color:var(--dim);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:10px}
+.pricing-list li svg{flex-shrink:0}
+.pricing-btn{display:block;text-align:center;padding:14px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;transition:.3s;border:1px solid rgba(255,255,255,.1);color:var(--text)}
+.pricing-btn:hover{background:rgba(255,255,255,.06)}
+.pricing-card.featured .pricing-btn{background:var(--kagi);color:#000;border-color:var(--kagi)}
+.pricing-card.featured .pricing-btn:hover{box-shadow:0 8px 30px rgba(232,168,56,.25)}
+@media(max-width:768px){.pricing-grid{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}.pricing-card.featured{transform:none}}
+
+/* ── Footer ── */
+footer{border-top:1px solid rgba(255,255,255,.05);padding:48px 24px;text-align:center}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.footer-links a{font-size:13px;color:var(--dim);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ Nav ═══════════ -->
+<nav>
+  <a href="/enabler" class="nav-logo">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+    Enabler
+  </a>
+  <div class="nav-links">
+    <a href="#products">Products</a>
+    <a href="#philosophy">Philosophy</a>
+    <a href="#dao">DAO</a>
+    <a href="#pricing">Pricing</a>
+    <a href="https://github.com/enablerdao" class="nav-cta">GitHub</a>
+  </div>
+</nav>
+
+<!-- ═══════════ Hero ═══════════ -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-stats">
+      <span class="hero-stat"><strong>15+</strong> Products</span>
+      <span class="hero-stat"><strong>Open Source</strong></span>
+      <span class="hero-stat"><strong>Local-First</strong></span>
+      <span class="hero-stat"><strong>User-Owned</strong></span>
+    </div>
+    <h1>Enabler</h1>
+    <p class="hero-sub">使う人が作り、使う人が所有する<br>ソフトウェアエコシステム。</p>
+    <a href="#products" class="hero-cta">
+      プロダクトを見る
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════ Properties Gallery ═══════════ -->
+<section style="padding:60px 24px;overflow:hidden">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;margin-bottom:32px">
+    <p class="fade-up" style="font-size:14px;color:#71717a;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Where we build & live</p>
+    <h2 class="fade-up" style="font-size:24px;color:#e4e4e7">美しい場所を創り、分かち合う</h2>
+  </div>
+  <div class="fade-up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1200px;margin:0 auto">
+    <div style="border-radius:16px;overflow:hidden;aspect-ratio:4/3;position:relative">
+      <img src="/static/properties/atami.jpg" alt="WHITE HOUSE 熱海" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px;background:linear-gradient(transparent,rgba(0,0,0,.7))">
+        <p style="font-size:13px;font-weight:700;color:#fff">WHITE HOUSE 熱海</p>
+        <p style="font-size:11px;color:rgba(255,255,255,.6)">静岡県熱海市</p>
+      </div>
+    </div>
+    <div style="border-radius:16px;overflow:hidden;aspect-ratio:4/3;position:relative">
+      <img src="/static/properties/honolulu.jpg" alt="BEACH HOUSE ホノルル" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px;background:linear-gradient(transparent,rgba(0,0,0,.7))">
+        <p style="font-size:13px;font-weight:700;color:#fff">BEACH HOUSE ホノルル</p>
+        <p style="font-size:11px;color:rgba(255,255,255,.6)">Hawaii, USA</p>
+      </div>
+    </div>
+    <div style="border-radius:16px;overflow:hidden;aspect-ratio:4/3;position:relative">
+      <img src="/static/properties/teshikaga.jpg" alt="THE LODGE 弟子屈" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px;background:linear-gradient(transparent,rgba(0,0,0,.7))">
+        <p style="font-size:13px;font-weight:700;color:#fff">THE LODGE 弟子屈</p>
+        <p style="font-size:11px;color:rgba(255,255,255,.6)">北海道弟子屈町</p>
+      </div>
+    </div>
+    <div style="border-radius:16px;overflow:hidden;aspect-ratio:4/3;position:relative">
+      <img src="/static/properties/nest.jpg" alt="THE NEST 弟子屈" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px;background:linear-gradient(transparent,rgba(0,0,0,.7))">
+        <p style="font-size:13px;font-weight:700;color:#fff">THE NEST 弟子屈</p>
+        <p style="font-size:11px;color:rgba(255,255,255,.6)">北海道弟子屈町</p>
+      </div>
+    </div>
+  </div>
+  <p class="fade-up" style="text-align:center;margin-top:20px;font-size:13px;color:#71717a">自分たちが使うサービスは自分たちで作る。実際の物件運営から生まれたプロダクト。</p>
+</section>
+
+<!-- ═══════════ Showcase ═══════════ -->
+<section class="showcase" id="products">
+
+  <!-- KAGI -->
+  <div class="showcase-item sc-kagi">
+    <div class="showcase-inner">
+      <div class="showcase-text reveal">
+        <div class="showcase-logo">
+          <svg viewBox="0 0 48 48" width="48" height="48">
+            <circle cx="24" cy="16" r="10" fill="none" stroke="#E8A838" stroke-width="2.5"/>
+            <circle cx="24" cy="16" r="4" fill="#E8A838" opacity=".3"/>
+            <rect x="22" y="24" width="4" height="16" rx="2" fill="#E8A838"/>
+            <rect x="26" y="32" width="7" height="3" rx="1.5" fill="#E8A838"/>
+            <rect x="26" y="37" width="5" height="3" rx="1.5" fill="#E8A838" opacity=".6"/>
+          </svg>
+          <span class="showcase-name">KAGI</span>
+        </div>
+        <p class="showcase-tagline">開いた、ウェルカム。</p>
+        <ul class="showcase-features">
+          <li>スマートロックをアプリで制御</li>
+          <li>ゲスト用ワンタイムキー発行</li>
+          <li>入退室ログを自動記録</li>
+        </ul>
+        <a href="#" class="showcase-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Coming Soon
+        </a>
+      </div>
+      <div class="phone-wrap reveal reveal-delay-1">
+        <div class="phone phone-kagi">
+          <div class="phone-screen">
+            <div class="phone-ui-icon">
+              <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="16" r="8" fill="none" stroke="#E8A838" stroke-width="2" opacity=".6"/><rect x="22" y="22" width="4" height="12" rx="2" fill="#E8A838" opacity=".5"/></svg>
+            </div>
+            <div class="phone-ui-text-lg" style="color:rgba(232,168,56,.7)">おかえりなさい</div>
+            <div class="phone-ui-text">玄関のロック</div>
+            <div style="height:16px"></div>
+            <div class="phone-ui-row">
+              <div class="phone-ui-btn" style="background:rgba(232,168,56,.15);border:1px solid rgba(232,168,56,.2);border-radius:8px">解錠</div>
+              <div class="phone-ui-btn" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px">施錠</div>
+            </div>
+            <div style="height:12px"></div>
+            <div class="phone-ui-card">
+              <div class="phone-ui-card-row"><span class="phone-ui-card-label">最終入室</span><span class="phone-ui-card-value" style="color:rgba(232,168,56,.7)">14:32</span></div>
+              <div class="phone-ui-dots"><div class="phone-ui-dot" style="background:rgba(232,168,56,.4)"></div><div class="phone-ui-dot" style="background:rgba(232,168,56,.3)"></div><div class="phone-ui-dot" style="background:rgba(232,168,56,.2)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- パシャ -->
+  <div class="showcase-item sc-pasha">
+    <div class="showcase-inner">
+      <div class="showcase-text reveal">
+        <div class="showcase-logo">
+          <svg viewBox="0 0 48 48" width="48" height="48">
+            <circle cx="24" cy="24" r="16" fill="none" stroke="#FF6B6B" stroke-width="2"/>
+            <circle cx="24" cy="24" r="7" fill="none" stroke="#FF6B6B" stroke-width="2"/>
+            <circle cx="24" cy="24" r="2.5" fill="#FF6B6B"/>
+            <line x1="24" y1="8" x2="24" y2="14" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round"/>
+            <line x1="24" y1="34" x2="24" y2="40" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="24" x2="14" y2="24" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round"/>
+            <line x1="34" y1="24" x2="40" y2="24" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="showcase-name">パシャ</span>
+        </div>
+        <p class="showcase-tagline">撮るだけ、ラクになる。</p>
+        <ul class="showcase-features">
+          <li>AI OCRでレシートを瞬時にデータ化</li>
+          <li>電子帳簿保存法の全8要件に完全対応</li>
+          <li>チェーンハッシュ+Solanaで改ざん防止</li>
+        </ul>
+        <a href="https://testflight.apple.com/join/CTmyqV6H" class="showcase-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          TestFlight
+        </a>
+      </div>
+      <div class="phone-wrap reveal reveal-delay-1">
+        <div class="phone phone-pasha">
+          <div class="phone-screen">
+            <div class="phone-ui-icon">
+              <svg viewBox="0 0 48 48" width="40" height="40"><rect x="10" y="6" width="28" height="36" rx="3" fill="none" stroke="#FF6B6B" stroke-width="2" opacity=".5"/><line x1="16" y1="14" x2="32" y2="14" stroke="#FF6B6B" stroke-width="1.5" opacity=".3"/><line x1="16" y1="20" x2="28" y2="20" stroke="#FF6B6B" stroke-width="1.5" opacity=".3"/><line x1="16" y1="26" x2="24" y2="26" stroke="#FF6B6B" stroke-width="1.5" opacity=".3"/><text x="24" y="36" text-anchor="middle" font-size="10" fill="#FF6B6B" opacity=".6" font-weight="700">¥</text></svg>
+            </div>
+            <div class="phone-ui-text-lg" style="color:rgba(255,107,107,.7)">3月の支出</div>
+            <div class="phone-ui-text">¥124,800</div>
+            <div style="height:12px"></div>
+            <div class="phone-ui-card">
+              <div class="phone-ui-card-row"><span class="phone-ui-card-label">食費</span><span class="phone-ui-card-value" style="color:rgba(255,107,107,.7)">¥32,400</span></div>
+              <div class="phone-ui-card-row"><span class="phone-ui-card-label">交通費</span><span class="phone-ui-card-value" style="color:rgba(255,107,107,.5)">¥12,600</span></div>
+            </div>
+            <div style="height:8px"></div>
+            <div class="phone-ui-row">
+              <div class="phone-ui-btn" style="background:rgba(255,107,107,.15);border:1px solid rgba(255,107,107,.2);border-radius:8px;font-size:10px">撮影</div>
+              <div class="phone-ui-btn" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px;font-size:10px">一覧</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- チャリン -->
+  <div class="showcase-item sc-charin">
+    <div class="showcase-inner">
+      <div class="showcase-text reveal">
+        <div class="showcase-logo">
+          <svg viewBox="0 0 48 48" width="48" height="48">
+            <circle cx="24" cy="24" r="18" fill="none" stroke="#4ECDC4" stroke-width="2"/>
+            <circle cx="24" cy="24" r="12" fill="none" stroke="#4ECDC4" stroke-width="1.5" opacity=".4"/>
+            <circle cx="24" cy="24" r="5" fill="#4ECDC4" opacity=".2"/>
+            <text x="24" y="28" text-anchor="middle" font-size="14" fill="#4ECDC4" font-weight="800">C</text>
+          </svg>
+          <span class="showcase-name">チャリン</span>
+        </div>
+        <p class="showcase-tagline">届いた、チャリン。</p>
+        <ul class="showcase-features">
+          <li>売上通知をリアルタイムで受信</li>
+          <li>複数決済サービスを一元管理</li>
+          <li>日次・月次レポートを自動生成</li>
+        </ul>
+        <a href="#" class="showcase-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Coming Soon
+        </a>
+      </div>
+      <div class="phone-wrap reveal reveal-delay-1">
+        <div class="phone phone-charin">
+          <div class="phone-screen">
+            <div class="phone-ui-icon">
+              <svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="14" fill="none" stroke="#4ECDC4" stroke-width="2" opacity=".5"/><text x="24" y="29" text-anchor="middle" font-size="14" fill="#4ECDC4" opacity=".6" font-weight="700">C</text></svg>
+            </div>
+            <div class="phone-ui-text-lg" style="color:rgba(78,205,196,.7)">本日の売上</div>
+            <div class="phone-ui-text">¥48,200</div>
+            <div style="height:12px"></div>
+            <div class="phone-ui-card">
+              <div class="phone-ui-card-row"><span class="phone-ui-card-label">Stripe</span><span class="phone-ui-card-value" style="color:rgba(78,205,196,.7)">+¥12,800</span></div>
+              <div class="phone-ui-card-row"><span class="phone-ui-card-label">Square</span><span class="phone-ui-card-value" style="color:rgba(78,205,196,.5)">+¥8,400</span></div>
+            </div>
+            <div style="height:8px"></div>
+            <div class="phone-ui-card">
+              <div class="phone-ui-card-row"><span class="phone-ui-card-label">前日比</span><span class="phone-ui-card-value" style="color:rgba(78,205,196,.8)">+18%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ポン -->
+  <div class="showcase-item sc-pon">
+    <div class="showcase-inner">
+      <div class="showcase-text reveal">
+        <div class="showcase-logo">
+          <svg viewBox="0 0 48 48" width="48" height="48">
+            <circle cx="24" cy="24" r="18" fill="none" stroke="#9B59B6" stroke-width="2"/>
+            <circle cx="24" cy="24" r="12" fill="none" stroke="#9B59B6" stroke-width="2" opacity=".4"/>
+            <rect x="17" y="17" width="14" height="14" rx="3" fill="#9B59B6" opacity=".25"/>
+            <text x="24" y="28" text-anchor="middle" font-size="10" fill="#9B59B6" font-weight="800">印</text>
+          </svg>
+          <span class="showcase-name">ポン</span>
+        </div>
+        <p class="showcase-tagline">決まった、ポン。</p>
+        <ul class="showcase-features">
+          <li>電子署名でどこでも承認</li>
+          <li>ワークフロー自動化で稟議を高速化</li>
+          <li>監査ログで証跡を完全保持</li>
+        </ul>
+        <a href="#" class="showcase-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Coming Soon
+        </a>
+      </div>
+      <div class="phone-wrap reveal reveal-delay-1">
+        <div class="phone phone-pon">
+          <div class="phone-screen">
+            <div class="phone-ui-icon">
+              <svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="14" fill="none" stroke="#9B59B6" stroke-width="2" opacity=".5"/><text x="24" y="29" text-anchor="middle" font-size="12" fill="#9B59B6" opacity=".6" font-weight="700">印</text></svg>
+            </div>
+            <div class="phone-ui-text-lg" style="color:rgba(155,89,182,.7)">承認待ち</div>
+            <div class="phone-ui-text">3件</div>
+            <div style="height:12px"></div>
+            <div class="phone-ui-card">
+              <div class="phone-ui-card-row"><span class="phone-ui-card-label">出張申請</span><span class="phone-ui-card-value" style="color:rgba(155,89,182,.7)">¥85,000</span></div>
+              <div style="margin-top:8px"><div class="phone-ui-btn" style="background:rgba(155,89,182,.2);border:1px solid rgba(155,89,182,.25);border-radius:6px;font-size:10px;height:28px;width:100%;color:rgba(155,89,182,.8)">承認する</div></div>
+            </div>
+            <div style="height:8px"></div>
+            <div class="phone-ui-card">
+              <div class="phone-ui-card-row"><span class="phone-ui-card-label">備品購入</span><span class="phone-ui-card-value" style="color:rgba(155,89,182,.5)">¥12,400</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- サクッ -->
+  <div class="showcase-item sc-saku">
+    <div class="showcase-inner">
+      <div class="showcase-text reveal">
+        <div class="showcase-logo">
+          <svg viewBox="0 0 48 48" width="48" height="48">
+            <rect x="8" y="6" width="26" height="36" rx="3" fill="none" stroke="#2ECC71" stroke-width="2"/>
+            <polyline points="16,24 21,29 33,17" fill="none" stroke="#2ECC71" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="14" y1="36" x2="28" y2="36" stroke="#2ECC71" stroke-width="1.5" opacity=".4" stroke-linecap="round"/>
+            <line x1="14" y1="10" x2="28" y2="10" stroke="#2ECC71" stroke-width="1.5" opacity=".4" stroke-linecap="round"/>
+          </svg>
+          <span class="showcase-name">サクッ</span>
+        </div>
+        <p class="showcase-tagline">申告、サクッと。</p>
+        <ul class="showcase-features">
+          <li>確定申告書類をガイド付きで作成</li>
+          <li>パシャのデータと自動連携</li>
+          <li>e-Tax形式で直接提出</li>
+        </ul>
+        <a href="#" class="showcase-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Coming Soon
+        </a>
+      </div>
+      <div class="phone-wrap reveal reveal-delay-1">
+        <div class="phone phone-saku">
+          <div class="phone-screen">
+            <div class="phone-ui-icon">
+              <svg viewBox="0 0 48 48" width="40" height="40"><rect x="12" y="8" width="24" height="32" rx="3" fill="none" stroke="#2ECC71" stroke-width="2" opacity=".5"/><polyline points="18,24 22,28 30,18" fill="none" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" opacity=".6"/></svg>
+            </div>
+            <div class="phone-ui-text-lg" style="color:rgba(46,204,113,.7)">2025年度</div>
+            <div class="phone-ui-text">確定申告</div>
+            <div style="height:12px"></div>
+            <div class="phone-ui-card">
+              <div class="phone-ui-card-row"><span class="phone-ui-card-label">進捗</span><span class="phone-ui-card-value" style="color:rgba(46,204,113,.7)">68%</span></div>
+              <div style="height:6px;background:rgba(255,255,255,.06);border-radius:3px;margin-top:8px;overflow:hidden"><div style="height:100%;width:68%;background:rgba(46,204,113,.5);border-radius:3px"></div></div>
+            </div>
+            <div style="height:8px"></div>
+            <div class="phone-ui-row">
+              <div class="phone-ui-btn" style="background:rgba(46,204,113,.15);border:1px solid rgba(46,204,113,.2);border-radius:8px;font-size:10px;color:rgba(46,204,113,.8)">続ける</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════ Other Products ═══════════ -->
+<section class="others" id="others">
+  <div class="others-header">
+    <h2 class="reveal">その他のプロダクト</h2>
+    <p class="reveal">Enablerエコシステムを構成する多様なツール群</p>
+  </div>
+  <div class="others-inner">
+
+    <div class="category-label reveal">AI</div>
+    <div class="mini-grid">
+      <a href="https://chatweb.ai" class="mini-card reveal">
+        <div class="mini-card-name">chatweb.ai</div>
+        <div class="mini-card-desc">ブラウザで動くAIチャット。ログイン不要、データはローカル保存。</div>
+        <span class="mini-card-tag">Live</span>
+      </a>
+      <a href="#" class="mini-card reveal reveal-delay-1">
+        <div class="mini-card-name">Elio</div>
+        <div class="mini-card-desc">P2P分散推論。デバイス同士でAIモデルを共有実行。</div>
+        <span class="mini-card-tag">iOS</span>
+      </a>
+      <a href="https://misebanai.com" class="mini-card reveal reveal-delay-2">
+        <div class="mini-card-name">ミセバンAI</div>
+        <div class="mini-card-desc">店舗運営をAIで自動化。在庫・シフト・売上分析。</div>
+        <span class="mini-card-tag">Live</span>
+      </a>
+      <a href="https://github.com/enablerdao/openclaw" class="mini-card reveal reveal-delay-3">
+        <div class="mini-card-name">OpenClaw</div>
+        <div class="mini-card-desc">自律AIエージェントフリート。タスクを委譲して自動実行。</div>
+        <span class="mini-card-tag">OSS</span>
+      </a>
+    </div>
+
+    <div class="category-label reveal">暮らし</div>
+    <div class="mini-grid">
+      <a href="https://stayflowapp.com" class="mini-card reveal">
+        <div class="mini-card-name">StayFlow</div>
+        <div class="mini-card-desc">宿泊施設の予約・管理をワンストップで。500+施設が利用中。</div>
+        <span class="mini-card-tag">Live</span>
+      </a>
+      <a href="https://koe.live" class="mini-card reveal reveal-delay-1">
+        <div class="mini-card-name">Koe</div>
+        <div class="mini-card-desc">声で入力。macOS/iOS/Windows対応の音声入力デバイス。</div>
+        <span class="mini-card-tag">Live</span>
+      </a>
+    </div>
+
+    <div class="category-label reveal">クリエイティブ</div>
+    <div class="mini-grid">
+      <a href="https://solun.art" class="mini-card reveal">
+        <div class="mini-card-name">SOLUNA</div>
+        <div class="mini-card-desc">群衆を楽器に変えるP2Pサウンドシステム。</div>
+        <span class="mini-card-tag">Live</span>
+      </a>
+      <a href="https://jiuflow.art" class="mini-card reveal reveal-delay-1">
+        <div class="mini-card-name">JiuFlow</div>
+        <div class="mini-card-desc">柔術の試合・練習を記録・分析するコンパニオンアプリ。</div>
+        <span class="mini-card-tag">iOS</span>
+      </a>
+    </div>
+
+    <div class="category-label reveal">ビジネス</div>
+    <div class="mini-grid">
+      <a href="https://banto.work" class="mini-card reveal">
+        <div class="mini-card-name">BANTO</div>
+        <div class="mini-card-desc">チームの業務をシンプルに管理。番頭のように見守る。</div>
+        <span class="mini-card-tag">Live</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ Philosophy ═══════════ -->
+<section class="philosophy" id="philosophy">
+  <div class="philosophy-inner">
+    <h2 class="reveal">三つの原則</h2>
+    <div class="pillar-row">
+      <div class="pillar reveal">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>ローカルファースト</h3>
+        <p>データはあなたの端末に保存。クラウドに依存しない設計で、プライバシーと速度を両立。</p>
+      </div>
+      <div class="pillar reveal reveal-delay-1">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4ECDC4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/></svg>
+        </div>
+        <h3>オープンソース</h3>
+        <p>すべてのコードを公開。誰でも検証でき、誰でも改善に参加できる透明なエコシステム。</p>
+      </div>
+      <div class="pillar reveal reveal-delay-2">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>ユーザー所有</h3>
+        <p>使う人がガバナンスに参加し、収益を共有する。ソフトウェアは作った人と使う人のもの。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ DAO ═══════════ -->
+<section class="dao" id="dao">
+  <div class="dao-inner">
+    <p class="dao-quote reveal">使う人が所有する<br>ソフトウェア</p>
+    <div class="timeline reveal">
+      <div class="tl-phase">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Phase 1</div>
+        <div class="tl-title">構築</div>
+        <div class="tl-desc">コアプロダクトの開発とオープンソース公開。初期コミュニティの形成。</div>
+      </div>
+      <div class="tl-phase">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Phase 2</div>
+        <div class="tl-title">分散</div>
+        <div class="tl-desc">ガバナンストークンの配布。コミュニティ主導の意思決定へ移行。</div>
+      </div>
+      <div class="tl-phase">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Phase 3</div>
+        <div class="tl-title">自律</div>
+        <div class="tl-desc">完全なDAO運営。収益はステークホルダーに自動分配。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ Pricing ═══════════ -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <h2 class="reveal">料金プラン</h2>
+    <p class="pricing-sub reveal">すべてのアプリ共通の料金体系</p>
+    <div class="pricing-grid">
+
+      <div class="pricing-card reveal">
+        <div class="pricing-label">Free</div>
+        <div class="pricing-price">¥0</div>
+        <div class="pricing-desc">個人利用に最適</div>
+        <ul class="pricing-list">
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>月30件まで処理</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>基本的なAI機能</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ローカルデータ保存</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>CSVエクスポート</li>
+        </ul>
+        <a href="#" class="pricing-btn">始める</a>
+      </div>
+
+      <div class="pricing-card featured reveal reveal-delay-1">
+        <div class="pricing-label">Pro</div>
+        <div class="pricing-price">¥980<small>/月</small></div>
+        <div class="pricing-desc">ビジネス利用に</div>
+        <ul class="pricing-list">
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#E8A838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>無制限処理</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#E8A838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>高精度AI解析</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#E8A838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Solanaアンカリング</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#E8A838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>月次レポート自動生成</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#E8A838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>優先サポート</li>
+        </ul>
+        <a href="#" class="pricing-btn">Pro を始める</a>
+      </div>
+
+      <div class="pricing-card reveal reveal-delay-2">
+        <div class="pricing-label">Enterprise</div>
+        <div class="pricing-price">要相談</div>
+        <div class="pricing-desc">大規模チーム向け</div>
+        <ul class="pricing-list">
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Pro全機能</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>チーム管理</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>カスタム連携</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>専任サポート</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="3,7 6,10 11,4" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>SLA保証</li>
+        </ul>
+        <a href="#" class="pricing-btn">お問い合わせ</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ Footer ═══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="https://github.com/enablerdao">GitHub</a>
+      <a href="https://testflight.apple.com/join/CTmyqV6H">TestFlight</a>
+      <a href="/privacy">Privacy</a>
+      <a href="https://enablerdao.com">enablerdao.com</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 Enabler DAO. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// IntersectionObserver for scroll reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Smooth nav background on scroll
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  nav.style.background = window.scrollY > 50
+    ? 'rgba(6,6,14,.92)'
+    : 'rgba(6,6,14,.7)';
+}, { passive: true });
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+spin_manifest_version = 2
+
+[application]
+name = "enablerdao"
+version = "0.1.0"
+description = "EnablerDAO — Rust + Spin WASM website"
+authors = ["yukihamada"]
+
+[variables]
+resend_api_key = { required = false, default = "" }
+
+[[trigger.http]]
+route = "/..."
+component = "web"
+
+[component.web]
+source = "spin-component/target/wasm32-wasip2/release/enablerdao_spin.wasm"
+description = "EnablerDAO website — Spin HTTP component"
+allowed_outbound_hosts = [
+    "https://api.resend.com",
+]
+key_value_stores = ["default"]
+
+[component.web.variables]
+resend_api_key = "{{ resend_api_key }}"
+
+[component.web.build]
+command = "cargo build --manifest-path spin-component/Cargo.toml --target wasm32-wasip2 --release"
+watch = ["spin-component/src/**/*.rs", "spin-component/Cargo.toml"]
