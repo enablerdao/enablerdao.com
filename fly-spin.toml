@@ -1,9 +1,9 @@
 # Fly.io config for EnablerDAO Spin WASM
-app = "enablerdao-spin"
+app = "enablerdao"
 primary_region = "nrt"
 
 [build]
-  dockerfile = "Dockerfile.spin"
+  dockerfile = "Dockerfile.prebuilt"
 
 [http_service]
   internal_port = 8080

@@ -69,6 +69,7 @@ const FOOTER_HTML: &str = r#"<footer class="site-footer">
         <a href="https://jiuflow.art" class="footer-link" target="_blank">JiuFlow</a>
         <a href="https://elio.love" class="footer-link" target="_blank">Elio</a>
         <a href="https://misebanai.com" class="footer-link" target="_blank">MisebanAI</a>
+        <a href="https://enabler.fun" class="footer-link" target="_blank">enabler.fun</a>
       </div>
       <div class="footer-col">
         <h4 class="footer-heading">Community</h4>
@@ -118,7 +119,7 @@ pub const NEWSLETTER_CTA_HTML: &str = r#"<section class="newsletter-section reve
 ///
 /// Includes meta tags, OG / Twitter card, JSON-LD structured data, nav, footer, and script tag.
 pub fn page_shell(title: &str, description: &str, canonical: &str, content: &str) -> String {
-    let og_image = "https://enablerdao.com/static/og-default.png";
+    let og_image = "https://enablerdao.com/static/properties/atami.jpg";
     let json_ld = format!(
         r#"{{"@context":"https://schema.org","@type":"Organization","name":"EnablerDAO","url":"https://enablerdao.com","logo":"https://enablerdao.com/static/favicon.svg","description":"{description}","sameAs":["https://github.com/enablerdao","https://t.me/enablerdao"]}}"#,
         description = description.replace('"', "&quot;"),
