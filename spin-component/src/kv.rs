@@ -50,7 +50,7 @@ const KEY_BLOG_SEED_LOADED: &str = "blog:seed_loaded";
 
 /// Ensure blog seed data is loaded into KV (version-aware).
 /// Bump this version to force re-seed after blog_seed.json changes.
-const BLOG_SEED_VERSION: &str = "v5";
+const BLOG_SEED_VERSION: &str = "v6";
 
 pub fn ensure_blog_seed() {
     let Ok(store) = Store::open_default() else { return };
