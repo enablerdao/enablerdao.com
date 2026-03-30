@@ -7,3 +7,5 @@ pub mod token;
 pub mod agents;
 pub mod safety;
 pub mod simple;
+pub mod fanclub;
+pub mod privacy;

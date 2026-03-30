@@ -69,6 +69,44 @@ pub async fn send_idea_notification(api_key: &str, idea_title: &str, nickname: &
     let _: Result<Response, _> = spin_sdk::http::send(req).await;
 }
 
+/// Send a magic login link to a fan club member.
+pub async fn send_fanclub_login(api_key: &str, to: &str, token: &str) {
+    if api_key.is_empty() {
+        return;
+    }
+
+    let login_url = format!("https://enablerdao.com/fanclub?token={}", token);
+
+    let body = serde_json::json!({
+        "from": "info@enablerdao.com",
+        "to": [to],
+        "subject": "Enablerファンクラブ — ログインリンク",
+        "html": format!(
+            r#"<div style="font-family:monospace;background:#0a0a0a;color:#e8e8e8;padding:32px;max-width:600px;">
+<h1 style="color:#44ff88;font-size:18px;">$ enabler fanclub --login</h1>
+<p>下のボタンをクリックして、あなたの招待コードを確認してください。</p>
+<p style="margin:24px 0;">
+  <a href="{login_url}" style="display:inline-block;padding:12px 32px;background:#44ff88;color:#0a0a0a;text-decoration:none;border-radius:8px;font-weight:bold;font-size:16px;">招待コードを表示</a>
+</p>
+<p style="color:#666;font-size:12px;">このリンクは1時間有効です。</p>
+<hr style="border-color:#333;">
+<p style="color:#888;font-size:12px;">Enabler Fan Club &mdash; パシャProプランが無料で使えます</p>
+</div>"#
+        ),
+    });
+
+    let Ok(body_bytes) = serde_json::to_vec(&body) else { return };
+    let req = Request::builder()
+        .method(Method::Post)
+        .uri("https://api.resend.com/emails")
+        .header("Authorization", &format!("Bearer {api_key}"))
+        .header("Content-Type", "application/json")
+        .body(body_bytes)
+        .build();
+
+    let _: Result<Response, _> = spin_sdk::http::send(req).await;
+}
+
 /// Notify admins about user feedback.
 pub async fn send_feedback_notification(api_key: &str, message: &str, contact: &str) {
     if api_key.is_empty() {

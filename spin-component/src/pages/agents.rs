@@ -128,7 +128,7 @@ pub fn render() -> String {
     {name:"Jiuflowdog", host:"jiuflowdog-spin.fly.dev",   emoji:"\u{1F94B}",    tg:"jiuflowdog_enabler_bot"},
     {name:"Bantodog",   host:"bantodog-spin.fly.dev",     emoji:"\u{1F4CA}",    tg:"bantodog_enabler_bot"},
     {name:"Eliodog",    host:"eliodog-spin.fly.dev",      emoji:"\u{1F31F}",    tg:"eliodog_enabler_bot"},
-    {name:"OpenClaw",   host:"openclaw-saas-icy-rain-7622.fly.dev", emoji:"\u{1F9A6}", tg:null}
+    {name:"OpenClaw",   host:"openclaw-saas-icy-rain-7622.fly.dev", emoji:"\u{1F9A6}", tg:null, archived:true}
   ];
 
   var agentStates = {};
@@ -189,8 +189,11 @@ pub fn render() -> String {
       state.error = e.name === "TimeoutError" ? "Timeout" : "Connection failed";
     }
 
-    // OpenClawはFly.io APIが異なるためboard/mumbleスキップ
-    if (agent.name === "OpenClaw") return state;
+    // OpenClawはアーカイブ済み — スキップ
+    if (agent.archived) {
+      state.status = "archived";
+      return state;
+    }
 
     // online/maint の場合のみ追加APIを取得
     if (state.status === "online" || state.status === "maint") {
@@ -248,6 +251,10 @@ pub fn render() -> String {
         color = "var(--amber)";
         bg = "rgba(251,191,36,0.1)";
         statusText = "Maintenance";
+      } else if (st.status === "archived") {
+        color = "var(--dim)";
+        bg = "rgba(128,128,128,0.05)";
+        statusText = "Archived";
       } else if (st.status === "loading") {
         color = "var(--dim)";
         bg = "rgba(128,128,128,0.1)";

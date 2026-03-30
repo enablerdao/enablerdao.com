@@ -116,6 +116,18 @@ async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
                 "https://enablerdao.com/status",
                 &pages::simple::render_status())
         }
+        (Method::Get, "/privacy") => {
+            html_page("Privacy Policy \u{2014} EnablerDAO",
+                "EnablerDAO \u{30d7}\u{30e9}\u{30a4}\u{30d0}\u{30b7}\u{30fc}\u{30dd}\u{30ea}\u{30b7}\u{30fc}\u{3002}",
+                "https://enablerdao.com/privacy",
+                &pages::privacy::render())
+        }
+        (Method::Get, "/fanclub") => {
+            html_page("Fan Club \u{2014} Enabler",
+                "Enabler\u{30d5}\u{30a1}\u{30f3}\u{30af}\u{30e9}\u{30d6}\u{3002}\u{30d1}\u{30b7}\u{30e3}Pro\u{30d7}\u{30e9}\u{30f3}\u{304c}\u{7121}\u{6599}\u{3002}",
+                "https://enablerdao.com/fanclub",
+                &pages::fanclub::render())
+        }
 
         // --- SEO ---
         (Method::Get, "/sitemap.xml") => {
@@ -160,6 +172,13 @@ async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
         (Method::Post, "/api/newsletter/subscribe") => api::newsletter::subscribe(req).await,
         (Method::Post, "/api/feedback") => api::feedback::submit(req).await,
         (Method::Get, "/api/metrics") => api::metrics::get(),
+        (Method::Post, "/api/fanclub/register") => api::fanclub::register(req).await,
+        (Method::Post, "/api/fanclub/login") => api::fanclub::login(req).await,
+        (Method::Get, p) if p.starts_with("/api/fanclub/verify") => api::fanclub::verify(p),
+        (Method::Get, "/api/fanclub/codes") => {
+            let hashes = kv::list_promo_code_hashes();
+            json_ok(&serde_json::json!({"version": 1, "hashes": hashes}))
+        }
 
         // --- CORS preflight ---
         (Method::Options, _) => {

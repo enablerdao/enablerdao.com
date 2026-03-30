@@ -8,3 +8,4 @@ pub mod qa;
 pub mod newsletter;
 pub mod feedback;
 pub mod metrics;
+pub mod fanclub;

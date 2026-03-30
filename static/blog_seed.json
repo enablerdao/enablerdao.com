@@ -370,5 +370,45 @@
       "monitoring"
     ],
     "category": "Engineering"
+  },
+  {
+    "slug": "devlog-2026-03-29",
+    "title": "開発日誌 3/29 — 審査待ちの間に柔術アニメを作り始めた話",
+    "description": "iPhoneアプリの審査待ち。新機能は作らない代わりに、ずっと見たかった柔術アニメを作り始めた。全部オープンソース。",
+    "content": "## 今日やったこと\n\n朝から晩までコード書いてた。ざっくりまとめる。\n\n### App Store審査\n\nパシャ（レシート経費管理）がリジェクトされてた。理由はスクリーンショットに「Free」「¥980/月」の価格表示があったから（Guideline 2.3.7）。5枚全部のスクリーンショットから価格表示を消して再申請した。現在 **WAITING_FOR_REVIEW**。\n\niPhoneアプリは審査があるから、提出したら待つしかない。この「待ち時間」が意外と大きい。\n\n### Enablerファンクラブを作った\n\n月額980円で全プロダクト（パシャ、ポン、KAGI、Koe、JiuFlow、Elio、Soluna）のProプランが使える仕組みを作った。\n\n技術的には：\n- **enablerdao.com/fanclub** にメール認証でログインするページを追加\n- 登録するとプロモコード（`ENABLER-XXXX-XXXX-XXXX`）が発行される\n- パシャアプリの設定画面でコードを入力するとPro解放\n- コードはSHA-256ハッシュ化してサーバーに保存、アプリ側で照合\n- サーバー側はRust/Spin（WASM）、メール送信はResend\n\nNFT認証も最初は実装したけど、「ウォレット作ってNFT受け取って...」は初心者にハードルが高すぎるのでやめた。**招待コード+メール認証**が一番シンプル。\n\n### AIエージェントチーム始動\n\n4台のVPSで動いてるOpenClawエージェントを、ちゃんとした経営チームにした：\n\n| 名前 | タイトル | 担当 |\n|------|---------|------|\n| 翔太 | CTO | コードレビュー・技術判断 |\n| 美咲 | CMO | コンテンツ・ファンクラブ成長 |\n| 健太 | COO | サービス監視・運用 |\n| 凛 | CHRO | ユーザーフィードバック・コミュニティ |\n\n全員に「**社長の気持ちで動け**」とビジョンを共有した。指示待ちじゃなく、自分で考えて自分で動く経営者として。GitHub認証、Fly CLI、リポジトリも全部セットアップ済み。\n\n### サイト修正\n\nenablerdao.comとyukihamada.jpを巡回して問題を修正：\n- プライバシーページが404だったので作成\n- ステータスページのLambda参照を削除（Fly.ioに移行済み）\n- kagi.appのリンクが別サイトに飛んでたので修正\n- OG画像のSSL切れを修正\n\n---\n\n## 審査待ちの間にやってること\n\n新機能は作らない。代わりに、ずっとやりたかったクリエイティブな仕事を進めてる。\n\n### 友達の映像制作を手伝ったら自分もハマった\n\n友達の映像プロジェクトを手伝う機会があって、GeminiやVeoを使ったAI映像制作のパイプラインを覚えた。これが楽しすぎて、自分でもずっと作りたかったものを作り始めた。\n\n### 柔術アニメ「FLOW」を作ってる\n\nずっと見たかったものがある。**柔術のアニメ**。\n\nでも誰も作ってくれないから、自分で作ることにした。\n\n**FLOW** — 2030年、AIが格闘技の勝敗を99.8%予測する時代。17歳の主人公・流（ナガレ）は、左腕を骨折したハンデを抱えながら、AIに読めない「フロー」という戦闘スタイルで世界のトップを目指す。\n\n- 5シーズン、全60話のスクリプト\n- キャラクターデザイン、OP/EDテーマ曲\n- サイト公開中: [flow-anime.com](https://flow-anime.com)\n- **オープンソース**: [github.com/yukihamada/flow-anime](https://github.com/yukihamada/flow-anime)\n\n柔術やってる人間として、「スラムダンク」や「ハイキュー!!」みたいな作品が柔術にもあったらいいなとずっと思ってた。技の名前、ポジション、戦略——柔術には物語になる要素が山ほどある。\n\nオープンソースでやる理由は、柔術コミュニティ全体で育てたいから。ストーリー、キャラ、技術——誰でもコントリビュートできる。\n\n---\n\n## ローカルAI記事も書いた\n\nMac M5 (128GB) でローカルLLMを爆速にした話もブログにした。`clm`と打つだけでClaude Codeがローカルモデルで動く。詳しくは → [Mac M5でローカルLLMを爆速にした話](../local-ai-mac-m-series-2026-03-29)\n\n---\n\n## 明日やること\n\n- パシャの審査結果を待つ\n- 他のリジェクトアプリ（ポン、Soluna、JiuFlow、BANTO）の修正方針を立てる\n- FLOWアニメの第4話スクリプト\n- ファンクラブの最初のメンバーを集める\n\n**俺が使うものは、俺が作る。見たいものも、俺が作る。**\n\n— Yuki Hamada, 2026-03-29",
+    "author": "Yuki Hamada",
+    "publishedAt": "2026-03-29",
+    "tags": [
+      "devlog",
+      "app-store",
+      "fanclub",
+      "ai-agents",
+      "anime",
+      "flow",
+      "creative",
+      "open-source"
+    ],
+    "category": "DevLog"
+  },
+  {
+    "slug": "local-ai-mac-m-series-2026-03-29",
+    "title": "Mac M5 (128GB) でローカルLLMを爆速にした話 — clm一発でClaude Codeがローカルで動く",
+    "description": "Mac Studio M5に128GBメモリ。Ollamaを入れたけどもっと速くしたい。自作セットアップで爆速になった。clmと打つだけでClaude Codeがローカルモデルで動く世界。作り方と使い方を全部書く。",
+    "content": "## MV: LOCAL AI — The Revolution\n\nまずこれを見てほしい。2分で全部わかる。\n\n<div style='position:relative;max-width:640px;margin:0 auto 32px;'><a href='https://yukihamada.jp/mv/local-ai.html' target='_blank' style='display:block;background:#111;border:1px solid #333;border-radius:12px;padding:20px;text-align:center;text-decoration:none;color:#fff;'><div style='font-size:2rem;margin-bottom:8px;'>▶</div><div style='font-size:1.1rem;font-weight:bold;color:#58a6ff;'>LOCAL AI — The Revolution (MV)</div><div style='font-size:0.8rem;color:#888;margin-top:4px;'>ターミナルで流れるMV。bash setup.sh一発の世界。</div></a></div>\n\n---\n\n## きっかけ: Mac M5 (128GB) を手に入れた\n\nMac Studio M5、ユニファイドメモリ**128GB**。Qwen3.5-122Bクラスのモデルが丸ごと載る。\n\nクラウドAPIに月何万も払い続けるのがバカらしくなった。自分のマシンで動かせば：\n- **APIコスト$0** — 電気代だけ\n- **データが外に出ない** — 完全プライバシー\n- **レイテンシなし** — ネットワーク往復ゼロ\n\nまずOllamaを入れた。`brew install ollama`して`ollama run qwen3`。動く。でも——もっと速くしたい。\n\n---\n\n## Ollamaでは物足りなかった\n\nOllamaは素晴らしい。でもApple SiliconのMLXを使えばもっと速くなるはず。\n\nそこで**自分でセットアップスクリプトを書いた**。MLX-LM（Appleの推論エンジン）を直接使って、Anthropic互換のプロキシを立てる。これでClaude Codeがそのままローカルモデルで動く。\n\n---\n\n## 作ったもの: `bash setup.sh` 一発セットアップ\n\nGitHubに公開済み: [github.com/yukihamada/local-claude](https://github.com/yukihamada/local-claude)\n\n```bash\ngit clone https://github.com/yukihamada/local-claude.git\ncd local-claude\nbash setup.sh\n```\n\nこれだけ。あとは勝手にやってくれる：\n\n1. **RAMを自動検出** → 最適なモデルを選択\n2. **MLX-LMをインストール** → Apple Silicon最適化推論\n3. **Anthropic互換プロキシを起動** → Claude Code互換API\n4. **シェルエイリアスを設定** → `clm`コマンドが使えるようになる\n\n### RAMに応じた自動モデル選択\n\n| RAM | メインモデル | 速度 |\n|-----|-----------|------|\n| 16GB | Qwen3.5-4B | 快適 |\n| 24GB | Qwen3.5-9B | 快適 |\n| 32GB | Qwen3.5-35B (MoE) | 快適 |\n| 64GB | 35B + 9B デュアル | 爆速 |\n| 96GB | Qwen3.5-122B (MoE) | 爆速 |\n| **128GB** | **122B + 35B + Vision** | **フル装備** |\n\n僕の128GB環境では、メイン122B + 高速用35B + Vision用8Bの3モデルが同時に動く。\n\n---\n\n## 使い方: `clm` と打つだけ\n\nセットアップ後の日常：\n\n```bash\n# 1. サーバー起動（初回だけ）\n~/ai.sh start\n\n# 2. Claude Codeをローカルモデルで起動\nclm\n```\n\n**`clm`** = Claude Local Mode。これだけでClaude Codeのインターフェースがそのまま立ち上がる。ファイル編集、コード生成、ターミナル操作——全部ローカルのLLMが処理する。\n\n### 裏側の仕組み\n\n```\nclm コマンド\n  ↓\nANTHROPIC_BASE_URL=http://localhost:4001 に切り替え\n  ↓\nclaude --bare が起動\n  ↓\nAnthropic互換プロキシがリクエストを受ける\n  ↓\nリクエスト内容に応じてルーティング:\n  claude-sonnet/opus → Qwen3.5-122B (:5000)\n  claude-haiku       → Qwen3.5-35B  (:5001)\n  画像付きメッセージ  → Qwen3-VL-8B  (:5002)\n  ↓\nMLX-LMがApple Silicon上で推論\n  ↓\nClaude Code互換のレスポンスを返す\n```\n\nClaude Codeは「自分がクラウドのClaudeと話してる」と思ってる。実際はローカルのQwen3.5が応答してる。\n\n### その他のコマンド\n\n```bash\n~/ai.sh start    # サーバー起動\n~/ai.sh stop     # サーバー停止\n~/ai.sh status   # 稼働状況確認\n~/ai.sh test     # 動作テスト\n~/ai.sh restart  # 再起動\n\nclm              # Claude Code (ローカル)\nclc              # Claude Code (クラウド) に切り替え\n```\n\n---\n\n## MacBookでも動く\n\nMac Studio専用ではない。**MacBook Pro/Air (Apple Silicon)** でも動く。16GBのMacBook Airなら4Bモデル、36GBのMacBook Proなら35Bモデルが動く。setup.shがRAMを見て自動で最適なモデルを選ぶ。\n\n（僕はMacBookには入れてないけど笑。M5 Studioが快適すぎて。）\n\n---\n\n## 正直な感想: Claudeにはまだ及ばない、でも可能性しかない\n\nローカルモデル（Qwen3.5-122B）は**普通に使う分には超賢い**。コード生成、ファイル操作、デバッグ——日常的な開発タスクはこなせる。\n\nただし正直に言うと、**Claude Opus/Sonnetには及ばない**場面がある：\n- 複雑な推論チェーン\n- 長いコンテキストの一貫性\n- ニュアンスのある日本語\n\nでも改善の余地は大きい：\n- **プロンプトの最適化** — Claude向けに書かれたシステムプロンプトをローカルモデル向けにチューニングすればもっと良くなる\n- **モデルの進化** — Qwen3.5は数ヶ月前には存在しなかった。半年後にはさらに賢いモデルが出る\n- **ファインチューニング** — 自分の用途に特化させれば特定タスクではClaudeを超えられる\n\n**可能性しか感じてない。**\n\n---\n\n## まとめ\n\n| | クラウドClaude | Ollama | clm (自作) |\n|-|-------------|--------|------------|\n| セットアップ | 不要 | `brew install` | `bash setup.sh` |\n| コスト | 月額$20〜$200 | 無料 | 無料 |\n| プライバシー | データ送信 | ローカル | ローカル |\n| 推論エンジン | Anthropic | llama.cpp | **MLX (Apple最適化)** |\n| Claude Code互換 | ネイティブ | ✕ | **✓ (`clm`一発)** |\n| 賢さ | ★★★★★ | ★★★☆☆ | ★★★★☆ |\n\n```bash\n# 今すぐ試す\ngit clone https://github.com/yukihamada/local-claude.git\ncd local-claude && bash setup.sh\n~/ai.sh start\nclm\n```\n\n**俺が使うものは、俺が作る。**\n\nソースコード: [github.com/yukihamada/local-claude](https://github.com/yukihamada/local-claude)",
+    "author": "Yuki Hamada",
+    "publishedAt": "2026-03-29",
+    "tags": [
+      "local-ai",
+      "llm",
+      "apple-silicon",
+      "mlx",
+      "llama-cpp",
+      "elio",
+      "mac",
+      "ollama",
+      "gguf",
+      "inference"
+    ],
+    "category": "Engineering"
   }
 ]

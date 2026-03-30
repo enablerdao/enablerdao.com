@@ -167,7 +167,7 @@ pub fn render_status() -> String {
       <div class="status-row">
         <span class="status-active">●</span>
         <span class="status-name">chatweb.ai</span>
-        <span class="status-detail">Lambda v150 / 9 providers</span>
+        <span class="status-detail">Fly.io (chatweb-ai) / 9 providers</span>
       </div>
       <div class="status-row">
         <span class="status-active">●</span>
