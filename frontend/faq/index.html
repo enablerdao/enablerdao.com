@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — enabler</title>
+<meta name="description" content="enablerについてよくある質問。別荘の予約方法、DAO参加、EBRトークンについて。">
+<link rel="icon" href="/favicon.ico">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a0a;
+    color: #ccc;
+    font-family: 'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+  a { color: #00ffff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .header {
+    border-bottom: 1px solid #1a1a1a;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    color: #00ff00;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    text-shadow: 0 0 8px rgba(0,255,0,0.4);
+  }
+  .nav a {
+    color: #999;
+    text-decoration: none;
+    margin-left: 24px;
+    font-size: 13px;
+  }
+  .nav a:hover { color: #00ffff; }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+  .page-title {
+    color: #00ffff;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .page-subtitle {
+    color: #999;
+    font-size: 12px;
+    margin-bottom: 40px;
+  }
+
+  .faq-item {
+    border-left: 2px solid rgba(0,255,0,0.2);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    background: #0f0f0f;
+  }
+  .faq-q {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .faq-q::before {
+    content: "Q. ";
+    color: #00ff00;
+  }
+  .faq-a {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .faq-a::before {
+    content: "A. ";
+    color: #00ffff;
+    font-weight: 700;
+  }
+
+  .footer {
+    border-top: 1px solid #1a1a1a;
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    font-size: 11px;
+    margin-top: 40px;
+  }
+  .footer a { color: #999; text-decoration: none; }
+</style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <a href="/" class="logo">$ enablerdao</a>
+  <nav class="nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="page-title">// FAQ</div>
+  <div class="page-subtitle">よくある質問</div>
+
+  <div class="faq-item">
+    <div class="faq-q">enabler（イネブラ）って何？</div>
+    <div class="faq-a">熱海・北海道・ハワイにある高級別荘をみんなでシェアする仕組みと、OSSプロジェクトをDAO（分散型組織）で運営するプラットフォームです。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">別荘の予約方法は？</div>
+    <div class="faq-a">各物件ページのAirbnbリンクから予約できます。空き状況はサイト上のカレンダーで確認できます。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">DAOって何？怪しくない？</div>
+    <div class="faq-a">DAO = Decentralized Autonomous Organization。社長が一人で決めるのではなく、メンバー全員で意思決定する組織形態です。enablerでは物件管理やプロジェクト方針をコミュニティで決めています。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">EBRトークンって何？</div>
+    <div class="faq-a">enablerのOSSプロジェクトにバグ修正や改善のPRを出すと報酬としてもらえるトークンです。EBRを持っていると、メンバー限定の物件予約やNOT A HOTEL提携物件の閲覧ができます。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">ウォレット接続って何？</div>
+    <div class="faq-a">Solanaブロックチェーンのウォレット（Phantom等）を接続することで、EBRトークンの保有を確認しメンバー限定エリアにアクセスできます。別荘の予約だけならウォレットは不要です。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">料金はいくら？</div>
+    <div class="faq-a">物件や日程により異なります。各物件のAirbnbページで最新の料金をご確認ください。目安として1泊 ¥30,000〜¥80,000（1棟貸し）です。</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">問い合わせ先は？</div>
+    <div class="faq-a">メール: <a href="mailto:info@enablerdao.com">info@enablerdao.com</a> までお気軽にどうぞ。</div>
+  </div>
+</div>
+
+<footer class="footer">
+  <a href="https://enablerdao.com">enablerdao.com</a> — &copy; 2026 enabler
+</footer>
+
+</body>
+</html>

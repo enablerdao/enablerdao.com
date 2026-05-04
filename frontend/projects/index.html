@@ -1,176 +1,314 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Project — EnablerDAO</title>
-<meta name="description" content="EnablerDAO プロジェクト詳細。OSSに貢献してEBRトークンを獲得。">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="/favicon.ico">
-<meta property="og:title" content="Project — EnablerDAO">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — enabler</title>
+<meta name="description" content="enablerコミュニティのプロジェクト一覧。みんなで作って、みんなで育てる。">
+<link rel="icon" href="/favicon.ico">
+<meta property="og:title" content="Projects — enabler">
+<meta property="og:description" content="みんなで作って、みんなで育てる。enablerコミュニティのプロジェクト一覧。">
 <meta property="og:url" content="https://enablerdao.com/projects/">
 <meta property="og:image" content="https://enablerdao.com/common/images/ogp.png">
-<meta name="twitter:card" content="summary_large_image">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html {
-  background: #0a0a0a;
-  color: #888;
-  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-  font-size: 14px;
-  line-height: 1.8;
-}
-a { color: #00ffff; text-decoration: none; }
-a:hover { text-decoration: underline; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:#0a0a0a;color:#ccc;font-family:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;font-size:14px;line-height:1.8;background-image:linear-gradient(rgba(0,255,0,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,0,0.02) 1px,transparent 1px);background-size:28px 28px}
+  a{color:#00ffff;text-decoration:none}a:hover{text-decoration:underline}
 
-.header {
-  border-bottom: 1px solid #1a1a1a;
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.header .logo { color: #00ff00; font-size: 18px; font-weight: 700; text-decoration: none; }
-.header nav a { color: #555; margin-left: 20px; font-size: 13px; }
-.header nav a:hover { color: #00ffff; text-decoration: none; }
+  .header{border-bottom:1px solid #1a1a1a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(8px);z-index:100}
+  .logo{color:#00ff00;font-size:18px;font-weight:700;text-decoration:none;text-shadow:0 0 8px rgba(0,255,0,0.4)}
+  .nav a{color:#999;text-decoration:none;margin-left:24px;font-size:13px;transition:color .2s}.nav a:hover{color:#00ffff}
 
-.wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
-.loading { text-align: center; color: #555; padding: 80px 0; }
-.error { text-align: center; color: #ff5555; padding: 80px 0; }
-.error a { display: inline-block; margin-top: 12px; border: 1px solid #333; padding: 8px 20px; color: #00ff00; }
+  .wrap{max-width:960px;margin:0 auto;padding:48px 24px 80px}
 
-/* Project detail */
-.proj-name { color: #fff; font-size: 28px; font-weight: 700; margin-bottom: 4px; }
-.proj-repo { color: #555; font-size: 13px; margin-bottom: 20px; }
-.proj-repo a { color: #00ffff; }
-.proj-desc { color: #aaa; font-size: 15px; line-height: 1.8; margin-bottom: 24px; }
-.proj-stats {
-  display: flex; gap: 24px; margin-bottom: 24px;
-  font-size: 14px; color: #888;
-}
-.proj-stats span strong { color: #fff; }
-.proj-reward {
-  border-left: 2px solid #00ff00;
-  padding: 12px 16px;
-  background: rgba(0,255,0,0.03);
-  color: #ffaa00;
-  font-size: 14px;
-  margin-bottom: 32px;
-}
-.proj-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.proj-btn {
-  display: inline-block;
-  padding: 10px 20px;
-  font-family: 'SF Mono','Fira Code',monospace;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-.proj-btn-primary { background: #00ff00; color: #000; }
-.proj-btn-primary:hover { opacity: 0.85; text-decoration: none; }
-.proj-btn-secondary { border: 1px solid #333; color: #888; background: transparent; }
-.proj-btn-secondary:hover { color: #00ffff; border-color: #00ffff; text-decoration: none; }
+  .hero{text-align:center;margin-bottom:56px;padding:40px 0;border-bottom:1px solid #1a1a1a}
+  .hero-title{font-size:clamp(24px,5vw,40px);font-weight:900;color:#fff;line-height:1.3;margin-bottom:16px}
+  .hero-title span{color:#00ff00}
+  .hero-sub{font-size:clamp(13px,2.5vw,16px);color:#888;max-width:600px;margin:0 auto 24px;line-height:1.8}
+  .hero-tagline{display:inline-block;font-size:12px;color:#00ffff;border:1px solid rgba(0,255,255,0.2);padding:6px 16px;border-radius:20px;letter-spacing:.08em}
 
-.back { margin-top: 40px; color: #555; font-size: 13px; }
-.back a { color: #555; }
-.back a:hover { color: #00ffff; }
+  .stats-row{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:48px}
+  .stat{text-align:center}.stat-value{font-size:28px;font-weight:900;color:#fff}.stat-label{font-size:11px;color:#666;letter-spacing:.08em}
+
+  .section-header{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;margin-top:40px}
+  .section-badge{font-size:10px;font-weight:700;padding:2px 10px;border-radius:3px;letter-spacing:.06em}
+  .badge-critical{background:rgba(255,107,107,0.15);color:#ff6b6b;border:1px solid rgba(255,107,107,0.3)}
+  .badge-high{background:rgba(255,170,0,0.15);color:#ffaa00;border:1px solid rgba(255,170,0,0.3)}
+  .badge-mid{background:rgba(0,255,255,0.1);color:#00ffff;border:1px solid rgba(0,255,255,0.2)}
+  .badge-low{background:rgba(116,185,255,0.1);color:#74b9ff;border:1px solid rgba(116,185,255,0.2)}
+  .badge-security{background:rgba(255,60,60,0.12);color:#ff4444;border:1px solid rgba(255,60,60,0.25)}
+  .section-title{font-size:16px;font-weight:700;color:#fff}
+  .section-desc{font-size:12px;color:#666;margin-bottom:16px}
+
+  .project-grid{display:grid;gap:12px}
+  .project-card{display:grid;grid-template-columns:40px 1fr auto;gap:16px;align-items:start;background:#0f0f0f;border:1px solid #1c1c1c;border-radius:4px;padding:16px 20px;transition:border-color .2s,box-shadow .2s}
+  .project-card:hover{border-color:rgba(0,255,0,0.2);box-shadow:0 0 20px rgba(0,255,0,0.03)}
+  .project-rank{font-size:20px;font-weight:900;color:#333;text-align:center;line-height:1;padding-top:2px}
+  .project-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:2px}
+  .project-name a{color:#fff}.project-name a:hover{color:#00ffff}
+  .project-desc{font-size:12px;color:#888;margin-bottom:6px;line-height:1.6}
+  .project-tags{display:flex;gap:6px;flex-wrap:wrap}
+  .project-tag{font-size:10px;padding:1px 8px;border-radius:2px;border:1px solid #222;color:#666}
+  .project-tag.t-ai{border-color:rgba(0,255,0,0.2);color:#00ff00}
+  .project-tag.t-villa{border-color:rgba(255,170,0,0.2);color:#ffaa00}
+  .project-tag.t-security{border-color:rgba(255,60,60,0.2);color:#ff4444}
+  .project-tag.t-community{border-color:rgba(0,255,255,0.2);color:#00ffff}
+  .project-tag.t-fitness{border-color:rgba(162,155,254,0.2);color:#a29bfe}
+  .project-tag.t-media{border-color:rgba(253,203,110,0.2);color:#fdcb6e}
+  .project-tag.t-music{border-color:rgba(253,121,168,0.2);color:#fd79a8}
+  .project-links{display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0}
+  .project-link{font-size:11px;color:#00ffff;white-space:nowrap}
+  .project-status{font-size:10px;padding:1px 8px;border-radius:10px}
+  .status-live{background:rgba(0,255,0,0.1);color:#00ff00;border:1px solid rgba(0,255,0,0.2)}
+  .status-dev{background:rgba(255,170,0,0.1);color:#ffaa00;border:1px solid rgba(255,170,0,0.2)}
+  .status-planned{background:rgba(116,185,255,0.1);color:#74b9ff;border:1px solid rgba(116,185,255,0.2)}
+  .status-alert{background:rgba(255,60,60,0.1);color:#ff4444;border:1px solid rgba(255,60,60,0.2)}
+
+  .cta-section{text-align:center;padding:48px 0;margin-top:48px;border-top:1px solid #1a1a1a}
+  .cta-text{font-size:14px;color:#888;margin-bottom:20px}
+  .cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .cta-btn{display:inline-block;padding:12px 28px;font-size:13px;font-weight:700;border-radius:3px;transition:all .2s;letter-spacing:.04em}
+  .cta-btn-primary{background:#00ff00;color:#000}.cta-btn-primary:hover{opacity:.85;text-decoration:none}
+  .cta-btn-secondary{background:transparent;color:#00ffff;border:1px solid rgba(0,255,255,0.3)}.cta-btn-secondary:hover{border-color:#00ffff;text-decoration:none}
+
+  .footer{border-top:1px solid #1a1a1a;text-align:center;padding:20px;color:#333;font-size:11px;margin-top:40px}.footer a{color:#999;text-decoration:none}
+
+  @media(max-width:640px){.project-card{grid-template-columns:30px 1fr}.project-links{grid-column:1/-1;flex-direction:row;align-items:center;padding-left:46px}.stats-row{gap:20px}.stat-value{font-size:22px}}
 </style>
+  <script defer src="https://enabler-analytics.fly.dev/t.js"></script>
 </head>
 <body>
 
-<div class="header">
+<header class="header">
   <a href="/" class="logo">$ enablerdao</a>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/#products">Products</a>
-    <a href="/#join">Join</a>
-  </nav>
-</div>
+  <nav class="nav"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a></nav>
+</header>
 
 <div class="wrap">
-  <div id="projectDetail" class="loading">// loading project...</div>
+
+<div class="hero">
+  <h1 class="hero-title">みんなで<span>作って</span>、<br>みんなで<span>育てる</span>。</h1>
+  <p class="hero-sub">日常のちょっとした不満をみんなで解決しませんか？<br>ちょっとしたアイデアをみんなで膨らませて、形にして、みんなで育てていくコミュニティ。</p>
+  <span class="hero-tagline">// enabler community projects</span>
 </div>
 
-<script>
-(function() {
-  var container = document.getElementById('projectDetail');
+<div class="stats-row">
+  <div class="stat"><div class="stat-value">18</div><div class="stat-label">PROJECTS</div></div>
+  <div class="stat"><div class="stat-value">30+</div><div class="stat-label">REPOSITORIES</div></div>
+  <div class="stat"><div class="stat-value">5</div><div class="stat-label">DOMAINS</div></div>
+</div>
 
-  // Get project name from URL: /projects/?name=xxx or /projects/xxx
-  var params = new URLSearchParams(window.location.search);
-  var name = params.get('name');
+<!-- P0 -->
+<div class="section-header">
+  <span class="section-badge badge-critical">P0 — CRITICAL</span>
+  <h2 class="section-title">最優先</h2>
+</div>
+<p class="section-desc">今すぐ集中すべきプロジェクト。収益 or ユーザーインパクト大。</p>
+<div class="project-grid">
+  <div class="project-card">
+    <div class="project-rank" style="color:#ffaa00">1</div>
+    <div class="project-info">
+      <div class="project-name"><a href="https://chatweb.ai" target="_blank">Elio & Chatweb</a></div>
+      <div class="project-desc">AIチャットプラットフォーム（Thai.io）。enabler エコシステムの収益エンジン。APIキー発行 → enabler-cli 連携。</div>
+      <div class="project-tags"><span class="project-tag t-ai">AI</span><span class="project-tag t-community">SaaS</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-live">LIVE</span><a class="project-link" href="https://chatweb.ai" target="_blank">chatweb.ai →</a></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank" style="color:#ccc">2</div>
+    <div class="project-info">
+      <div class="project-name">Stayflow</div>
+      <div class="project-desc">物件予約・空き状況管理。自社物件 + NOT A HOTEL。チャット予約 & カレンダーUI。DAO上で物件の空き状況を可視化。ログインで全物件閲覧・予約可能。</div>
+      <div class="project-tags"><span class="project-tag t-villa">Villa</span><span class="project-tag t-ai">AI</span><span class="project-tag t-community">DAO</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-dev">DEV</span><a class="project-link" href="/#members">preview →</a></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank" style="color:#cd7f32">3</div>
+    <div class="project-info">
+      <div class="project-name"><a href="https://jiuflow.art" target="_blank">Jiuflow.art</a></div>
+      <div class="project-desc">柔術オンライントレーニング。技のフローチャート・動画解説・練習ログ。</div>
+      <div class="project-tags"><span class="project-tag t-fitness">柔術</span><span class="project-tag t-ai">AI</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-dev">DEV</span><a class="project-link" href="https://jiuflow.art" target="_blank">jiuflow.art →</a></div>
+  </div>
+</div>
 
-  if (!name) {
-    // Try path-based: /projects/chatweb.ai → extract last segment
-    var parts = window.location.pathname.replace(/\/$/, '').split('/');
-    name = parts[parts.length - 1];
-    if (name === 'projects') name = null;
-  }
+<!-- P1 -->
+<div class="section-header">
+  <span class="section-badge badge-high">P1 — HIGH</span>
+  <h2 class="section-title">高優先</h2>
+</div>
+<p class="section-desc">次にフォーカス。成長ポテンシャル高い。</p>
+<div class="project-grid">
+  <div class="project-card">
+    <div class="project-rank">4</div>
+    <div class="project-info">
+      <div class="project-name">Soluna 9/4</div>
+      <div class="project-desc">次世代ウェルネス & ライフスタイルプラットフォーム。</div>
+      <div class="project-tags"><span class="project-tag t-community">Wellness</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-planned">PLANNED</span></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">5</div>
+    <div class="project-info">
+      <div class="project-name">News.xyz</div>
+      <div class="project-desc">分散型ニュースプラットフォーム。コミュニティキュレーション。</div>
+      <div class="project-tags"><span class="project-tag t-media">Media</span><span class="project-tag t-community">Community</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-dev">DEV</span></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">6</div>
+    <div class="project-info">
+      <div class="project-name"><a href="https://enabler.fun" target="_blank">enabler.fun</a></div>
+      <div class="project-desc">コミュニティのカジュアルなエントリーポイント。イベント・体験共有。</div>
+      <div class="project-tags"><span class="project-tag t-community">Community</span><span class="project-tag t-villa">Lifestyle</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-live">LIVE</span><a class="project-link" href="https://enabler.fun" target="_blank">enabler.fun →</a></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">7</div>
+    <div class="project-info">
+      <div class="project-name">Banto</div>
+      <div class="project-desc">番頭。AIアシスタント / タスク管理。プロジェクト横断の進捗自動管理。</div>
+      <div class="project-tags"><span class="project-tag t-ai">AI</span><span class="project-tag t-community">Productivity</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-dev">DEV</span></div>
+  </div>
+</div>
 
-  if (!name) {
-    // Show project list
-    fetch('/api/projects')
-      .then(function(r) { return r.json(); })
-      .then(function(projects) {
-        document.title = 'Projects — EnablerDAO';
-        var html = '<h1 style="color:#00ffff;font-size:13px;letter-spacing:0.1em;margin-bottom:24px;">// ALL PROJECTS</h1>';
-        projects.forEach(function(p) {
-          html += '<div style="border-left:2px solid #333;padding:12px 16px;margin-bottom:16px;background:#0f0f0f;">'
-            + '<a href="/projects/?name=' + encodeURIComponent(p.name) + '" style="color:#fff;font-size:16px;font-weight:700;">' + p.name + '</a>'
-            + '<span style="color:#555;margin-left:12px;font-size:12px;">' + p.language + '</span>'
-            + '<p style="color:#888;font-size:13px;margin-top:4px;">' + p.description + '</p>'
-            + '<span style="color:#ffaa00;font-size:12px;">reward: ' + p.reward + '</span>'
-            + '</div>';
-        });
-        container.className = '';
-        container.innerHTML = html;
-      })
-      .catch(function() {
-        container.className = 'error';
-        container.innerHTML = '// failed to load projects<br><a href="/" >&lt; back to home</a>';
-      });
-    return;
-  }
+<!-- P2 -->
+<div class="section-header">
+  <span class="section-badge badge-mid">P2 — MID</span>
+  <h2 class="section-title">中優先</h2>
+</div>
+<p class="section-desc">安定稼働中 or じっくり育てるプロジェクト。</p>
+<div class="project-grid">
+  <div class="project-card">
+    <div class="project-rank">8</div>
+    <div class="project-info">
+      <div class="project-name"><a href="https://enablerdao.fly.dev" target="_blank">EnablerDAO</a></div>
+      <div class="project-desc">DAOポータル。別荘シェアリング + OSS貢献 + EBRトークン。メインサイト。</div>
+      <div class="project-tags"><span class="project-tag t-community">DAO</span><span class="project-tag t-villa">Villa</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-live">LIVE</span><a class="project-link" href="https://enablerdao.fly.dev" target="_blank">enablerdao.fly.dev →</a></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">9</div>
+    <div class="project-info">
+      <div class="project-name">Jiujudge</div>
+      <div class="project-desc">柔術の試合判定・スコアリングAI。審判支援ツール。</div>
+      <div class="project-tags"><span class="project-tag t-fitness">柔術</span><span class="project-tag t-ai">AI</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-dev">DEV</span></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">10</div>
+    <div class="project-info">
+      <div class="project-name">Looper</div>
+      <div class="project-desc">音楽ルーパー / リミックスツール。クリエイター向け。</div>
+      <div class="project-tags"><span class="project-tag t-music">Music</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-dev">DEV</span></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">11</div>
+    <div class="project-info">
+      <div class="project-name">Audio</div>
+      <div class="project-desc">オーディオ処理・ポッドキャストツール。</div>
+      <div class="project-tags"><span class="project-tag t-music">Audio</span><span class="project-tag t-ai">AI</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-dev">DEV</span></div>
+  </div>
+</div>
 
-  // Fetch single project
-  fetch('/api/projects/' + encodeURIComponent(name))
-    .then(function(r) {
-      if (!r.ok) throw new Error('not found');
-      return r.json();
-    })
-    .then(function(p) {
-      document.title = p.name + ' — EnablerDAO';
-      var issuesUrl = 'https://github.com/' + p.repo + '/issues';
-      var repoUrl = 'https://github.com/' + p.repo;
+<!-- P3 -->
+<div class="section-header">
+  <span class="section-badge badge-low">P3 — LOW</span>
+  <h2 class="section-title">低優先</h2>
+</div>
+<p class="section-desc">探索フェーズ or 将来展開。</p>
+<div class="project-grid">
+  <div class="project-card">
+    <div class="project-rank">12</div>
+    <div class="project-info">
+      <div class="project-name">Totonos</div>
+      <div class="project-desc">ととのう × テクノロジー。サウナ・瞑想・ウェルネス体験。</div>
+      <div class="project-tags"><span class="project-tag t-community">Wellness</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-planned">PLANNED</span></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">13</div>
+    <div class="project-info">
+      <div class="project-name"><a href="https://volt.tokyo" target="_blank">Volt.tokyo</a></div>
+      <div class="project-desc">東京のクリエイティブ・テックコミュニティ。</div>
+      <div class="project-tags"><span class="project-tag t-community">Community</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-planned">PLANNED</span></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">14</div>
+    <div class="project-info">
+      <div class="project-name"><a href="https://miseban-ai.fly.dev/" target="_blank">Miseban AI</a></div>
+      <div class="project-desc">店番AI。店舗運営支援・接客AIアシスタント。</div>
+      <div class="project-tags"><span class="project-tag t-ai">AI</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-live">LIVE</span><a class="project-link" href="https://miseban-ai.fly.dev/" target="_blank">miseban-ai.fly.dev →</a></div>
+  </div>
+</div>
 
-      var serviceBtn = p.service_url
-        ? '<a class="proj-btn proj-btn-primary" href="' + p.service_url + '" target="_blank">&gt; Use Service</a>'
-        : '';
+<!-- Security -->
+<div class="section-header">
+  <span class="section-badge badge-security">SECURITY</span>
+  <h2 class="section-title">セキュリティ関連</h2>
+</div>
+<p class="section-desc">セキュリティツール・教育・防御。</p>
+<div class="project-grid">
+  <div class="project-card">
+    <div class="project-rank">S1</div>
+    <div class="project-info">
+      <div class="project-name"><a href="https://chatnews.tech/" target="_blank">ChatNews.tech</a></div>
+      <div class="project-desc">セキュリティスキャナ。脆弱性検出・レポーティング。</div>
+      <div class="project-tags"><span class="project-tag t-security">Security</span><span class="project-tag t-ai">AI</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-live">LIVE</span><a class="project-link" href="https://chatnews.tech/" target="_blank">chatnews.tech →</a></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">S2</div>
+    <div class="project-info">
+      <div class="project-name"><a href="https://www.dojoc.io/" target="_blank">Dojoc.io</a></div>
+      <div class="project-desc">セキュリティ教育プラットフォーム。実践的なサイバーセキュリティ学習。</div>
+      <div class="project-tags"><span class="project-tag t-security">Security</span><span class="project-tag t-community">Education</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-live">LIVE</span><a class="project-link" href="https://www.dojoc.io/" target="_blank">dojoc.io →</a></div>
+  </div>
+  <div class="project-card">
+    <div class="project-rank">S3</div>
+    <div class="project-info">
+      <div class="project-name"><a href="https://enabler.cc/" target="_blank">enabler.cc</a></div>
+      <div class="project-desc">フィッシング攻撃対策・検知ツール。</div>
+      <div class="project-tags"><span class="project-tag t-security">Security</span></div>
+    </div>
+    <div class="project-links"><span class="project-status status-alert">ALERT</span><a class="project-link" href="https://enabler.cc/" target="_blank">enabler.cc →</a></div>
+  </div>
+</div>
 
-      container.className = '';
-      container.innerHTML = ''
-        + '<div class="proj-name">' + p.name + '</div>'
-        + '<div class="proj-repo"><a href="' + repoUrl + '" target="_blank">' + p.repo + '</a></div>'
-        + '<p class="proj-desc">' + p.description + '</p>'
-        + '<div class="proj-stats">'
-        + '  <span>★ <strong>' + p.stars + '</strong> stars</span>'
-        + '  <span>⑂ <strong>' + p.forks + '</strong> forks</span>'
-        + '  <span>⚠ <strong>' + p.issues + '</strong> issues</span>'
-        + '</div>'
-        + '<div class="proj-reward">reward: ' + p.reward + ' per merged PR</div>'
-        + '<div class="proj-actions">'
-        + '  ' + serviceBtn
-        + '  <a class="proj-btn proj-btn-secondary" href="' + repoUrl + '" target="_blank">&gt; View Code</a>'
-        + '  <a class="proj-btn proj-btn-secondary" href="' + issuesUrl + '" target="_blank">&gt; Find Bugs</a>'
-        + '  <a class="proj-btn proj-btn-secondary" href="/#join">&gt; Start Contributing</a>'
-        + '</div>'
-        + '<div class="back"><a href="/projects/">&lt; all projects</a></div>';
-    })
-    .catch(function() {
-      container.className = 'error';
-      container.innerHTML = '// project "' + name + '" not found<br><a href="/projects/">&lt; all projects</a>';
-    });
-})();
-</script>
+<div class="cta-section">
+  <p class="cta-text">興味のあるプロジェクトがあったら、一緒に作りませんか？<br>コード・デザイン・アイデア — どんな貢献でも歓迎です。</p>
+  <div class="cta-buttons">
+    <a href="https://github.com/enablerdao" target="_blank" class="cta-btn cta-btn-primary">GitHub で参加する →</a>
+    <a href="/#join" class="cta-btn cta-btn-secondary">enabler-cli で始める →</a>
+  </div>
+</div>
+
+</div>
+
+<footer class="footer">
+  <a href="https://enablerdao.com">enablerdao.com</a> — &copy; 2026 enabler
+</footer>
 
 </body>
 </html>

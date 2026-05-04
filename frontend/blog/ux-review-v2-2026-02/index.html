@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Review v2: After the Fix — 改善後レビュー会議録 | EnablerDAO Blog</title>
+<meta name="description" content="第1回レビューの改善を反映したenablerdao.comを、同じ10人のAIペルソナが再レビュー。何が良くなり、何がまだ足りないか。">
+<link rel="icon" href="/favicon.ico">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a0a;
+    color: #ccc;
+    font-family: 'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+  a { color: #00ffff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* header */
+  .blog-header {
+    border-bottom: 1px solid #1a1a1a;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: #0a0a0a;
+    z-index: 100;
+  }
+  .blog-logo {
+    color: #00ff00;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    text-shadow: 0 0 8px rgba(0,255,0,0.4);
+  }
+  .blog-nav a {
+    color: #999;
+    text-decoration: none;
+    margin-left: 24px;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .blog-nav a:hover { color: #00ffff; }
+
+  /* article */
+  .article-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .article-meta {
+    color: #999;
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  .article-title {
+    color: #00ffff;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .article-subtitle {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  /* score card */
+  .score-card {
+    background: #111;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+  .score-card h3 {
+    color: #00ff00;
+    font-size: 13px;
+    margin-bottom: 12px;
+    letter-spacing: 0.1em;
+  }
+  .score-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .score-label {
+    width: 140px;
+    color: #999;
+  }
+  .score-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    margin: 0 12px;
+    overflow: hidden;
+  }
+  .score-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s;
+  }
+  .score-val { color: #fff; font-weight: 700; width: 50px; text-align: right; }
+  .score-change { font-size: 11px; width: 60px; text-align: right; }
+  .score-up { color: #00ff00; }
+  .score-same { color: #555; }
+
+  /* participants */
+  .participants {
+    background: #0f0f0f;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    font-size: 12px;
+  }
+  .participants summary {
+    color: #00ffff;
+    cursor: pointer;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .participant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 6px 16px;
+  }
+  .participant-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .p-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .p-name { color: #fff; }
+  .p-role { color: #666; }
+
+  /* section dividers */
+  .section-header {
+    border-top: 1px solid #1a1a1a;
+    padding-top: 28px;
+    margin-top: 36px;
+    margin-bottom: 20px;
+  }
+  .section-label {
+    color: #00ff00;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .section-title {
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  /* chat messages */
+  .msg {
+    margin-bottom: 16px;
+    padding-left: 16px;
+    border-left: 2px solid transparent;
+  }
+  .msg-header {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 3px;
+  }
+  .msg-name {
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .msg-time {
+    color: #444;
+    font-size: 11px;
+  }
+  .msg-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #bbb;
+  }
+  .msg-body strong { color: #fff; font-weight: 600; }
+  .msg-body code {
+    background: #1a1a1a;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #00ff00;
+  }
+  .msg-body em { font-style: italic; color: #999; }
+
+  /* improvement badge */
+  .badge-improved {
+    display: inline-block;
+    background: rgba(0,255,0,0.1);
+    color: #00ff00;
+    border: 1px solid rgba(0,255,0,0.2);
+    font-size: 10px;
+    padding: 1px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge-new-issue {
+    display: inline-block;
+    background: rgba(255,107,107,0.1);
+    color: #ff6b6b;
+    border: 1px solid rgba(255,107,107,0.2);
+    font-size: 10px;
+    padding: 1px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* diff block */
+  .diff-block {
+    background: #0f0f0f;
+    border: 1px solid #1a1a1a;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 12px;
+    overflow-x: auto;
+  }
+  .diff-block .diff-add { color: #00ff00; }
+  .diff-block .diff-del { color: #ff6b6b; }
+  .diff-block .diff-context { color: #555; }
+
+  /* action items */
+  .action-grid {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .action-item {
+    background: #0f0f0f;
+    border: 1px solid #1a1a1a;
+    border-radius: 6px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 10px;
+    align-items: start;
+  }
+  .action-priority {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    text-align: center;
+  }
+  .priority-high {
+    background: rgba(255,107,107,0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255,107,107,0.3);
+  }
+  .priority-mid {
+    background: rgba(253,203,110,0.15);
+    color: #fdcb6e;
+    border: 1px solid rgba(253,203,110,0.3);
+  }
+  .priority-low {
+    background: rgba(116,185,255,0.15);
+    color: #74b9ff;
+    border: 1px solid rgba(116,185,255,0.3);
+  }
+  .action-desc { font-size: 13px; color: #bbb; }
+  .action-desc strong { color: #fff; }
+  .action-votes {
+    font-size: 11px;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  /* footer */
+  .blog-footer {
+    border-top: 1px solid #1a1a1a;
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    font-size: 11px;
+    margin-top: 40px;
+  }
+  .blog-footer a { color: #999; text-decoration: none; }
+
+  /* back link */
+  .back-link {
+    display: inline-block;
+    color: #999;
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  .back-link:hover { color: #00ffff; }
+
+  @media (max-width: 600px) {
+    .article-title { font-size: 18px; }
+    .participant-grid { grid-template-columns: 1fr; }
+    .score-label { width: 100px; font-size: 11px; }
+    .action-item { grid-template-columns: 50px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="blog-header">
+  <a href="/" class="blog-logo">$ enablerdao</a>
+  <nav class="blog-nav">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+  </nav>
+</header>
+
+<article class="article-wrap">
+
+<a href="/blog/" class="back-link">&larr; blog index</a>
+
+<div class="article-meta">2026.02.23 — meeting-minutes, ux-review, v2 | Sequel to <a href="/blog/meeting-minutes-2026-02/">v1 review</a></div>
+<h1 class="article-title">UX Review v2: After the Fix<br>— 改善後レビュー会議録</h1>
+<p class="article-subtitle">第1回レビューで指摘した改善点が反映されたサイトを、同じ10人が再レビュー。<br>スコアカード付きの進捗確認と、次のフェーズに向けた新たな提案。</p>
+
+<!-- Score Card -->
+<div class="score-card">
+  <h3>// SITE SCORE CARD — v1 → v2</h3>
+  <div class="score-row">
+    <span class="score-label">Clarity</span>
+    <div class="score-bar-bg"><div class="score-bar" style="width:72%;background:linear-gradient(90deg,#00ff00,#00ffff)"></div></div>
+    <span class="score-val">72</span>
+    <span class="score-change score-up">+24</span>
+  </div>
+  <div class="score-row">
+    <span class="score-label">Accessibility</span>
+    <div class="score-bar-bg"><div class="score-bar" style="width:78%;background:linear-gradient(90deg,#00ff00,#00ffff)"></div></div>
+    <span class="score-val">78</span>
+    <span class="score-change score-up">+31</span>
+  </div>
+  <div class="score-row">
+    <span class="score-label">UX Flow</span>
+    <div class="score-bar-bg"><div class="score-bar" style="width:58%;background:linear-gradient(90deg,#fdcb6e,#fab1a0)"></div></div>
+    <span class="score-val">58</span>
+    <span class="score-change score-up">+12</span>
+  </div>
+  <div class="score-row">
+    <span class="score-label">Trust / Social Proof</span>
+    <div class="score-bar-bg"><div class="score-bar" style="width:35%;background:linear-gradient(90deg,#ff6b6b,#fdcb6e)"></div></div>
+    <span class="score-val">35</span>
+    <span class="score-change score-up">+5</span>
+  </div>
+  <div class="score-row">
+    <span class="score-label">Visual Design</span>
+    <div class="score-bar-bg"><div class="score-bar" style="width:65%;background:linear-gradient(90deg,#00ff00,#00ffff)"></div></div>
+    <span class="score-val">65</span>
+    <span class="score-change score-up">+10</span>
+  </div>
+  <div class="score-row">
+    <span class="score-label">Engineering</span>
+    <div class="score-bar-bg"><div class="score-bar" style="width:70%;background:linear-gradient(90deg,#00ff00,#00ffff)"></div></div>
+    <span class="score-val">70</span>
+    <span class="score-change score-up">+18</span>
+  </div>
+</div>
+
+<!-- Participants -->
+<details class="participants" open>
+  <summary>participants.json — 10名 (前回と同じメンバー)</summary>
+  <div class="participant-grid">
+    <div class="participant-item"><span class="p-dot" style="background:#ff6b6b"></span><span class="p-name">Priya</span><span class="p-role">SRE/分散</span></div>
+    <div class="participant-item"><span class="p-dot" style="background:#74b9ff"></span><span class="p-name">Lars</span><span class="p-role">Frontend/A11y</span></div>
+    <div class="participant-item"><span class="p-dot" style="background:#ffd93d"></span><span class="p-name">Chen Wei</span><span class="p-role">Security</span></div>
+    <div class="participant-item"><span class="p-dot" style="background:#a29bfe"></span><span class="p-name">Amara</span><span class="p-role">UX Design</span></div>
+    <div class="participant-item"><span class="p-dot" style="background:#fd79a8"></span><span class="p-name">Sofia</span><span class="p-role">Visual Design</span></div>
+    <div class="participant-item"><span class="p-dot" style="background:#55efc4"></span><span class="p-name">Kenji</span><span class="p-role">不動産投資家</span></div>
+    <div class="participant-item"><span class="p-dot" style="background:#fab1a0"></span><span class="p-name">Sarah</span><span class="p-role">Dev/EBR興味</span></div>
+    <div class="participant-item"><span class="p-dot" style="background:#fdcb6e"></span><span class="p-name">Fatima</span><span class="p-role">Travel Blogger</span></div>
+    <div class="participant-item"><span class="p-dot" style="background:#b2bec3"></span><span class="p-name">Marcus</span><span class="p-role">PM/進行役</span></div>
+    <div class="participant-item"><span class="p-dot" style="background:#00cec9"></span><span class="p-name">Yuto</span><span class="p-role">ホスト/サーファー</span></div>
+  </div>
+</details>
+
+<!-- ===== SECTION A: PROGRESS CHECK ===== -->
+<div class="section-header">
+  <div class="section-label">Section A</div>
+  <h2 class="section-title">Progress Check — 前回からの改善確認</h2>
+</div>
+
+<div class="msg" style="border-color:#b2bec3">
+  <div class="msg-header"><span class="msg-name" style="color:#b2bec3">Marcus</span><span class="msg-time">14:00</span></div>
+  <div class="msg-body">前回のレビューから改善が入った。まずは何が良くなったか確認しよう。<br>v1の議事録は <a href="/blog/meeting-minutes-2026-02/">こちら</a>。</div>
+</div>
+
+<div class="msg" style="border-color:#74b9ff">
+  <div class="msg-header"><span class="msg-name" style="color:#74b9ff">Lars</span><span class="msg-time">14:01</span></div>
+  <div class="msg-body"><strong>アクセシビリティが大幅改善。</strong> <span class="badge-improved">IMPROVED</span><br>
+  コントラスト比がWCAG AA基準をクリアした。<code>#555</code> → <code>#999</code> に統一されていて、ダークモードでもテキストが読める。<br>
+  <code>:focus-visible</code> もグローバルに追加されている。キーボードナビゲーションが実用レベルになった。<br>
+  APIキーの <code>type="password"</code> もちゃんとやってる。地味だけど大事。</div>
+</div>
+
+<div class="msg" style="border-color:#a29bfe">
+  <div class="msg-header"><span class="msg-name" style="color:#a29bfe">Amara</span><span class="msg-time">14:02</span></div>
+  <div class="msg-body"><strong>「What is enabler?」セクションが追加された。</strong> <span class="badge-improved">IMPROVED</span><br>
+  シェアリング別荘 / DAO / EBRの3カードで説明。これは前回最も重要と指摘した点。<br>
+  「あなたはどっち？」のペルソナCTAも良い。<strong>別荘ゲスト</strong>と<strong>開発者</strong>を明確に分岐させている。</div>
+</div>
+
+<div class="msg" style="border-color:#55efc4">
+  <div class="msg-header"><span class="msg-name" style="color:#55efc4">Kenji</span><span class="msg-time">14:03</span></div>
+  <div class="msg-body">前回「DAOって何？暗号通貨？怪しい」と言った自分だけど、今回の説明カードは分かりやすい。<br>
+  <strong>「みんなで運営する組織」</strong>って書いてあるだけで安心感がぜんぜん違う。<br>
+  ただ… まだ「で、結局いくらで泊まれるの？」が分からない。料金の目安が欲しい。</div>
+</div>
+
+<div class="msg" style="border-color:#00cec9">
+  <div class="msg-header"><span class="msg-name" style="color:#00cec9">Yuto</span><span class="msg-time">14:04</span></div>
+  <div class="msg-body"><strong>カレンダーが6ヶ月先まで見えるようになった！</strong> <span class="badge-improved">IMPROVED</span><br>
+  ホストとして言うと、先の予約状況が見えるのは超重要。ゲストも「夏の予約入ってるな」って分かるし。<br>
+  NOT A HOTELの提携物件セクションも嬉しい。メンバー特典が形になってきた。</div>
+</div>
+
+<div class="msg" style="border-color:#ff6b6b">
+  <div class="msg-header"><span class="msg-name" style="color:#ff6b6b">Priya</span><span class="msg-time">14:05</span></div>
+  <div class="msg-body"><strong>JSON-LD構造化データが入った。</strong> <span class="badge-improved">IMPROVED</span><br>
+  Organization + WebSiteスキーマ。SEO的に正しい。<br>
+  あと、デモ予約データのフォールバックロジックも賢い。iCalが古いデータしか返さない場合に自動で切り替わる。<br>
+  ただ、<code>generate_demo_bookings()</code> がデプロイのたびに新しいデータを生成するのが気になる。<strong>シード値を固定</strong>しないと、ユーザーが「昨日空いてたのに今日は埋まってる」と混乱する。</div>
+</div>
+
+<div class="msg" style="border-color:#ffd93d">
+  <div class="msg-header"><span class="msg-name" style="color:#ffd93d">Chen Wei</span><span class="msg-time">14:06</span></div>
+  <div class="msg-body">セキュリティ面、<code>type="password"</code> は OK。<br>
+  でも1箇所、Phase 2のヒントテキストに <code>style="color:#555"</code> がインラインで残ってる（L308）。CSSの修正が届いてない。<br>
+  あと、全体的に<strong>Content Security Policy (CSP) ヘッダーが未設定</strong>。インラインスクリプトが多いのでnonce付きCSPを入れたい。</div>
+</div>
+
+<!-- ===== SECTION B: TRUST & SOCIAL PROOF ===== -->
+<div class="section-header">
+  <div class="section-label">Section B</div>
+  <h2 class="section-title">Trust & Social Proof — 信頼と実績の欠如</h2>
+</div>
+
+<div class="msg" style="border-color:#b2bec3">
+  <div class="msg-header"><span class="msg-name" style="color:#b2bec3">Marcus</span><span class="msg-time">14:10</span></div>
+  <div class="msg-body">v1の最大の問題「アイデンティティ」は改善した。次に一番スコアが低い領域が<strong>Trust / Social Proof（35点）</strong>。ここを掘り下げよう。</div>
+</div>
+
+<div class="msg" style="border-color:#fdcb6e">
+  <div class="msg-header"><span class="msg-name" style="color:#fdcb6e">Fatima</span><span class="msg-time">14:11</span></div>
+  <div class="msg-body"><span class="badge-new-issue">NEW ISSUE</span> トラベルブロガーとして断言する：<strong>このサイトには「実際に泊まった人の声」が一つもない。</strong><br>
+  20万フォロワー持ってるけど、レビューも口コミも星評価もない物件を紹介することは絶対にない。<br>
+  Airbnbのレビュー数でもいい。「★4.9（127件）」みたいな数字があるだけで信頼度が10倍変わる。</div>
+</div>
+
+<div class="msg" style="border-color:#55efc4">
+  <div class="msg-header"><span class="msg-name" style="color:#55efc4">Kenji</span><span class="msg-time">14:12</span></div>
+  <div class="msg-body">同意。不動産投資家としても、<strong>実績の数字</strong>が全くない。<br>
+  「何人が泊まった」「稼働率は何%」「ゲスト満足度」— こういうファクトがないと投資判断できない。<br>
+  あと「株式会社イネブラ」のフッター情報だけだと、会社の規模感が掴めない。</div>
+</div>
+
+<div class="msg" style="border-color:#a29bfe">
+  <div class="msg-header"><span class="msg-name" style="color:#a29bfe">Amara</span><span class="msg-time">14:13</span></div>
+  <div class="msg-body">UXの観点からも、<strong>Trustセクション</strong>が必要。具体的には：<br>
+  <strong>1.</strong> 数字で語る実績（宿泊者数、物件数、国数、Airbnbレビュー平均）<br>
+  <strong>2.</strong> ゲストの声（写真付きテスティモニアル or Airbnbレビュー引用）<br>
+  <strong>3.</strong> メディア掲載（もしあれば）<br>
+  Airbnbのレビュー情報をAPIで取得するか、手動で数字だけ掲載するか。</div>
+</div>
+
+<div class="msg" style="border-color:#fab1a0">
+  <div class="msg-header"><span class="msg-name" style="color:#fab1a0">Sarah</span><span class="msg-time">14:14</span></div>
+  <div class="msg-body">開発者側でも同じ問題がある。「enabler-cliでPRを出すとEBRがもらえる」と言ってるけど、<strong>実際にもらった人はいるの？</strong><br>
+  GitHubのスター数、マージされたPR数、配布済みEBRの総量。<br>
+  何か一つでも実績の数字があると「あ、本当に動いてるんだ」って安心する。</div>
+</div>
+
+<div class="msg" style="border-color:#fd79a8">
+  <div class="msg-header"><span class="msg-name" style="color:#fd79a8">Sofia</span><span class="msg-time">14:15</span></div>
+  <div class="msg-body">ビジュアルデザイナーとしては、<strong>「人の気配」</strong>がないのが致命的。<br>
+  物件写真はあるけど、全部「人がいない空間」。旅行サイトで人が写ってない写真は、不動産の物件情報と同じ印象になる。<br>
+  バルコニーでコーヒー飲んでる人、BBQしてるグループ、サンセットを眺めるカップル — そういう<strong>ライフスタイル写真</strong>が1枚あるだけで全然違う。</div>
+</div>
+
+<!-- ===== SECTION C: VILLA MODE & DUAL IDENTITY ===== -->
+<div class="section-header">
+  <div class="section-label">Section C</div>
+  <h2 class="section-title">Villa Mode & Identity — 二面性の磨き込み</h2>
+</div>
+
+<div class="msg" style="border-color:#fd79a8">
+  <div class="msg-header"><span class="msg-name" style="color:#fd79a8">Sofia</span><span class="msg-time">14:20</span></div>
+  <div class="msg-body"><span class="badge-new-issue">NEW ISSUE</span> Code/Villaモードの切替ボタン、気づかない人が多いと思う。<br>
+  右上にあるけど、<strong>初期状態がCodeモード</strong>で、別荘に興味ある人が最初に見るのがダークテーマのターミナル風UI。<br>
+  別荘を探しに来た人は「間違ったサイトに来た」と思って3秒で離脱する。</div>
+</div>
+
+<div class="msg" style="border-color:#a29bfe">
+  <div class="msg-header"><span class="msg-name" style="color:#a29bfe">Amara</span><span class="msg-time">14:21</span></div>
+  <div class="msg-body">これ、v1でも指摘してたけど根本的な問題。<br>
+  提案：<strong>初回訪問時にスプラッシュ選択画面を出す</strong>。<br>
+  「🏖 別荘を探す」と「💻 コードで貢献する」の2択。選択結果をlocalStorageに保存して、次回からは自動でそのモードで開く。<br>
+  今の「explainer」セクションの中にあるCTAと機能的に重複するけど、<strong>ファーストビューで選ばせる</strong>のが重要。</div>
+</div>
+
+<div class="msg" style="border-color:#55efc4">
+  <div class="msg-header"><span class="msg-name" style="color:#55efc4">Kenji</span><span class="msg-time">14:22</span></div>
+  <div class="msg-body">超同意。自分はVillaモード一択。最初から白い画面で物件写真が大きく見えた方がいい。<br>
+  正直、<code>enabler.values.js</code> の哲学セクションとかJoinセクションは別荘ゲストにはノイズ。<br>
+  <strong>Villaモードでは物件情報にフォーカスして、コード関連セクションを非表示にできないか？</strong></div>
+</div>
+
+<div class="msg" style="border-color:#74b9ff">
+  <div class="msg-header"><span class="msg-name" style="color:#74b9ff">Lars</span><span class="msg-time">14:23</span></div>
+  <div class="msg-body">技術的に難しくない。Villaモードの時に <code>.code-only</code> クラスを <code>display:none</code> にすればいい。<br>
+  逆にCodeモードでは物件スライダーをコンパクトにして、OSSプロジェクト一覧を強調する。<br>
+  ただし<strong>SEO的には全コンテンツが常にDOMに存在する</strong>べき。CSSの <code>display:none</code> を使って、<code>visibility:hidden</code> は避ける。</div>
+</div>
+
+<div class="msg" style="border-color:#00cec9">
+  <div class="msg-header"><span class="msg-name" style="color:#00cec9">Yuto</span><span class="msg-time">14:24</span></div>
+  <div class="msg-body">ホストの立場からもう一つ。<br>
+  Villaモードで物件ページに<strong>「近くのアクティビティ」</strong>情報があると嬉しい。<br>
+  熱海なら温泉・花火、弟子屈なら摩周湖・カヌー、ハワイならサーフィン。<br>
+  物件の説明だけだと「きれいな家」止まり。<strong>「ここで何ができるか」</strong>が伝わらないと予約に繋がらない。</div>
+</div>
+
+<!-- ===== SECTION D: MOBILE & PERFORMANCE ===== -->
+<div class="section-header">
+  <div class="section-label">Section D</div>
+  <h2 class="section-title">Mobile & Performance — モバイル体験と速度</h2>
+</div>
+
+<div class="msg" style="border-color:#ff6b6b">
+  <div class="msg-header"><span class="msg-name" style="color:#ff6b6b">Priya</span><span class="msg-time">14:30</span></div>
+  <div class="msg-body"><span class="badge-new-issue">NEW ISSUE</span> <strong>パフォーマンスの問題。</strong><br>
+  物件スライダー画像が8枚×5物件 = 40枚。<code>loading="lazy"</code> は付いてるけど、Slick.jsが全部プリロードしてる可能性がある。<br>
+  LighthouseでLCP（Largest Contentful Paint）を計測すべき。<br>
+  <strong>WebP/AVIF変換 + srcset</strong> で画像サイズを最適化するだけでスコア20点は上がるはず。</div>
+</div>
+
+<div class="msg" style="border-color:#74b9ff">
+  <div class="msg-header"><span class="msg-name" style="color:#74b9ff">Lars</span><span class="msg-time">14:31</span></div>
+  <div class="msg-body">モバイルでの問題点：<br>
+  <strong>1.</strong> Code/Villaトグルがスマホで小さすぎて押しづらい<br>
+  <strong>2.</strong> 物件カレンダーが横スクロール必要（6ヶ月分は狭い画面にきつい）<br>
+  <strong>3.</strong> explainerの3カードが縦に並ぶけど間隔が空きすぎ<br>
+  <strong>4.</strong> ウォレット接続ボタンがモバイルで「Phantom入ってないと何も起きない」— フォールバック説明が必要</div>
+</div>
+
+<div class="msg" style="border-color:#fdcb6e">
+  <div class="msg-header"><span class="msg-name" style="color:#fdcb6e">Fatima</span><span class="msg-time">14:32</span></div>
+  <div class="msg-body">私のフォロワーの<strong>87%がモバイル</strong>。旅行サイトならモバイルファーストは絶対条件。<br>
+  今のサイト、スマホで開くと最初に見えるのがダークターミナル画面でしょ？<br>
+  InstagramのストーリーやTikTokからのトラフィックを考えると、<strong>3秒以内に「きれいな写真」と「予約ボタン」</strong>が見えないと終わり。</div>
+</div>
+
+<div class="msg" style="border-color:#ffd93d">
+  <div class="msg-header"><span class="msg-name" style="color:#ffd93d">Chen Wei</span><span class="msg-time">14:33</span></div>
+  <div class="msg-body">パフォーマンスに関連して：<br>
+  <code>jquery-3.3.1.min.js</code> が読み込まれてるけど、Slick slider以外にjQuery使ってる？<br>
+  もしSlickだけなら、<strong>vanilla JSのカルーセル（Splide.js等）に移行</strong>して jQueryを削除すべき。87KB節約できる。<br>
+  あと、TypekitのWebフォント読み込みが render-blockingになってる可能性がある。<code>font-display: swap</code> を確認したい。</div>
+</div>
+
+<!-- ===== SECTION E: CONTENT & LANGUAGE ===== -->
+<div class="section-header">
+  <div class="section-label">Section E</div>
+  <h2 class="section-title">Content & i18n — コンテンツと多言語対応</h2>
+</div>
+
+<div class="msg" style="border-color:#fab1a0">
+  <div class="msg-header"><span class="msg-name" style="color:#fab1a0">Sarah</span><span class="msg-time">14:40</span></div>
+  <div class="msg-body"><span class="badge-new-issue">NEW ISSUE</span> ページに <code>hreflang="en"</code> タグがあるけど、<strong>英語版ページ（/en/）は存在しない。</strong><br>
+  これはSEO的にマイナス。Googleが「この英語版はどこ？」と混乱する。<br>
+  英語版を作るか、hreflangタグを削除するか。中途半端が一番良くない。</div>
+</div>
+
+<div class="msg" style="border-color:#fdcb6e">
+  <div class="msg-header"><span class="msg-name" style="color:#fdcb6e">Fatima</span><span class="msg-time">14:41</span></div>
+  <div class="msg-body">ハワイの物件を持ってるなら英語版は<strong>必須</strong>。<br>
+  ドバイでも、日本の高級物件に興味ある人は多い。でも日本語オンリーだとリーチできない。<br>
+  全ページ翻訳は大変だから、まず<strong>物件ページだけ英語対応</strong>するのが現実的。</div>
+</div>
+
+<div class="msg" style="border-color:#a29bfe">
+  <div class="msg-header"><span class="msg-name" style="color:#a29bfe">Amara</span><span class="msg-time">14:42</span></div>
+  <div class="msg-body">コンテンツ構造の問題もある。<br>
+  <strong>ページが長すぎる。</strong>Mission → Philosophy → Products → Explainer → Join → Property（×5）→ Members → Story → Message。<br>
+  モバイルだと<strong>スクロール量が膨大</strong>。<br>
+  提案：<strong>物件を個別ページに分離</strong>。メインページはハイライト3物件 + 「すべて見る→」リンク。</div>
+</div>
+
+<div class="msg" style="border-color:#ff6b6b">
+  <div class="msg-header"><span class="msg-name" style="color:#ff6b6b">Priya</span><span class="msg-time">14:43</span></div>
+  <div class="msg-body">物件個別ページは同意だけど、今のバックエンドは <code>ServeDir</code> で静的配信してるから、<br>
+  <code>/property/white-house-atami/index.html</code> を静的に置けば動く。バックエンド変更不要。<br>
+  各物件ページに <strong>JSON-LD の <code>LodgingBusiness</code> スキーマ</strong>を入れれば、Google検索で物件情報がリッチスニペット表示される。</div>
+</div>
+
+<div class="msg" style="border-color:#fd79a8">
+  <div class="msg-header"><span class="msg-name" style="color:#fd79a8">Sofia</span><span class="msg-time">14:44</span></div>
+  <div class="msg-body">多言語の前にもう一つ。<br>
+  <strong>フッターが弱い。</strong>現状「会社名 + 住所 + SNSリンク」だけ。<br>
+  FAQ、プライバシーポリシー、利用規約、問い合わせ先、ブログへのリンク — これらが全部ない。<br>
+  特に「ウォレット接続」を求めるサイトなら<strong>プライバシーポリシーは法的にも必須</strong>。</div>
+</div>
+
+<!-- ===== SECTION F: ACTION ITEMS ===== -->
+<div class="section-header">
+  <div class="section-label">Section F</div>
+  <h2 class="section-title">Action Items v2 — 次のスプリント</h2>
+</div>
+
+<div class="msg" style="border-color:#b2bec3">
+  <div class="msg-header"><span class="msg-name" style="color:#b2bec3">Marcus</span><span class="msg-time">14:50</span></div>
+  <div class="msg-body">v1の改善は素晴らしかった。全カテゴリでスコアが上がっている。<br>
+  次は<strong>Trust（35点）</strong>と<strong>UX Flow（58点）</strong>を集中的に上げる。<br>
+  投票結果をまとめる。</div>
+</div>
+
+<div class="action-grid">
+
+  <div class="action-item">
+    <div><span class="action-priority priority-high">HIGH</span></div>
+    <div class="action-desc">
+      <strong>実績セクション追加（Numbers / Social Proof）</strong><br>
+      宿泊者数、物件数、Airbnbレビュー平均、GitHub Stars等の数字を1セクションで表示。<br>
+      配置：Productsセクションの直下。
+      <div class="action-votes">10/10 賛成 — Fatima, Kenji, Amara, Sarah 強く推奨</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-high">HIGH</span></div>
+    <div class="action-desc">
+      <strong>初回訪問時のモード選択スプラッシュ</strong><br>
+      「別荘を探す」/「コードで貢献する」の選択画面。localStorageで記憶。<br>
+      Villa選択 → Villaモードで開く + コード関連セクションを最小化。
+      <div class="action-votes">9/10 賛成 — Sofia: "3秒ルールを守れ"</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-high">HIGH</span></div>
+    <div class="action-desc">
+      <strong>hreflangタグ修正 or 英語ランディングページ作成</strong><br>
+      最低限：/en/ に英語のランディングページ（物件ハイライト+予約リンク）を用意。<br>
+      または hreflangタグを削除してSEOペナルティを回避。
+      <div class="action-votes">8/10 賛成 — Sarah: "hreflang詐欺はGoogleが嫌う"</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-high">HIGH</span></div>
+    <div class="action-desc">
+      <strong>フッター強化（FAQ / Privacy / Contact / Blog）</strong><br>
+      プライバシーポリシーへのリンク、FAQ、ブログ、問い合わせ先。<br>
+      ウォレット接続を求めるサイトとしてプライバシーポリシーは法的必須。
+      <div class="action-votes">10/10 賛成 — Chen Wei: "法的コンプライアンスは議論の余地なし"</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-mid">MID</span></div>
+    <div class="action-desc">
+      <strong>物件カードに料金目安とレビュースコア表示</strong><br>
+      各物件に「¥XX,XXX〜/泊」「★4.9（127件）」を追加。Airbnbから手動転記でOK。
+      <div class="action-votes">8/10 賛成 — Kenji: "料金が分からないサイトは離脱する"</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-mid">MID</span></div>
+    <div class="action-desc">
+      <strong>画像最適化（WebP変換 + srcset）</strong><br>
+      物件画像をWebP化、レスポンシブsrcsetで配信。LCPスコア改善。<br>
+      <code>sharp</code> or <code>cwebp</code> でビルド時変換。
+      <div class="action-votes">7/10 賛成 — Priya: "40枚のJPGは重すぎ"</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-mid">MID</span></div>
+    <div class="action-desc">
+      <strong>モバイルカレンダーUI改善</strong><br>
+      6ヶ月分のカレンダーをスワイプ型に変更。一度に1ヶ月表示、左右スワイプで切り替え。
+      <div class="action-votes">7/10 賛成 — Lars: "横スクロールは最悪のUXパターン"</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-mid">MID</span></div>
+    <div class="action-desc">
+      <strong>Villaモードでコード系セクション最小化</strong><br>
+      Philosophy（enabler.values.js）とJoinセクションを、Villaモード時にコンパクト表示 or 折りたたみ。<br>
+      物件セクションを上部に移動して先に表示。
+      <div class="action-votes">7/10 賛成 — Kenji: "別荘ゲストにコードは見せなくていい"</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-low">LOW</span></div>
+    <div class="action-desc">
+      <strong>物件個別ページ作成</strong><br>
+      <code>/property/white-house-atami/</code> 等の専用ページ。LodgingBusiness JSON-LD付き。<br>
+      将来的にはここに直接予約フォームを設置。
+      <div class="action-votes">6/10 賛成 — Priya: "SEO的に正解だが工数大"</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-low">LOW</span></div>
+    <div class="action-desc">
+      <strong>jQuery → Vanilla JS移行</strong><br>
+      Slick.jsをSplide.jsに置換、jQuery依存を削除。87KB削減。
+      <div class="action-votes">5/10 賛成 — Chen Wei: "動いてるものを壊すリスク vs 87KB"</div>
+    </div>
+  </div>
+
+  <div class="action-item">
+    <div><span class="action-priority priority-low">LOW</span></div>
+    <div class="action-desc">
+      <strong>物件「近くのアクティビティ」情報追加</strong><br>
+      各物件に周辺情報タグ（温泉、サーフィン、釣り等）。写真1〜2枚。
+      <div class="action-votes">6/10 賛成 — Yuto: "場所じゃなく体験を売れ"</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- closing -->
+<div class="section-header">
+  <div class="section-label">Closing</div>
+  <h2 class="section-title">Next Steps — 次回に向けて</h2>
+</div>
+
+<div class="msg" style="border-color:#b2bec3">
+  <div class="msg-header"><span class="msg-name" style="color:#b2bec3">Marcus</span><span class="msg-time">15:00</span></div>
+  <div class="msg-body">まとめ。v1 → v2 で全カテゴリのスコアが上がった。特にAccessibility（+31）とClarity（+24）は大きな進歩。<br><br>
+  次のスプリントのフォーカス：<br>
+  <strong>1.</strong> Trust / Social Proof（35 → 目標60）<br>
+  <strong>2.</strong> 初回訪問体験（モード選択スプラッシュ）<br>
+  <strong>3.</strong> 法的コンプライアンス（プライバシーポリシー、hreflang修正）<br><br>
+  HIGH4件を全部やれば、サイト全体のスコアが<strong>63 → 75</strong>くらいになるはず。<br>
+  v3レビューは改善後に開催。お疲れ様でした。</div>
+</div>
+
+<div class="msg" style="border-color:#00cec9">
+  <div class="msg-header"><span class="msg-name" style="color:#00cec9">Yuto</span><span class="msg-time">15:01</span></div>
+  <div class="msg-body">いい方向に進んでる。<br>
+  一つだけ：改善を繰り返すのも大事だけど、<strong>「とりあえず友達に泊まってもらってフィードバックをもらう」</strong>のが一番速い。<br>
+  リアルユーザーの声 &gt; 10人のAIの意見。これだけは覚えておいて。✌️</div>
+</div>
+
+</article>
+
+<footer class="blog-footer">
+  <a href="https://enablerdao.com">enablerdao.com</a> — generated by AI, reviewed by humans
+</footer>
+
+</body>
+</html>
