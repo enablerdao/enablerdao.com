@@ -157,6 +157,8 @@ pub fn page_shell(title: &str, description: &str, canonical: &str, content: &str
   <meta name="twitter:site" content="@enablerdao">
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">{json_ld}</script>
+  <script src="https://enabler-analytics.fly.dev/t.js" defer></script>
+  <script async src="https://umami-analytics.fly.dev/script.js" data-website-id="00000000-0000-0000-0000-000000000000"></script>
 </head>
 <body>
 {nav}
@@ -165,6 +167,18 @@ pub fn page_shell(title: &str, description: &str, canonical: &str, content: &str
 </main>
 {footer}
 <script src="/static/app.js" defer></script>
+<script>
+(function(){{
+  var start = Date.now();
+  function send(dur){{
+    var d = {{path:location.pathname,referrer:document.referrer,ua:navigator.userAgent,duration:dur}};
+    navigator.sendBeacon ? navigator.sendBeacon('/api/analytics/log',JSON.stringify(d))
+      : fetch('/api/analytics/log',{{method:'POST',body:JSON.stringify(d),keepalive:true}});
+  }}
+  window.addEventListener('pagehide',function(){{send(Math.round((Date.now()-start)/1000));}});
+  send(0);
+}})();
+</script>
 </body>
 </html>"#,
         title = title,

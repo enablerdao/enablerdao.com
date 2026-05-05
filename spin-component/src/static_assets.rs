@@ -13,8 +13,22 @@ const FAVICON: &str = include_str!("../../static/favicon.svg");
 const ENABLER_HTML: &str = include_str!("../../static/enabler.html");
 const PRODUCTS_HTML: &str = include_str!("../../static/products.html");
 const FUTAMI_HTML: &str = include_str!("../../static/futami/index.html");
+const FUTAMI_VILLAGE_HTML: &str = include_str!("../../static/futami/village.html");
 
 // ── Binary assets ────────────────────────────────────────────────────────────
+
+// Futami vision concept renders (AI-generated)
+const FUTAMI_AERIAL: &[u8]      = include_bytes!("../../static/futami/vision_aerial.jpg");
+const FUTAMI_COMPLEX: &[u8]     = include_bytes!("../../static/futami/vision_complex.jpg");
+const FUTAMI_OMOTESANDO: &[u8]  = include_bytes!("../../static/futami/vision_omotesando.jpg");
+const FUTAMI_GLAMPING: &[u8]    = include_bytes!("../../static/futami/vision_glamping.jpg");
+const FUTAMI_LOBBY: &[u8]       = include_bytes!("../../static/futami/vision_lobby.jpg");
+const FUTAMI_STREET: &[u8]      = include_bytes!("../../static/futami/complex_street.jpg");
+const FUTAMI_PR: &[u8]          = include_bytes!("../../static/futami/complex_pr.jpg");
+const FUTAMI_2F: &[u8]          = include_bytes!("../../static/futami/complex_2f.jpg");
+const FUTAMI_ROOM: &[u8]        = include_bytes!("../../static/futami/complex_room.jpg");
+const FUTAMI_NIGHT: &[u8]       = include_bytes!("../../static/futami/complex_night.jpg");
+const FUTAMI_ROOFTOP: &[u8]     = include_bytes!("../../static/futami/complex_rooftop.jpg");
 
 // Futami property photos (before + AI-generated after)
 const FUTAMI_6_27_BEFORE: &[u8] = include_bytes!("../../static/futami/6-27_before.jpg");
@@ -84,6 +98,19 @@ pub fn serve_static(path: &str) -> Option<Response> {
         "/static/enabler.html" => Some(text_response(ENABLER_HTML, "text/html")),
         "/static/products.html" => Some(text_response(PRODUCTS_HTML, "text/html")),
 
+        // Futami village vision renders
+        "/static/futami/vision_aerial.jpg"     => Some(bytes_response(FUTAMI_AERIAL,     "image/jpeg")),
+        "/static/futami/vision_complex.jpg"    => Some(bytes_response(FUTAMI_COMPLEX,    "image/jpeg")),
+        "/static/futami/vision_omotesando.jpg" => Some(bytes_response(FUTAMI_OMOTESANDO, "image/jpeg")),
+        "/static/futami/vision_glamping.jpg"   => Some(bytes_response(FUTAMI_GLAMPING,   "image/jpeg")),
+        "/static/futami/vision_lobby.jpg"      => Some(bytes_response(FUTAMI_LOBBY,      "image/jpeg")),
+        "/static/futami/complex_street.jpg"    => Some(bytes_response(FUTAMI_STREET,     "image/jpeg")),
+        "/static/futami/complex_pr.jpg"        => Some(bytes_response(FUTAMI_PR,         "image/jpeg")),
+        "/static/futami/complex_2f.jpg"        => Some(bytes_response(FUTAMI_2F,         "image/jpeg")),
+        "/static/futami/complex_room.jpg"      => Some(bytes_response(FUTAMI_ROOM,       "image/jpeg")),
+        "/static/futami/complex_night.jpg"     => Some(bytes_response(FUTAMI_NIGHT,      "image/jpeg")),
+        "/static/futami/complex_rooftop.jpg"   => Some(bytes_response(FUTAMI_ROOFTOP,    "image/jpeg")),
+
         // Futami property images
         "/static/futami/6-27_before.jpg" => Some(bytes_response(FUTAMI_6_27_BEFORE, "image/jpeg")),
         "/static/futami/6-27_after.jpg"  => Some(bytes_response(FUTAMI_6_27_AFTER,  "image/jpeg")),
@@ -140,6 +167,11 @@ pub fn serve_products_page() -> Response {
 /// Serve the Futami Airbnb property comparison page
 pub fn serve_futami_page() -> Response {
     text_response(FUTAMI_HTML, "text/html; charset=utf-8")
+}
+
+/// Serve the MISOGIHAMA resort village development concept page
+pub fn serve_futami_village_page() -> Response {
+    text_response(FUTAMI_VILLAGE_HTML, "text/html; charset=utf-8")
 }
 
 /// Build a 200 response from a `&str` body.

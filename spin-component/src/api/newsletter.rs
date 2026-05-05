@@ -9,16 +9,16 @@ use crate::kv;
 /// Expected JSON body: `{ "email" }`
 ///
 /// Returns a JSON object with a coupon code on success.
-pub async fn subscribe(req: Request) -> Response {
+pub async fn subscribe(req: Request, origin: &str) -> Response {
     let body = req.body();
     let data: serde_json::Value = match serde_json::from_slice(body) {
         Ok(v) => v,
-        Err(_) => return json_error(400, "invalid JSON body"),
+        Err(_) => return json_error(400, "invalid JSON body", origin),
     };
 
     let email = data["email"].as_str().unwrap_or("").trim().to_string();
     if email.is_empty() || !email.contains('@') {
-        return json_error(400, "valid email is required");
+        return json_error(400, "valid email is required", origin);
     }
 
     match kv::subscribe_newsletter(&email) {
@@ -33,24 +33,24 @@ pub async fn subscribe(req: Request) -> Response {
                 "message": "ご登録ありがとうございます！",
                 "coupon": "ENABLER2026",
             });
-            json_response(200, serde_json::to_vec(&resp).unwrap_or_default())
+            json_response(200, serde_json::to_vec(&resp).unwrap_or_default(), origin)
         }
-        Err(e) => json_error(500, &format!("subscription failed: {e}")),
+        Err(e) => json_error(500, &format!("subscription failed: {e}"), origin),
     }
 }
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
-fn json_response(status: u16, body: Vec<u8>) -> Response {
+fn json_response(status: u16, body: Vec<u8>, origin: &str) -> Response {
     Response::builder()
         .status(status)
         .header("content-type", "application/json")
-        .header("access-control-allow-origin", "*")
+        .header("access-control-allow-origin", origin)
         .body(body)
         .build()
 }
 
-fn json_error(status: u16, msg: &str) -> Response {
+fn json_error(status: u16, msg: &str, origin: &str) -> Response {
     let body = serde_json::to_vec(&serde_json::json!({"error": msg})).unwrap_or_default();
-    json_response(status, body)
+    json_response(status, body, origin)
 }

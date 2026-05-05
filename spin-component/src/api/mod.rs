@@ -9,3 +9,4 @@ pub mod newsletter;
 pub mod feedback;
 pub mod metrics;
 pub mod fanclub;
+pub mod analytics;

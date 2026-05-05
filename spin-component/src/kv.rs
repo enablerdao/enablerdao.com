@@ -8,6 +8,7 @@
 /// - `qa:all`            → `Vec<QaItem>` as JSON
 /// - `qa:next_id`        → counter string
 /// - `newsletter:emails` → `Vec<String>` as JSON
+/// - `rate:{ip}:{endpoint}` → JSON array of unix timestamps (window entries)
 
 use serde::{Deserialize, Serialize};
 use spin_sdk::key_value::Store;
@@ -379,6 +380,41 @@ pub fn list_promo_code_hashes() -> Vec<String> {
         Ok(Some(bytes)) => serde_json::from_slice(&bytes).unwrap_or_default(),
         _ => vec![],
     }
+}
+
+// ── Rate Limiting ────────────────────────────────────────────────────────────
+
+/// IP-based rate limiter: allows at most `max_requests` per `window_secs` seconds.
+///
+/// Returns `true` if the request is allowed, `false` if the limit has been exceeded.
+/// Key format: `rate:{ip}:{endpoint}`
+pub fn check_rate_limit(ip: &str, endpoint: &str, max_requests: usize, window_secs: u64) -> bool {
+    let key = format!("rate:{}:{}", ip, endpoint);
+    let now = current_unix_time();
+    let cutoff = now.saturating_sub(window_secs);
+
+    let Ok(store) = Store::open_default() else {
+        // If KV is unavailable, fail open (allow the request).
+        return true;
+    };
+
+    // Load existing timestamps, prune expired ones.
+    let mut timestamps: Vec<u64> = match store.get(&key) {
+        Ok(Some(bytes)) => serde_json::from_slice(&bytes).unwrap_or_default(),
+        _ => vec![],
+    };
+    timestamps.retain(|&t| t > cutoff);
+
+    if timestamps.len() >= max_requests {
+        // Persist pruned list (keep storage clean) and reject.
+        let _ = store.set(&key, &serde_json::to_vec(&timestamps).unwrap_or_default());
+        return false;
+    }
+
+    // Record this request.
+    timestamps.push(now);
+    let _ = store.set(&key, &serde_json::to_vec(&timestamps).unwrap_or_default());
+    true
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────────────

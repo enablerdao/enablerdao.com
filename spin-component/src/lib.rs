@@ -92,6 +92,9 @@ async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
         (Method::Get, "/futami" | "/futami/") => {
             static_assets::serve_futami_page()
         }
+        (Method::Get, "/misogihama" | "/misogihama/" | "/futami-village" | "/futami-village/") => {
+            static_assets::serve_futami_village_page()
+        }
         (Method::Get, "/projects") => {
             html_page("Projects \u{2014} EnablerDAO",
                 "EnablerDAO\u{304c}\u{904b}\u{55b6}\u{3059}\u{308b}\u{30d7}\u{30ed}\u{30c0}\u{30af}\u{30c8}\u{4e00}\u{89a7}\u{3002}",
