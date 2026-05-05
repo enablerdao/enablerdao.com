@@ -11,6 +11,57 @@ mod api;
 use spin_sdk::http::{IntoResponse, Method, Request, Response};
 use spin_sdk::http_component;
 
+/// Extract the best-guess client IP from request headers.
+/// Priority: fly-client-ip → x-forwarded-for (first entry) → spin-client-addr → fallback.
+fn client_ip(req: &Request) -> String {
+    if let Some(s) = req.header("fly-client-ip").and_then(|v| v.as_str()) {
+        let s = s.trim();
+        if !s.is_empty() {
+            return s.to_string();
+        }
+    }
+    if let Some(s) = req.header("x-forwarded-for").and_then(|v| v.as_str()) {
+        let first = s.split(',').next().unwrap_or("").trim();
+        if !first.is_empty() {
+            return first.to_string();
+        }
+    }
+    if let Some(s) = req.header("spin-client-addr").and_then(|v| v.as_str()) {
+        // Strip port if present (e.g. "1.2.3.4:12345")
+        let s = s.trim();
+        if !s.is_empty() {
+            return s.rsplit_once(':').map(|(ip, _)| ip).unwrap_or(s).to_string();
+        }
+    }
+    "unknown".to_string()
+}
+
+/// Determine the allowed CORS origin.
+/// Reads the `ALLOW_ORIGIN` spin variable for dev overrides; defaults to enablerdao.com.
+fn allowed_origin() -> String {
+    spin_sdk::variables::get("allow_origin")
+        .unwrap_or_else(|_| "https://enablerdao.com".to_string())
+}
+
+/// Build a CORS-safe JSON response with the correct origin header.
+fn json_response_cors(status: u16, origin: &str, body: Vec<u8>) -> Response {
+    Response::builder()
+        .status(status)
+        .header("content-type", "application/json")
+        .header("access-control-allow-origin", origin)
+        .body(body)
+        .build()
+}
+
+/// Return a 429 Too Many Requests JSON error.
+fn too_many_requests(origin: &str) -> Response {
+    let body = serde_json::to_vec(
+        &serde_json::json!({"ok": false, "error": "リクエストが多すぎます。しばらく待ってから再試行してください。"}),
+    )
+    .unwrap_or_default();
+    json_response_cors(429, origin, body)
+}
+
 #[http_component]
 async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
     let method = req.method().clone();
@@ -34,6 +85,12 @@ async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
         // --- Pages ---
         (Method::Get, "/" | "") => {
             static_assets::serve_enabler_page()
+        }
+        (Method::Get, "/products") => {
+            static_assets::serve_products_page()
+        }
+        (Method::Get, "/futami" | "/futami/") => {
+            static_assets::serve_futami_page()
         }
         (Method::Get, "/projects") => {
             html_page("Projects \u{2014} EnablerDAO",
@@ -169,10 +226,28 @@ async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
             let id_str = &p[8..p.len() - 7];
             api::qa::answer(id_str, req)
         }
-        (Method::Post, "/api/newsletter/subscribe") => api::newsletter::subscribe(req).await,
+        (Method::Post, "/api/newsletter/subscribe") => {
+            let ip = client_ip(&req);
+            let origin = allowed_origin();
+            if !kv::check_rate_limit(&ip, "newsletter_subscribe", 3, 300) {
+                too_many_requests(&origin)
+            } else {
+                api::newsletter::subscribe(req, &origin).await
+            }
+        }
         (Method::Post, "/api/feedback") => api::feedback::submit(req).await,
         (Method::Get, "/api/metrics") => api::metrics::get(),
-        (Method::Post, "/api/fanclub/register") => api::fanclub::register(req).await,
+        (Method::Post, "/api/analytics/log") => api::analytics::log(req),
+        (Method::Get, p) if p.starts_with("/analytics") => api::analytics::dashboard(p, req),
+        (Method::Post, "/api/fanclub/register") => {
+            let ip = client_ip(&req);
+            let origin = allowed_origin();
+            if !kv::check_rate_limit(&ip, "fanclub_register", 3, 300) {
+                too_many_requests(&origin)
+            } else {
+                api::fanclub::register(req, &origin).await
+            }
+        }
         (Method::Post, "/api/fanclub/login") => api::fanclub::login(req).await,
         (Method::Get, p) if p.starts_with("/api/fanclub/verify") => api::fanclub::verify(p),
         (Method::Get, "/api/fanclub/codes") => {
@@ -182,9 +257,10 @@ async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
 
         // --- CORS preflight ---
         (Method::Options, _) => {
+            let origin = allowed_origin();
             Response::builder()
                 .status(204)
-                .header("access-control-allow-origin", "*")
+                .header("access-control-allow-origin", origin)
                 .header("access-control-allow-methods", "GET, POST, OPTIONS")
                 .header("access-control-allow-headers", "content-type")
                 .body(())
@@ -208,10 +284,11 @@ fn html_page(title: &str, description: &str, canonical: &str, content: &str) -> 
 }
 
 fn json_ok(value: &serde_json::Value) -> Response {
+    let origin = allowed_origin();
     Response::builder()
         .status(200)
         .header("content-type", "application/json")
-        .header("access-control-allow-origin", "*")
+        .header("access-control-allow-origin", origin)
         .body(serde_json::to_string(value).unwrap_or_default())
         .build()
 }

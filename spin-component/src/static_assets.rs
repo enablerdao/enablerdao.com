@@ -11,13 +11,47 @@ const CSS: &str = include_str!("../../static/styles.css");
 const JS: &str = include_str!("../../static/app.js");
 const FAVICON: &str = include_str!("../../static/favicon.svg");
 const ENABLER_HTML: &str = include_str!("../../static/enabler.html");
+const PRODUCTS_HTML: &str = include_str!("../../static/products.html");
+const FUTAMI_HTML: &str = include_str!("../../static/futami/index.html");
 
 // ── Binary assets ────────────────────────────────────────────────────────────
+
+// Futami property photos (before + AI-generated after)
+const FUTAMI_6_27_BEFORE: &[u8] = include_bytes!("../../static/futami/6-27_before.jpg");
+const FUTAMI_6_27_AFTER: &[u8] = include_bytes!("../../static/futami/6-27_after.jpg");
+const FUTAMI_6_15_BEFORE: &[u8] = include_bytes!("../../static/futami/6-15_before.png");
+const FUTAMI_6_15_AFTER: &[u8] = include_bytes!("../../static/futami/6-15_after.jpg");
+const FUTAMI_7_19_BEFORE: &[u8] = include_bytes!("../../static/futami/7-19_before.png");
+const FUTAMI_7_19_AFTER: &[u8] = include_bytes!("../../static/futami/7-19_after.jpg");
+const FUTAMI_7530_BEFORE: &[u8] = include_bytes!("../../static/futami/7530_before.jpg");
+const FUTAMI_7530_AFTER: &[u8] = include_bytes!("../../static/futami/7530_after.jpg");
+const FUTAMI_7269_BEFORE: &[u8] = include_bytes!("../../static/futami/7269_before.jpg");
+const FUTAMI_7269_AFTER: &[u8] = include_bytes!("../../static/futami/7269_after.jpg");
 
 const IMG_ATAMI: &[u8] = include_bytes!("../../static/properties/atami.jpg");
 const IMG_TESHIKAGA: &[u8] = include_bytes!("../../static/properties/teshikaga.jpg");
 const IMG_NEST: &[u8] = include_bytes!("../../static/properties/nest.jpg");
 const IMG_HONOLULU: &[u8] = include_bytes!("../../static/properties/honolulu.jpg");
+
+// App Icons
+const ICON_ELIO: &[u8] = include_bytes!("../../static/app-icons/elio.png");
+const ICON_PASHA: &[u8] = include_bytes!("../../static/app-icons/pasha.png");
+const ICON_CLAUDETERM: &[u8] = include_bytes!("../../static/app-icons/claudeterm.png");
+const ICON_STAYFLOW: &[u8] = include_bytes!("../../static/app-icons/stayflow.png");
+const ICON_JIUFLOW: &[u8] = include_bytes!("../../static/app-icons/jiuflow.png");
+const ICON_PON: &[u8] = include_bytes!("../../static/app-icons/pon.png");
+const ICON_KAGI: &[u8] = include_bytes!("../../static/app-icons/kagi.png");
+const ICON_NOU: &[u8] = include_bytes!("../../static/app-icons/nou.png");
+const ICON_CHARIN: &[u8] = include_bytes!("../../static/app-icons/charin.png");
+const ICON_SAKUTSU: &[u8] = include_bytes!("../../static/app-icons/sakutsu.png");
+const ICON_POI: &[u8] = include_bytes!("../../static/app-icons/poi.png");
+const ICON_TORO: &[u8] = include_bytes!("../../static/app-icons/toro.png");
+const ICON_MISEBAN: &[u8] = include_bytes!("../../static/app-icons/miseban_ai.png");
+const ICON_BANTO: &[u8] = include_bytes!("../../static/app-icons/banto.png");
+const ICON_ENABLERDAO: &[u8] = include_bytes!("../../static/app-icons/enablerdao.png");
+const ICON_SOLUNA: &[u8] = include_bytes!("../../static/app-icons/soluna.png");
+const ICON_KOE_DEVICE: &[u8] = include_bytes!("../../static/app-icons/koe_device.png");
+const ICON_KOE_SOFTWARE: &[u8] = include_bytes!("../../static/app-icons/koe_software.png");
 
 // Screenshots
 const SS_KAGI: &[u8] = include_bytes!("../../static/screenshots/kagi-home.jpg");
@@ -48,6 +82,39 @@ pub fn serve_static(path: &str) -> Option<Response> {
         "/static/properties/honolulu.jpg" => Some(bytes_response(IMG_HONOLULU, "image/jpeg")),
 
         "/static/enabler.html" => Some(text_response(ENABLER_HTML, "text/html")),
+        "/static/products.html" => Some(text_response(PRODUCTS_HTML, "text/html")),
+
+        // Futami property images
+        "/static/futami/6-27_before.jpg" => Some(bytes_response(FUTAMI_6_27_BEFORE, "image/jpeg")),
+        "/static/futami/6-27_after.jpg"  => Some(bytes_response(FUTAMI_6_27_AFTER,  "image/jpeg")),
+        "/static/futami/6-15_before.png" => Some(bytes_response(FUTAMI_6_15_BEFORE, "image/png")),
+        "/static/futami/6-15_after.jpg"  => Some(bytes_response(FUTAMI_6_15_AFTER,  "image/jpeg")),
+        "/static/futami/7-19_before.png" => Some(bytes_response(FUTAMI_7_19_BEFORE, "image/png")),
+        "/static/futami/7-19_after.jpg"  => Some(bytes_response(FUTAMI_7_19_AFTER,  "image/jpeg")),
+        "/static/futami/7530_before.jpg" => Some(bytes_response(FUTAMI_7530_BEFORE, "image/jpeg")),
+        "/static/futami/7530_after.jpg"  => Some(bytes_response(FUTAMI_7530_AFTER,  "image/jpeg")),
+        "/static/futami/7269_before.jpg" => Some(bytes_response(FUTAMI_7269_BEFORE, "image/jpeg")),
+        "/static/futami/7269_after.jpg"  => Some(bytes_response(FUTAMI_7269_AFTER,  "image/jpeg")),
+
+        // App Icons
+        "/static/app-icons/elio.png" => Some(bytes_response(ICON_ELIO, "image/png")),
+        "/static/app-icons/pasha.png" => Some(bytes_response(ICON_PASHA, "image/png")),
+        "/static/app-icons/claudeterm.png" => Some(bytes_response(ICON_CLAUDETERM, "image/png")),
+        "/static/app-icons/stayflow.png" => Some(bytes_response(ICON_STAYFLOW, "image/png")),
+        "/static/app-icons/jiuflow.png" => Some(bytes_response(ICON_JIUFLOW, "image/png")),
+        "/static/app-icons/pon.png" => Some(bytes_response(ICON_PON, "image/png")),
+        "/static/app-icons/kagi.png" => Some(bytes_response(ICON_KAGI, "image/png")),
+        "/static/app-icons/nou.png" => Some(bytes_response(ICON_NOU, "image/png")),
+        "/static/app-icons/charin.png" => Some(bytes_response(ICON_CHARIN, "image/png")),
+        "/static/app-icons/sakutsu.png" => Some(bytes_response(ICON_SAKUTSU, "image/png")),
+        "/static/app-icons/poi.png" => Some(bytes_response(ICON_POI, "image/png")),
+        "/static/app-icons/toro.png" => Some(bytes_response(ICON_TORO, "image/png")),
+        "/static/app-icons/miseban_ai.png" => Some(bytes_response(ICON_MISEBAN, "image/png")),
+        "/static/app-icons/banto.png" => Some(bytes_response(ICON_BANTO, "image/png")),
+        "/static/app-icons/enablerdao.png" => Some(bytes_response(ICON_ENABLERDAO, "image/png")),
+        "/static/app-icons/soluna.png" => Some(bytes_response(ICON_SOLUNA, "image/png")),
+        "/static/app-icons/koe_device.png" => Some(bytes_response(ICON_KOE_DEVICE, "image/png")),
+        "/static/app-icons/koe_software.png" => Some(bytes_response(ICON_KOE_SOFTWARE, "image/png")),
 
         // Screenshots
         "/static/screenshots/kagi-home.jpg" => Some(bytes_response(SS_KAGI, "image/jpeg")),
@@ -63,6 +130,16 @@ pub fn serve_static(path: &str) -> Option<Response> {
 /// Serve the Enabler vision page directly
 pub fn serve_enabler_page() -> Response {
     text_response(ENABLER_HTML, "text/html; charset=utf-8")
+}
+
+/// Serve the Products showcase page
+pub fn serve_products_page() -> Response {
+    text_response(PRODUCTS_HTML, "text/html; charset=utf-8")
+}
+
+/// Serve the Futami Airbnb property comparison page
+pub fn serve_futami_page() -> Response {
+    text_response(FUTAMI_HTML, "text/html; charset=utf-8")
 }
 
 /// Build a 200 response from a `&str` body.

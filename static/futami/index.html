@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>二見・伊勢 Airbnb物件 AIリノベ比較 2026</title>
+<meta property="og:title" content="二見・伊勢 Airbnb物件 AIリノベ比較 2026">
+<meta property="og:description" content="伊勢神宮・夫婦岩エリアで狙える古民家物件5選。AIが描く「リノベ後の姿」と現状を並べて徹底比較。">
+<meta property="og:image" content="https://enablerdao.com/static/futami/6-27_after.jpg">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --dark: #1a1410;
+    --brown: #6b4c2a;
+    --gold: #c8a35a;
+    --muted: #8a7a6a;
+    --green: #2e7d5e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif; background: var(--dark); color: var(--cream); line-height: 1.7; }
+
+  /* HERO */
+  .hero {
+    min-height: 380px; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 60px 20px;
+    background: linear-gradient(160deg, #1a1410 0%, #2d1f0e 50%, #1a1410 100%);
+    border-bottom: 2px solid var(--gold);
+  }
+  .hero-tag { display: inline-block; background: var(--gold); color: var(--dark); font-size: 11px; font-weight: 700; letter-spacing: 3px; padding: 4px 14px; margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(26px, 5vw, 50px); font-weight: 900; line-height: 1.15; margin-bottom: 14px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: #c8b89a; font-size: 15px; max-width: 520px; margin: 0 auto 28px; }
+  .hero-stats { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; }
+  .hstat .num { font-size: 26px; font-weight: 900; color: var(--gold); }
+  .hstat .lbl { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+
+  /* SECTION */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+  .sec-tag { font-size: 11px; letter-spacing: 3px; color: var(--gold); margin-bottom: 6px; }
+  .sec-h2 { font-size: clamp(20px, 3vw, 30px); font-weight: 800; padding-bottom: 14px; border-bottom: 1px solid #3a2e22; margin-bottom: 40px; }
+
+  /* CARD */
+  .card { background: #241a10; border: 1px solid #3a2e22; border-radius: 12px; overflow: hidden; margin-bottom: 56px; }
+  .card.best { border-color: var(--gold); }
+  .card-head { display: flex; align-items: center; gap: 14px; padding: 18px 22px 14px; border-bottom: 1px solid #3a2e22; flex-wrap: wrap; }
+  .rank { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 900; flex-shrink: 0; }
+  .r1 { background: var(--gold); color: var(--dark); }
+  .r2 { background: #a0a0a0; color: #111; }
+  .r3 { background: #a0714a; color: #fff; }
+  .r4 { background: #3a3a3a; color: #bbb; }
+  .r5 { background: #3a3a3a; color: #bbb; }
+  .ctitle { flex: 1; min-width: 180px; }
+  .ctitle h3 { font-size: 18px; font-weight: 800; margin-bottom: 3px; }
+  .ctitle .addr { font-size: 12px; color: var(--muted); }
+  .best-tag { font-size: 10px; font-weight: 700; letter-spacing: 2px; background: var(--gold); color: var(--dark); padding: 3px 8px; margin-left: 8px; }
+  .price { text-align: right; }
+  .price .num { font-size: 24px; font-weight: 900; color: var(--gold); }
+  .price .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* SCORE */
+  .scores { display: flex; align-items: center; gap: 20px; padding: 14px 22px; border-bottom: 1px solid #3a2e22; flex-wrap: wrap; }
+  .stotal { text-align: center; min-width: 72px; }
+  .stotal .n { font-size: 40px; font-weight: 900; line-height: 1; color: var(--gold); }
+  .stotal .l { font-size: 10px; color: var(--muted); }
+  .sbars { flex: 1; min-width: 240px; }
+  .srow { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .srow .sl { font-size: 10px; color: var(--muted); width: 130px; flex-shrink: 0; }
+  .bg { flex: 1; background: #3a2e22; height: 5px; border-radius: 3px; }
+  .fill { height: 100%; border-radius: 3px; background: var(--gold); }
+  .srow .sv { font-size: 11px; color: var(--cream); width: 34px; text-align: right; }
+
+  /* COMPARE */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; position: relative; }
+  @media(max-width:600px){ .compare { grid-template-columns: 1fr; } }
+  .pane { position: relative; overflow: hidden; }
+  .pane img { width: 100%; height: 300px; object-fit: cover; display: block; transition: transform 0.4s; }
+  .pane:hover img { transform: scale(1.03); }
+  .plabel { position: absolute; bottom: 10px; left: 10px; font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 9px; backdrop-filter: blur(4px); }
+  .before .plabel { background: rgba(0,0,0,0.72); color: #fff; }
+  .after .plabel { background: rgba(200,163,90,0.88); color: #1a1410; }
+  .arrow { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); z-index: 10; background: var(--gold); color: var(--dark); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.6); pointer-events: none; }
+  @media(max-width:600px){ .arrow { top: auto; bottom: -18px; } }
+
+  /* MULTI PHOTO */
+  .multi { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3px; }
+  @media(max-width:600px){ .multi { grid-template-columns: 1fr 1fr; } }
+  .multi img { width: 100%; height: 190px; object-fit: cover; display: block; }
+  .multi .big { grid-row: span 2; }
+  .multi .big img { height: 383px; }
+  @media(max-width:600px){ .multi .big { grid-row: span 1; } .multi .big img { height: 190px; } }
+
+  /* FOOTER BAR */
+  .cfoot { padding: 14px 22px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .pill { background: #3a2e22; border-radius: 6px; padding: 7px 12px; font-size: 11px; }
+  .pill .k { color: var(--muted); display: block; font-size: 9px; margin-bottom: 1px; }
+  .pill .v { font-weight: 700; }
+  .rev { margin-left: auto; background: linear-gradient(135deg,#2e5c3a,#1e3f28); border: 1px solid #3a7a4a; border-radius: 8px; padding: 8px 14px; text-align: center; }
+  .rev .rl { font-size: 9px; color: #7aba8a; letter-spacing: 1px; }
+  .rev .rn { font-size: 20px; font-weight: 900; color: #a0e0b0; }
+  .rev .rs { font-size: 9px; color: #7aba8a; }
+
+  /* NOTE */
+  .note { padding: 12px 22px; background: #1a1208; border-top: 1px solid #3a2e22; font-size: 12px; color: #b0a080; }
+  .note strong { color: var(--gold); }
+
+  /* RENO BADGE */
+  .reno-ok { padding: 8px 16px; background: #1a3020; font-size: 11px; color: #7aba8a; text-align: center; border-bottom: 1px solid #3a2e22; }
+
+  /* NOTICE */
+  .notice { background: #2a1e10; border: 1px solid var(--gold); border-radius: 8px; padding: 14px 18px; margin-top: 40px; font-size: 12px; color: #c8b89a; }
+  .notice strong { color: var(--gold); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid #3a2e22; padding: 28px 20px; text-align: center; color: var(--muted); font-size: 11px; }
+  footer a { color: var(--gold); text-decoration: none; }
+  .stars { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div>
+    <div class="hero-tag">AI RENO REPORT · 2026</div>
+    <h1>二見・伊勢<br><span>Airbnb</span> 古民家物件<br>AIリノベ比較</h1>
+    <p>夫婦岩・伊勢神宮の玄関口。現状写真 → AI生成リノベ後を同アングルで並べて投資判断。</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num">800万+</div><div class="lbl">年間参拝者</div></div>
+      <div class="hstat"><div class="num">90万〜</div><div class="lbl">最安物件</div></div>
+      <div class="hstat"><div class="num">15,000〜</div><div class="lbl">想定単価/泊</div></div>
+      <div class="hstat"><div class="num">5物件</div><div class="lbl">採点済み</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="sec-tag">RANKING</p>
+  <h2 class="sec-h2">物件採点ランキング — 現状 vs AIリノベ後</h2>
+
+  <!-- #1 -->
+  <div class="card best">
+    <div class="card-head">
+      <div class="rank r1">1</div>
+      <div class="ctitle">
+        <h3>6-27 二見町荘 <span class="stars">★★★★☆</span> <span class="best-tag">BEST BUY</span></h3>
+        <div class="addr">伊勢市二見町荘 ｜ 伊勢市空き家バンク ｜ 木造1階 54m² ｜ 築昭和12年(1937)</div>
+      </div>
+      <div class="price"><div class="num">100万円</div><div class="sub">土地 211m²</div></div>
+    </div>
+    <div class="scores">
+      <div class="stotal"><div class="n">77</div><div class="l">/ 100点</div></div>
+      <div class="sbars">
+        <div class="srow"><span class="sl">立地（参道・夫婦岩）</span><div class="bg"><div class="fill" style="width:73%"></div></div><span class="sv">22/30</span></div>
+        <div class="srow"><span class="sl">取得コストの安さ</span><div class="bg"><div class="fill" style="width:100%"></div></div><span class="sv">20/20</span></div>
+        <div class="srow"><span class="sl">広さ対価格</span><div class="bg"><div class="fill" style="width:80%"></div></div><span class="sv">16/20</span></div>
+        <div class="srow"><span class="sl">民泊ポテンシャル</span><div class="bg"><div class="fill" style="width:60%"></div></div><span class="sv">12/20</span></div>
+        <div class="srow"><span class="sl">利便性（駅・道路）</span><div class="bg"><div class="fill" style="width:70%"></div></div><span class="sv">7/10</span></div>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="pane before">
+        <img src="/static/futami/6-27_before.jpg" alt="現状外観" loading="lazy">
+        <div class="plabel">📷 現状（空き家バンク）</div>
+      </div>
+      <div class="pane after">
+        <img src="/static/futami/6-27_after.jpg" alt="AIリノベ後イメージ" loading="lazy">
+        <div class="plabel">✨ AI生成リノベ後</div>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="cfoot">
+      <div class="pill"><span class="k">取得</span><span class="v">100万円</span></div>
+      <div class="pill"><span class="k">リノベ想定</span><span class="v">300〜500万円</span></div>
+      <div class="pill"><span class="k">合計投資</span><span class="v">400〜600万円</span></div>
+      <div class="pill"><span class="k">想定単価</span><span class="v">15,000〜20,000円/泊</span></div>
+      <div class="rev"><div class="rl">月間売上試算（稼働50%）</div><div class="rn">22〜30万円</div><div class="rs">回収期間 約2〜3年</div></div>
+    </div>
+    <div class="note"><strong>寸評:</strong> 旅館街の荘地区・参道徒歩圏で100万円は激レア。築昭和12年の梁・土壁・縁側がそのまま残る可能性大。リノベ込み600万以下で投資回収2〜3年。<strong>最優先で現地確認すべき。</strong></div>
+  </div>
+
+  <!-- #2 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="rank r2">2</div>
+      <div class="ctitle">
+        <h3>ko-7530 二見町（海水浴場徒歩圏） <span class="stars">★★★★☆</span></h3>
+        <div class="addr">伊勢市二見町 ｜ 清心堂 ｜ 木造2F 158m² ｜ 昭和56年 ｜ <strong style="color:#a0e0b0">リフォーム済み・即入居可</strong></div>
+      </div>
+      <div class="price"><div class="num">1,550万円</div><div class="sub">土地 568m² / 8DK</div></div>
+    </div>
+    <div class="scores">
+      <div class="stotal"><div class="n">73</div><div class="l">/ 100点</div></div>
+      <div class="sbars">
+        <div class="srow"><span class="sl">立地（参道・夫婦岩）</span><div class="bg"><div class="fill" style="width:83%"></div></div><span class="sv">25/30</span></div>
+        <div class="srow"><span class="sl">取得コストの安さ</span><div class="bg"><div class="fill" style="width:40%"></div></div><span class="sv">8/20</span></div>
+        <div class="srow"><span class="sl">広さ対価格</span><div class="bg"><div class="fill" style="width:70%"></div></div><span class="sv">14/20</span></div>
+        <div class="srow"><span class="sl">民泊ポテンシャル</span><div class="bg"><div class="fill" style="width:90%"></div></div><span class="sv">18/20</span></div>
+        <div class="srow"><span class="sl">利便性（駅・道路）</span><div class="bg"><div class="fill" style="width:80%"></div></div><span class="sv">8/10</span></div>
+      </div>
+    </div>
+    <div class="reno-ok">✅ リフォーム済み — 現状がすでにリノベ後。AI生成は薪ストーブ×障子の内装イメージです。</div>
+    <div class="compare">
+      <div class="pane before">
+        <img src="/static/futami/7530_before.jpg" alt="外観" loading="lazy">
+        <div class="plabel">📷 現状外観（清心堂）</div>
+      </div>
+      <div class="pane after">
+        <img src="/static/futami/7530_after.jpg" alt="AIリノベ内装イメージ" loading="lazy">
+        <div class="plabel">✨ AI生成 内装イメージ</div>
+      </div>
+      <div class="arrow">↔</div>
+    </div>
+    <div class="cfoot">
+      <div class="pill"><span class="k">取得</span><span class="v">1,550万円</span></div>
+      <div class="pill"><span class="k">追加リノベ</span><span class="v">不要（即営業可）</span></div>
+      <div class="pill"><span class="k">JR二見浦駅</span><span class="v">550m</span></div>
+      <div class="pill"><span class="k">想定単価</span><span class="v">20,000〜35,000円/泊</span></div>
+      <div class="rev"><div class="rl">月間売上試算（稼働50%）</div><div class="rn">30〜52万円</div><div class="rs">回収期間 約4〜6年</div></div>
+    </div>
+    <div class="note"><strong>寸評:</strong> 8DK・568m²・薪ストーブ・中庭。リフォーム済みで<strong>購入翌月からAirbnb掲載可能</strong>。資金に余裕があれば最速で収益化できる唯一の物件。</div>
+  </div>
+
+  <!-- #3 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="rank r3">3</div>
+      <div class="ctitle">
+        <h3>6-15 二見町江 <span class="stars">★★★☆☆</span></h3>
+        <div class="addr">伊勢市二見町江 ｜ 伊勢市空き家バンク ｜ 木造2F 106m² ｜ 築年不詳（古め）</div>
+      </div>
+      <div class="price"><div class="num">370万円</div><div class="sub">土地 197m²</div></div>
+    </div>
+    <div class="scores">
+      <div class="stotal"><div class="n">72</div><div class="l">/ 100点</div></div>
+      <div class="sbars">
+        <div class="srow"><span class="sl">立地（参道・夫婦岩）</span><div class="bg"><div class="fill" style="width:73%"></div></div><span class="sv">22/30</span></div>
+        <div class="srow"><span class="sl">取得コストの安さ</span><div class="bg"><div class="fill" style="width:75%"></div></div><span class="sv">15/20</span></div>
+        <div class="srow"><span class="sl">広さ対価格</span><div class="bg"><div class="fill" style="width:65%"></div></div><span class="sv">13/20</span></div>
+        <div class="srow"><span class="sl">民泊ポテンシャル</span><div class="bg"><div class="fill" style="width:75%"></div></div><span class="sv">15/20</span></div>
+        <div class="srow"><span class="sl">利便性（駅・道路）</span><div class="bg"><div class="fill" style="width:70%"></div></div><span class="sv">7/10</span></div>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="pane before">
+        <img src="/static/futami/6-15_before.png" alt="現状外観" loading="lazy">
+        <div class="plabel">📷 現状（空き家バンク）</div>
+      </div>
+      <div class="pane after">
+        <img src="/static/futami/6-15_after.jpg" alt="AIリノベ後イメージ" loading="lazy">
+        <div class="plabel">✨ AI生成リノベ後</div>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="cfoot">
+      <div class="pill"><span class="k">取得</span><span class="v">370万円</span></div>
+      <div class="pill"><span class="k">リノベ想定</span><span class="v">500〜800万円</span></div>
+      <div class="pill"><span class="k">合計投資</span><span class="v">870〜1,170万円</span></div>
+      <div class="pill"><span class="k">想定単価</span><span class="v">18,000〜25,000円/泊</span></div>
+      <div class="rev"><div class="rl">月間売上試算（稼働50%）</div><div class="rn">27〜37万円</div><div class="rs">回収期間 約3〜5年</div></div>
+    </div>
+    <div class="note"><strong>寸評:</strong> 106m²の広さで家族・グループ向け。江地区は駅〜夫婦岩の中間で立地バランス良。リノベ込み1,000万以下で高品質古民家Airbnbが作れる。</div>
+  </div>
+
+  <!-- #4 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="rank r4">4</div>
+      <div class="ctitle">
+        <h3>ko-7269 二見町（二見ヶ浦近く） <span class="stars">★★★☆☆</span></h3>
+        <div class="addr">伊勢市二見町 ｜ 清心堂 ｜ 木造平屋 51m² ｜ 築平成3年(1991)</div>
+      </div>
+      <div class="price"><div class="num">600万円</div><div class="sub">土地 219m²</div></div>
+    </div>
+    <div class="scores">
+      <div class="stotal"><div class="n" style="color:#7aade0">67</div><div class="l">/ 100点</div></div>
+      <div class="sbars">
+        <div class="srow"><span class="sl">立地（参道・夫婦岩）</span><div class="bg"><div class="fill" style="width:73%"></div></div><span class="sv">22/30</span></div>
+        <div class="srow"><span class="sl">取得コストの安さ</span><div class="bg"><div class="fill" style="width:70%"></div></div><span class="sv">14/20</span></div>
+        <div class="srow"><span class="sl">広さ対価格</span><div class="bg"><div class="fill" style="width:50%"></div></div><span class="sv">10/20</span></div>
+        <div class="srow"><span class="sl">民泊ポテンシャル</span><div class="bg"><div class="fill" style="width:70%"></div></div><span class="sv">14/20</span></div>
+        <div class="srow"><span class="sl">利便性（駅・道路）</span><div class="bg"><div class="fill" style="width:70%"></div></div><span class="sv">7/10</span></div>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="pane before">
+        <img src="/static/futami/7269_before.jpg" alt="現状外観" loading="lazy">
+        <div class="plabel">📷 現状（清心堂）</div>
+      </div>
+      <div class="pane after">
+        <img src="/static/futami/7269_after.jpg" alt="AIリノベ後イメージ" loading="lazy">
+        <div class="plabel">✨ AI生成リノベ後</div>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="cfoot">
+      <div class="pill"><span class="k">取得</span><span class="v">600万円</span></div>
+      <div class="pill"><span class="k">スタイル</span><span class="v">カップル・2名特化</span></div>
+      <div class="pill"><span class="k">想定単価</span><span class="v">12,000〜18,000円/泊</span></div>
+      <div class="rev"><div class="rl">月間売上試算（稼働50%）</div><div class="rn">18〜27万円</div><div class="rs">回収期間 約4〜6年</div></div>
+    </div>
+    <div class="note"><strong>寸評:</strong> 二見ヶ浦目の前・海沿い散歩コースの最高ロケーション。51m²は小さいが<strong>「禊の宿」「伊勢詣での2人旅」</strong>コンセプトで差別化できる。</div>
+  </div>
+
+  <!-- #5 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="rank r5">5</div>
+      <div class="ctitle">
+        <h3>7-19 二見町今一色 <span class="stars">★★★☆☆</span></h3>
+        <div class="addr">伊勢市二見町今一色 ｜ 伊勢市空き家バンク ｜ 木造2F 94m² ｜ 築昭和40年(1965) ｜ ⚠️ 内見保留中（2026年8月まで）</div>
+      </div>
+      <div class="price"><div class="num">90万円</div><div class="sub">土地 181m²</div></div>
+    </div>
+    <div class="scores">
+      <div class="stotal"><div class="n" style="color:#7aade0">63</div><div class="l">/ 100点</div></div>
+      <div class="sbars">
+        <div class="srow"><span class="sl">立地（参道・夫婦岩）</span><div class="bg"><div class="fill" style="width:50%"></div></div><span class="sv">15/30</span></div>
+        <div class="srow"><span class="sl">取得コストの安さ</span><div class="bg"><div class="fill" style="width:100%"></div></div><span class="sv">20/20</span></div>
+        <div class="srow"><span class="sl">広さ対価格</span><div class="bg"><div class="fill" style="width:60%"></div></div><span class="sv">12/20</span></div>
+        <div class="srow"><span class="sl">民泊ポテンシャル</span><div class="bg"><div class="fill" style="width:50%"></div></div><span class="sv">10/20</span></div>
+        <div class="srow"><span class="sl">利便性（駅・道路）</span><div class="bg"><div class="fill" style="width:60%"></div></div><span class="sv">6/10</span></div>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="pane before">
+        <img src="/static/futami/7-19_before.png" alt="現状外観" loading="lazy">
+        <div class="plabel">📷 現状（空き家バンク）</div>
+      </div>
+      <div class="pane after">
+        <img src="/static/futami/7-19_after.jpg" alt="AIリノベ後イメージ" loading="lazy">
+        <div class="plabel">✨ AI生成リノベ後</div>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="cfoot">
+      <div class="pill"><span class="k">取得</span><span class="v">90万円</span></div>
+      <div class="pill"><span class="k">リノベ想定</span><span class="v">400〜700万円</span></div>
+      <div class="pill"><span class="k">合計投資</span><span class="v">490〜790万円</span></div>
+      <div class="pill"><span class="k">⚠️ 内見</span><span class="v">2026年8月以降</span></div>
+      <div class="rev"><div class="rl">月間売上試算（稼働40%）</div><div class="rn">18〜24万円</div><div class="rs">回収期間 約3〜5年</div></div>
+    </div>
+    <div class="note"><strong>寸評:</strong> 90万・94m²は価格帯で最高コスパ。夫婦岩からは距離があるが、長期滞在・ワーケーション向けとして差別化する手もある。2026年8月まで内見不可なのでウォッチリストに。</div>
+  </div>
+
+  <div class="notice">
+    <strong>📌 表参道（茶屋地区）について</strong><br>
+    二見の「表参道」= 二見浦駅〜二見興玉神社の<strong>二見町茶屋エリア</strong>は旅館・土産店が点在する一等地。現在の公開リストには未掲載だが、<strong>伊勢市住宅政策課（0596-21-5597）</strong>に直接「茶屋地区が出たら連絡ほしい」と登録するのが最速。
+  </div>
+</div>
+
+<footer>
+  <p>情報出典: <a href="https://www.city.ise.mie.jp/kurashi/hikkoshi_sumai/akiya/bank/baibai/index.html" target="_blank">伊勢市空き家バンク</a> / <a href="https://www.seishindo.jp/coat/" target="_blank">清心堂</a> / AIリノベ画像は Gemini で生成した参考イメージです</p>
+  <p style="margin-top:6px">本ページは公開情報をもとに作成した参考資料です。物件詳細・価格は変動します。必ず現地確認・専門家への相談を行ってください。Generated 2026-05-05</p>
+  <p style="margin-top:8px"><a href="https://enablerdao.com">← enablerdao.com</a></p>
+</footer>
+</body>
+</html>
