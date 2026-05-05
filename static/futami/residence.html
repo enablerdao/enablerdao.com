@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>禊浜レジデンス — 建築設計概要書</title>
+<style>
+/* ── GLOBAL ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:#f8f6f2;color:#1a1208;line-height:1.7;font-size:12pt;}
+
+/* ── COVER ── */
+.cover{width:210mm;height:297mm;position:relative;overflow:hidden;background:#0e0c0a;display:flex;flex-direction:column;justify-content:flex-end;page-break-after:always;}
+.cover-img{position:absolute;inset:0;background:url('https://enablerdao.com/static/futami/res_exterior.jpg') center/cover no-repeat;opacity:.7;}
+.cover-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,12,10,.98) 0%,rgba(14,12,10,.4) 60%,transparent 100%);}
+.cover-body{position:relative;z-index:2;padding:40px 48px 56px;}
+.cover-badge{display:inline-block;border:1px solid #c4973e;color:#c4973e;font-size:9pt;letter-spacing:4px;padding:5px 14px;margin-bottom:28px;}
+.cover-title{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:36pt;font-weight:400;color:#f2ece0;letter-spacing:.12em;line-height:1.15;margin-bottom:8px;}
+.cover-en{font-size:11pt;letter-spacing:5px;color:#9a8a72;margin-bottom:32px;}
+.cover-specs{display:grid;grid-template-columns:1fr 1fr;gap:16px 32px;border-top:1px solid #2e2618;padding-top:24px;}
+.cover-spec dt{font-size:8pt;letter-spacing:3px;color:#c4973e;margin-bottom:3px;}
+.cover-spec dd{font-size:12pt;color:#f2ece0;font-weight:500;}
+
+/* ── SECTION PAGES ── */
+.page{width:210mm;min-height:297mm;padding:24mm 20mm 20mm;background:#fff;page-break-after:always;position:relative;}
+.page-light{background:#f8f6f2;}
+.page-dark{background:#0e0c0a;color:#f2ece0;}
+.page-stamp{position:absolute;top:16mm;right:20mm;font-size:8pt;color:#9a8a72;letter-spacing:2px;text-align:right;line-height:1.8;}
+.page-num{position:absolute;bottom:14mm;right:20mm;font-size:8pt;color:#aaa;letter-spacing:2px;}
+
+/* ── TYPOGRAPHY ── */
+.eyebrow{font-size:8pt;letter-spacing:4px;color:#c4973e;margin-bottom:8px;text-transform:uppercase;}
+.sec-title{font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:22pt;font-weight:400;letter-spacing:.08em;margin-bottom:10px;line-height:1.25;}
+.sec-sub{font-size:10pt;color:#6a5a42;margin-bottom:24px;line-height:1.8;}
+h3{font-size:13pt;font-weight:600;margin-bottom:8px;letter-spacing:.05em;}
+h4{font-size:11pt;font-weight:600;margin-bottom:6px;color:#3a2a1a;}
+p{font-size:10pt;color:#4a3a2a;line-height:1.8;margin-bottom:8px;}
+.note{font-size:8pt;color:#9a8a72;font-style:italic;}
+
+/* ── DRAWING STYLES ── */
+.drawing-wrap{border:1px solid #d0c8b8;background:#fff;margin-bottom:12px;}
+.drawing-title-bar{background:#1a160f;color:#f2ece0;font-size:9pt;letter-spacing:3px;padding:6px 14px;display:flex;justify-content:space-between;}
+svg text{font-family:'Hiragino Kaku Gothic ProN',sans-serif;}
+
+/* ── TABLES ── */
+table{width:100%;border-collapse:collapse;font-size:10pt;margin-bottom:16px;}
+th{background:#1a160f;color:#f2ece0;padding:7px 12px;text-align:left;font-size:9pt;letter-spacing:1px;font-weight:500;}
+td{padding:7px 12px;border-bottom:1px solid #e0d8cc;}
+tr:nth-child(even) td{background:#f4f0e8;}
+.td-right{text-align:right;}
+.td-center{text-align:center;}
+.td-gold{color:#c4973e;font-weight:600;}
+
+/* ── UNIT CARDS ── */
+.unit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;}
+.unit-card{border:1px solid #d0c8b8;padding:14px;}
+.unit-tag{font-size:8pt;letter-spacing:3px;color:#c4973e;margin-bottom:6px;}
+.unit-name{font-size:14pt;font-family:'Hiragino Mincho ProN',serif;margin-bottom:4px;}
+.unit-price{font-size:18pt;font-weight:300;color:#c4973e;margin-bottom:8px;}
+.unit-detail{font-size:9pt;color:#6a5a42;line-height:1.7;}
+
+/* ── PHOTO ── */
+.photo-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.photo-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;}
+.photo-wrap{position:relative;overflow:hidden;}
+.photo-wrap img{width:100%;display:block;object-fit:cover;}
+.photo-cap{font-size:8pt;color:#6a5a42;margin-top:4px;letter-spacing:1px;}
+
+/* ── KPI ── */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+.kpi{background:#1a160f;padding:16px 14px;}
+.kpi .n{font-size:22pt;font-weight:300;color:#c4973e;line-height:1;}
+.kpi .unit{font-size:10pt;}
+.kpi .label{font-size:8pt;letter-spacing:2px;color:#9a8a72;margin-top:4px;}
+
+/* ── REVENUE TABLE ── */
+.rev-total{background:#1a160f;color:#f2ece0;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.rev-total .t{font-size:9pt;letter-spacing:2px;color:#9a8a72;}
+.rev-total .v{font-size:20pt;font-weight:300;color:#c4973e;}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  @page{size:A4;margin:0;}
+  .page,.cover{page-break-after:always;}
+  body{background:#fff;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+  P1: COVER
+══════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-img"></div>
+  <div class="cover-overlay"></div>
+  <div class="cover-body">
+    <div class="cover-badge">ARCHITECTURAL DESIGN BRIEF — CONFIDENTIAL</div>
+    <div class="cover-title">禊浜レジデンス</div>
+    <div class="cover-en">MISOGIHAMA RESIDENCES</div>
+    <dl class="cover-specs">
+      <div class="cover-spec"><dt>所在地</dt><dd>三重県伊勢市二見町 夫婦岩周辺海岸</dd></div>
+      <div class="cover-spec"><dt>用途</dt><dd>共同住宅（分譲レジデンス）</dd></div>
+      <div class="cover-spec"><dt>規模</dt><dd>地上3階建 / 全20戸</dd></div>
+      <div class="cover-spec"><dt>敷地面積</dt><dd>1,800.00 ㎡</dd></div>
+      <div class="cover-spec"><dt>延床面積</dt><dd>2,720.00 ㎡</dd></div>
+      <div class="cover-spec"><dt>設計コンセプト</dt><dd>Aman型 聖地レジデンス</dd></div>
+      <div class="cover-spec"><dt>想定販売総額</dt><dd>約 ¥82億</dd></div>
+      <div class="cover-spec"><dt>作成日</dt><dd>2026年5月</dd></div>
+    </dl>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P2: SITE OVERVIEW / 敷地概要
+══════════════════════════════════════════ -->
+<div class="page page-light">
+  <div class="page-stamp">MISOGIHAMA RESIDENCES<br>敷地・法規概要</div>
+  <div class="page-num">— 2 —</div>
+
+  <p class="eyebrow">SITE &amp; REGULATORY OVERVIEW</p>
+  <h2 class="sec-title">敷地・法規制概要</h2>
+  <p class="sec-sub">三重県伊勢市二見町。伊勢志摩国立公園内、国指定名勝「二見浦」に隣接する海岸沿い敷地を想定。</p>
+
+  <table>
+    <tr><th colspan="2">敷地・法規制チェックリスト</th></tr>
+    <tr><td>所在地</td><td>三重県伊勢市二見町 夫婦岩周辺（二見興玉神社北側海岸）</td></tr>
+    <tr><td>地目</td><td>宅地（一部雑種地）</td></tr>
+    <tr><td>敷地面積</td><td><strong>1,800.00 ㎡</strong>（取得想定価格 約¥1,940万 ＠10,800円/㎡）</td></tr>
+    <tr><td>用途地域</td><td>白地地域（市街化調整区域外・用途地域指定なし）</td></tr>
+    <tr><td>建蔽率</td><td><strong>60%</strong>（最大建築面積 1,080㎡）</td></tr>
+    <tr><td>容積率</td><td><strong>200%</strong>（最大延床面積 3,600㎡）</td></tr>
+    <tr><td>防火地域</td><td>準防火地域外（二見地区）</td></tr>
+    <tr><td>高さ制限</td><td>伊勢志摩国立公園 普通地域 — 建築物高さ10m以下（想定）</td></tr>
+    <tr><td>海岸保全区域</td><td>海岸線より後退距離 最低20m確保（海岸保全区域法）</td></tr>
+    <tr><td>景観条例</td><td>伊勢市景観計画 — 外装色彩・素材に制限あり（自然色系・石材推奨）</td></tr>
+    <tr><td>国立公園規制</td><td>伊勢志摩国立公園 普通地域 — 工作物新築は知事許可要</td></tr>
+    <tr><td>名勝保護</td><td>国指定名勝「二見浦」隣接 — 文化庁への現状変更許可申請要</td></tr>
+  </table>
+
+  <!-- SITE PLAN SVG -->
+  <div class="drawing-wrap">
+    <div class="drawing-title-bar">
+      <span>配置図 SITE PLAN</span>
+      <span>縮尺 S=1:500</span>
+    </div>
+    <svg viewBox="0 0 520 320" style="width:100%;display:block;background:#f4f0e8;">
+      <!-- Sea -->
+      <rect x="0" y="0" width="520" height="120" fill="#b8d8e8" opacity=".5"/>
+      <text x="260" y="55" text-anchor="middle" font-size="11" fill="#3a6b8a" letter-spacing="3">太 　平 　洋</text>
+
+      <!-- Shore line -->
+      <path d="M0,115 Q130,108 260,118 Q390,128 520,115" stroke="#3a6b8a" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+      <text x="10" y="128" font-size="8" fill="#6a9aba">海岸線</text>
+
+      <!-- Meoto Iwa -->
+      <ellipse cx="70" cy="70" rx="18" ry="22" fill="#8a7a6a" opacity=".8"/>
+      <ellipse cx="100" cy="65" rx="14" ry="18" fill="#8a7a6a" opacity=".8"/>
+      <path d="M88,52 Q85,42 82,52" stroke="#8a7a6a" stroke-width="1.5" fill="none"/>
+      <text x="85" y="98" text-anchor="middle" font-size="9" fill="#4a3a2a">夫婦岩</text>
+
+      <!-- Sea setback line -->
+      <line x1="0" y1="138" x2="520" y2="138" stroke="#e74c3c" stroke-width="1" stroke-dasharray="8,4"/>
+      <text x="10" y="148" font-size="8" fill="#e74c3c">後退線（海岸より20m）</text>
+
+      <!-- Site boundary -->
+      <rect x="160" y="150" width="200" height="130" fill="#e8d8a0" stroke="#c4973e" stroke-width="2"/>
+      <text x="260" y="200" text-anchor="middle" font-size="11" fill="#6a4a10" font-weight="bold">敷地境界</text>
+      <text x="260" y="216" text-anchor="middle" font-size="10" fill="#6a4a10">1,800 ㎡</text>
+
+      <!-- Building footprint -->
+      <rect x="180" y="165" width="160" height="100" fill="#c4973e" opacity=".35" stroke="#c4973e" stroke-width="1.5"/>
+      <text x="260" y="213" text-anchor="middle" font-size="9" fill="#6a3a00" font-weight="bold">建築面積 900㎡</text>
+      <text x="260" y="226" text-anchor="middle" font-size="8" fill="#8a5a10">（建蔽率 50%）</text>
+
+      <!-- Entrance approach -->
+      <rect x="245" y="278" width="30" height="22" fill="#a0906a" opacity=".5"/>
+      <text x="260" y="293" text-anchor="middle" font-size="8" fill="#4a3a2a">エントランス</text>
+
+      <!-- Road -->
+      <rect x="0" y="290" width="520" height="30" fill="#d8d0c0" opacity=".7"/>
+      <text x="260" y="310" text-anchor="middle" font-size="10" fill="#6a5a42" letter-spacing="4">町 　 道</text>
+
+      <!-- Compass -->
+      <g transform="translate(480,175)">
+        <line x1="0" y1="-18" x2="0" y2="18" stroke="#4a3a2a" stroke-width="1.5"/>
+        <line x1="-18" y1="0" x2="18" y2="0" stroke="#4a3a2a" stroke-width="1.5"/>
+        <polygon points="0,-18 -5,-8 0,-12 5,-8" fill="#c4973e"/>
+        <text x="0" y="-22" text-anchor="middle" font-size="10" fill="#c4973e" font-weight="bold">N</text>
+        <text x="0" y="30" text-anchor="middle" font-size="8" fill="#4a3a2a">S</text>
+        <text x="24" y="4" font-size="8" fill="#4a3a2a">E</text>
+        <text x="-30" y="4" font-size="8" fill="#4a3a2a">W</text>
+      </g>
+
+      <!-- Dimension lines -->
+      <line x1="160" y1="145" x2="360" y2="145" stroke="#666" stroke-width="1"/>
+      <line x1="160" y1="141" x2="160" y2="149" stroke="#666" stroke-width="1"/>
+      <line x1="360" y1="141" x2="360" y2="149" stroke="#666" stroke-width="1"/>
+      <text x="260" y="143" text-anchor="middle" font-size="8" fill="#444">45.00m</text>
+
+      <line x1="155" y1="150" x2="155" y2="280" stroke="#666" stroke-width="1"/>
+      <line x1="151" y1="150" x2="159" y2="150" stroke="#666" stroke-width="1"/>
+      <line x1="151" y1="280" x2="159" y2="280" stroke="#666" stroke-width="1"/>
+      <text x="148" y="215" text-anchor="middle" font-size="8" fill="#444" transform="rotate(-90,148,215)">40.00m</text>
+    </svg>
+  </div>
+  <p class="note">※ 図面は概念的なものであり、実際の測量・調査が必要です。海岸保全区域・国立公園規制の詳細は伊勢市建築課・三重県自然環境室への確認が必須。</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P3: FLOOR PLANS 1F
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-stamp">MISOGIHAMA RESIDENCES<br>1階平面図</div>
+  <div class="page-num">— 3 —</div>
+
+  <p class="eyebrow">FLOOR PLAN — GROUND FLOOR</p>
+  <h2 class="sec-title">1階平面図</h2>
+
+  <div class="drawing-wrap">
+    <div class="drawing-title-bar">
+      <span>1F 平面図 GROUND FLOOR PLAN</span>
+      <span>縮尺 S=1:200</span>
+    </div>
+    <svg viewBox="0 0 680 420" style="width:100%;display:block;background:#fafaf8;">
+      <!-- Outer walls -->
+      <rect x="40" y="30" width="600" height="360" fill="none" stroke="#1a160f" stroke-width="3"/>
+
+      <!-- North corridor (ocean side) -->
+      <rect x="40" y="30" width="600" height="50" fill="#e8f4f8" stroke="#1a160f" stroke-width="1"/>
+      <text x="340" y="60" text-anchor="middle" font-size="10" fill="#3a6b8a" letter-spacing="2">共用廊下（北側・オーシャンビュー）</text>
+
+      <!-- South corridor -->
+      <rect x="40" y="340" width="600" height="50" fill="#f4f0e8" stroke="#1a160f" stroke-width="1"/>
+      <text x="340" y="370" text-anchor="middle" font-size="10" fill="#6a5a42">共用廊下（南側）</text>
+
+      <!-- Entrance lobby -->
+      <rect x="40" y="80" width="120" height="260" fill="#ede5d0" stroke="#1a160f" stroke-width="1.5"/>
+      <text x="100" y="185" text-anchor="middle" font-size="11" fill="#4a3a2a" font-weight="bold">エントランス</text>
+      <text x="100" y="200" text-anchor="middle" font-size="10" fill="#4a3a2a">ロビー</text>
+      <text x="100" y="220" text-anchor="middle" font-size="9" fill="#9a8a72">65㎡</text>
+
+      <!-- Concierge -->
+      <rect x="50" y="290" width="100" height="40" fill="#d4c8a0" stroke="#1a160f" stroke-width="1"/>
+      <text x="100" y="315" text-anchor="middle" font-size="9" fill="#4a3a2a">コンシェルジュ</text>
+
+      <!-- Units 1F -->
+      <!-- Unit A1 -->
+      <rect x="160" y="80" width="120" height="130" fill="#fff8e8" stroke="#1a160f" stroke-width="1.5"/>
+      <rect x="160" y="30" width="120" height="50" fill="#ddeeff" stroke="#6aabcc" stroke-width="1"/>
+      <text x="220" y="55" text-anchor="middle" font-size="8" fill="#3a6b8a">プライベートテラス</text>
+      <text x="220" y="130" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">A-101</text>
+      <text x="220" y="148" text-anchor="middle" font-size="9" fill="#9a8a72">Type A / 70㎡</text>
+      <text x="220" y="165" text-anchor="middle" font-size="9" fill="#9a8a72">1LDK+S</text>
+
+      <!-- Unit A2 -->
+      <rect x="280" y="80" width="120" height="130" fill="#fff8e8" stroke="#1a160f" stroke-width="1.5"/>
+      <rect x="280" y="30" width="120" height="50" fill="#ddeeff" stroke="#6aabcc" stroke-width="1"/>
+      <text x="340" y="55" text-anchor="middle" font-size="8" fill="#3a6b8a">プライベートテラス</text>
+      <text x="340" y="130" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">A-102</text>
+      <text x="340" y="148" text-anchor="middle" font-size="9" fill="#9a8a72">Type A / 70㎡</text>
+      <text x="340" y="165" text-anchor="middle" font-size="9" fill="#9a8a72">1LDK+S</text>
+
+      <!-- Unit B1 -->
+      <rect x="400" y="80" width="160" height="130" fill="#fdf5e0" stroke="#c4973e" stroke-width="1.5"/>
+      <rect x="400" y="30" width="160" height="50" fill="#ddeeff" stroke="#6aabcc" stroke-width="1"/>
+      <text x="480" y="55" text-anchor="middle" font-size="8" fill="#3a6b8a">プライベートテラス＋プランジプール</text>
+      <text x="480" y="130" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">B-101</text>
+      <text x="480" y="148" text-anchor="middle" font-size="9" fill="#c4973e">Type B / 100㎡</text>
+      <text x="480" y="165" text-anchor="middle" font-size="9" fill="#9a8a72">2LDK</text>
+
+      <!-- Unit B2 (lower) -->
+      <rect x="160" y="210" width="160" height="130" fill="#fdf5e0" stroke="#c4973e" stroke-width="1.5"/>
+      <text x="240" y="270" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">B-102</text>
+      <text x="240" y="288" text-anchor="middle" font-size="9" fill="#c4973e">Type B / 100㎡</text>
+      <text x="240" y="305" text-anchor="middle" font-size="9" fill="#9a8a72">2LDK（南向き）</text>
+
+      <!-- Stairs / EV -->
+      <rect x="320" y="180" width="80" height="80" fill="#e8e0d0" stroke="#1a160f" stroke-width="1.5"/>
+      <text x="360" y="215" text-anchor="middle" font-size="9" fill="#4a3a2a">EV</text>
+      <text x="360" y="230" text-anchor="middle" font-size="9" fill="#4a3a2a">階段室</text>
+
+      <!-- Mechanical / Storage -->
+      <rect x="400" y="210" width="80" height="130" fill="#ede8e0" stroke="#1a160f" stroke-width="1"/>
+      <text x="440" y="272" text-anchor="middle" font-size="9" fill="#9a8a72">設備室</text>
+      <text x="440" y="288" text-anchor="middle" font-size="9" fill="#9a8a72">トランク</text>
+
+      <!-- Unit A3 (South) -->
+      <rect x="480" y="210" width="160" height="130" fill="#fff8e8" stroke="#1a160f" stroke-width="1.5"/>
+      <text x="560" y="270" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">A-103</text>
+      <text x="560" y="288" text-anchor="middle" font-size="9" fill="#9a8a72">Type A / 70㎡</text>
+      <text x="560" y="305" text-anchor="middle" font-size="9" fill="#9a8a72">1LDK+S</text>
+
+      <!-- Direction labels -->
+      <text x="340" y="20" text-anchor="middle" font-size="10" fill="#3a6b8a" font-weight="bold">北（海・夫婦岩方向）↑</text>
+      <text x="340" y="410" text-anchor="middle" font-size="10" fill="#6a5a42">南（道路・参道方向）</text>
+
+      <!-- Scale bar -->
+      <line x1="550" y1="405" x2="640" y2="405" stroke="#444" stroke-width="1.5"/>
+      <line x1="550" y1="401" x2="550" y2="409" stroke="#444" stroke-width="1.5"/>
+      <line x1="595" y1="401" x2="595" y2="409" stroke="#444" stroke-width="1.5"/>
+      <line x1="640" y1="401" x2="640" y2="409" stroke="#444" stroke-width="1.5"/>
+      <text x="572" y="399" text-anchor="middle" font-size="7" fill="#444">10m</text>
+      <text x="617" y="399" text-anchor="middle" font-size="7" fill="#444">20m</text>
+    </svg>
+  </div>
+
+  <table style="font-size:9pt;">
+    <tr><th>住戸番号</th><th>タイプ</th><th>専有面積</th><th>間取り</th><th>向き</th><th>テラス</th></tr>
+    <tr><td>A-101</td><td>Type A</td><td>70.00 ㎡</td><td>1LDK+S</td><td>北（オーシャン）</td><td>18.0 ㎡</td></tr>
+    <tr><td>A-102</td><td>Type A</td><td>70.00 ㎡</td><td>1LDK+S</td><td>北（オーシャン）</td><td>18.0 ㎡</td></tr>
+    <tr><td>A-103</td><td>Type A</td><td>70.00 ㎡</td><td>1LDK+S</td><td>南</td><td>12.0 ㎡</td></tr>
+    <tr><td>B-101</td><td>Type B</td><td>100.00 ㎡</td><td>2LDK</td><td>北（オーシャン）</td><td>32.0 ㎡＋プール</td></tr>
+    <tr><td>B-102</td><td>Type B</td><td>100.00 ㎡</td><td>2LDK</td><td>南</td><td>20.0 ㎡</td></tr>
+    <tr><td colspan="5" class="td-right" style="color:#9a8a72;font-size:9pt;">1F 住戸数合計</td><td><strong>5戸</strong></td></tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P4: FLOOR PLANS 2F
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-stamp">MISOGIHAMA RESIDENCES<br>2階平面図</div>
+  <div class="page-num">— 4 —</div>
+
+  <p class="eyebrow">FLOOR PLAN — 2ND FLOOR</p>
+  <h2 class="sec-title">2階平面図</h2>
+
+  <div class="drawing-wrap">
+    <div class="drawing-title-bar">
+      <span>2F 平面図 SECOND FLOOR PLAN</span>
+      <span>縮尺 S=1:200</span>
+    </div>
+    <svg viewBox="0 0 680 420" style="width:100%;display:block;background:#fafaf8;">
+      <rect x="40" y="30" width="600" height="360" fill="none" stroke="#1a160f" stroke-width="3"/>
+
+      <!-- North balcony strip -->
+      <rect x="40" y="30" width="600" height="40" fill="#ddeeff" stroke="#6aabcc" stroke-width="1"/>
+      <text x="340" y="55" text-anchor="middle" font-size="9" fill="#3a6b8a">各戸プライベートバルコニー（北側）</text>
+
+      <!-- South corridor -->
+      <rect x="40" y="340" width="600" height="50" fill="#f4f0e8" stroke="#1a160f" stroke-width="1"/>
+      <text x="340" y="368" text-anchor="middle" font-size="10" fill="#6a5a42">共用廊下（南側）</text>
+
+      <!-- EV / Stairs core -->
+      <rect x="295" y="160" width="90" height="90" fill="#e8e0d0" stroke="#1a160f" stroke-width="1.5"/>
+      <text x="340" y="200" text-anchor="middle" font-size="9" fill="#4a3a2a">EV・階段</text>
+      <text x="340" y="215" text-anchor="middle" font-size="9" fill="#9a8a72">コア</text>
+
+      <!-- Type A units (North) -->
+      <rect x="40" y="70" width="120" height="145" fill="#fff8e8" stroke="#1a160f" stroke-width="1.5"/>
+      <text x="100" y="140" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">A-201</text>
+      <text x="100" y="158" text-anchor="middle" font-size="9" fill="#9a8a72">70㎡ / 1LDK+S</text>
+
+      <rect x="160" y="70" width="135" height="145" fill="#fff8e8" stroke="#1a160f" stroke-width="1.5"/>
+      <text x="227" y="140" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">A-202</text>
+      <text x="227" y="158" text-anchor="middle" font-size="9" fill="#9a8a72">70㎡ / 1LDK+S</text>
+
+      <!-- Type B units (North) -->
+      <rect x="385" y="70" width="130" height="145" fill="#fdf5e0" stroke="#c4973e" stroke-width="1.5"/>
+      <text x="450" y="140" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">B-201</text>
+      <text x="450" y="158" text-anchor="middle" font-size="9" fill="#c4973e">100㎡ / 2LDK</text>
+
+      <rect x="515" y="70" width="125" height="145" fill="#fdf5e0" stroke="#c4973e" stroke-width="1.5"/>
+      <text x="577" y="140" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">B-202</text>
+      <text x="577" y="158" text-anchor="middle" font-size="9" fill="#c4973e">100㎡ / 2LDK</text>
+
+      <!-- South units -->
+      <rect x="40" y="215" width="255" height="125" fill="#fdf5e0" stroke="#c4973e" stroke-width="1.5"/>
+      <text x="167" y="275" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">B-203</text>
+      <text x="167" y="293" text-anchor="middle" font-size="9" fill="#c4973e">100㎡ / 2LDK（南向き）</text>
+
+      <rect x="385" y="215" width="255" height="125" fill="#fdf5e0" stroke="#c4973e" stroke-width="1.5"/>
+      <text x="512" y="275" text-anchor="middle" font-size="10" fill="#4a3a2a" font-weight="bold">B-204</text>
+      <text x="512" y="293" text-anchor="middle" font-size="9" fill="#c4973e">100㎡ / 2LDK（南向き）</text>
+
+      <!-- Shared garden terrace -->
+      <rect x="160" y="215" width="135" height="60" fill="#d4e8d0" stroke="#2ecc71" stroke-width="1"/>
+      <text x="227" y="242" text-anchor="middle" font-size="9" fill="#2a6a2a">共用ガーデン</text>
+      <text x="227" y="255" text-anchor="middle" font-size="8" fill="#2a6a2a">テラス 35㎡</text>
+
+      <text x="340" y="20" text-anchor="middle" font-size="10" fill="#3a6b8a" font-weight="bold">北（海・夫婦岩方向）↑</text>
+    </svg>
+  </div>
+
+  <table style="font-size:9pt;">
+    <tr><th>住戸番号</th><th>タイプ</th><th>専有面積</th><th>間取り</th><th>向き</th><th>バルコニー</th></tr>
+    <tr><td>A-201</td><td>Type A</td><td>70.00 ㎡</td><td>1LDK+S</td><td>北（オーシャン）</td><td>14.0 ㎡</td></tr>
+    <tr><td>A-202</td><td>Type A</td><td>70.00 ㎡</td><td>1LDK+S</td><td>北（オーシャン）</td><td>14.0 ㎡</td></tr>
+    <tr><td>B-201</td><td>Type B</td><td>100.00 ㎡</td><td>2LDK</td><td>北（オーシャン）</td><td>22.0 ㎡</td></tr>
+    <tr><td>B-202</td><td>Type B</td><td>100.00 ㎡</td><td>2LDK</td><td>北（オーシャン）</td><td>22.0 ㎡</td></tr>
+    <tr><td>B-203</td><td>Type B</td><td>100.00 ㎡</td><td>2LDK</td><td>南</td><td>16.0 ㎡</td></tr>
+    <tr><td>B-204</td><td>Type B</td><td>100.00 ㎡</td><td>2LDK</td><td>南</td><td>16.0 ㎡</td></tr>
+    <tr><td colspan="5" class="td-right" style="color:#9a8a72;font-size:9pt;">2F 住戸数合計</td><td><strong>6戸</strong></td></tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P5: FLOOR PLANS 3F PENTHOUSE
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-stamp">MISOGIHAMA RESIDENCES<br>3階平面図（ペントハウス）</div>
+  <div class="page-num">— 5 —</div>
+
+  <p class="eyebrow">FLOOR PLAN — PENTHOUSE</p>
+  <h2 class="sec-title">3階平面図（ペントハウス階）</h2>
+
+  <div class="drawing-wrap">
+    <div class="drawing-title-bar">
+      <span>3F 平面図 PENTHOUSE FLOOR PLAN</span>
+      <span>縮尺 S=1:200</span>
+    </div>
+    <svg viewBox="0 0 680 420" style="width:100%;display:block;background:#fafaf8;">
+      <rect x="40" y="30" width="600" height="360" fill="none" stroke="#1a160f" stroke-width="3"/>
+
+      <!-- North terrace full width -->
+      <rect x="40" y="30" width="600" height="55" fill="#cce4f4" stroke="#4a9abf" stroke-width="1.5"/>
+      <text x="340" y="62" text-anchor="middle" font-size="10" fill="#3a6b8a" font-weight="bold">プライベートルーフテラス（全戸共有北向き — 夫婦岩一望）</text>
+
+      <!-- Penthouse C-301 (Large West) -->
+      <rect x="40" y="85" width="240" height="255" fill="#fef6e0" stroke="#c4973e" stroke-width="2"/>
+      <text x="160" y="185" text-anchor="middle" font-size="13" fill="#4a3a2a" font-weight="bold">C-301</text>
+      <text x="160" y="205" text-anchor="middle" font-size="11" fill="#c4973e">Type C / 150㎡</text>
+      <text x="160" y="225" text-anchor="middle" font-size="10" fill="#9a8a72">3LDK ペントハウス</text>
+      <text x="160" y="245" text-anchor="middle" font-size="9" fill="#c4973e">プランジプール付き</text>
+      <!-- Private pool indicator -->
+      <ellipse cx="160" cy="290" rx="40" ry="20" fill="#aad4e8" stroke="#4a9abf" stroke-width="1"/>
+      <text x="160" y="294" text-anchor="middle" font-size="8" fill="#3a6b8a">プール 4×2m</text>
+
+      <!-- EV / Core -->
+      <rect x="295" y="130" width="90" height="80" fill="#e8e0d0" stroke="#1a160f" stroke-width="1.5"/>
+      <text x="340" y="168" text-anchor="middle" font-size="9" fill="#4a3a2a">EV・階段</text>
+
+      <!-- Penthouse C-302 (Large East) -->
+      <rect x="400" y="85" width="240" height="255" fill="#fef6e0" stroke="#c4973e" stroke-width="2"/>
+      <text x="520" y="185" text-anchor="middle" font-size="13" fill="#4a3a2a" font-weight="bold">C-302</text>
+      <text x="520" y="205" text-anchor="middle" font-size="11" fill="#c4973e">Type C / 150㎡</text>
+      <text x="520" y="225" text-anchor="middle" font-size="10" fill="#9a8a72">3LDK ペントハウス</text>
+      <text x="520" y="245" text-anchor="middle" font-size="9" fill="#c4973e">プランジプール付き</text>
+      <ellipse cx="520" cy="290" rx="40" ry="20" fill="#aad4e8" stroke="#4a9abf" stroke-width="1"/>
+      <text x="520" y="294" text-anchor="middle" font-size="8" fill="#3a6b8a">プール 4×2m</text>
+
+      <!-- Shared rooftop access -->
+      <rect x="280" y="210" width="120" height="80" fill="#d4e8d4" stroke="#2ecc71" stroke-width="1.5"/>
+      <text x="340" y="248" text-anchor="middle" font-size="9" fill="#2a6a2a">屋上プール</text>
+      <text x="340" y="263" text-anchor="middle" font-size="8" fill="#2a6a2a">アクセス階段</text>
+
+      <!-- Sky terrace (south) -->
+      <rect x="40" y="340" width="600" height="50" fill="#eaf4e8" stroke="#2ecc71" stroke-width="1"/>
+      <text x="340" y="368" text-anchor="middle" font-size="10" fill="#2a6a2a">南側スカイテラス（共用）— コワーキング・瞑想スペース</text>
+
+      <text x="340" y="20" text-anchor="middle" font-size="10" fill="#3a6b8a" font-weight="bold">北（海・夫婦岩方向）↑</text>
+    </svg>
+  </div>
+
+  <table style="font-size:9pt;">
+    <tr><th>住戸番号</th><th>タイプ</th><th>専有面積</th><th>間取り</th><th>向き</th><th>専用テラス</th><th>プール</th></tr>
+    <tr><td>C-301</td><td class="td-gold">Type C</td><td>150.00 ㎡</td><td>3LDK</td><td>北/東（最上階全望）</td><td>45.0 ㎡</td><td>4×2m ×1</td></tr>
+    <tr><td>C-302</td><td class="td-gold">Type C</td><td>150.00 ㎡</td><td>3LDK</td><td>北/西（最上階全望）</td><td>45.0 ㎡</td><td>4×2m ×1</td></tr>
+    <tr><td colspan="6" class="td-right" style="color:#9a8a72;font-size:9pt;">3F 住戸数合計</td><td><strong>2戸</strong></td></tr>
+  </table>
+  <p class="note">※ 屋上（3F上）にレジデンス専用プールデッキ（25m インフィニティプール）、ラウンジパビリオンを設置。ホテル棟とは完全分離の専用エレベーターでアクセス。</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P6: ELEVATIONS / SECTION
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-stamp">MISOGIHAMA RESIDENCES<br>立面図・断面図</div>
+  <div class="page-num">— 6 —</div>
+
+  <p class="eyebrow">ELEVATIONS &amp; SECTION</p>
+  <h2 class="sec-title">立面図・断面図</h2>
+
+  <!-- North Elevation -->
+  <div class="drawing-wrap" style="margin-bottom:10px;">
+    <div class="drawing-title-bar">
+      <span>北立面図 NORTH ELEVATION（海側・夫婦岩方向）</span>
+      <span>S=1:200</span>
+    </div>
+    <svg viewBox="0 0 680 200" style="width:100%;display:block;background:#e8f4f8;">
+      <!-- Sky -->
+      <rect x="0" y="0" width="680" height="200" fill="#e0eef8"/>
+      <!-- Sea -->
+      <rect x="0" y="145" width="680" height="55" fill="#b8d4e8" opacity=".5"/>
+      <!-- Ground -->
+      <rect x="0" y="165" width="680" height="35" fill="#c8b88a"/>
+
+      <!-- Building body -->
+      <!-- 1F -->
+      <rect x="60" y="120" width="560" height="45" fill="#f2ece0" stroke="#1a160f" stroke-width="1.5"/>
+      <!-- 2F -->
+      <rect x="60" y="78" width="560" height="42" fill="#f8f4ec" stroke="#1a160f" stroke-width="1.5"/>
+      <!-- 3F (setback) -->
+      <rect x="90" y="38" width="500" height="40" fill="#fdfaf4" stroke="#1a160f" stroke-width="1.5"/>
+
+      <!-- Roof line -->
+      <line x1="90" y1="38" x2="590" y2="38" stroke="#1a160f" stroke-width="2"/>
+
+      <!-- Overhangs -->
+      <rect x="55" y="115" width="570" height="8" fill="#d0c8a8" stroke="#1a160f" stroke-width="1"/>
+      <rect x="55" y="73" width="570" height="8" fill="#d0c8a8" stroke="#1a160f" stroke-width="1"/>
+      <rect x="80" y="33" width="520" height="8" fill="#d0c8a8" stroke="#1a160f" stroke-width="1"/>
+
+      <!-- Windows / glazing - 1F -->
+      <rect x="75" y="127" width="90" height="30" fill="#aad0e8" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="185" y="127" width="90" height="30" fill="#aad0e8" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="305" y="127" width="90" height="30" fill="#aad0e8" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="425" y="127" width="90" height="30" fill="#aad0e8" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="540" y="127" width="65" height="30" fill="#aad0e8" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+
+      <!-- Windows - 2F -->
+      <rect x="75" y="85" width="90" height="28" fill="#c0ddf0" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="185" y="85" width="90" height="28" fill="#c0ddf0" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="305" y="85" width="90" height="28" fill="#c0ddf0" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="425" y="85" width="90" height="28" fill="#c0ddf0" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="540" y="85" width="65" height="28" fill="#c0ddf0" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+
+      <!-- Windows - 3F -->
+      <rect x="105" y="44" width="130" height="26" fill="#d8ecf8" opacity=".8" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="265" y="44" width="150" height="26" fill="#d8ecf8" opacity=".8" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="440" y="44" width="130" height="26" fill="#d8ecf8" opacity=".8" stroke="#3a6b8a" stroke-width="1"/>
+
+      <!-- Floor labels -->
+      <text x="45" y="148" font-size="9" fill="#444" text-anchor="end">1F</text>
+      <text x="45" y="105" font-size="9" fill="#444" text-anchor="end">2F</text>
+      <text x="45" y="62" font-size="9" fill="#444" text-anchor="end">3F</text>
+      <text x="45" y="40" font-size="9" fill="#444" text-anchor="end">屋上</text>
+
+      <!-- Height dimension -->
+      <line x1="640" y1="38" x2="640" y2="165" stroke="#666" stroke-width="1"/>
+      <line x1="636" y1="38" x2="644" y2="38" stroke="#666" stroke-width="1"/>
+      <line x1="636" y1="165" x2="644" y2="165" stroke="#666" stroke-width="1"/>
+      <text x="655" y="105" font-size="9" fill="#444" transform="rotate(90,655,105)">H=9.5m</text>
+
+      <!-- GL line -->
+      <text x="10" y="170" font-size="8" fill="#6a5a42">G.L.</text>
+      <line x1="30" y1="165" x2="680" y2="165" stroke="#6a5a42" stroke-width="1" stroke-dasharray="4,3"/>
+
+      <!-- Meoto iwa (simplified, in background) -->
+      <ellipse cx="100" cy="148" rx="22" ry="28" fill="#8a7a6a" opacity=".3"/>
+      <ellipse cx="140" cy="143" rx="17" ry="22" fill="#8a7a6a" opacity=".3"/>
+      <text x="120" y="188" text-anchor="middle" font-size="8" fill="#8a7a6a" opacity=".8">（夫婦岩 方向）</text>
+    </svg>
+  </div>
+
+  <!-- Section A-A -->
+  <div class="drawing-wrap">
+    <div class="drawing-title-bar">
+      <span>断面図 SECTION A-A（南北断面）</span>
+      <span>S=1:200</span>
+    </div>
+    <svg viewBox="0 0 680 200" style="width:100%;display:block;background:#fafaf8;">
+      <!-- Ground -->
+      <rect x="0" y="165" width="680" height="35" fill="#c8b88a"/>
+      <line x1="0" y1="165" x2="680" y2="165" stroke="#4a3a2a" stroke-width="1.5"/>
+      <text x="10" y="178" font-size="8" fill="#6a5a42">G.L. ±0</text>
+
+      <!-- Building section -->
+      <!-- Foundation -->
+      <rect x="100" y="158" width="480" height="12" fill="#9a8a6a" opacity=".6"/>
+
+      <!-- 1F slab -->
+      <rect x="100" y="120" width="480" height="8" fill="#d0c8a0" stroke="#1a160f" stroke-width="1"/>
+      <!-- 1F walls -->
+      <rect x="100" y="120" width="12" height="45" fill="#e8e0cc" stroke="#1a160f" stroke-width="1"/>
+      <rect x="568" y="120" width="12" height="45" fill="#e8e0cc" stroke="#1a160f" stroke-width="1"/>
+
+      <!-- 2F slab -->
+      <rect x="100" y="78" width="480" height="8" fill="#d0c8a0" stroke="#1a160f" stroke-width="1"/>
+      <!-- 2F walls -->
+      <rect x="100" y="78" width="12" height="42" fill="#e8e0cc" stroke="#1a160f" stroke-width="1"/>
+      <rect x="568" y="78" width="12" height="42" fill="#e8e0cc" stroke="#1a160f" stroke-width="1"/>
+
+      <!-- 3F slab (setback) -->
+      <rect x="130" y="38" width="420" height="8" fill="#d0c8a0" stroke="#1a160f" stroke-width="1"/>
+      <rect x="130" y="38" width="12" height="40" fill="#e8e0cc" stroke="#1a160f" stroke-width="1"/>
+      <rect x="538" y="38" width="12" height="40" fill="#e8e0cc" stroke="#1a160f" stroke-width="1"/>
+
+      <!-- Roof slab -->
+      <rect x="130" y="30" width="420" height="10" fill="#c8c0a8" stroke="#1a160f" stroke-width="1.5"/>
+
+      <!-- North terrace (ocean side) -->
+      <rect x="60" y="128" width="45" height="8" fill="#aad8f0" opacity=".6" stroke="#3a6b8a" stroke-width="1"/>
+      <text x="82" y="145" text-anchor="middle" font-size="7" fill="#3a6b8a">テラス</text>
+      <rect x="60" y="86" width="45" height="8" fill="#aad8f0" opacity=".6" stroke="#3a6b8a" stroke-width="1"/>
+      <rect x="80" y="46" width="50" height="8" fill="#aad8f0" opacity=".6" stroke="#3a6b8a" stroke-width="1"/>
+
+      <!-- Interior spaces - hatching effect -->
+      <!-- 1F interior -->
+      <rect x="112" y="128" width="456" height="40" fill="#f8f4ec" stroke="none"/>
+      <text x="340" y="152" text-anchor="middle" font-size="9" fill="#4a3a2a">1F 住戸（天高 2.9m）</text>
+      <!-- 2F interior -->
+      <rect x="112" y="86" width="456" height="42" fill="#f8f4ec" stroke="none"/>
+      <text x="340" y="110" text-anchor="middle" font-size="9" fill="#4a3a2a">2F 住戸（天高 2.9m）</text>
+      <!-- 3F interior -->
+      <rect x="142" y="46" width="396" height="40" fill="#fef8e8" stroke="none"/>
+      <text x="340" y="69" text-anchor="middle" font-size="9" fill="#c4973e">3F ペントハウス（天高 3.2m）</text>
+
+      <!-- Floor height labels -->
+      <text x="45" y="148" font-size="8" fill="#444" text-anchor="end">+0.3</text>
+      <text x="45" y="105" font-size="8" fill="#444" text-anchor="end">+3.5</text>
+      <text x="45" y="62" font-size="8" fill="#444" text-anchor="end">+7.0</text>
+      <text x="45" y="35" font-size="8" fill="#444" text-anchor="end">+9.5</text>
+
+      <!-- North/South labels -->
+      <text x="82" y="190" text-anchor="middle" font-size="9" fill="#3a6b8a">↑ 北（海側）</text>
+      <text x="600" y="190" text-anchor="middle" font-size="9" fill="#6a5a42">↑ 南（道路側）</text>
+
+      <!-- Plunge pool (3F) -->
+      <rect x="165" y="46" width="60" height="20" fill="#aad4e8" opacity=".7" stroke="#3a6b8a" stroke-width="1"/>
+      <text x="195" y="60" text-anchor="middle" font-size="7" fill="#3a6b8a">プール</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P7: UNIT TYPE PLANS
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-stamp">MISOGIHAMA RESIDENCES<br>住戸タイプ詳細平面図</div>
+  <div class="page-num">— 7 —</div>
+
+  <p class="eyebrow">UNIT TYPE PLANS</p>
+  <h2 class="sec-title">住戸タイプ別 詳細間取り</h2>
+
+  <!-- TYPE A -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
+    <div class="drawing-wrap" style="margin-bottom:0;">
+      <div class="drawing-title-bar" style="font-size:8pt;">
+        <span>Type A — 70㎡ 1LDK+S</span>
+      </div>
+      <svg viewBox="0 0 200 220" style="width:100%;display:block;background:#fafaf8;">
+        <!-- Outer walls -->
+        <rect x="20" y="20" width="160" height="190" fill="none" stroke="#1a160f" stroke-width="2.5"/>
+        <!-- Terrace North -->
+        <rect x="20" y="5" width="160" height="18" fill="#ddeeff" stroke="#6aabcc" stroke-width="1"/>
+        <text x="100" y="17" text-anchor="middle" font-size="7" fill="#3a6b8a">テラス 18㎡</text>
+        <!-- LDK -->
+        <rect x="20" y="20" width="160" height="95" fill="#fff8e8" stroke="#c4973e" stroke-width="1"/>
+        <text x="100" y="60" text-anchor="middle" font-size="10" fill="#4a3a2a">LDK</text>
+        <text x="100" y="75" text-anchor="middle" font-size="8" fill="#9a8a72">35㎡</text>
+        <!-- Kitchen -->
+        <rect x="20" y="95" width="55" height="25" fill="#e8e0cc" stroke="#1a160f" stroke-width="1"/>
+        <text x="47" y="111" text-anchor="middle" font-size="7" fill="#4a3a2a">Kitchen</text>
+        <!-- WIC -->
+        <rect x="75" y="95" width="45" height="25" fill="#ede8e0" stroke="#1a160f" stroke-width="1"/>
+        <text x="97" y="111" text-anchor="middle" font-size="7" fill="#4a3a2a">WIC</text>
+        <!-- Bath -->
+        <rect x="120" y="95" width="60" height="25" fill="#d8eef8" stroke="#1a160f" stroke-width="1"/>
+        <text x="150" y="111" text-anchor="middle" font-size="7" fill="#4a3a2a">浴室</text>
+        <!-- Bedroom -->
+        <rect x="20" y="120" width="100" height="90" fill="#fdf5e0" stroke="#c4973e" stroke-width="1"/>
+        <text x="70" y="165" text-anchor="middle" font-size="10" fill="#4a3a2a">主寝室</text>
+        <text x="70" y="180" text-anchor="middle" font-size="8" fill="#9a8a72">18㎡</text>
+        <!-- Study -->
+        <rect x="120" y="120" width="60" height="90" fill="#f4f0e8" stroke="#1a160f" stroke-width="1"/>
+        <text x="150" y="163" text-anchor="middle" font-size="8" fill="#4a3a2a">書斎/S</text>
+        <text x="150" y="178" text-anchor="middle" font-size="7" fill="#9a8a72">8㎡</text>
+        <!-- Price -->
+        <text x="100" y="215" text-anchor="middle" font-size="9" fill="#c4973e" font-weight="bold">¥2.5億〜</text>
+      </svg>
+    </div>
+
+    <!-- TYPE B -->
+    <div class="drawing-wrap" style="margin-bottom:0;">
+      <div class="drawing-title-bar" style="font-size:8pt;">
+        <span>Type B — 100㎡ 2LDK</span>
+      </div>
+      <svg viewBox="0 0 200 220" style="width:100%;display:block;background:#fafaf8;">
+        <rect x="15" y="20" width="170" height="190" fill="none" stroke="#1a160f" stroke-width="2.5"/>
+        <rect x="15" y="5" width="170" height="18" fill="#ddeeff" stroke="#6aabcc" stroke-width="1"/>
+        <text x="100" y="17" text-anchor="middle" font-size="7" fill="#3a6b8a">テラス＋プランジプール 32㎡</text>
+        <!-- LDK -->
+        <rect x="15" y="20" width="170" height="90" fill="#fff8e8" stroke="#c4973e" stroke-width="1"/>
+        <text x="100" y="58" text-anchor="middle" font-size="10" fill="#4a3a2a">LDK+DEN</text>
+        <text x="100" y="73" text-anchor="middle" font-size="8" fill="#9a8a72">48㎡（海側全面ガラス）</text>
+        <!-- Kitchen / Bath row -->
+        <rect x="15" y="110" width="60" height="30" fill="#e8e0cc" stroke="#1a160f" stroke-width="1"/>
+        <text x="45" y="129" text-anchor="middle" font-size="8" fill="#4a3a2a">Kitchen</text>
+        <rect x="75" y="110" width="50" height="30" fill="#d8eef8" stroke="#1a160f" stroke-width="1"/>
+        <text x="100" y="129" text-anchor="middle" font-size="7" fill="#4a3a2a">浴室/洗面</text>
+        <rect x="125" y="110" width="60" height="30" fill="#ede8e0" stroke="#1a160f" stroke-width="1"/>
+        <text x="155" y="129" text-anchor="middle" font-size="7" fill="#4a3a2a">WIC</text>
+        <!-- Bedrooms -->
+        <rect x="15" y="140" width="90" height="70" fill="#fdf5e0" stroke="#c4973e" stroke-width="1"/>
+        <text x="60" y="178" text-anchor="middle" font-size="10" fill="#4a3a2a">主寝室</text>
+        <text x="60" y="193" text-anchor="middle" font-size="8" fill="#9a8a72">22㎡</text>
+        <rect x="105" y="140" width="80" height="70" fill="#fdf8ee" stroke="#1a160f" stroke-width="1"/>
+        <text x="145" y="178" text-anchor="middle" font-size="9" fill="#4a3a2a">寝室2</text>
+        <text x="145" y="193" text-anchor="middle" font-size="8" fill="#9a8a72">16㎡</text>
+        <text x="100" y="215" text-anchor="middle" font-size="9" fill="#c4973e" font-weight="bold">¥4億〜</text>
+      </svg>
+    </div>
+
+    <!-- TYPE C -->
+    <div class="drawing-wrap" style="margin-bottom:0;">
+      <div class="drawing-title-bar" style="font-size:8pt;background:#8a6010;">
+        <span>Type C — 150㎡ 3LDK PH</span>
+      </div>
+      <svg viewBox="0 0 200 220" style="width:100%;display:block;background:#fefaf0;">
+        <rect x="10" y="20" width="180" height="190" fill="none" stroke="#c4973e" stroke-width="2.5"/>
+        <rect x="10" y="5" width="180" height="18" fill="#cce8f8" stroke="#4a9abf" stroke-width="1.5"/>
+        <text x="100" y="17" text-anchor="middle" font-size="7" fill="#3a6b8a">専用ルーフテラス＋プール 45㎡</text>
+        <!-- LDK large -->
+        <rect x="10" y="20" width="180" height="85" fill="#fef8e0" stroke="#c4973e" stroke-width="1.5"/>
+        <text x="100" y="55" text-anchor="middle" font-size="11" fill="#4a3a2a">LDK + 書斎</text>
+        <text x="100" y="70" text-anchor="middle" font-size="8" fill="#c4973e">70㎡（檜床・全面ガラス）</text>
+        <!-- Services -->
+        <rect x="10" y="105" width="55" height="30" fill="#e8e0cc" stroke="#1a160f" stroke-width="1"/>
+        <text x="37" y="124" text-anchor="middle" font-size="7" fill="#4a3a2a">K/食品庫</text>
+        <rect x="65" y="105" width="55" height="30" fill="#d8eef8" stroke="#1a160f" stroke-width="1"/>
+        <text x="92" y="124" text-anchor="middle" font-size="7" fill="#4a3a2a">露天風呂</text>
+        <rect x="120" y="105" width="70" height="30" fill="#ede8e0" stroke="#1a160f" stroke-width="1"/>
+        <text x="155" y="124" text-anchor="middle" font-size="7" fill="#4a3a2a">WIC / DW</text>
+        <!-- Bedrooms -->
+        <rect x="10" y="135" width="90" height="75" fill="#fdf5e0" stroke="#c4973e" stroke-width="1.5"/>
+        <text x="55" y="173" text-anchor="middle" font-size="10" fill="#4a3a2a">主寝室</text>
+        <text x="55" y="188" text-anchor="middle" font-size="7" fill="#c4973e">28㎡（露天風呂付き）</text>
+        <rect x="100" y="135" width="90" height="35" fill="#fdf8ee" stroke="#1a160f" stroke-width="1"/>
+        <text x="145" y="157" text-anchor="middle" font-size="8" fill="#4a3a2a">寝室2 / 14㎡</text>
+        <rect x="100" y="170" width="90" height="40" fill="#fdf8ee" stroke="#1a160f" stroke-width="1"/>
+        <text x="145" y="194" text-anchor="middle" font-size="8" fill="#4a3a2a">寝室3 / 16㎡</text>
+        <text x="100" y="215" text-anchor="middle" font-size="9" fill="#c4973e" font-weight="bold">¥8億〜</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P8: PERSPECTIVE RENDERS
+══════════════════════════════════════════ -->
+<div class="page page-dark">
+  <div class="page-stamp" style="color:#9a8a72;">MISOGIHAMA RESIDENCES<br>パース（外観・内観）</div>
+  <div class="page-num" style="color:#9a8a72;">— 8 —</div>
+
+  <p class="eyebrow">PERSPECTIVE RENDERS — AI CONCEPT VISUALIZATION</p>
+  <h2 class="sec-title" style="color:#f2ece0;">建物パース</h2>
+  <p style="color:#9a8a72;font-size:9pt;margin-bottom:16px;">以下は Gemini AI による参考コンセプトビジュアルです。実際の建物デザインは設計事務所との協議で確定します。</p>
+
+  <div class="photo-grid-2">
+    <div class="photo-wrap">
+      <img src="https://enablerdao.com/static/futami/res_aerial.jpg" style="height:200px;">
+      <p class="photo-cap" style="color:#9a8a72;">俯瞰パース — 海岸崖上の建物全景と夫婦岩</p>
+    </div>
+    <div class="photo-wrap">
+      <img src="https://enablerdao.com/static/futami/res_exterior.jpg" style="height:200px;">
+      <p class="photo-cap" style="color:#9a8a72;">外観パース — 北面（海側）Aman型低層3F</p>
+    </div>
+  </div>
+  <div class="photo-grid-3">
+    <div class="photo-wrap">
+      <img src="https://enablerdao.com/static/futami/res_entrance.jpg" style="height:140px;">
+      <p class="photo-cap" style="color:#9a8a72;">エントランスロビー</p>
+    </div>
+    <div class="photo-wrap">
+      <img src="https://enablerdao.com/static/futami/res_living.jpg" style="height:140px;">
+      <p class="photo-cap" style="color:#9a8a72;">Type B リビング（プランジプール付き）</p>
+    </div>
+    <div class="photo-wrap">
+      <img src="https://enablerdao.com/static/futami/res_bedroom.jpg" style="height:140px;">
+      <p class="photo-cap" style="color:#9a8a72;">Type C 主寝室（夫婦岩の日の出）</p>
+    </div>
+  </div>
+  <div class="photo-grid-2">
+    <div class="photo-wrap">
+      <img src="https://enablerdao.com/static/futami/res_pool_deck.jpg" style="height:160px;">
+      <p class="photo-cap" style="color:#9a8a72;">屋上インフィニティプール（居住者専用）</p>
+    </div>
+    <div class="photo-wrap">
+      <img src="https://enablerdao.com/static/futami/complex_water.jpg" style="height:160px;">
+      <p class="photo-cap" style="color:#9a8a72;">禊水盤アプローチ（複合施設棟・参考）</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P9: FINISH SCHEDULE / 仕上表
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-stamp">MISOGIHAMA RESIDENCES<br>仕上表・スペック</div>
+  <div class="page-num">— 9 —</div>
+
+  <p class="eyebrow">FINISH SCHEDULE</p>
+  <h2 class="sec-title">仕上表（想定スペック）</h2>
+
+  <table>
+    <tr><th colspan="3">共用部 仕上</th></tr>
+    <tr><td>エントランスホール 床</td><td>伊勢産 地石（割肌仕上）</td><td>t=30mm</td></tr>
+    <tr><td>エントランスホール 壁</td><td>珪藻土左官 + 伊勢杉材アクセントパネル</td><td>—</td></tr>
+    <tr><td>共用廊下 床</td><td>伊勢産 乱石貼り（防滑処理）</td><td>t=25mm</td></tr>
+    <tr><td>外壁</td><td>白漆喰（防水）+ 耐候性鋼板ルーバー</td><td>—</td></tr>
+    <tr><td>屋上プールデッキ</td><td>チーク材デッキ + インフィニティプール タイル張</td><td>—</td></tr>
+  </table>
+
+  <table>
+    <tr><th colspan="3">住戸内部 仕上（Type B / C 準拠）</th></tr>
+    <tr><td>LDK 床</td><td>天然木（ホワイトオーク）無垢フローリング</td><td>t=15mm</td></tr>
+    <tr><td>LDK 壁</td><td>和紙クロス + 珪藻土塗り（一面）</td><td>—</td></tr>
+    <tr><td>LDK 天井</td><td>白漆喰（斜め天井）</td><td>CH=2,900mm</td></tr>
+    <tr><td>寝室 床</td><td>天然木（ヒノキ）無垢フローリング</td><td>t=12mm</td></tr>
+    <tr><td>浴室 床・壁</td><td>伊勢石（磨き）</td><td>—</td></tr>
+    <tr><td>浴槽</td><td>ヒノキ桶（特注）または鉄鋳物バスタブ</td><td>—</td></tr>
+    <tr><td>キッチン</td><td>ヒノキ材カウンター + ステンレスシンク + 国産製アイランド型</td><td>—</td></tr>
+    <tr><td>テラス</td><td>チーク材デッキ / プランジプール FRP防水+タイル</td><td>—</td></tr>
+    <tr><td>建具（外部）</td><td>木製サッシ（高断熱 Low-E ガラス トリプル）</td><td>—</td></tr>
+    <tr><td>建具（内部）</td><td>杉材框戸 + 和紙建具（引き戸）</td><td>—</td></tr>
+    <tr><td>設備</td><td>全室 全館空調 + 床暖房 + スマートホーム制御</td><td>—</td></tr>
+  </table>
+
+  <table>
+    <tr><th colspan="3">構造・設備概要</th></tr>
+    <tr><td>主体構造</td><td>鉄筋コンクリート造（RC）壁式構造</td><td>耐震等級3（想定）</td></tr>
+    <tr><td>基礎</td><td>杭基礎（鋼管杭）+ マットスラブ</td><td>支持層確認要</td></tr>
+    <tr><td>屋根</td><td>RC屋上防水（ウレタン）+ 植栽基盤</td><td>—</td></tr>
+    <tr><td>給水</td><td>受水槽方式 + 増圧給水</td><td>—</td></tr>
+    <tr><td>排水</td><td>汚水・雑排水 合流→浄化槽 + 公共下水</td><td>—</td></tr>
+    <tr><td>電気</td><td>東邦電力 引込 + 太陽光パネル（屋上）+ EV充電器</td><td>—</td></tr>
+    <tr><td>エレベーター</td><td>2基（居住者専用・荷物用）</td><td>—</td></tr>
+    <tr><td>防災</td><td>スプリンクラー全館 + 自動火災報知器 + 消火栓</td><td>—</td></tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P10: AREA CALCULATION / 求積図・売上試算
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-stamp">MISOGIHAMA RESIDENCES<br>求積・収益試算</div>
+  <div class="page-num">— 10 —</div>
+
+  <p class="eyebrow">AREA SCHEDULE &amp; REVENUE MODEL</p>
+  <h2 class="sec-title">求積表・収益試算</h2>
+
+  <table>
+    <tr><th colspan="4">床面積 求積表</th></tr>
+    <tr><th>階</th><th>住戸（専有）</th><th>共用部</th><th>合計</th></tr>
+    <tr><td>1F</td><td>410.00 ㎡</td><td>190.00 ㎡</td><td>600.00 ㎡</td></tr>
+    <tr><td>2F</td><td>540.00 ㎡</td><td>160.00 ㎡</td><td>700.00 ㎡</td></tr>
+    <tr><td>3F</td><td>300.00 ㎡</td><td>120.00 ㎡</td><td>420.00 ㎡</td></tr>
+    <tr><td>共用施設（ロビー・プール・ラウンジ）</td><td>—</td><td>400.00 ㎡</td><td>400.00 ㎡ ※容積外</td></tr>
+    <tr style="font-weight:bold;"><td>合計</td><td>1,250.00 ㎡</td><td>870.00 ㎡</td><td>2,720.00 ㎡（延床）</td></tr>
+    <tr><td colspan="2">建蔽率</td><td colspan="2">900㎡ ÷ 1,800㎡ = <strong class="td-gold">50.0%</strong>（上限60%）</td></tr>
+    <tr><td colspan="2">容積率</td><td colspan="2">2,320㎡ ÷ 1,800㎡ = <strong class="td-gold">128.9%</strong>（上限200%）</td></tr>
+  </table>
+
+  <table>
+    <tr><th>タイプ</th><th>戸数</th><th>専有面積</th><th>販売単価</th><th>小計</th></tr>
+    <tr><td>Type A（1LDK+S）</td><td>8戸</td><td>70㎡</td><td>¥2.5億〜3億</td><td class="td-gold">¥20〜24億</td></tr>
+    <tr><td>Type B（2LDK）</td><td>8戸</td><td>100㎡</td><td>¥4億〜5億</td><td class="td-gold">¥32〜40億</td></tr>
+    <tr><td>Type C（3LDK PH）</td><td>4戸</td><td>150㎡</td><td>¥8億〜10億</td><td class="td-gold">¥32〜40億</td></tr>
+    <tr style="background:#1a160f;color:#f2ece0;font-weight:bold;">
+      <td colspan="4" style="text-align:right;letter-spacing:2px;">販売総額（想定）</td>
+      <td style="color:#e8c87a;font-size:14pt;">¥84〜104億</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr><th colspan="2">建設コスト概算</th></tr>
+    <tr><td>用地取得（1,800㎡ @10,800円/㎡）</td><td class="td-right">¥0.19億</td></tr>
+    <tr><td>建設工事費（RC造 延床2,720㎡ @120万円/㎡）</td><td class="td-right">¥32.6億</td></tr>
+    <tr><td>内装工事（高級仕様 @80万円/㎡ 専有部）</td><td class="td-right">¥10.0億</td></tr>
+    <tr><td>共用施設（プール・エントランス・ランドスケープ）</td><td class="td-right">¥4.0億</td></tr>
+    <tr><td>設計・監理費（工事費の6%）</td><td class="td-right">¥2.6億</td></tr>
+    <tr><td>諸経費・販売費（売上の8%）</td><td class="td-right">¥7.0億</td></tr>
+    <tr style="font-weight:bold;background:#f0e8d8;"><td>総コスト</td><td class="td-right td-gold">約¥56億</td></tr>
+    <tr style="font-weight:bold;background:#1a160f;color:#f2ece0;">
+      <td style="color:#9a8a72;letter-spacing:2px;">想定利益（売上¥84〜104億 − コスト¥56億）</td>
+      <td style="color:#e8c87a;font-size:14pt;text-align:right;">¥28〜48億</td>
+    </tr>
+  </table>
+
+  <div class="kpi-row" style="margin-top:16px;">
+    <div class="kpi"><div class="n">¥94<span class="unit">億</span></div><div class="label">販売想定総額（中央値）</div></div>
+    <div class="kpi"><div class="n">38<span class="unit">億</span></div><div class="label">想定利益</div></div>
+    <div class="kpi"><div class="n">40<span class="unit">%</span></div><div class="label">利益率</div></div>
+    <div class="kpi"><div class="n">¥192<span class="unit">万/㎡</span></div><div class="label">坪単価（Type C換算）</div></div>
+  </div>
+  <p class="note">※ 本試算はコンセプト段階の概算です。実際の事業化には、地質調査・法令確認・金融機関審査・販売マーケティング調査等が必要です。</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P11: REGULATORY / PERMIT CHECKLIST
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-stamp">MISOGIHAMA RESIDENCES<br>確認申請・許認可チェックリスト</div>
+  <div class="page-num">— 11 —</div>
+
+  <p class="eyebrow">BUILDING PERMIT CHECKLIST</p>
+  <h2 class="sec-title">確認申請・許認可 チェックリスト</h2>
+  <p class="sec-sub">伊勢市二見地区での確認申請に必要な図書・手続きの一覧。</p>
+
+  <table>
+    <tr><th>申請種別</th><th>根拠法令</th><th>提出先</th><th>優先度</th></tr>
+    <tr><td><strong>建築確認申請</strong></td><td>建築基準法第6条</td><td>伊勢市建築指導課</td><td class="td-gold">最重要</td></tr>
+    <tr><td>国立公園 工作物新築許可</td><td>自然公園法第13条</td><td>三重県自然環境室</td><td class="td-gold">最重要</td></tr>
+    <tr><td>国指定名勝 現状変更許可</td><td>文化財保護法第43条</td><td>文化庁（三重県経由）</td><td class="td-gold">最重要</td></tr>
+    <tr><td>海岸占用許可</td><td>海岸法第7条</td><td>三重県港湾・海岸室</td><td style="color:#e67e22;">重要</td></tr>
+    <tr><td>農地転用許可（必要な場合）</td><td>農地法第4条</td><td>農業委員会</td><td>確認要</td></tr>
+    <tr><td>開発許可（1,000㎡以上の場合）</td><td>都市計画法第29条</td><td>三重県都市計画課</td><td style="color:#e67e22;">重要</td></tr>
+    <tr><td>伊勢市景観計画 事前協議</td><td>景観法・伊勢市景観条例</td><td>伊勢市まちづくり課</td><td>必須</td></tr>
+    <tr><td>消防同意</td><td>消防法第7条</td><td>伊勢市消防本部</td><td>必須</td></tr>
+    <tr><td>長期優良住宅認定（任意）</td><td>長期優良住宅法</td><td>伊勢市建築指導課</td><td>推奨</td></tr>
+    <tr><td>省エネ適合性判定</td><td>建築物省エネ法第12条</td><td>登録建築物調査員</td><td>必須</td></tr>
+  </table>
+
+  <table>
+    <tr><th colspan="3">確認申請 添付図書（主要）</th></tr>
+    <tr><th>図書名</th><th>縮尺</th><th>備考</th></tr>
+    <tr><td>建築計画概要書</td><td>—</td><td>2部（うち1部は保存用）</td></tr>
+    <tr><td>付近見取り図</td><td>S=1:3,000以上</td><td>周辺の道路・建物明示</td></tr>
+    <tr><td>配置図</td><td>S=1:200〜1:500</td><td>敷地境界・後退距離・隣地明示</td></tr>
+    <tr><td>各階平面図</td><td>S=1:100〜1:200</td><td>全フロア（1F〜3F）</td></tr>
+    <tr><td>立面図（4面）</td><td>S=1:100〜1:200</td><td>東西南北</td></tr>
+    <tr><td>断面図（2断面以上）</td><td>S=1:100〜1:200</td><td>主要断面</td></tr>
+    <tr><td>基礎伏図・各階伏図</td><td>S=1:100</td><td>構造図</td></tr>
+    <tr><td>構造計算書</td><td>—</td><td>RC造3F → 構造設計一級建築士要</td></tr>
+    <tr><td>使用材料仕上表</td><td>—</td><td>内外装材・防火性能明示</td></tr>
+    <tr><td>省エネ計算書</td><td>—</td><td>HEAT20 G2グレード目標</td></tr>
+    <tr><td>設備図（給排水・電気・空調）</td><td>S=1:100</td><td>各系統</td></tr>
+    <tr><td>求積図</td><td>S=1:200</td><td>敷地・各階床面積計算</td></tr>
+  </table>
+
+  <p class="note">国立公園内建築（普通地域）：高さ10m超・建築面積1,000㎡超の工作物は知事許可（または届出）が必要。景観・色彩・素材は伊勢市景観ガイドラインに準拠（自然系色彩・地元石材・木材推奨）。確認申請前に事前相談（プレ相談）を強く推奨。</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+  P12: BACK COVER
+══════════════════════════════════════════ -->
+<div class="cover" style="justify-content:center;align-items:center;text-align:center;">
+  <div class="cover-img" style="background-image:url('https://enablerdao.com/static/futami/res_pool_deck.jpg');opacity:.5;"></div>
+  <div class="cover-overlay"></div>
+  <div style="position:relative;z-index:2;padding:48px;">
+    <div style="font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:48pt;color:#c4973e;letter-spacing:.2em;margin-bottom:16px;">禊</div>
+    <div style="font-family:'Hiragino Mincho ProN',Georgia,serif;font-size:22pt;color:#f2ece0;letter-spacing:.15em;margin-bottom:8px;">MISOGIHAMA RESIDENCES</div>
+    <div style="font-size:11pt;letter-spacing:4px;color:#9a8a72;margin-bottom:48px;">伊勢・二見浦 聖地レジデンス</div>
+    <div style="border:1px solid #2e2618;padding:32px 40px;display:inline-block;">
+      <div style="font-size:9pt;letter-spacing:3px;color:#c4973e;margin-bottom:16px;">CONTACT</div>
+      <div style="color:#f2ece0;font-size:13pt;margin-bottom:8px;">EnablerDAO / 濱田 優貴</div>
+      <div style="color:#9a8a72;font-size:11pt;">mail@yukihamada.jp</div>
+      <div style="color:#9a8a72;font-size:10pt;margin-top:8px;">https://enablerdao.com/misogihama</div>
+    </div>
+    <div style="margin-top:32px;font-size:8pt;color:#4a3a2a;letter-spacing:2px;">
+      本資料は投資・開発の検討を目的としたコンセプト資料です。<br>
+      建築・法規制の詳細は専門家にご確認ください。
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

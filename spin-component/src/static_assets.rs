@@ -15,6 +15,7 @@ const PRODUCTS_HTML: &str = include_str!("../../static/products.html");
 const FUTAMI_HTML: &str = include_str!("../../static/futami/index.html");
 const FUTAMI_VILLAGE_HTML: &str = include_str!("../../static/futami/village.html");
 const FUTAMI_COMPLEX_HTML: &str = include_str!("../../static/futami/complex.html");
+const FUTAMI_RESIDENCE_HTML: &str = include_str!("../../static/futami/residence.html");
 
 // ── Binary assets ────────────────────────────────────────────────────────────
 
@@ -119,6 +120,12 @@ pub fn serve_static(path: &str) -> Option<Response> {
         "/static/futami/complex_morning.jpg"   => Some(bytes_response(FUTAMI_MORNING,   "image/jpeg")),
         "/static/futami/complex_vista.jpg"     => Some(bytes_response(FUTAMI_VISTA,     "image/jpeg")),
         "/static/futami/complex_market.jpg"    => Some(bytes_response(FUTAMI_MARKET,    "image/jpeg")),
+        "/static/futami/res_exterior.jpg"      => Some(bytes_response(include_bytes!("../../static/futami/res_exterior.jpg"),  "image/jpeg")),
+        "/static/futami/res_entrance.jpg"      => Some(bytes_response(include_bytes!("../../static/futami/res_entrance.jpg"),  "image/jpeg")),
+        "/static/futami/res_living.jpg"        => Some(bytes_response(include_bytes!("../../static/futami/res_living.jpg"),    "image/jpeg")),
+        "/static/futami/res_bedroom.jpg"       => Some(bytes_response(include_bytes!("../../static/futami/res_bedroom.jpg"),   "image/jpeg")),
+        "/static/futami/res_pool_deck.jpg"     => Some(bytes_response(include_bytes!("../../static/futami/res_pool_deck.jpg"), "image/jpeg")),
+        "/static/futami/res_aerial.jpg"        => Some(bytes_response(include_bytes!("../../static/futami/res_aerial.jpg"),    "image/jpeg")),
 
         // Futami property images
         "/static/futami/6-27_before.jpg" => Some(bytes_response(FUTAMI_6_27_BEFORE, "image/jpeg")),
@@ -186,6 +193,11 @@ pub fn serve_futami_village_page() -> Response {
 /// Serve the station complex detailed design brief
 pub fn serve_complex_page() -> Response {
     text_response(FUTAMI_COMPLEX_HTML, "text/html; charset=utf-8")
+}
+
+/// Serve the residence design brief
+pub fn serve_residence_page() -> Response {
+    text_response(FUTAMI_RESIDENCE_HTML, "text/html; charset=utf-8")
 }
 
 /// Build a 200 response from a `&str` body.
