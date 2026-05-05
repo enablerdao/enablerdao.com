@@ -14,6 +14,7 @@ const ENABLER_HTML: &str = include_str!("../../static/enabler.html");
 const PRODUCTS_HTML: &str = include_str!("../../static/products.html");
 const FUTAMI_HTML: &str = include_str!("../../static/futami/index.html");
 const FUTAMI_VILLAGE_HTML: &str = include_str!("../../static/futami/village.html");
+const FUTAMI_COMPLEX_HTML: &str = include_str!("../../static/futami/complex.html");
 
 // ── Binary assets ────────────────────────────────────────────────────────────
 
@@ -29,6 +30,10 @@ const FUTAMI_2F: &[u8]          = include_bytes!("../../static/futami/complex_2f
 const FUTAMI_ROOM: &[u8]        = include_bytes!("../../static/futami/complex_room.jpg");
 const FUTAMI_NIGHT: &[u8]       = include_bytes!("../../static/futami/complex_night.jpg");
 const FUTAMI_ROOFTOP: &[u8]     = include_bytes!("../../static/futami/complex_rooftop.jpg");
+const FUTAMI_WATER: &[u8]       = include_bytes!("../../static/futami/complex_water.jpg");
+const FUTAMI_MORNING: &[u8]     = include_bytes!("../../static/futami/complex_morning.jpg");
+const FUTAMI_VISTA: &[u8]       = include_bytes!("../../static/futami/complex_vista.jpg");
+const FUTAMI_MARKET: &[u8]      = include_bytes!("../../static/futami/complex_market.jpg");
 
 // Futami property photos (before + AI-generated after)
 const FUTAMI_6_27_BEFORE: &[u8] = include_bytes!("../../static/futami/6-27_before.jpg");
@@ -110,6 +115,10 @@ pub fn serve_static(path: &str) -> Option<Response> {
         "/static/futami/complex_room.jpg"      => Some(bytes_response(FUTAMI_ROOM,       "image/jpeg")),
         "/static/futami/complex_night.jpg"     => Some(bytes_response(FUTAMI_NIGHT,      "image/jpeg")),
         "/static/futami/complex_rooftop.jpg"   => Some(bytes_response(FUTAMI_ROOFTOP,    "image/jpeg")),
+        "/static/futami/complex_water.jpg"     => Some(bytes_response(FUTAMI_WATER,     "image/jpeg")),
+        "/static/futami/complex_morning.jpg"   => Some(bytes_response(FUTAMI_MORNING,   "image/jpeg")),
+        "/static/futami/complex_vista.jpg"     => Some(bytes_response(FUTAMI_VISTA,     "image/jpeg")),
+        "/static/futami/complex_market.jpg"    => Some(bytes_response(FUTAMI_MARKET,    "image/jpeg")),
 
         // Futami property images
         "/static/futami/6-27_before.jpg" => Some(bytes_response(FUTAMI_6_27_BEFORE, "image/jpeg")),
@@ -172,6 +181,11 @@ pub fn serve_futami_page() -> Response {
 /// Serve the MISOGIHAMA resort village development concept page
 pub fn serve_futami_village_page() -> Response {
     text_response(FUTAMI_VILLAGE_HTML, "text/html; charset=utf-8")
+}
+
+/// Serve the station complex detailed design brief
+pub fn serve_complex_page() -> Response {
+    text_response(FUTAMI_COMPLEX_HTML, "text/html; charset=utf-8")
 }
 
 /// Build a 200 response from a `&str` body.
