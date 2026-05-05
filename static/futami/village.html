@@ -154,6 +154,42 @@ footer a{color:var(--gold);text-decoration:none;}
 /* ── DARK SECTION ── */
 .sec-dark{background:var(--card);}
 .sec-sea{background:linear-gradient(135deg,#0e1f2e,#0e0c0a);}
+
+/* ── PRINT / PDF ── */
+@media print {
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  @page{size:A4;margin:12mm 10mm;}
+  html{scroll-behavior:auto;}
+  body{font-size:11pt;}
+
+  .hero{height:auto;min-height:0;page-break-after:always;}
+  .hero-bg{position:relative;height:360px;background-size:cover;}
+  .hero-content{padding:0 20px 40px;}
+  .hero-ja{font-size:48pt;}
+  .scroll-hint{display:none;}
+  .hero-cta-row{display:none;}
+
+  .sec{padding:32px 0;}
+  .sec-title{font-size:22pt;}
+  .sec-lead{font-size:10pt;}
+
+  .journey{flex-wrap:wrap;overflow:visible;}
+  .j-step{flex:0 0 18%;border-right:1px solid var(--line);}
+
+  .timeline::before{background:#555;}
+
+  section{page-break-inside:avoid;}
+  .map-section{page-break-inside:avoid;}
+  .pitch-grid{page-break-inside:avoid;}
+  .persona-grid{page-break-inside:avoid;}
+
+  .sketch-compare{page-break-inside:avoid;}
+
+  footer{page-break-before:always;padding:20px 0;}
+
+  .btn{display:none;}
+  a[href]{text-decoration:none;color:inherit;}
+}
 </style>
 </head>
 <body>
@@ -225,17 +261,10 @@ footer a{color:var(--gold);text-decoration:none;}
       </div>
     </div>
 
-    <!-- Original sketch -->
-    <div class="sketch-compare">
-      <div>
-        <div class="label-bar">CONCEPT SKETCH — MASTER PLAN</div>
-        <img src="/static/futami/6-27_before.jpg" alt="sketch" style="width:100%;display:block;" onerror="this.style.display='none'">
-        <img src="/Users/yuki/Downloads/IMG_1290.JPG" alt="sketch" style="width:100%;display:block;filter:contrast(1.1);" onerror="this.style.display='none'">
-      </div>
-      <div>
-        <div class="label-bar">AI CONCEPT RENDER — BIRD'S EYE VIEW</div>
-        <img src="/static/futami/vision_aerial.jpg" alt="aerial render" style="width:100%;display:block;">
-      </div>
+    <!-- Aerial render full width -->
+    <div style="margin-bottom:40px;">
+      <div class="label-bar" style="background:var(--card);padding:8px 14px;font-family:sans-serif;font-size:11px;letter-spacing:2px;color:var(--muted);text-align:center;">AI CONCEPT RENDER — BIRD'S EYE VIEW</div>
+      <img src="/static/futami/vision_aerial.jpg" alt="Futami aerial render" style="width:100%;display:block;max-height:480px;object-fit:cover;">
     </div>
   </div>
 </section>
@@ -252,19 +281,15 @@ footer a{color:var(--gold);text-decoration:none;}
       </div>
     </div>
 
-    <!-- Sketch vs Render -->
+    <!-- Exterior + Street views -->
     <div class="sketch-compare" style="margin-bottom:3px;">
       <div>
-        <div class="label-bar">ARCHITECT'S SKETCH</div>
-        <div style="background:#fff;padding:8px;">
-          <img src="/static/futami/6-27_before.jpg" alt="" style="width:100%;display:none;">
-          <!-- inline sketch placeholder - serve sketch image -->
-          <img src="/static/futami/vision_complex.jpg" alt="sketch" style="width:100%;display:block;filter:grayscale(1) contrast(1.3) brightness(1.1);">
-        </div>
+        <div class="label-bar">外観全景 — EXTERIOR RENDER</div>
+        <img src="/static/futami/vision_complex.jpg" alt="complex exterior render" style="width:100%;display:block;max-height:380px;object-fit:cover;">
       </div>
       <div>
-        <div class="label-bar">AI ARCHITECTURAL RENDER</div>
-        <img src="/static/futami/vision_complex.jpg" alt="complex render" style="width:100%;display:block;">
+        <div class="label-bar">1F ストリートレベル — STREET VIEW</div>
+        <img src="/static/futami/complex_street.jpg" alt="street level render" style="width:100%;display:block;max-height:380px;object-fit:cover;">
       </div>
     </div>
 
@@ -276,24 +301,19 @@ footer a{color:var(--gold);text-decoration:none;}
       </div>
       <div class="grid-right-stack">
         <div class="photo">
-          <img src="/static/futami/complex_street.jpg" alt="Street level" style="width:100%;height:100%;min-height:207px;object-fit:cover;display:block;">
-          <div class="floor-tag">1F STREET</div>
-          <div class="photo-cap">1F 店舗・PR棟・らーめん店</div>
-        </div>
-        <div class="photo">
           <img src="/static/futami/complex_pr.jpg" alt="PR棟" style="width:100%;height:100%;min-height:207px;object-fit:cover;display:block;">
           <div class="floor-tag">PR棟</div>
           <div class="photo-cap">PR棟 — ガラスパビリオン</div>
+        </div>
+        <div class="photo">
+          <img src="/static/futami/complex_2f.jpg" alt="2F terrace" style="width:100%;height:100%;min-height:207px;object-fit:cover;display:block;">
+          <div class="floor-tag">2F PUBLIC</div>
+          <div class="photo-cap">2F 公共テラス — 海を望む共用空間</div>
         </div>
       </div>
     </div>
 
     <div class="grid-3" style="margin-bottom:48px;">
-      <div class="photo">
-        <img src="/static/futami/complex_2f.jpg" alt="2F public" style="width:100%;height:260px;object-fit:cover;display:block;">
-        <div class="floor-tag">2F PUBLIC</div>
-        <div class="photo-cap">2F 公共テラス — 海を望む共用空間</div>
-      </div>
       <div class="photo">
         <img src="/static/futami/vision_lobby.jpg" alt="Hotel lobby" style="width:100%;height:260px;object-fit:cover;display:block;">
         <div class="floor-tag">3F LOBBY</div>
@@ -303,6 +323,11 @@ footer a{color:var(--gold);text-decoration:none;}
         <img src="/static/futami/complex_room.jpg" alt="Hotel room" style="width:100%;height:260px;object-fit:cover;display:block;">
         <div class="floor-tag">4〜10F ROOMS</div>
         <div class="photo-cap">客室 — 海と夫婦岩のパノラマ</div>
+      </div>
+      <div class="photo">
+        <img src="/static/futami/complex_street.jpg" alt="Street level" style="width:100%;height:260px;object-fit:cover;display:block;">
+        <div class="floor-tag">1F STREET</div>
+        <div class="photo-cap">1F 店舗・らーめん店 — 夜の参道</div>
       </div>
     </div>
 
