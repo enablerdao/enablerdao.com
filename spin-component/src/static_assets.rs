@@ -202,12 +202,25 @@ pub fn serve_residence_page() -> Response {
 
 /// Build a 200 response from a `&str` body.
 fn text_response(body: &str, content_type: &str) -> Response {
-    Response::builder()
-        .status(200)
-        .header("content-type", content_type)
-        .header("cache-control", CACHE_CONTROL)
-        .body(body)
-        .build()
+    if content_type.starts_with("text/html") {
+        Response::builder()
+            .status(200)
+            .header("content-type", content_type)
+            .header("cache-control", CACHE_CONTROL)
+            .header("x-frame-options", "SAMEORIGIN")
+            .header("x-content-type-options", "nosniff")
+            .header("referrer-policy", "strict-origin-when-cross-origin")
+            .header("strict-transport-security", "max-age=31536000; includeSubDomains")
+            .body(body)
+            .build()
+    } else {
+        Response::builder()
+            .status(200)
+            .header("content-type", content_type)
+            .header("cache-control", CACHE_CONTROL)
+            .body(body)
+            .build()
+    }
 }
 
 /// Build a 200 response from a `&[u8]` body.

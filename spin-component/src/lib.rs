@@ -288,6 +288,10 @@ fn html_page(title: &str, description: &str, canonical: &str, content: &str) -> 
         .status(200)
         .header("content-type", "text/html; charset=utf-8")
         .header("cache-control", "public, max-age=300, stale-while-revalidate=60")
+        .header("x-frame-options", "SAMEORIGIN")
+        .header("x-content-type-options", "nosniff")
+        .header("referrer-policy", "strict-origin-when-cross-origin")
+        .header("strict-transport-security", "max-age=31536000; includeSubDomains")
         .body(html)
         .build()
 }
