@@ -129,19 +129,22 @@ pub fn render() -> String {
         <h3 style="font-size:0.95rem;margin-bottom:12px;">&#x1F4F1; App Store 審査状況</h3>
         <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;">
           <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
-            <span>&#x1F4F8; パシャ</span><span style="color:#e3b341;">&#x23F3; 審査待ち</span>
+            <span>&#x1F4F8; <a href="https://apps.apple.com/jp/app/id6760736346" target="_blank" style="color:inherit;text-decoration:none;">パシャ</a></span><span style="color:#44ff88;">&#x2705; 配信中 v1.0</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
+            <span>&#x1F4D8; <a href="https://apps.apple.com/jp/app/id6761040925" target="_blank" style="color:inherit;text-decoration:none;">サクッ</a></span><span style="color:#44ff88;">&#x2705; 配信中 v1.0</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
             <span>&#x1F511; KAGI</span><span style="color:#e3b341;">&#x23F3; 審査待ち</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
-            <span>&#x1F399; Koe (iOS)</span><span style="color:#44ff88;">&#x2705; 配信中 v2.9.0</span>
+            <span>&#x1F399; <a href="https://apps.apple.com/jp/app/id6760352863" target="_blank" style="color:inherit;text-decoration:none;">Koe (iOS)</a></span><span style="color:#44ff88;">&#x2705; 配信中 v2.9.0</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
-            <span>&#x1F916; Elio</span><span style="color:#44ff88;">&#x2705; 配信中 v1.2.35</span>
+            <span>&#x1F916; <a href="https://apps.apple.com/jp/app/id6757635481" target="_blank" style="color:inherit;text-decoration:none;">Elio</a></span><span style="color:#44ff88;">&#x2705; 配信中 v1.2.35</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
-            <span>&#x1F3B5; Soluna</span><span style="color:#44ff88;">&#x2705; 配信中 v1.2</span>
+            <span>&#x1F3B5; <a href="https://apps.apple.com/jp/app/id6759962263" target="_blank" style="color:inherit;text-decoration:none;">Soluna</a></span><span style="color:#44ff88;">&#x2705; 配信中 v1.4</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
             <span>&#x1F4DD; ポン</span><span style="color:#ff4444;">&#x274C; リジェクト対応中</span>
