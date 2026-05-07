@@ -65,6 +65,7 @@ const FOOTER_HTML: &str = r#"<footer class="site-footer">
       <div class="footer-col">
         <h4 class="footer-heading">Products</h4>
         <a href="https://chatweb.ai" class="footer-link" target="_blank">Chatweb.ai</a>
+        <a href="https://wearmu.com" class="footer-link" target="_blank">MU</a>
         <a href="https://stayflowapp.com" class="footer-link" target="_blank">StayFlow</a>
         <a href="https://jiuflow.art" class="footer-link" target="_blank">JiuFlow</a>
         <a href="https://elio.love" class="footer-link" target="_blank">Elio</a>
@@ -158,7 +159,6 @@ pub fn page_shell(title: &str, description: &str, canonical: &str, content: &str
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">{json_ld}</script>
   <script src="https://enabler-analytics.fly.dev/t.js" defer></script>
-  <script async src="https://umami-analytics.fly.dev/script.js" data-website-id="00000000-0000-0000-0000-000000000000"></script>
 </head>
 <body>
 {nav}

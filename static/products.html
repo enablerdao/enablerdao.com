@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — Enabler</title>
+  <meta name="description" content="AIからデバイスまで、ひとりで17のプロダクトを開発。ローカルファースト×オープンソース志向。">
+  <meta property="og:title" content="ひとりで、17個作ってます — Enabler Products">
+  <meta property="og:description" content="AIアシスタント、経費管理、スマートホーム、音声入力、音楽配信…。ひとりで17のプロダクトを開発中。">
+  <meta property="og:image" content="https://enablerdao.com/static/screenshots/pasha-home.jpg">
+  <meta property="og:url" content="https://enablerdao.com/products">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://enablerdao.com/static/screenshots/pasha-home.jpg">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #060608;
+      color: #e0e0ec;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Hiragino Sans", "Helvetica Neue", sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(6,6,8,0.90);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid #161620;
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 52px;
+    }
+    .nav-logo { font-size: 15px; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: -0.3px; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { font-size: 13px; color: #666; text-decoration: none; transition: color .15s; }
+    .nav-links a:hover { color: #ccc; }
+    .nav-links a.active { color: #fff; }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 72px 24px 48px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: #666;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 54px);
+      font-weight: 800; letter-spacing: -1.5px; line-height: 1.08;
+      background: linear-gradient(150deg, #fff 40%, #555);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    .hero-sub { font-size: 15px; color: #777; line-height: 1.7; }
+
+    /* ── Stats ── */
+    .stats {
+      display: flex; justify-content: center;
+      max-width: 520px; margin: 0 auto 28px;
+      border: 1px solid #161620; border-radius: 16px;
+      overflow: hidden;
+    }
+    .stat {
+      flex: 1; text-align: center; padding: 18px 12px;
+      border-right: 1px solid #161620;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+    .stat-label { font-size: 9px; color: #666; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
+    .n-white  { color: #eee; }
+    .n-green  { color: #34d46a; }
+    .n-blue   { color: #4a9eff; }
+    .n-amber  { color: #f59e42; }
+
+    /* ── Category jump nav ── */
+    .cat-nav {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+      max-width: 700px; margin: 0 auto 64px;
+      padding: 0 24px;
+    }
+    .cat-nav a {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
+      color: #555; text-decoration: none;
+      background: #0d0d12; border: 1px solid #161620;
+      padding: 5px 14px; border-radius: 100px;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .cat-nav a:hover { color: #ccc; border-color: #2a2a40; background: #121220; }
+
+    /* ── Main ── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+
+    /* ── Category section ── */
+    .cat-section { margin-bottom: 60px; }
+    .cat-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid #111118;
+    }
+    .cat-emoji { font-size: 16px; }
+    .cat-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #666; }
+    .cat-count { font-size: 10px; color: #444; background: #0d0d12; border: 1px solid #161620; padding: 2px 8px; border-radius: 100px; }
+
+    /* ── Grid ──
+       center-justify: sparse rows (2–3 cards) look balanced, not left-hugging */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(152px, 220px));
+      gap: 12px;
+      justify-content: center;
+      align-items: start;
+    }
+
+    /* ── Card ── */
+    .card {
+      display: flex; flex-direction: column; align-items: stretch;
+      background: #09090d;
+      border: 1px solid #111118;
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+      transition: border-color .2s, transform .18s, box-shadow .2s;
+    }
+    .card:has(a.card-link):not(.card-dev):not(.card-soon):hover {
+      border-color: #242438;
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(0,0,0,.75);
+    }
+
+    /* Dev cards: linkable beta site, dimmed */
+    .card-dev { opacity: 0.65; filter: saturate(0.5); }
+
+    /* Coming-soon cards: no link, no interactive state */
+    .card-soon {
+      opacity: 0.4; filter: saturate(0.25); cursor: default;
+    }
+    .card-soon::after {
+      content: 'Coming Soon';
+      position: absolute; top: 10px; right: 10px;
+      font-size: 8px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+      background: #1e1208; color: #f59e42;
+      padding: 2px 7px; border-radius: 100px;
+      pointer-events: none;
+    }
+    /* Hide unreadable text on coming-soon cards */
+    .card-soon .card-catch,
+    .card-soon .card-kpi { display: none; }
+
+    .card-link {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 22px 14px 16px;
+      text-decoration: none; color: inherit;
+      flex: 1;
+    }
+
+    .icon-wrap {
+      width: 76px; height: 76px;
+      border-radius: 17px; overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,.6);
+      margin-bottom: 14px;
+      background: #111118; flex-shrink: 0;
+    }
+    .icon-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .card-name  { font-size: 13px; font-weight: 700; color: #eeeef8; margin-bottom: 5px; }
+    .card-catch { font-size: 10.5px; color: #888; line-height: 1.55; font-style: italic; text-align: center; margin-bottom: 9px; }
+
+    .card-badges { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-bottom: 7px; }
+    .badge {
+      font-size: 8.5px; font-weight: 700; padding: 2px 7px;
+      border-radius: 100px; letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .b-live   { background: #07231a; color: #34d46a; }
+    .b-tf     { background: #061428; color: #4a9eff; }
+    .b-dev    { background: #1e1208; color: #f59e42; }
+    .b-oss    { background: #160e28; color: #c084fc; }
+    .b-ios    { background: #0a0e1e; color: #6b9fff; }
+    .b-mac    { background: #060f08; color: #3ec96a; }
+    .b-web    { background: #0d0620; color: #9b73fa; }
+    .b-device { background: #160e04; color: #e8943a; }
+
+    .card-kpi { font-size: 10px; color: #666; text-align: center; line-height: 1.5; }
+    .card-kpi strong { color: #999; }
+
+    .status-pip {
+      position: absolute; top: 13px; right: 14px;
+      width: 6px; height: 6px; border-radius: 50%;
+      pointer-events: none;
+    }
+    .pip-live { background: #34d46a; box-shadow: 0 0 6px #34d46a88; }
+    .pip-tf   { background: #4a9eff; box-shadow: 0 0 6px #4a9eff88; }
+
+    /* App Store badge row */
+    .appstore-row {
+      padding: 0 14px 16px;
+      display: flex; justify-content: center;
+    }
+    .appstore-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #fff; color: #000;
+      border-radius: 7px; padding: 6px 12px;
+      font-size: 10px; font-weight: 700;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .appstore-badge:hover { background: #e0e0e0; }
+    .appstore-badge svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+    /* TestFlight join row — for beta apps without a public TF link */
+    .tf-row {
+      padding: 0 14px 16px;
+      display: flex; justify-content: center;
+    }
+    .tf-link {
+      font-size: 10px; font-weight: 600; color: #4a9eff;
+      text-decoration: none;
+      padding: 5px 12px;
+      border: 1px solid #061428;
+      border-radius: 7px;
+      background: #030a18;
+      transition: background .15s, border-color .15s;
+    }
+    .tf-link:hover { background: #061428; border-color: #4a9eff44; }
+
+    /* ── Media section ── */
+    .media { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+    .media-inner {
+      background: #09090d; border: 1px solid #161620;
+      border-radius: 24px; padding: 40px;
+      display: flex; flex-wrap: wrap; gap: 40px; align-items: center;
+    }
+    .media-text { flex: 1; min-width: 220px; }
+    .media-text h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .media-text p { font-size: 13px; color: #666; line-height: 1.7; }
+    .media-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .m-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 10px 20px; border-radius: 10px;
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      border: 1px solid #222; color: #888;
+      transition: color .15s, border-color .15s;
+    }
+    .m-btn:hover { color: #fff; border-color: #444; }
+    .m-btn-primary { background: #fff; color: #000; border-color: #fff; }
+    .m-btn-primary:hover { background: #e0e0e0; color: #000; border-color: #e0e0e0; }
+
+    /* ── Footer ── */
+    .footer { text-align: center; padding: 32px 24px 40px; border-top: 1px solid #111118; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 24px; margin-bottom: 16px; }
+    .footer-links a { font-size: 12px; color: #555; text-decoration: none; transition: color .15s; }
+    .footer-links a:hover { color: #aaa; }
+    .footer-note { font-size: 11px; color: #555; }
+
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: repeat(2, 1fr); justify-content: stretch; }
+      .stats { flex-wrap: wrap; border-radius: 12px; }
+      .stat { min-width: 50%; border-bottom: 1px solid #161620; }
+      .nav-links { display: none; }
+      .media-inner { padding: 28px; }
+      .cat-nav { gap: 6px; }
+    }
+  </style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">Enabler</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/products" class="active">Products</a>
+    <a href="/blog">Blog</a>
+    <a href="/ideas">Ideas</a>
+    <a href="https://github.com/enablerdao" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- ── Hero: "ひとりで17個" が一番のフック ── -->
+<div class="hero">
+  <div class="hero-eyebrow">Enabler Products · 2026</div>
+  <h1>ひとりで、<br>18個作ってます。</h1>
+  <p class="hero-sub">AIからデバイスまで。すべてローカルファースト、<br>オープンソース志向で開発しています。</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num n-white">18</div><div class="stat-label">Total</div></div>
+  <div class="stat"><div class="stat-num n-green">9</div><div class="stat-label">Live</div></div>
+  <div class="stat"><div class="stat-num n-blue">5</div><div class="stat-label">Beta</div></div>
+  <div class="stat"><div class="stat-num n-amber">4</div><div class="stat-label">Dev</div></div>
+</div>
+
+<!-- ── Category jump nav ── -->
+<nav class="cat-nav" aria-label="カテゴリジャンプ">
+  <a href="#ai-dev">🤖 AI & Dev</a>
+  <a href="#money">💰 Money</a>
+  <a href="#business">🏢 Business</a>
+  <a href="#lifestyle">🌿 Lifestyle</a>
+  <a href="#creative">🎵 Creative</a>
+</nav>
+
+<div class="main">
+
+  <!-- ── AI & Dev (4) ── -->
+  <div class="cat-section" id="ai-dev">
+    <div class="cat-header">
+      <span class="cat-emoji">🤖</span>
+      <span class="cat-title">AI & Dev</span>
+      <span class="cat-count">4 products</span>
+    </div>
+    <div class="grid">
+
+      <!-- Elio: Live iOS -->
+      <div class="card">
+        <span class="status-pip pip-live"></span>
+        <a class="card-link" href="https://elio.love" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/elio.png" alt="Elio"></div>
+          <div class="card-name">Elio</div>
+          <div class="card-catch">ネット不要。最強のAIを、手の中に。</div>
+          <div class="card-badges">
+            <span class="badge b-ios">iOS</span>
+            <span class="badge b-live">Live</span>
+          </div>
+          <div class="card-kpi">30+モデル対応 · 完全オフライン · 無料</div>
+        </a>
+        <div class="appstore-row">
+          <a class="appstore-badge" href="https://apps.apple.com/app/elio/id6741023588" target="_blank">
+            <svg viewBox="0 0 14 14" fill="currentColor"><path d="M10.1 7.3c0-1.6 1.3-2.4 1.4-2.4-.8-1.1-1.9-1.3-2.4-1.3-1 0-2 .6-2.5.6-.5 0-1.4-.6-2.3-.6-1.2 0-2.3.7-2.9 1.8-1.2 2.1-.3 5.3.9 7 .6.9 1.3 1.9 2.2 1.8.9 0 1.2-.6 2.3-.6s1.4.6 2.3.5c1 0 1.6-.9 2.2-1.8.7-1 1-2 1-2.1-.1 0-2.2-.9-2.2-2.9zM8.5 2.5C9 1.9 9.3 1 9.1.1c-.8.1-1.7.5-2.3 1.2-.5.6-.9 1.5-.8 2.3.8.1 1.7-.3 2.5-1.1z"/></svg>
+            App Store
+          </a>
+        </div>
+      </div>
+
+      <!-- NOU: OSS macOS — URL未確認のためリンクなし -->
+      <div class="card">
+        <span class="status-pip pip-live"></span>
+        <div class="card-link">
+          <div class="icon-wrap"><img src="/static/app-icons/nou.png" alt="NOU"></div>
+          <div class="card-name">NOU</div>
+          <div class="card-catch">みんなの脳が、ひとつになる。</div>
+          <div class="card-badges">
+            <span class="badge b-mac">macOS</span>
+            <span class="badge b-oss">OSS</span>
+            <span class="badge b-live">Live</span>
+          </div>
+          <div class="card-kpi">分散メッシュ推論 · MLX対応 · 無料</div>
+        </div>
+      </div>
+
+      <!-- chatweb: Live Web -->
+      <div class="card">
+        <span class="status-pip pip-live"></span>
+        <a class="card-link" href="https://chatweb.ai" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/claudeterm.png" alt="chatweb"></div>
+          <div class="card-name">chatweb</div>
+          <div class="card-catch">AIと、ブラウザで話す。</div>
+          <div class="card-badges">
+            <span class="badge b-web">Web</span>
+            <span class="badge b-live">Live</span>
+          </div>
+          <div class="card-kpi">Claude Code搭載 · <strong>$10無料</strong>クレジット</div>
+        </a>
+      </div>
+
+      <!-- Koe: OSS macOS (iOS badge削除 — App Store IDなし) -->
+      <div class="card">
+        <span class="status-pip pip-live"></span>
+        <a class="card-link" href="https://koe.elio.love" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/koe_software.png" alt="Koe"></div>
+          <div class="card-name">Koe</div>
+          <div class="card-catch">話すだけで、文字になる。</div>
+          <div class="card-badges">
+            <span class="badge b-mac">macOS</span>
+            <span class="badge b-oss">OSS</span>
+            <span class="badge b-live">Live</span>
+          </div>
+          <div class="card-kpi">グローバルショートカット · 即入力</div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Money (3) ── -->
+  <div class="cat-section" id="money">
+    <div class="cat-header">
+      <span class="cat-emoji">💰</span>
+      <span class="cat-title">Money</span>
+      <span class="cat-count">3 products</span>
+    </div>
+    <div class="grid">
+
+      <!-- パシャ: TestFlight, pasha.run あり -->
+      <div class="card">
+        <span class="status-pip pip-tf"></span>
+        <a class="card-link" href="https://pasha.run" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/pasha.png" alt="パシャ"></div>
+          <div class="card-name">パシャ</div>
+          <div class="card-catch">撮るだけで、経費が片づく。</div>
+          <div class="card-badges">
+            <span class="badge b-ios">iOS</span>
+            <span class="badge b-tf">Beta</span>
+          </div>
+          <div class="card-kpi">電帳法8要件対応 · AI-OCR · Free / Pro <strong>¥980</strong>/月</div>
+        </a>
+      </div>
+
+      <!-- チャリン: TestFlight, URLなし → Beta参加CTA -->
+      <div class="card">
+        <span class="status-pip pip-tf"></span>
+        <div class="card-link">
+          <div class="icon-wrap"><img src="/static/app-icons/charin.png" alt="チャリン"></div>
+          <div class="card-name">チャリン</div>
+          <div class="card-catch">請求書を、1分で。</div>
+          <div class="card-badges">
+            <span class="badge b-ios">iOS</span>
+            <span class="badge b-tf">Beta</span>
+          </div>
+          <div class="card-kpi">インボイス制度対応 · PDF出力</div>
+        </div>
+        <div class="tf-row">
+          <a class="tf-link" href="mailto:yuki@enablerdao.com?subject=Beta参加希望: チャリン">Beta参加を申し込む →</a>
+        </div>
+      </div>
+
+      <!-- サクッ: TestFlight, URLなし → Beta参加CTA -->
+      <div class="card">
+        <span class="status-pip pip-tf"></span>
+        <div class="card-link">
+          <div class="icon-wrap"><img src="/static/app-icons/sakutsu.png" alt="サクッ"></div>
+          <div class="card-name">サクッ</div>
+          <div class="card-catch">確定申告が、今年こそ終わる。</div>
+          <div class="card-badges">
+            <span class="badge b-ios">iOS</span>
+            <span class="badge b-tf">Beta</span>
+          </div>
+          <div class="card-kpi">税額自動計算 · e-Tax XML出力</div>
+        </div>
+        <div class="tf-row">
+          <a class="tf-link" href="mailto:yuki@enablerdao.com?subject=Beta参加希望: サクッ">Beta参加を申し込む →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Business (5) ── -->
+  <div class="cat-section" id="business">
+    <div class="cat-header">
+      <span class="cat-emoji">🏢</span>
+      <span class="cat-title">Business</span>
+      <span class="cat-count">5 products</span>
+    </div>
+    <div class="grid">
+
+      <!-- StayFlow: Live -->
+      <div class="card">
+        <span class="status-pip pip-live"></span>
+        <a class="card-link" href="https://stayflowapp.com" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/stayflow.png" alt="StayFlow"></div>
+          <div class="card-name">StayFlow</div>
+          <div class="card-catch">予約から清掃まで、ひとつで。</div>
+          <div class="card-badges">
+            <span class="badge b-web">Web</span>
+            <span class="badge b-live">Live</span>
+          </div>
+          <div class="card-kpi"><strong>1,860 UV · 500+施設導入</strong> · ¥2,900〜/月</div>
+        </a>
+      </div>
+
+      <!-- ミセバンAI: Live -->
+      <div class="card">
+        <span class="status-pip pip-live"></span>
+        <a class="card-link" href="https://misebanai.com" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/miseban_ai.png" alt="ミセバンAI"></div>
+          <div class="card-name">ミセバンAI</div>
+          <div class="card-catch">店長がいなくても、お店は動く。</div>
+          <div class="card-badges">
+            <span class="badge b-web">Web</span>
+            <span class="badge b-live">Live</span>
+          </div>
+          <div class="card-kpi">既設カメラに接続 · 来客数分析 · 無人店舗対応</div>
+        </a>
+      </div>
+
+      <!-- BANTO: Dev, banto.work あり -->
+      <div class="card card-dev">
+        <a class="card-link" href="https://banto.work" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/banto.png" alt="BANTO"></div>
+          <div class="card-name">BANTO</div>
+          <div class="card-catch">職人の仕事を、書類から解放する。</div>
+          <div class="card-badges">
+            <span class="badge b-web">Web</span>
+            <span class="badge b-dev">Dev</span>
+          </div>
+          <div class="card-kpi">建設業向け · AI金額入力 · 印鑑対応</div>
+        </a>
+      </div>
+
+      <!-- KAGI: TestFlight, URLなし → Beta参加CTA -->
+      <div class="card">
+        <span class="status-pip pip-tf"></span>
+        <div class="card-link">
+          <div class="icon-wrap"><img src="/static/app-icons/kagi.png" alt="KAGI"></div>
+          <div class="card-name">KAGI</div>
+          <div class="card-catch">家中の鍵を、ひとつのアプリで。</div>
+          <div class="card-badges">
+            <span class="badge b-ios">iOS</span>
+            <span class="badge b-tf">Beta</span>
+          </div>
+          <div class="card-kpi">SwitchBot · Sesame連携 · 予約自動施錠</div>
+        </div>
+        <div class="tf-row">
+          <a class="tf-link" href="mailto:yuki@enablerdao.com?subject=Beta参加希望: KAGI">Beta参加を申し込む →</a>
+        </div>
+      </div>
+
+      <!-- ポン: TestFlight, URLなし → Beta参加CTA -->
+      <div class="card">
+        <span class="status-pip pip-tf"></span>
+        <div class="card-link">
+          <div class="icon-wrap"><img src="/static/app-icons/pon.png" alt="ポン"></div>
+          <div class="card-name">ポン</div>
+          <div class="card-catch">押せば、契約が終わる。</div>
+          <div class="card-badges">
+            <span class="badge b-ios">iOS</span>
+            <span class="badge b-tf">Beta</span>
+          </div>
+          <div class="card-kpi">PDF署名 · 法的効力あり · 印鑑不要</div>
+        </div>
+        <div class="tf-row">
+          <a class="tf-link" href="mailto:yuki@enablerdao.com?subject=Beta参加希望: ポン">Beta参加を申し込む →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Lifestyle (3) ── -->
+  <div class="cat-section" id="lifestyle">
+    <div class="cat-header">
+      <span class="cat-emoji">🌿</span>
+      <span class="cat-title">Lifestyle</span>
+      <span class="cat-count">3 products</span>
+    </div>
+    <div class="grid">
+
+      <!-- JiuFlow: Live -->
+      <div class="card">
+        <span class="status-pip pip-live"></span>
+        <a class="card-link" href="https://jiuflow.art" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/jiuflow.png" alt="JiuFlow"></div>
+          <div class="card-name">JiuFlow</div>
+          <div class="card-catch">道場の外でも、成長し続ける。</div>
+          <div class="card-badges">
+            <span class="badge b-ios">iOS</span>
+            <span class="badge b-web">Web</span>
+            <span class="badge b-live">Live</span>
+          </div>
+          <div class="card-kpi"><strong>200+テクニック動画</strong> · 帯別カリキュラム</div>
+        </a>
+      </div>
+
+      <!-- ポイッ: Coming Soon, no URL -->
+      <div class="card card-soon">
+        <div class="card-link">
+          <div class="icon-wrap"><img src="/static/app-icons/poi.png" alt="ポイッ"></div>
+          <div class="card-name">ポイッ</div>
+          <div class="card-catch">迷ったら、かざすだけ。</div>
+          <div class="card-badges">
+            <span class="badge b-ios">iOS</span>
+            <span class="badge b-dev">Dev</span>
+          </div>
+          <div class="card-kpi">カメラで即判定 · 地域ルール対応</div>
+        </div>
+      </div>
+
+      <!-- TORO: Coming Soon, no URL -->
+      <div class="card card-soon">
+        <div class="card-link">
+          <div class="icon-wrap"><img src="/static/app-icons/toro.png" alt="TORO"></div>
+          <div class="card-name">TORO</div>
+          <div class="card-catch">今夜の夕食、AIにまかせて。</div>
+          <div class="card-badges">
+            <span class="badge b-ios">iOS</span>
+            <span class="badge b-dev">Dev</span>
+          </div>
+          <div class="card-kpi">おまかせ寿司 · AIレコメンド</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Creative (3) ── -->
+  <div class="cat-section" id="creative">
+    <div class="cat-header">
+      <span class="cat-emoji">🎵</span>
+      <span class="cat-title">Creative</span>
+      <span class="cat-count">3 products</span>
+    </div>
+    <div class="grid">
+
+      <!-- MU: Live, AIファッション -->
+      <div class="card">
+        <span class="status-pip pip-live"></span>
+        <a class="card-link" href="https://wearmu.com" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/mu.png" alt="MU"></div>
+          <div class="card-name">MU</div>
+          <div class="card-catch">AIが、毎時間、服を作る。</div>
+          <div class="card-badges">
+            <span class="badge b-web">Web</span>
+            <span class="badge b-live">Live</span>
+          </div>
+          <div class="card-kpi">気温が枚数を決める · 在庫ゼロ · ¥5,000〜</div>
+        </a>
+      </div>
+
+      <!-- SOLUNA: Live -->
+      <div class="card">
+        <span class="status-pip pip-live"></span>
+        <a class="card-link" href="https://solun.art" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/soluna.png" alt="SOLUNA"></div>
+          <div class="card-name">SOLUNA</div>
+          <div class="card-catch">5秒で、世界に音楽を届ける。</div>
+          <div class="card-badges">
+            <span class="badge b-web">Web</span>
+            <span class="badge b-live">Live</span>
+          </div>
+          <div class="card-kpi">ISRC自動取得 · AIカバーアート · <strong>無料30曲</strong></div>
+        </a>
+      </div>
+
+      <!-- Koe Device: Dev, koe.live あり -->
+      <div class="card card-dev">
+        <a class="card-link" href="https://koe.live" target="_blank">
+          <div class="icon-wrap"><img src="/static/app-icons/koe_device.png" alt="Koe Device"></div>
+          <div class="card-name">Koe Device</div>
+          <div class="card-catch">100人集まれば、オーケストラになる。</div>
+          <div class="card-badges">
+            <span class="badge b-device">Device</span>
+            <span class="badge b-dev">Dev</span>
+          </div>
+          <div class="card-kpi">技適済 · OTA対応 · COIN ¥65〜</div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Media ── -->
+<div class="media">
+  <div class="media-inner">
+    <div class="media-text">
+      <h2>メディア・取材</h2>
+      <p>掲載・取材のご依頼はメールまたは X でお気軽にどうぞ。<br>ロゴ・スクリーンショット等のアセットはリクエストに応じてお送りします。</p>
+    </div>
+    <div class="media-actions">
+      <a class="m-btn m-btn-primary" href="mailto:yuki@enablerdao.com">メールで連絡 →</a>
+      <a class="m-btn" href="https://twitter.com/yukihamada" target="_blank">Twitter / X</a>
+      <a class="m-btn" href="https://github.com/enablerdao" target="_blank">GitHub</a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/blog">Blog</a>
+    <a href="/ideas">Ideas</a>
+    <a href="/agents">Agents</a>
+    <a href="https://github.com/enablerdao" target="_blank">GitHub</a>
+  </div>
+  <div class="footer-note">© 2026 Enabler</div>
+</footer>
+
+</body>
+</html>
