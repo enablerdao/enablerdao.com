@@ -11,8 +11,26 @@ jobs:
     concurrency: deploy-enablerdao
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install Rust + wasm32-wasip2
+        run: |
+          rustup update stable
+          rustup target add wasm32-wasip2
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: spin-component
+
+      - name: Build Spin WASM component
+        run: |
+          cargo build \
+            --manifest-path spin-component/Cargo.toml \
+            --target wasm32-wasip2 \
+            --release
+
       - uses: superfly/flyctl-actions/setup-flyctl@master
+
       - name: Deploy
-        run: flyctl deploy --config fly-spin.toml --remote-only --app enablerdao --wait-timeout=600
+        run: flyctl deploy --config fly-spin.toml --remote-only --app enablerdao --wait-timeout=300
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
