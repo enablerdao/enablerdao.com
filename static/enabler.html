@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Enabler — テクノロジーで、人生をもっと自由に</title>
-<meta name="description" content="スマートホーム・音声入力・レシートAI・電子契約・バケーションレンタル。ローカルファースト × オープンソース。あなたのデータは、あなたのもの。">
+<title>Enabler — ENAI 1トークンで、全プロダクトを使う。</title>
+<meta name="description" content="ENAI トークンで Enabler の 7+ プロダクトの利用権を一括解禁。スマートホーム・音声入力・レシートAI・電子契約・バケーションレンタル。">
 <link rel="canonical" href="https://enablerdao.com">
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/static/favicon.svg">
 <meta name="theme-color" content="#000000">
 <!-- OGP -->
-<meta property="og:title" content="Enabler — テクノロジーで、人生をもっと自由に">
-<meta property="og:description" content="スマートホーム・音声入力・レシートAI・電子契約・バケーションレンタル。ローカルファースト × オープンソース。あなたのデータは、あなたのもの。">
+<meta property="og:title" content="Enabler — ENAI 1トークンで、全プロダクトを使う。">
+<meta property="og:description" content="ENAI トークンで Enabler の 7+ プロダクトの利用権を一括解禁。スマートホーム・音声入力・レシートAI・電子契約・バケーションレンタル。">
 <meta property="og:image" content="https://enablerdao.com/static/properties/atami.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -21,8 +21,8 @@
 <meta property="og:locale" content="ja_JP">
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Enabler — テクノロジーで、人生をもっと自由に">
-<meta name="twitter:description" content="スマートホーム・音声入力・レシートAI・電子契約・バケーションレンタル。ローカルファースト × オープンソース。あなたのデータは、あなたのもの。">
+<meta name="twitter:title" content="Enabler — ENAI 1トークンで、全プロダクトを使う。">
+<meta name="twitter:description" content="ENAI トークンで Enabler の 7+ プロダクトの利用権を一括解禁。スマートホーム・音声入力・レシートAI・電子契約・バケーションレンタル。">
 <meta name="twitter:image" content="https://enablerdao.com/static/properties/atami.jpg">
 <meta name="twitter:site" content="@enablerdao">
 <style>
@@ -39,26 +39,75 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .f.v{opacity:1;transform:none;filter:blur(0)}
 .f.d1{transition-delay:.15s}.f.d2{transition-delay:.3s}.f.d3{transition-delay:.45s}.f.d4{transition-delay:.6s}
 .screenshot.f{transform:translateY(24px) scale(.96)}.screenshot.f.v{transform:none}
+
+/* ===== HERO ===== */
 .hero{flex-direction:column;text-align:center}
 .hero-bg{position:absolute;inset:0;background:url('/static/properties/atami.jpg') center/cover no-repeat;background-attachment:fixed}
-.hero-bg::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.45)}
-.hero-content{position:relative;z-index:1}
-.hero h1{font-size:clamp(56px,12vw,96px);font-weight:800;color:#fff;line-height:1;margin-bottom:24px;text-shadow:0 2px 20px rgba(0,0,0,.5);animation:hero-tight .9s cubic-bezier(.16,1,.3,1) forwards}
+.hero-bg::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.hero-content{position:relative;z-index:1;max-width:760px;padding:0 24px}
+.hero-eyebrow{font-size:12px;letter-spacing:.25em;color:rgba(255,255,255,.45);text-transform:uppercase;margin-bottom:20px;animation:fadein .6s ease forwards}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.hero h1{font-size:clamp(36px,7vw,72px);font-weight:800;color:#fff;line-height:1.1;margin-bottom:20px;text-shadow:0 2px 20px rgba(0,0,0,.5);animation:hero-tight .9s cubic-bezier(.16,1,.3,1) forwards}
 @keyframes hero-tight{from{letter-spacing:.1em;opacity:0;filter:blur(8px)}to{letter-spacing:-.03em;opacity:1;filter:blur(0)}}
-.hero p{font-size:clamp(16px,2.5vw,22px);color:rgba(255,255,255,.85);font-weight:300;letter-spacing:.05em;text-shadow:0 2px 20px rgba(0,0,0,.5)}
-.scroll-arrow{position:absolute;bottom:40px;left:50%;width:24px;height:24px;border-right:2px solid rgba(255,255,255,.3);border-bottom:2px solid rgba(255,255,255,.3);transform:translateX(-50%) rotate(45deg);animation:bounce 2s infinite}
-@keyframes bounce{0%,100%{opacity:.3;transform:translateX(-50%) rotate(45deg) translate(0,0)}50%{opacity:.8;transform:translateX(-50%) rotate(45deg) translate(4px,4px)}}
+.hero-sub{font-size:clamp(15px,2vw,20px);color:rgba(255,255,255,.75);font-weight:300;margin-bottom:36px;line-height:1.6}
+.hero-cta-wrap{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
+.btn-primary-enai{display:inline-flex;align-items:center;gap:8px;padding:16px 40px;border-radius:14px;background:#E8A838;color:#000;font-size:16px;font-weight:800;text-decoration:none;transition:transform .2s,box-shadow .2s;letter-spacing:.01em}
+.btn-primary-enai:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(232,168,56,.45)}
+.btn-secondary-scroll{display:inline-flex;align-items:center;gap:6px;padding:16px 32px;border-radius:14px;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);font-size:15px;font-weight:600;text-decoration:none;transition:all .2s;background:rgba(255,255,255,.04);backdrop-filter:blur(8px)}
+.btn-secondary-scroll:hover{border-color:rgba(255,255,255,.4);color:#fff;background:rgba(255,255,255,.08)}
+.scroll-arrow{position:absolute;bottom:36px;left:50%;width:22px;height:22px;border-right:2px solid rgba(255,255,255,.25);border-bottom:2px solid rgba(255,255,255,.25);transform:translateX(-50%) rotate(45deg);animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{opacity:.25;transform:translateX(-50%) rotate(45deg) translate(0,0)}50%{opacity:.7;transform:translateX(-50%) rotate(45deg) translate(4px,4px)}}
+
+/* ===== ENAI WIDGET ===== */
+.enai-widget{min-height:auto;padding:80px 10vw;flex-direction:column;background:#000;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.enai-widget-inner{width:100%;max-width:900px}
+.section-label-sm{font-size:11px;letter-spacing:.2em;color:rgba(232,168,56,.7);text-transform:uppercase;margin-bottom:12px}
+.enai-widget h2{font-size:clamp(22px,3.5vw,36px);font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.02em}
+.enai-widget-desc{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:36px;line-height:1.6}
+/* token stat bar */
+.enai-stats{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:36px}
+.enai-stat{display:flex;flex-direction:column;gap:4px}
+.enai-stat-val{font-size:22px;font-weight:800;color:#E8A838;font-variant-numeric:tabular-nums}
+.enai-stat-label{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase}
+/* buy CTA */
+.enai-buy-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:44px}
+.btn-buy-enai{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:12px;background:#E8A838;color:#000;font-size:15px;font-weight:800;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn-buy-enai:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,168,56,.35)}
+.btn-solscan{display:inline-flex;align-items:center;gap:6px;padding:14px 24px;border-radius:12px;border:1px solid rgba(232,168,56,.25);color:rgba(232,168,56,.8);font-size:14px;font-weight:600;text-decoration:none;transition:all .2s;background:rgba(232,168,56,.04)}
+.btn-solscan:hover{border-color:rgba(232,168,56,.5);color:#E8A838}
+/* mapping table */
+.enai-map-title{font-size:14px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.enai-map{width:100%;border-collapse:collapse;font-size:14px}
+.enai-map th{text-align:left;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.08);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:600}
+.enai-map td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.75)}
+.enai-map tr:last-child td{border-bottom:none}
+.enai-map tr:hover td{background:rgba(255,255,255,.02)}
+.enai-map .prod{font-weight:700;color:#fff}
+.enai-map .enai-amt{font-family:monospace;color:#E8A838;font-weight:700}
+.enai-map .unlock{color:rgba(255,255,255,.55)}
+.enai-disclaimer{font-size:11px;color:rgba(255,255,255,.25);margin-top:16px;line-height:1.6}
+
+/* ===== PHILOSOPHY ===== */
 .philosophy{flex-direction:column;padding:0 10vw;align-items:flex-start}
 .philosophy .accent{width:3px;height:0;background:#E8A838;margin-bottom:48px;border-radius:2px;transition:height 1s cubic-bezier(.16,1,.3,1)}
 .philosophy .accent.v{height:60px}
 .philosophy h2{font-size:clamp(28px,5vw,48px);font-weight:800;color:#fff;line-height:1.6;letter-spacing:-.02em;text-align:left;max-width:600px}
-.domains{min-height:auto;padding:120px 10vw;flex-direction:column}
-.domains-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,48px);max-width:800px;width:100%}
-.domain-card{padding:clamp(24px,3vw,40px);border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.03);transition:border-color .3s,background .3s}
+
+/* ===== DOMAINS (事業領域) ===== */
+.domains{min-height:auto;padding:100px 10vw;flex-direction:column}
+.domains-header{width:100%;max-width:860px;margin-bottom:48px;text-align:center}
+.domains-header h2{font-size:clamp(24px,4vw,40px);font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.02em}
+.domains-header p{font-size:14px;color:rgba(255,255,255,.45)}
+.domains-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,32px);max-width:860px;width:100%}
+.domain-card{padding:clamp(20px,2.5vw,32px);border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.03);transition:border-color .3s,background .3s}
 .domain-card:hover{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.05)}
-.domain-card svg{width:32px;height:32px;margin-bottom:16px;opacity:.7}
-.domain-card h4{font-size:15px;font-weight:700;margin-bottom:6px;color:#fff}
-.domain-card p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.5}
+.domain-card svg{width:28px;height:28px;margin-bottom:14px;opacity:.6}
+.domain-card h4{font-size:14px;font-weight:700;margin-bottom:5px;color:#fff}
+.domain-card p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.5}
+.domain-card .domain-link{display:inline-block;margin-top:10px;font-size:11px;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s;letter-spacing:.05em}
+.domain-card .domain-link:hover{color:rgba(255,255,255,.7)}
+
+/* ===== SHOWCASE ===== */
 .showcase{padding:80px 10vw;gap:clamp(40px,8vw,120px)}
 .showcase-text{max-width:360px}
 .showcase-text h3{font-size:clamp(36px,6vw,56px);font-weight:800;color:#fff;line-height:1.1;margin-bottom:12px}
@@ -72,6 +121,8 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 .btn-pon:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(155,89,182,.3)}
 .screenshot{width:260px;border-radius:32px;box-shadow:0 32px 64px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08);overflow:hidden;flex-shrink:0}
 .screenshot img{width:100%;display:block}
+
+/* ===== FULLBLEED / BEYOND / VISION / CTA ===== */
 .fullbleed{text-align:center;flex-direction:column;padding:0 24px}
 .fullbleed-bg{position:absolute;inset:0;background:url('/static/properties/honolulu.jpg') center/cover no-repeat;background-attachment:fixed}
 .fullbleed-bg::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.4)}
@@ -106,9 +157,28 @@ section{min-height:100vh;display:flex;align-items:center;justify-content:center;
 footer{font-size:12px;color:rgba(255,255,255,.5);display:flex;gap:20px;align-items:center}
 footer a{color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
 footer a:hover{color:rgba(255,255,255,.8)}
-@media(max-width:768px){.showcase{flex-direction:column !important;text-align:center;padding:80px 32px}.showcase-text{max-width:100%}.screenshot{width:200px}.philosophy{padding:0 32px;align-items:flex-start}.domains{padding:80px 24px}.domains-grid{grid-template-columns:repeat(2,1fr);gap:16px}.pillars{flex-direction:column;gap:24px}.pillar::before{display:none}.hero-bg,.fullbleed-bg,.cta-bg{background-attachment:scroll}.beyond-tags{gap:8px 10px}.beyond-tags a{padding:8px 14px;font-size:13px}}
-@media(max-width:480px){.domains-grid{grid-template-columns:1fr}}
 .showcase-text h3{text-shadow:0 0 30px rgba(232,168,56,.3)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .showcase{flex-direction:column !important;text-align:center;padding:80px 32px}
+  .showcase-text{max-width:100%}
+  .screenshot{width:200px}
+  .philosophy{padding:0 32px;align-items:flex-start}
+  .domains{padding:80px 24px}
+  .domains-grid{grid-template-columns:repeat(2,1fr);gap:16px}
+  .pillars{flex-direction:column;gap:24px}
+  .pillar::before{display:none}
+  .hero-bg,.fullbleed-bg,.cta-bg{background-attachment:scroll}
+  .beyond-tags{gap:8px 10px}
+  .beyond-tags a{padding:8px 14px;font-size:13px}
+  .enai-widget{padding:60px 24px}
+  .enai-stats{gap:20px}
+  .enai-map{font-size:12px}
+  .enai-map th,.enai-map td{padding:8px 10px}
+}
+@media(max-width:480px){.domains-grid{grid-template-columns:1fr}}
+
 @media(prefers-reduced-motion:reduce){
   .f{transition:none !important;animation:none !important;opacity:1 !important;transform:none !important;filter:none !important}
   .hero h1{animation:none !important;letter-spacing:-.03em !important;opacity:1 !important;filter:none !important}
@@ -116,56 +186,126 @@ footer a:hover{color:rgba(255,255,255,.8)}
   .vision::before{animation:none !important}
 }
 </style>
+<script defer src="https://enabler-analytics.fly.dev/t.js"></script>
 </head>
 <body>
-<a href="#products" style="position:absolute;left:-9999px;top:0;padding:8px;background:#E8A838;color:#000;z-index:9999" onfocus="this.style.left='8px'">コンテンツへスキップ</a>
+<a href="#enai" style="position:absolute;left:-9999px;top:0;padding:8px;background:#E8A838;color:#000;z-index:9999" onfocus="this.style.left='8px'">コンテンツへスキップ</a>
+
+<!-- ===== HERO ===== -->
 <section class="hero">
 <div class="hero-bg" role="img" aria-label="熱海のヴィラ"></div>
 <div class="hero-content">
-  <h1>Enabler</h1>
-  <p class="f d1">テクノロジーで、人生をもっと自由に。</p>
-  <p class="f d2" style="font-size:clamp(12px,1.5vw,15px);color:rgba(255,255,255,.5);margin-top:16px;letter-spacing:.15em">スマートホーム · 音声入力 · レシートAI · 電子契約 · 確定申告</p>
+  <p class="hero-eyebrow f">Enabler — テクノロジーで、人生をもっと自由に</p>
+  <h1>ENAI 1トークンで、<br>Enabler の全プロダクトを使う。</h1>
+  <p class="hero-sub f d1">7+ プロダクトの利用権を、ENAI トークンで一括解禁。<br>スマートホーム・音声入力・レシートAI・バケーションレンタル。</p>
+  <div class="hero-cta-wrap f d2">
+    <a href="#enai" class="btn-primary-enai">ENAI を購入</a>
+    <a href="#domains" class="btn-secondary-scroll">事業領域を見る &darr;</a>
+  </div>
 </div>
 <div class="scroll-arrow"></div>
 </section>
+
+<!-- ===== ENAI WIDGET ===== -->
+<section class="enai-widget" id="enai">
+<div class="enai-widget-inner">
+  <p class="section-label-sm f">ENAI Token</p>
+  <h2 class="f d1">1 ENAI で、何ができるか。</h2>
+  <p class="enai-widget-desc f d2">ENAI は Solana 上のユーティリティトークン。プロダクトごとに消費することで機能をアンロックできます。</p>
+
+  <div class="enai-stats f d2">
+    <div class="enai-stat">
+      <span class="enai-stat-val">1B</span>
+      <span class="enai-stat-label">総供給量</span>
+    </div>
+    <div class="enai-stat">
+      <span class="enai-stat-val">Solana</span>
+      <span class="enai-stat-label">ブロックチェーン</span>
+    </div>
+    <div class="enai-stat">
+      <span class="enai-stat-val">7+</span>
+      <span class="enai-stat-label">対応プロダクト</span>
+    </div>
+  </div>
+
+  <div class="enai-buy-row f d3">
+    <a href="https://raydium.io/swap/?inputMint=sol&outputMint=8CeusiVAeibuBGv5xcf7kt7JQZzqwTS5pD7u2CfyoWnL" target="_blank" rel="noopener" class="btn-buy-enai">
+      ENAI を購入 (Raydium)
+    </a>
+    <a href="https://solscan.io/token/8CeusiVAeibuBGv5xcf7kt7JQZzqwTS5pD7u2CfyoWnL" target="_blank" rel="noopener" class="btn-solscan">
+      Solscan で確認 &rarr;
+    </a>
+  </div>
+
+  <!-- ENAI 利用マッピング表 -->
+  <p class="enai-map-title f d3">ENAI 利用マップ</p>
+  <div class="f d4" style="overflow-x:auto;border-radius:12px;border:1px solid rgba(255,255,255,.07)">
+    <table class="enai-map">
+      <thead>
+        <tr>
+          <th>プロダクト</th>
+          <th>必要 ENAI</th>
+          <th>アンロック内容</th>
+          <th>リンク</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="prod">KAGI</td>
+          <td class="enai-amt">10 ENAI</td>
+          <td class="unlock">スマートホーム鍵管理・Airbnb/Beds24 連携フル機能</td>
+          <td><a href="https://testflight.apple.com/join/tntB2b27" style="color:#E8A838;text-decoration:none;font-size:12px" target="_blank">Beta &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="prod">パシャ</td>
+          <td class="enai-amt">5 ENAI</td>
+          <td class="unlock">レシート AI 仕分け・電子帳簿保存法・確定申告連携</td>
+          <td><a href="https://pasha.run" style="color:#E8A838;text-decoration:none;font-size:12px" target="_blank">サイト &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="prod">Koe</td>
+          <td class="enai-amt">5 ENAI</td>
+          <td class="unlock">クラウド音声認識・バックグラウンド同期・E2E 暗号化</td>
+          <td><a href="https://app.koe.live" style="color:#E8A838;text-decoration:none;font-size:12px" target="_blank">App &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="prod">Elio</td>
+          <td class="enai-amt">5 ENAI</td>
+          <td class="unlock">P2P 分散推論・ENAI トークンゲート解除</td>
+          <td><a href="https://elio.love" style="color:#E8A838;text-decoration:none;font-size:12px" target="_blank">App &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="prod">JiuFlow</td>
+          <td class="enai-amt">3 ENAI</td>
+          <td class="unlock">BJJ テクニック全データベース・大会解析アンロック</td>
+          <td><a href="https://jiuflow.art" style="color:#E8A838;text-decoration:none;font-size:12px" target="_blank">App &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="prod">StayFlow</td>
+          <td class="enai-amt">10 ENAI</td>
+          <td class="unlock">宿泊施設管理・OTA 連携・収支レポート</td>
+          <td><a href="https://stayflowapp.com" style="color:#E8A838;text-decoration:none;font-size:12px" target="_blank">App &rarr;</a></td>
+        </tr>
+        <tr>
+          <td class="prod">chatweb.ai</td>
+          <td class="enai-amt">1 ENAI</td>
+          <td class="unlock">マルチモデル AI チャット 10 クレジット分</td>
+          <td><a href="https://chatweb.ai" style="color:#E8A838;text-decoration:none;font-size:12px" target="_blank">試す &rarr;</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="enai-disclaimer f d4">※ ENAI はユーティリティトークンです。投資商品ではなく、価値の保証はありません。利用マップは実装予定を含みます。Mint: 8CeusiVAeibuBGv5xcf7kt7JQZzqwTS5pD7u2CfyoWnL</p>
+</div>
+</section>
+
+<!-- ===== PHILOSOPHY ===== -->
 <section class="philosophy">
 <div class="accent f"></div>
 <h2 class="f d1">効率化。自動化。自律。<br>AIで作り、AIでテストし、AIで磨く。<br>みんなで作る。みんなで使う。</h2>
 </section>
-<section class="domains">
-<div class="domains-grid">
-  <div class="domain-card f">
-    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><path d="M4 28V14L16 4l12 10v14H20v-8h-8v8z"/></svg>
-    <h4>暮らし</h4>
-    <p>スマートホーム管理</p>
-  </div>
-  <div class="domain-card f d1">
-    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><circle cx="16" cy="16" r="12"/><path d="M13 10v4h-2l5 8 5-8h-2v-4z"/></svg>
-    <h4>お金</h4>
-    <p>経費・請求・確定申告</p>
-  </div>
-  <div class="domain-card f d2">
-    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><circle cx="10" cy="10" r="3"/><circle cx="22" cy="10" r="3"/><circle cx="16" cy="22" r="3"/><path d="M12 12l3 8M20 12l-3 8M13 10h6"/></svg>
-    <h4>AI</h4>
-    <p>自律型エージェント</p>
-  </div>
-  <div class="domain-card f d1">
-    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><path d="M16 6c-4 0-8 3-8 8 0 3 2 5 4 7l4 5 4-5c2-2 4-4 4-7 0-5-4-8-8-8z"/><path d="M12 16l3 3 5-6"/></svg>
-    <h4>健康・運動</h4>
-    <p>安全で強い柔術</p>
-  </div>
-  <div class="domain-card f d2">
-    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><path d="M4 16h4l3-6 4 12 4-12 3 6h6"/></svg>
-    <h4>音楽・建築</h4>
-    <p>空間と音の融合</p>
-  </div>
-  <div class="domain-card f d3">
-    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><circle cx="16" cy="16" r="3"/><circle cx="8" cy="10" r="2"/><circle cx="24" cy="10" r="2"/><circle cx="8" cy="22" r="2"/><circle cx="24" cy="22" r="2"/><path d="M10 11l4 4M22 11l-4 4M10 21l4-4M22 21l-4-4"/></svg>
-    <h4>社会</h4>
-    <p>ユーザー所有経済</p>
-  </div>
-</div>
-</section>
+
+<!-- ===== SHOWCASE: KAGI ===== -->
 <section class="showcase" style="flex-direction:row">
 <div class="showcase-text f">
   <h3 style="color:#E8A838">KAGI</h3>
@@ -179,6 +319,8 @@ footer a:hover{color:rgba(255,255,255,.8)}
   <img src="/static/screenshots/kagi-home.jpg" alt="KAGI app" loading="lazy">
 </div>
 </section>
+
+<!-- ===== SHOWCASE: パシャ ===== -->
 <section class="showcase" style="flex-direction:row-reverse">
 <div class="showcase-text f">
   <h3 style="color:#FF6B6B">パシャ</h3>
@@ -191,7 +333,8 @@ footer a:hover{color:rgba(255,255,255,.8)}
   <img src="/static/screenshots/pasha-home.jpg" alt="パシャ app" loading="lazy">
 </div>
 </section>
-<!-- Koe -->
+
+<!-- ===== SHOWCASE: Koe ===== -->
 <section class="showcase" style="flex-direction:row">
 <div class="showcase-text f">
   <h3 style="color:#22d3ee">Koe</h3>
@@ -211,12 +354,13 @@ footer a:hover{color:rgba(255,255,255,.8)}
     <div style="padding:16px;background:rgba(10,26,30,.95)">
       <p style="font-size:14px;font-weight:700;color:#22d3ee">Koe Device</p>
       <p style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px">ESP32 + Raspberry Pi 5<br>音声AIデバイスも開発中</p>
-      <a href="https://koe.live" style="font-size:11px;color:#22d3ee;text-decoration:none;margin-top:8px;display:inline-block">koe.live →</a>
+      <a href="https://koe.live" style="font-size:11px;color:#22d3ee;text-decoration:none;margin-top:8px;display:inline-block">koe.live &rarr;</a>
     </div>
   </div>
 </div>
 </section>
-<!-- Elio -->
+
+<!-- ===== SHOWCASE: Elio ===== -->
 <section class="showcase" style="min-height:60vh;display:flex;align-items:center;justify-content:center;padding:60px 10vw;gap:clamp(40px,8vw,80px);flex-direction:row-reverse">
   <div class="f" style="max-width:380px">
     <h3 style="font-size:clamp(28px,4vw,40px);font-weight:800;color:#a78bfa;margin-bottom:12px">Elio</h3>
@@ -229,7 +373,8 @@ footer a:hover{color:rgba(255,255,255,.8)}
     <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="20" fill="none" stroke="#a78bfa" stroke-width="1.5" opacity=".4"/><circle cx="30" cy="30" r="12" fill="none" stroke="#a78bfa" stroke-width="1.5" opacity=".6"/><circle cx="30" cy="30" r="4" fill="#a78bfa" opacity=".8"/></svg>
   </div>
 </section>
-<!-- MAKER'S ANTHEM -->
+
+<!-- ===== MAKER'S ANTHEM ===== -->
 <section style="min-height:auto;padding:100px 10vw;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000;border-top:1px solid rgba(255,255,255,.06)">
   <p class="f" style="font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.35);margin-bottom:20px;text-transform:uppercase">Original Track</p>
   <h2 class="f d1" style="font-size:clamp(28px,5vw,52px);font-weight:800;color:#fff;text-align:center;margin-bottom:8px;letter-spacing:-.02em">俺が作る、君が使う</h2>
@@ -241,38 +386,81 @@ footer a:hover{color:rgba(255,255,255,.8)}
     <p style="font-size:12px;color:rgba(255,255,255,.3);margin-top:14px;text-align:center">5:20 · AI-generated · 2026</p>
   </div>
 </section>
-<!-- Demo Video -->
-<section style="min-height:auto;padding:80px 10vw;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000">
-  <p class="f" style="font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.35);margin-bottom:16px;text-transform:uppercase">Product Demo</p>
-  <h2 class="f d1" style="font-size:clamp(22px,3.5vw,36px);font-weight:800;color:#fff;text-align:center;margin-bottom:32px">実際に動いている</h2>
-  <div class="f d2" style="width:100%;max-width:900px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 32px 80px rgba(0,0,0,.6)">
-    <video controls playsinline style="width:100%;display:block;background:#0a0a0a" preload="metadata">
-      <source src="https://github.com/enablerdao/enablerdao.com/releases/download/v2026.03.26-media/demo.mp4" type="video/mp4">
-    </video>
-  </div>
-</section>
+
+<!-- ===== FULLBLEED ===== -->
 <section class="fullbleed">
 <div class="fullbleed-bg" role="img" aria-label="ホノルルのビーチハウス"></div>
 <div class="fullbleed-content">
   <h2 class="f">2026.9.4 — Hawaii</h2>
   <p class="f d1" style="font-size:clamp(18px,3vw,28px);font-weight:700;margin-bottom:12px">SOLUNA FEST</p>
-  <p class="f d2">群衆が楽器になる夜。<br>Koeデバイス × SOLUNAプロトコル × あなたのスマホ。<br><a href="https://pasha.run/fest" style="color:#E8A838;text-decoration:none;border-bottom:1px solid rgba(232,168,56,.4)">チケット先行販売中 →</a></p>
+  <p class="f d2">群衆が楽器になる夜。<br>Koeデバイス × SOLUNAプロトコル × あなたのスマホ。<br><a href="https://pasha.run/fest" style="color:#E8A838;text-decoration:none;border-bottom:1px solid rgba(232,168,56,.4)">チケット先行販売中 &rarr;</a></p>
 </div>
 </section>
+
+<!-- ===== 事業領域 ===== -->
+<section class="domains" id="domains">
+<div class="domains-header f">
+  <p style="font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:12px">Business Domains</p>
+  <h2>Enabler の事業領域</h2>
+  <p>テクノロジーが届く、すべての領域へ。</p>
+</div>
+<div class="domains-grid">
+  <div class="domain-card f">
+    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><path d="M4 28V14L16 4l12 10v14H20v-8h-8v8z"/></svg>
+    <h4>暮らし</h4>
+    <p>スマートホーム管理</p>
+    <a href="https://testflight.apple.com/join/tntB2b27" class="domain-link" target="_blank">KAGI &rarr;</a>
+  </div>
+  <div class="domain-card f d1">
+    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><circle cx="16" cy="16" r="12"/><path d="M13 10v4h-2l5 8 5-8h-2v-4z"/></svg>
+    <h4>お金</h4>
+    <p>経費・請求・確定申告</p>
+    <a href="https://pasha.run" class="domain-link" target="_blank">パシャ &rarr;</a>
+  </div>
+  <div class="domain-card f d2">
+    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><circle cx="10" cy="10" r="3"/><circle cx="22" cy="10" r="3"/><circle cx="16" cy="22" r="3"/><path d="M12 12l3 8M20 12l-3 8M13 10h6"/></svg>
+    <h4>AI</h4>
+    <p>自律型エージェント</p>
+    <a href="https://chatweb.ai" class="domain-link" target="_blank">chatweb.ai &rarr;</a>
+  </div>
+  <div class="domain-card f d1">
+    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><path d="M16 6c-4 0-8 3-8 8 0 3 2 5 4 7l4 5 4-5c2-2 4-4 4-7 0-5-4-8-8-8z"/><path d="M12 16l3 3 5-6"/></svg>
+    <h4>健康・運動</h4>
+    <p>安全で強い柔術</p>
+    <a href="https://jiuflow.art" class="domain-link" target="_blank">JiuFlow &rarr;</a>
+  </div>
+  <div class="domain-card f d2">
+    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><path d="M4 16h4l3-6 4 12 4-12 3 6h6"/></svg>
+    <h4>音楽・建築</h4>
+    <p>空間と音の融合</p>
+    <a href="https://solun.art" class="domain-link" target="_blank">SOLUNA &rarr;</a>
+  </div>
+  <div class="domain-card f d3">
+    <svg viewBox="0 0 32 32" fill="none" stroke="#999" stroke-width="1.5"><circle cx="16" cy="16" r="3"/><circle cx="8" cy="10" r="2"/><circle cx="24" cy="10" r="2"/><circle cx="8" cy="22" r="2"/><circle cx="24" cy="22" r="2"/><path d="M10 11l4 4M22 11l-4 4M10 21l4-4M22 21l-4-4"/></svg>
+    <h4>宿泊・不動産</h4>
+    <p>バケーションレンタル管理</p>
+    <a href="https://enabler.fun" class="domain-link" target="_blank">enabler.fun &rarr;</a>
+  </div>
+</div>
+</section>
+
+<!-- ===== BEYOND ===== -->
 <section class="beyond">
-<h2 class="f">テクノロジーが届く、すべての領域へ。</h2>
+<h2 class="f">全プロダクト一覧</h2>
 <div class="beyond-tags f d1">
   <a href="https://testflight.apple.com/join/tntB2b27">KAGI<span>スマートホーム</span></a>
   <a href="https://app.koe.live">Koe<span>音声入力</span></a>
   <a href="https://solun.art">SOLUNA<span>音と光の同期</span></a>
-  <a href="https://jiuflow.art">JiuFlow<span>柔術テクニック (GitHub)</span></a>
+  <a href="https://jiuflow.art">JiuFlow<span>柔術テクニック</span></a>
   <a href="https://stayflowapp.com">StayFlow<span>宿泊管理</span></a>
-  <a href="https://chatweb.ai">chatweb.ai<span>AI (GitHub)</span></a>
-  <a href="https://elio.love">Elio<span>分散AI (GitHub)</span></a>
+  <a href="https://chatweb.ai">chatweb.ai<span>AI チャット</span></a>
+  <a href="https://elio.love">Elio<span>分散AI</span></a>
   <a href="https://banto.work">BANTO<span>事業管理</span></a>
   <a href="https://enabler.fun">enabler.fun<span>バケーションレンタル</span></a>
 </div>
 </section>
+
+<!-- ===== VISION ===== -->
 <section class="vision">
 <div class="vision-lines">
   <h2 class="f">使う人が、所有する。</h2>
@@ -286,60 +474,17 @@ footer a:hover{color:rgba(255,255,255,.8)}
 </div>
 <p class="note f d4">ローカルAIは無料。サーバーAIは超高速。<br>将来的には、使う人に利益が還元される仕組みを目指しています。</p>
 </section>
-<!-- Pricing -->
-<section style="min-height:80vh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:80px 24px">
-  <h2 class="f" style="font-size:clamp(28px,5vw,44px);font-weight:800;color:#fff;margin-bottom:16px;text-align:center">無料で始める。必要なら、加速する。</h2>
-  <p class="f d1" style="font-size:14px;color:rgba(255,255,255,.5);margin-bottom:48px;text-align:center">全アプリ、基本機能は永久無料。オープンソース。</p>
-  <div class="f d2" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:900px">
-    <div style="flex:1;min-width:250px;max-width:280px;padding:28px;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:rgba(255,255,255,.02)">
-      <p style="font-size:13px;color:rgba(255,255,255,.4);letter-spacing:.1em;margin-bottom:8px">FREE</p>
-      <p style="font-size:32px;font-weight:800;color:#fff;margin-bottom:4px">¥0</p>
-      <p style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:20px">ずっと無料</p>
-      <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:2">
-        ✓ 全機能（ローカル）<br>
-        ✓ オープンソース<br>
-        ✓ 広告なし<br>
-        ✓ Koe音声入力<br>
-        ✓ KAGI基本機能
-      </div>
-    </div>
-    <div style="flex:1;min-width:250px;max-width:280px;padding:28px;border:2px solid rgba(232,168,56,.3);border-radius:20px;background:rgba(232,168,56,.03);position:relative">
-      <div style="position:absolute;top:-10px;right:16px;background:#E8A838;color:#000;font-size:10px;font-weight:800;padding:3px 10px;border-radius:6px">POPULAR</div>
-      <p style="font-size:13px;color:#E8A838;letter-spacing:.1em;margin-bottom:8px">PRO</p>
-      <p style="font-size:32px;font-weight:800;color:#fff;margin-bottom:4px">¥980<span style="font-size:14px;font-weight:400;color:rgba(255,255,255,.4)">/月</span></p>
-      <p style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:20px">効率10倍</p>
-      <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:2">
-        ✓ Free全機能<br>
-        ✓ E2Eクラウドシェア<br>
-        ✓ チーム管理<br>
-        ✓ Groq API高速推論<br>
-        ✓ バックグラウンド同期<br>
-        ✓ 優先サポート
-      </div>
-    </div>
-    <div style="flex:1;min-width:250px;max-width:280px;padding:28px;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:rgba(255,255,255,.02)">
-      <p style="font-size:13px;color:rgba(255,255,255,.4);letter-spacing:.1em;margin-bottom:8px">BUSINESS</p>
-      <p style="font-size:32px;font-weight:800;color:#fff;margin-bottom:4px">¥2,980<span style="font-size:14px;font-weight:400;color:rgba(255,255,255,.4)">/月</span></p>
-      <p style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:20px">物件管理者向け</p>
-      <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:2">
-        ✓ Pro全機能<br>
-        ✓ 複数物件管理<br>
-        ✓ Beds24連携<br>
-        ✓ 収支レポート<br>
-        ✓ 清掃スタッフ通知<br>
-        ✓ 専用サポート
-      </div>
-    </div>
-  </div>
-</section>
+
+<!-- ===== CTA ===== -->
 <section class="cta">
 <div class="cta-bg" role="img" aria-label="弟子屈の風景"></div>
 <div class="cta-content">
-  <h2 class="f">パシャを、今すぐ試す。</h2>
+  <h2 class="f">ENAI を持って、Enabler を解禁する。</h2>
   <div class="cta-buttons f d1">
-    <a href="https://testflight.apple.com/join/CTmyqV6H" class="btn btn-pasha" style="padding:16px 40px;font-size:17px">パシャをダウンロード</a>
+    <a href="https://raydium.io/swap/?inputMint=sol&outputMint=8CeusiVAeibuBGv5xcf7kt7JQZzqwTS5pD7u2CfyoWnL" target="_blank" rel="noopener" class="btn-primary-enai" style="font-size:16px;padding:16px 40px">ENAI を購入 (Raydium)</a>
+    <a href="https://testflight.apple.com/join/CTmyqV6H" class="btn btn-pasha" style="padding:16px 32px;font-size:15px">パシャを試す</a>
   </div>
-  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px" class="f d2">
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px" class="f d2">
     <a href="https://testflight.apple.com/join/tntB2b27" class="btn btn-kagi" style="padding:10px 20px;font-size:13px">KAGI Beta</a>
     <a href="https://testflight.apple.com/join/XyZdmPVt" class="btn btn-pon" style="padding:10px 20px;font-size:13px">ポン</a>
   </div>
@@ -356,7 +501,7 @@ footer a:hover{color:rgba(255,255,255,.8)}
     <p id="waitlist-msg" style="font-size:12px;margin-top:8px;color:rgba(255,255,255,.4);min-height:18px"></p>
   </div>
   <div class="other-apps f d2">
-    <a href="https://testflight.apple.com/join/SAqxf1bm">チャリン (審査中)</a>
+    <a href="https://testflight.apple.com/join/SAqxf1bm">チャリン</a>
     <a href="https://testflight.apple.com/join/mxnbXjjH">サクッ</a>
     <a href="https://stayflowapp.com">StayFlow</a>
     <a href="https://elio.love">Elio</a>
@@ -368,13 +513,15 @@ footer a:hover{color:rgba(255,255,255,.8)}
     <a href="https://enabler.fun">enabler.fun</a>
   </div>
   <footer class="f d3">
-    <span>&copy; 2026 Enabler · Yuki Hamada</span>
+    <span>&copy; 2026 Enabler &middot; Yuki Hamada</span>
     <a href="https://github.com/yukihamada">GitHub</a>
     <a href="https://yukihamada.jp">About</a>
     <a href="/privacy">Privacy</a>
+    <a href="/token">ENAI Token</a>
   </footer>
 </div>
 </section>
+
 <script>
 const o=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');o.unobserve(e.target)}})},{threshold:.15});document.querySelectorAll('.f').forEach(el=>o.observe(el));
 
