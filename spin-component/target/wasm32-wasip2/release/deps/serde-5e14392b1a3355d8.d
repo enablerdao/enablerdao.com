@@ -1,0 +1,14 @@
+/Users/yuki/workspace/enablerdao.com/spin-component/target/wasm32-wasip2/release/deps/serde-5e14392b1a3355d8.d: /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /Users/yuki/workspace/enablerdao.com/spin-component/target/wasm32-wasip2/release/build/serde-5f48c4a2a74f8316/out/private.rs
+
+/Users/yuki/workspace/enablerdao.com/spin-component/target/wasm32-wasip2/release/deps/libserde-5e14392b1a3355d8.rlib: /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /Users/yuki/workspace/enablerdao.com/spin-component/target/wasm32-wasip2/release/build/serde-5f48c4a2a74f8316/out/private.rs
+
+/Users/yuki/workspace/enablerdao.com/spin-component/target/wasm32-wasip2/release/deps/libserde-5e14392b1a3355d8.rmeta: /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /Users/yuki/workspace/enablerdao.com/spin-component/target/wasm32-wasip2/release/build/serde-5f48c4a2a74f8316/out/private.rs
+
+/Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs:
+/Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs:
+/Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs:
+/Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs:
+/Users/yuki/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs:
+/Users/yuki/workspace/enablerdao.com/spin-component/target/wasm32-wasip2/release/build/serde-5f48c4a2a74f8316/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/yuki/workspace/enablerdao.com/spin-component/target/wasm32-wasip2/release/build/serde-5f48c4a2a74f8316/out

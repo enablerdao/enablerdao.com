@@ -3,7 +3,7 @@ app = "enablerdao"
 primary_region = "nrt"
 
 [build]
-  dockerfile = "Dockerfile.prebuilt"
+  dockerfile = "Dockerfile.spin"
 
 [http_service]
   internal_port = 8080

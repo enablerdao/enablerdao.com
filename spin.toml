@@ -8,6 +8,7 @@ authors = ["yukihamada"]
 
 [variables]
 resend_api_key = { required = false, default = "" }
+allow_origin = { required = false, default = "https://enablerdao.com" }
 
 [[trigger.http]]
 route = "/..."
@@ -23,6 +24,7 @@ key_value_stores = ["default"]
 
 [component.web.variables]
 resend_api_key = "{{ resend_api_key }}"
+allow_origin = "{{ allow_origin }}"
 
 [component.web.build]
 command = "cargo build --manifest-path spin-component/Cargo.toml --target wasm32-wasip2 --release"
