@@ -188,6 +188,12 @@ async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
                 "https://enablerdao.com/privacy",
                 &pages::privacy::render())
         }
+        (Method::Get, "/careers") => {
+            html_page_noindex("Careers \u{2014} \u{63a1}\u{7528} | EnablerDAO",
+                "\u{4e16}\u{754c}\u{4e2d}\u{3067}\u{4f7f}\u{308f}\u{308c}\u{308b}\u{3082}\u{306e}\u{3092}\u{3001}\u{4ef2}\u{9593}\u{3068}\u{3002}\u{682a}\u{5f0f}\u{4f1a}\u{793e}\u{30a4}\u{30cd}\u{30d6}\u{30e9}/EnablerDAO\u{306e}\u{63a1}\u{7528}\u{3002}",
+                "https://enablerdao.com/careers",
+                &pages::careers::render())
+        }
         (Method::Get, "/fanclub") => {
             html_page("Fan Club \u{2014} Enabler",
                 "Enabler\u{30d5}\u{30a1}\u{30f3}\u{30af}\u{30e9}\u{30d6}\u{3002}\u{30d1}\u{30b7}\u{30e3}Pro\u{30d7}\u{30e9}\u{30f3}\u{304c}\u{7121}\u{6599}\u{3002}",
@@ -288,6 +294,23 @@ fn html_page(title: &str, description: &str, canonical: &str, content: &str) -> 
         .status(200)
         .header("content-type", "text/html; charset=utf-8")
         .header("cache-control", "public, max-age=300, stale-while-revalidate=60")
+        .header("x-frame-options", "SAMEORIGIN")
+        .header("x-content-type-options", "nosniff")
+        .header("referrer-policy", "strict-origin-when-cross-origin")
+        .header("strict-transport-security", "max-age=31536000; includeSubDomains")
+        .body(html)
+        .build()
+}
+
+/// Like `html_page` but marks the page `noindex, nofollow` (meta + header) and
+/// disables caching — for draft pages not yet meant for search engines / public nav.
+fn html_page_noindex(title: &str, description: &str, canonical: &str, content: &str) -> Response {
+    let html = layout::page_shell_robots(title, description, canonical, "noindex, nofollow", content);
+    Response::builder()
+        .status(200)
+        .header("content-type", "text/html; charset=utf-8")
+        .header("cache-control", "no-store")
+        .header("x-robots-tag", "noindex, nofollow")
         .header("x-frame-options", "SAMEORIGIN")
         .header("x-content-type-options", "nosniff")
         .header("referrer-policy", "strict-origin-when-cross-origin")

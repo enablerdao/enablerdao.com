@@ -9,3 +9,4 @@ pub mod safety;
 pub mod simple;
 pub mod fanclub;
 pub mod privacy;
+pub mod careers;

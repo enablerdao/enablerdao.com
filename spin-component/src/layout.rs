@@ -120,6 +120,18 @@ pub const NEWSLETTER_CTA_HTML: &str = r#"<section class="newsletter-section reve
 ///
 /// Includes meta tags, OG / Twitter card, JSON-LD structured data, nav, footer, and script tag.
 pub fn page_shell(title: &str, description: &str, canonical: &str, content: &str) -> String {
+    page_shell_robots(title, description, canonical, "index, follow", content)
+}
+
+/// Like `page_shell` but lets the caller control the `robots` meta tag
+/// (e.g. "noindex, nofollow" for draft pages not yet meant for search engines).
+pub fn page_shell_robots(
+    title: &str,
+    description: &str,
+    canonical: &str,
+    robots: &str,
+    content: &str,
+) -> String {
     let og_image = "https://enablerdao.com/static/properties/atami.jpg";
     let json_ld = format!(
         r#"{{"@context":"https://schema.org","@type":"Organization","name":"EnablerDAO","url":"https://enablerdao.com","logo":"https://enablerdao.com/static/favicon.svg","description":"{description}","sameAs":["https://github.com/enablerdao","https://t.me/enablerdao"]}}"#,
@@ -135,7 +147,7 @@ pub fn page_shell(title: &str, description: &str, canonical: &str, content: &str
   <meta name="description" content="{description}">
   <meta name="keywords" content="EnablerDAO, Web3, DAO, DeFi, AI, Rust, decentralized, blockchain, ENAI token, chatweb, jiuflow">
   <meta name="author" content="EnablerDAO">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="{robots}">
   <link rel="canonical" href="{canonical}">
   <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/static/styles.css">
@@ -184,6 +196,7 @@ pub fn page_shell(title: &str, description: &str, canonical: &str, content: &str
         title = title,
         description = description,
         canonical = canonical,
+        robots = robots,
         og_image = og_image,
         json_ld = json_ld,
         nav = NAV_HTML,
