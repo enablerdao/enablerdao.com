@@ -109,12 +109,19 @@ pub fn render() -> String {
         <span class="ja">それに柔術には <strong>パラ</strong>（パラ柔術）もある。手があっても無くても、足があっても無くても &mdash; 強いやつは強い。誰でも畳に上がれる。&rarr; <a class="green" href="https://takezo.jiuflow.com" target="_blank" rel="noopener">takezo.jiuflow.com</a></span>
         <span class="en">And jiu-jitsu has <strong>para</strong> too. With hands or without, with legs or without &mdash; the strong are strong. Anyone can step on the mat. &rarr; <a class="green" href="https://takezo.jiuflow.com" target="_blank" rel="noopener">takezo.jiuflow.com</a></span>
       </p>
+      <p style="color:var(--fg);line-height:1.9">
+        <span class="ja">帯がまだでもいい。<strong>最低でも</strong> <a class="green" href="https://ukemi.jiuflow.com" target="_blank" rel="noopener">ukemi.jiuflow.com</a> で <strong>青帯クラスの身体性</strong>を出してこい。受け身は、すべての土台だ。&rarr; ここがいちばん低いハードル。</span>
+        <span class="en">No belt yet is fine. <strong>At minimum</strong>, post <strong>blue-belt-level body control</strong> on <a class="green" href="https://ukemi.jiuflow.com" target="_blank" rel="noopener">ukemi.jiuflow.com</a>. Ukemi (breakfalls) is the foundation of everything. &rarr; This is the lowest bar.</span>
+      </p>
       <div class="cta-row" style="margin-top:8px">
         <a href="https://jiuflow.com" target="_blank" rel="noopener" class="btn btn-secondary">
           <span class="ja">JiuFlow で稽古を始める &rarr;</span><span class="en">Start training with JiuFlow &rarr;</span>
         </a>
         <a href="https://takezo.jiuflow.com" target="_blank" rel="noopener" class="btn btn-secondary">
           <span class="ja">パラ柔術を見る</span><span class="en">See para jiu-jitsu</span>
+        </a>
+        <a href="https://ukemi.jiuflow.com" target="_blank" rel="noopener" class="btn btn-secondary">
+          <span class="ja">受け身を採点する</span><span class="en">Score your ukemi</span>
         </a>
       </div>
     </div>
