@@ -105,9 +105,16 @@ pub fn render() -> String {
         <span class="ja">とりあえず、柔術で <strong>青帯以上</strong>になってこい。話はそれからだ。稽古は <a class="green" href="https://jiuflow.com" target="_blank" rel="noopener">JiuFlow</a> で記録して、近くの<strong>道場</strong>で組む。青帯は「続けられる」「逃げない」の証明 &mdash; それ自体が、立派な 1 つになる。</span>
         <span class="en">Then go earn at least a <strong>blue belt</strong> in jiu-jitsu first &mdash; we'll talk after that. Track your training on <a class="green" href="https://jiuflow.com" target="_blank" rel="noopener">JiuFlow</a> and roll at a <strong>dojo</strong> near you. A blue belt proves you stick with it and don't run &mdash; that itself becomes a fine &quot;one thing.&quot;</span>
       </p>
+      <p style="color:var(--fg);line-height:1.9">
+        <span class="ja">それに柔術には <strong>パラ</strong>（パラ柔術）もある。手があっても無くても、足があっても無くても &mdash; 強いやつは強い。誰でも畳に上がれる。&rarr; <a class="green" href="https://takezo.jiuflow.com" target="_blank" rel="noopener">takezo.jiuflow.com</a></span>
+        <span class="en">And jiu-jitsu has <strong>para</strong> too. With hands or without, with legs or without &mdash; the strong are strong. Anyone can step on the mat. &rarr; <a class="green" href="https://takezo.jiuflow.com" target="_blank" rel="noopener">takezo.jiuflow.com</a></span>
+      </p>
       <div class="cta-row" style="margin-top:8px">
         <a href="https://jiuflow.com" target="_blank" rel="noopener" class="btn btn-secondary">
           <span class="ja">JiuFlow で稽古を始める &rarr;</span><span class="en">Start training with JiuFlow &rarr;</span>
+        </a>
+        <a href="https://takezo.jiuflow.com" target="_blank" rel="noopener" class="btn btn-secondary">
+          <span class="ja">パラ柔術を見る</span><span class="en">See para jiu-jitsu</span>
         </a>
       </div>
     </div>
