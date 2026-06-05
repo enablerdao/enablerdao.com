@@ -97,6 +97,9 @@ pub fn render() -> String {
           </p>
         </div>
       </div>
+      <p style="text-align:center;color:var(--green);font-weight:700;font-size:18px;margin:18px 0 0">
+        <span class="ja">&#127942; 両方できたら、特に歓迎。</span><span class="en">&#127942; Both? Especially welcome.</span>
+      </p>
     </div>
 
     <div class="terminal-box">
@@ -120,6 +123,31 @@ pub fn render() -> String {
       <p style="color:var(--dim);font-size:14px;line-height:1.8;margin-bottom:0">
         <span class="ja">&#9888; これは「必須」でなく「歓迎」。資格が無くても、突き抜けたスキルか柔術でOK。&mdash; 他の士業・専門職も歓迎です。</span>
         <span class="en">&#9888; Welcome, not required. No license? A spike skill or jiu-jitsu works too. &mdash; Other licensed professions are welcome as well.</span>
+      </p>
+    </div>
+
+    <div class="terminal-box" style="border-left:3px solid var(--violet)">
+      <h3>&#128272; <span class="ja">セキュリティエンジニア募集中</span><span class="en">Security engineers wanted</span></h3>
+      <p style="color:var(--fg);line-height:1.9">
+        <span class="ja">腕は、口でなく<strong>実プロダクト</strong>で証明してくれ。入口は<strong>バグバウンティ</strong> &mdash; 私たちのサービスの脆弱性を責任を持って見つけ、再現手順つきで報告する（responsible disclosure）。いい報告は、そのまま「負けない 1 つ」の証明＝応募になる。</span>
+        <span class="en">Prove it on <strong>real products</strong>, not in words. The door is <strong>bug bounty</strong> &mdash; responsibly find a vulnerability in our services and report it with clear repro steps. A good report is itself your "one thing" &mdash; and your application.</span>
+      </p>
+      <p style="color:var(--amber);font-size:14px;line-height:1.8">
+        <span class="ja">&#9888; 報奨金レンジは重大度に応じて &mdash; 要相談（未確定）。まず壊さず、見つけて知らせて。</span>
+        <span class="en">&#9888; Reward range scales with severity &mdash; let's discuss (TBD). Don't break things; find them and tell us.</span>
+      </p>
+      <div class="cta-row" style="margin-top:8px">
+        <a href="mailto:info@enablerdao.com?subject=security%3A%20bug%20bounty%20report" class="btn btn-secondary">
+          <span class="ja">脆弱性を報告する &rarr;</span><span class="en">Report a vulnerability &rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="terminal-box">
+      <h3>&#128664; <span class="ja">動かせる人も歓迎</span><span class="en">Can you operate it? Welcome</span></h3>
+      <p style="color:var(--fg);line-height:1.9">
+        <span class="ja">運転・操縦できる人、歓迎。<strong>車（運転免許）・船（船舶免許）・飛行機（操縦免許）</strong> &mdash; 現場に行ける、モノを運べる、世界を移動できる。それも立派な「その人にしかできない 1 つ」。</span>
+        <span class="en">If you can drive or pilot, welcome. <strong>Car, boat, airplane</strong> &mdash; being able to reach the site, move things, and travel the world is a fine "only-you" edge too.</span>
       </p>
     </div>
 
