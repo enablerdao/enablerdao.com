@@ -99,6 +99,30 @@ pub fn render() -> String {
       </div>
     </div>
 
+    <div class="terminal-box">
+      <h3>&#127891; <span class="ja">歓迎 &mdash; 「その人にしかできない」資格</span><span class="en">Welcome &mdash; licensed edges only you can do</span></h3>
+      <p style="color:var(--fg);line-height:1.9">
+        <span class="ja">士業や専門資格は、独占業務 = <strong>その人にしかできない仕事</strong>。それ自体が立派な「負けない 1 つ」です。私たちのプロダクトは、こういう力で動いています:</span>
+        <span class="en">Licensed professions carry monopoly work &mdash; <strong>things only that person may do</strong>. That's a fine "one thing" on its own. Our products run on exactly these:</span>
+      </p>
+      <ul style="color:var(--fg);line-height:2;padding-left:20px">
+        <li><strong><span class="ja">弁理士</span><span class="en">Patent attorney</span></strong> &mdash; <span class="ja">商標まる（商標出願・ワンクリック受任）</span><span class="en">Shohyo-Maru (trademark filing &amp; intake)</span></li>
+        <li><strong><span class="ja">弁護士</span><span class="en">Lawyer</span></strong> &mdash; <span class="ja">電子契約（ポン）・商標の受任</span><span class="en">contracts (Pon), trademark cases</span></li>
+        <li><strong><span class="ja">一級建築士</span><span class="en">Architect (1st class)</span></strong> &mdash; <span class="ja">bim.house（建築確認・図面署名）</span><span class="en">bim.house (code check, signed drawings)</span></li>
+        <li><strong><span class="ja">宅建士</span><span class="en">Real-estate transaction specialist</span></strong> &mdash; <span class="ja">StayFlow・不動産まわり</span><span class="en">StayFlow &amp; real estate</span></li>
+        <li><strong><span class="ja">行政書士</span><span class="en">Administrative scrivener</span></strong> &mdash; <span class="ja">許認可・民泊申請・会社設立</span><span class="en">permits, minpaku filings, incorporation</span></li>
+        <li><strong><span class="ja">社労士（労務士）</span><span class="en">Labor &amp; social-security attorney</span></strong> &mdash; <span class="ja">労務・人事・社会保険</span><span class="en">HR, labor, social insurance</span></li>
+        <li><strong><span class="ja">税理士</span><span class="en">Tax accountant</span></strong> &mdash; <span class="ja">サクッ（確定申告）・チャリン（請求）</span><span class="en">Sakuh (tax filing), Charin (invoicing)</span></li>
+        <li><strong><span class="ja">司法書士</span><span class="en">Judicial scrivener</span></strong> &mdash; <span class="ja">登記・会社設立</span><span class="en">registration, incorporation</span></li>
+        <li><strong><span class="ja">不動産鑑定士</span><span class="en">Real-estate appraiser</span></strong> &mdash; <span class="ja">bim.house EARTH IQ（敷地評価）</span><span class="en">bim.house EARTH IQ (site valuation)</span></li>
+        <li><strong><span class="ja">医師</span><span class="en">Doctor (MD)</span></strong> &mdash; <span class="ja">ヘルスケア・IKI（安否確認）</span><span class="en">healthcare, IKI (safety check-in)</span></li>
+      </ul>
+      <p style="color:var(--dim);font-size:14px;line-height:1.8;margin-bottom:0">
+        <span class="ja">&#9888; これは「必須」でなく「歓迎」。資格が無くても、突き抜けたスキルか柔術でOK。&mdash; 他の士業・専門職も歓迎です。</span>
+        <span class="en">&#9888; Welcome, not required. No license? A spike skill or jiu-jitsu works too. &mdash; Other licensed professions are welcome as well.</span>
+      </p>
+    </div>
+
     <div class="terminal-box" style="border-left:3px solid var(--amber)">
       <h3>&#129354; <span class="ja">まだ「負けない 1 つ」が無いなら</span><span class="en">No &quot;one thing&quot; yet?</span></h3>
       <p style="color:var(--fg);line-height:1.9">
