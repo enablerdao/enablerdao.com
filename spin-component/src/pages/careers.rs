@@ -99,6 +99,19 @@ pub fn render() -> String {
       </div>
     </div>
 
+    <div class="terminal-box" style="border-left:3px solid var(--amber)">
+      <h3>&#129354; <span class="ja">まだ「負けない 1 つ」が無いなら</span><span class="en">No &quot;one thing&quot; yet?</span></h3>
+      <p style="color:var(--fg);line-height:1.9">
+        <span class="ja">とりあえず、柔術で <strong>青帯以上</strong>になってこい。話はそれからだ。稽古は <a class="green" href="https://jiuflow.com" target="_blank" rel="noopener">JiuFlow</a> で記録して、近くの<strong>道場</strong>で組む。青帯は「続けられる」「逃げない」の証明 &mdash; それ自体が、立派な 1 つになる。</span>
+        <span class="en">Then go earn at least a <strong>blue belt</strong> in jiu-jitsu first &mdash; we'll talk after that. Track your training on <a class="green" href="https://jiuflow.com" target="_blank" rel="noopener">JiuFlow</a> and roll at a <strong>dojo</strong> near you. A blue belt proves you stick with it and don't run &mdash; that itself becomes a fine &quot;one thing.&quot;</span>
+      </p>
+      <div class="cta-row" style="margin-top:8px">
+        <a href="https://jiuflow.com" target="_blank" rel="noopener" class="btn btn-secondary">
+          <span class="ja">JiuFlow で稽古を始める &rarr;</span><span class="en">Start training with JiuFlow &rarr;</span>
+        </a>
+      </div>
+    </div>
+
     <h2 class="prompt" style="margin-top:48px"><span class="ja">$ ls 働き方/</span><span class="en">$ ls how-we-work/</span></h2>
     <div class="grid3">
       <div class="terminal-box">
@@ -138,6 +151,10 @@ pub fn render() -> String {
     </div>
 
     <h2 class="prompt" style="margin-top:48px"><span class="ja">$ ./apply</span><span class="en">$ ./apply</span></h2>
+    <p style="color:var(--fg);line-height:1.9">
+      <span class="ja">応募フォームはありません。<strong>焚き火に集まりに来てください。</strong>ATSUME（atsm.wtf）に入って薪をくべる &mdash; それが応募です。</span>
+      <span class="en">There's no apply form. <strong>Just come gather at the campfire.</strong> Join ATSUME (atsm.wtf) and add a log &mdash; that's your application.</span>
+    </p>
     <ol class="flow">
       <li style="color:var(--fg)">
         <span class="ja"><strong>焚き火に参加</strong> &mdash; atsm.wtf のコミュニティに入って、薪をくべてみる。</span>
@@ -158,11 +175,11 @@ pub fn render() -> String {
     </ol>
 
     <div class="cta-row">
-      <a href="mailto:info@enablerdao.com?subject=careers%3A%20%E7%A7%81%E3%81%AE%E8%B2%A0%E3%81%91%E3%81%AA%E3%81%84%E4%B8%80%E3%81%A4" class="btn btn-primary">
-        <span class="ja">負けない 1 つを送る &rarr;</span><span class="en">Send us your one thing &rarr;</span>
+      <a href="https://atsm.wtf" target="_blank" rel="noopener" class="btn btn-primary">
+        <span class="ja">焚き火に集まる &rarr;</span><span class="en">Come gather at the campfire &rarr;</span>
       </a>
-      <a href="https://atsm.wtf" target="_blank" rel="noopener" class="btn btn-secondary">
-        <span class="ja">焚き火を見る</span><span class="en">See the campfire</span>
+      <a href="mailto:info@enablerdao.com?subject=careers%3A%20%E7%A7%81%E3%81%AE%E8%B2%A0%E3%81%91%E3%81%AA%E3%81%84%E4%B8%80%E3%81%A4" class="btn btn-secondary">
+        <span class="ja">メールでもOK</span><span class="en">Email works too</span>
       </a>
     </div>
 
