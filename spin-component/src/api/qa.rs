@@ -14,7 +14,7 @@ pub fn list() -> Response {
 /// `POST /api/qa` — submit a new question.
 ///
 /// Expected JSON body: `{ "question", "asker" }`
-pub fn create(req: Request) -> Response {
+pub async fn create(req: Request) -> Response {
     let body = req.body();
     let data: serde_json::Value = match serde_json::from_slice(body) {
         Ok(v) => v,
@@ -30,6 +30,15 @@ pub fn create(req: Request) -> Response {
 
     match kv::create_question(question, asker) {
         Ok(item) => {
+            // Best-effort forward to the labs-enabler aggregation hub.
+            crate::inquiry_hub::forward(serde_json::json!({
+                "slug": "enablerdao-qa",
+                "name": asker,
+                "message": question,
+                "extra": {"kind": "qa", "source": "enablerdao"},
+                "utm_source": "enablerdao",
+            })).await;
+
             let body = serde_json::to_vec(&item).unwrap_or_default();
             json_response(201, body)
         }

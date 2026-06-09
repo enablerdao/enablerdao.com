@@ -24,6 +24,16 @@ pub async fn submit(req: Request) -> Response {
         crate::email::send_feedback_notification(&api_key, message, contact).await;
     }
 
+    // Best-effort forward to the labs-enabler aggregation hub.
+    let hub_email = if contact.contains('@') { contact } else { "" };
+    crate::inquiry_hub::forward(serde_json::json!({
+        "slug": "enablerdao-feedback",
+        "email": hub_email,
+        "message": message,
+        "extra": {"kind": "feedback", "contact": contact, "source": "enablerdao"},
+        "utm_source": "enablerdao",
+    })).await;
+
     let resp = serde_json::json!({
         "ok": true,
         "message": "フィードバックを送信しました。ありがとうございます！",
