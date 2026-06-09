@@ -38,6 +38,16 @@ pub async fn create(req: Request) -> Response {
                 crate::email::send_idea_notification(&api_key, &idea.title, &idea.nickname).await;
             }
 
+            // Best-effort forward to the labs-enabler aggregation hub.
+            crate::inquiry_hub::forward(serde_json::json!({
+                "slug": "enablerdao-ideas",
+                "name": nickname,
+                "email": email,
+                "message": format!("{title}\n\n{detail}"),
+                "extra": {"kind": "idea", "category": category, "source": "enablerdao"},
+                "utm_source": "enablerdao",
+            })).await;
+
             let body = serde_json::to_vec(&idea).unwrap_or_default();
             json_response(201, body)
         }

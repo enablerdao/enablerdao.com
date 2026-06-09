@@ -24,7 +24,18 @@ pub async fn register(req: Request, origin: &str) -> Response {
 
     // Register new member with a promo code
     match kv::create_fanclub_member(&email) {
-        Ok(_member) => send_login_and_respond(&email, origin).await,
+        Ok(_member) => {
+            // Best-effort forward to the labs-enabler aggregation hub (new
+            // registrations only — not the existing-member re-login path).
+            crate::inquiry_hub::forward(serde_json::json!({
+                "slug": "enablerdao-fanclub",
+                "email": email,
+                "extra": {"kind": "fanclub", "source": "enablerdao"},
+                "utm_source": "enablerdao",
+            })).await;
+
+            send_login_and_respond(&email, origin).await
+        }
         Err(_) => json_error(500, "登録に失敗しました", origin),
     }
 }

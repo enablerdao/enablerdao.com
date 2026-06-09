@@ -28,6 +28,14 @@ pub async fn subscribe(req: Request, origin: &str) -> Response {
                 crate::email::send_welcome(&api_key, &email).await;
             }
 
+            // Best-effort forward to the labs-enabler aggregation hub.
+            crate::inquiry_hub::forward(serde_json::json!({
+                "slug": "enablerdao-newsletter",
+                "email": email,
+                "extra": {"kind": "newsletter", "source": "enablerdao"},
+                "utm_source": "enablerdao",
+            })).await;
+
             let resp = serde_json::json!({
                 "ok": true,
                 "message": "ご登録ありがとうございます！",

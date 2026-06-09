@@ -3,6 +3,7 @@ mod static_assets;
 mod kv;
 mod data;
 mod email;
+mod inquiry_hub;
 mod seo;
 mod markdown;
 mod pages;
@@ -236,7 +237,7 @@ async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
             api::ideas::like(id_str)
         }
         (Method::Get, "/api/qa") => api::qa::list(),
-        (Method::Post, "/api/qa") => api::qa::create(req),
+        (Method::Post, "/api/qa") => api::qa::create(req).await,
         (Method::Post, p) if p.starts_with("/api/qa/") && p.ends_with("/answer") => {
             let id_str = &p[8..p.len() - 7];
             api::qa::answer(id_str, req)
