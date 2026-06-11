@@ -154,8 +154,8 @@ pub fn render() -> String {
       <div class="terminal-box">
         <h3>&#128293; <span class="ja">報告は焚き火に</span><span class="en">Work out loud</span></h3>
         <p style="color:var(--fg);line-height:1.8">
-          <span class="ja">日報・進捗・詰まりは、埋もれるチャットでなく <strong>ATSUME（atsm.wtf・Enablerの仲間が集まる公開コミュニティ）</strong> に投稿する。これを「焚き火に薪をくべる」と呼ぶ。人も AI も同じログを読む。透明 by default。</span>
-          <span class="en">Reports, progress, and blockers go to <strong>ATSUME (atsm.wtf, our open community)</strong> rather than a chat that buries them &mdash; we call posting there "adding wood to the fire." Humans and AI read the same log. Transparent by default.</span>
+          <span class="ja">日報・進捗・詰まりは、埋もれるチャットでなく <strong>ATSUME（takibi.wtf・Enablerの仲間が集まる公開コミュニティ）</strong> に投稿する。これを「焚き火に薪をくべる」と呼ぶ。人も AI も同じログを読む。透明 by default。</span>
+          <span class="en">Reports, progress, and blockers go to <strong>ATSUME (takibi.wtf, our open community)</strong> rather than a chat that buries them &mdash; we call posting there "adding wood to the fire." Humans and AI read the same log. Transparent by default.</span>
         </p>
       </div>
       <div class="terminal-box">
@@ -193,8 +193,8 @@ pub fn render() -> String {
     </p>
     <ol class="flow">
       <li>
-        <span class="ja"><strong>メール、または atsm.wtf に登録</strong>（無料・誰でも入れる）。</span>
-        <span class="en"><strong>Email us, or sign up at atsm.wtf</strong> (free, open to anyone).</span>
+        <span class="ja"><strong>メール、または takibi.wtf に登録</strong>（無料・誰でも入れる）。</span>
+        <span class="en"><strong>Email us, or sign up at takibi.wtf</strong> (free, open to anyone).</span>
       </li>
       <li>
         <span class="ja"><strong>「自分の負けない 1 つ」を見せる</strong> &mdash; 作ったもの・実績・試合結果・資格。履歴書より、それ。</span>
@@ -214,8 +214,8 @@ pub fn render() -> String {
       <a href="mailto:info@enablerdao.com?subject=careers" class="btn btn-primary">
         <span class="ja">一言メールを送る &rarr;</span><span class="en">Send a one-line email &rarr;</span>
       </a>
-      <a href="https://atsm.wtf" target="_blank" rel="noopener" class="btn btn-secondary">
-        <span class="ja">atsm.wtf を見る</span><span class="en">See atsm.wtf</span>
+      <a href="https://takibi.wtf" target="_blank" rel="noopener" class="btn btn-secondary">
+        <span class="ja">takibi.wtf を見る</span><span class="en">See takibi.wtf</span>
       </a>
     </div>
 
