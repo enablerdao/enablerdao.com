@@ -80,7 +80,7 @@ pub fn render() -> String {
         <li><strong>JiuFlow</strong> &mdash; <span class="ja">世界中の柔術家が使う練習記録＋技ライブラリ SaaS</span><span class="en">training-log &amp; technique-library SaaS for jiu-jitsu, used worldwide</span></li>
         <li><strong>MU</strong> &mdash; <span class="ja">AI が毎時1着デザインする自律アパレルブランド</span><span class="en">an autonomous apparel brand where AI designs a new piece every hour</span></li>
         <li><strong>bim.house</strong> &mdash; <span class="ja">言葉から建築図面を生成（建築基準法をその場で判定）</span><span class="en">generate building designs from words, code-checked on the spot</span></li>
-        <li><span class="ja">ほか</span><span class="en">plus</span> <strong>商標まる</strong>(<span class="ja">AI商標出願</span><span class="en">AI trademark filing</span>) / <strong>StayFlow</strong>(<span class="ja">民泊運営</span><span class="en">rental ops</span>) / <strong>Koe</strong>(<span class="ja">声クローン</span><span class="en">voice clone</span>) / <strong>IKI</strong>(<span class="ja">安否確認</span><span class="en">safety check-in</span>) ...</li>
+        <li><span class="ja">ほか</span><span class="en">plus</span> <strong>商標まる</strong>(<span class="ja">AI商標出願</span><span class="en">AI trademark filing</span>) / <strong>StayFlow</strong>(<span class="ja">民泊運営</span><span class="en">rental ops</span>) / <strong>Koe</strong>(<span class="ja">実声ラジオ</span><span class="en">authentic-voice radio</span>) / <strong>IKI</strong>(<span class="ja">安否確認</span><span class="en">safety check-in</span>) ...</li>
       </ul>
       <p class="note" style="margin-bottom:0">
         <span class="ja">&#9888; 働く場所・雇用形態（業務委託 / 正社員）は柔軟。要相談。</span>
