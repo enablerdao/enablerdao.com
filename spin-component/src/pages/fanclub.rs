@@ -96,10 +96,10 @@ pub fn render() -> String {
           </div>
           <div style="background:#0a0a0a;border-radius:8px;padding:14px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <span style="font-weight:bold;font-size:14px;">&#x1F3B5; Koe Device</span>
-              <span style="font-size:11px;color:#e3b341;background:#1a1708;padding:2px 8px;border-radius:4px;">ハードウェア</span>
+              <span style="font-weight:bold;font-size:14px;">&#x1F3A4; Koe &#x2014; 実声ラジオ</span>
+              <span style="font-size:11px;color:#44ff88;background:#0d2818;padding:2px 8px;border-radius:4px;">LIVE</span>
             </div>
-            <p style="color:#888;font-size:12px;margin-bottom:8px;">ESP32-S3 + Raspberry Pi。群衆を楽器にするデバイス。1台は記憶、100台はオーケストラ。</p>
+            <p style="color:#888;font-size:12px;margin-bottom:8px;">本人の実声だけが24時間流れるラジオ。3秒録音で声クローン+専用ラジオ部屋が生成。公式LINE（@384uscub）に声を送るだけで開局。同意ゲート=本人が許可した声だけが動く。</p>
             <a href="https://koe.live" target="_blank" style="font-size:11px;color:#58a6ff;text-decoration:none;">&#x1F310; koe.live</a>
           </div>
         </div>
@@ -136,9 +136,6 @@ pub fn render() -> String {
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
             <span>&#x1F511; KAGI</span><span style="color:#e3b341;">&#x23F3; 審査待ち</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
-            <span>&#x1F399; <a href="https://apps.apple.com/jp/app/id6760352863" target="_blank" style="color:inherit;text-decoration:none;">Koe (iOS)</a></span><span style="color:#44ff88;">&#x2705; 配信中 v2.9.0</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#0a0a0a;border-radius:6px;">
             <span>&#x1F916; <a href="https://apps.apple.com/jp/app/id6757635481" target="_blank" style="color:inherit;text-decoration:none;">Elio</a></span><span style="color:#44ff88;">&#x2705; 配信中 v1.2.35</span>
