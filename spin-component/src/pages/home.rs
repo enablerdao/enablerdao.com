@@ -209,7 +209,7 @@ pub fn render() -> String {
     <p class="section-subtitle">StayFlowで管理・運用しているリアル物件</p>
     <div class="properties-grid">
       <a href="https://www.airbnb.jp/rooms/53223988" target="_blank" class="property-card">
-        <img src="/static/properties/atami.jpg" alt="WHITE HOUSE" class="property-photo" loading="lazy">
+        <img src="/static/properties/atami.w800.webp" alt="WHITE HOUSE" class="property-photo" loading="lazy">
         <div class="property-info">
           <h4>WHITE HOUSE</h4>
           <p class="property-location">静岡県熱海市 — オーシャンビュー・サウナ付き</p>
@@ -218,7 +218,7 @@ pub fn render() -> String {
         </div>
       </a>
       <a href="https://www.airbnb.jp/rooms/597239384272621732" target="_blank" class="property-card">
-        <img src="/static/properties/teshikaga.jpg" alt="THE LODGE" class="property-photo" loading="lazy">
+        <img src="/static/properties/teshikaga.w800.webp" alt="THE LODGE" class="property-photo" loading="lazy">
         <div class="property-info">
           <h4>THE LODGE</h4>
           <p class="property-location">北海道弟子屈町 — 天然温泉・薪ストーブ</p>
@@ -227,7 +227,7 @@ pub fn render() -> String {
         </div>
       </a>
       <a href="https://www.airbnb.jp/rooms/911857804615412559" target="_blank" class="property-card">
-        <img src="/static/properties/nest.jpg" alt="THE NEST" class="property-photo" loading="lazy">
+        <img src="/static/properties/nest.w800.webp" alt="THE NEST" class="property-photo" loading="lazy">
         <div class="property-info">
           <h4>THE NEST</h4>
           <p class="property-location">北海道弟子屈町 — 天然温泉・デジタルデザイン</p>
@@ -236,7 +236,7 @@ pub fn render() -> String {
         </div>
       </a>
       <a href="https://www.airbnb.jp/rooms/1226550388535476490" target="_blank" class="property-card">
-        <img src="/static/properties/honolulu.jpg" alt="BEACH HOUSE" class="property-photo" loading="lazy">
+        <img src="/static/properties/honolulu.w800.webp" alt="BEACH HOUSE" class="property-photo" loading="lazy">
         <div class="property-info">
           <h4>BEACH HOUSE</h4>
           <p class="property-location">ハワイ・ホノルル — ビーチフロント</p>
