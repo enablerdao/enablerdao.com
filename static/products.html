@@ -46,7 +46,6 @@ search.addEventListener('input',filterCatalog);group.addEventListener('change',f
 window.addEventListener('beforeprint',()=>{document.querySelectorAll('.catalog-item,.catalog-group').forEach(n=>n.hidden=false);});window.addEventListener('afterprint',filterCatalog);
 function openLinkedDetails(hash){const target=document.getElementById(hash.slice(1));if(!target)return;let current=target;while(current){if(current.tagName==='DETAILS')current.open=true;current=current.parentElement;}}
 document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',()=>{const hash=link.getAttribute('href');if(hash.startsWith('#product-'))resetCatalog();openLinkedDetails(hash);}));
-function revealHash(){if(location.hash.startsWith('#product-')||location.hash.startsWith('#availability-'))resetCatalog();openLinkedDetails(location.hash);}
-window.addEventListener('hashchange',revealHash);revealHash();
+window.addEventListener('hashchange',()=>openLinkedDetails(location.hash));openLinkedDetails(location.hash);
 </script>
 </body></html>
