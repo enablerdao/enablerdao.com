@@ -12,6 +12,7 @@ const JS: &str = include_str!("../../static/app.js");
 const FAVICON: &str = include_str!("../../static/favicon.svg");
 const ENABLER_HTML: &str = include_str!("../../static/enabler.html");
 const PRODUCTS_HTML: &str = include_str!("../../static/products.html");
+const PRESS_HTML: &str = include_str!("../../static/press.html");
 const FUTAMI_HTML: &str = include_str!("../../static/futami/index.html");
 const FUTAMI_VILLAGE_HTML: &str = include_str!("../../static/futami/village.html");
 const FUTAMI_COMPLEX_HTML: &str = include_str!("../../static/futami/complex.html");
@@ -89,6 +90,9 @@ const CACHE_CONTROL: &str = "public, max-age=86400";
 /// Returns `Some(Response)` with the correct `Content-Type` and cache headers
 /// if the path matches a known asset, or `None` if not found.
 pub fn serve_static(path: &str) -> Option<Response> {
+    if let Some(response) = serve_portfolio_asset(path) {
+        return Some(response);
+    }
     match path {
         // Text assets
         "/static/styles.css" => Some(text_response(CSS, "text/css")),
@@ -179,6 +183,12 @@ pub fn serve_enabler_page() -> Response {
 pub fn serve_products_page() -> Response {
     text_response(PRODUCTS_HTML, "text/html; charset=utf-8")
 }
+
+pub fn serve_press_page() -> Response {
+    text_response(PRESS_HTML, "text/html; charset=utf-8")
+}
+
+include!("portfolio_assets.rs");
 
 /// Serve the Futami Airbnb property comparison page
 pub fn serve_futami_page() -> Response {
