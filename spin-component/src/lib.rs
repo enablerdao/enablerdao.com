@@ -87,8 +87,11 @@ async fn handle(req: Request) -> anyhow::Result<impl IntoResponse> {
         (Method::Get, "/" | "") => {
             static_assets::serve_enabler_page()
         }
-        (Method::Get, "/products") => {
+        (Method::Get, "/products" | "/products/") => {
             static_assets::serve_products_page()
+        }
+        (Method::Get, "/press" | "/press/") => {
+            static_assets::serve_press_page()
         }
         (Method::Get, "/futami" | "/futami/") => {
             static_assets::serve_futami_page()
