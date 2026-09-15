@@ -13,6 +13,9 @@ fn serve_portfolio_asset(path: &str) -> Option<Response> {
         "/static/portfolio/media/portfolio-teai.png" => Some(bytes_response(include_bytes!("../../static/portfolio/media/portfolio-teai.png"), "image/png")),
         "/static/portfolio/portfolio-polish.css" => Some(bytes_response(include_bytes!("../../static/portfolio/portfolio-polish.css"), "text/css; charset=utf-8")),
         "/static/portfolio/portfolio.pdf" => Some(bytes_response(include_bytes!("../../static/portfolio/portfolio.pdf"), "application/pdf")),
+        "/static/portfolio/release-manuscript.txt" => Some(bytes_response(include_bytes!("../../static/portfolio/release-manuscript.txt"), "text/plain; charset=utf-8")),
+        "/static/portfolio/release-preview.html" => Some(bytes_response(include_bytes!("../../static/portfolio/release-preview.html"), "text/html; charset=utf-8")),
+        "/static/portfolio/release-preview.pdf" => Some(bytes_response(include_bytes!("../../static/portfolio/release-preview.pdf"), "application/pdf")),
         "/static/portfolio/share.png" => Some(bytes_response(include_bytes!("../../static/portfolio/share.png"), "image/png")),
         _ => None,
     }
