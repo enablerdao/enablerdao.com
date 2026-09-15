@@ -352,11 +352,11 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { name: "WHITE HOUSE Atami", loc: "静岡県熱海市", img: "/properties/atami.jpg", features: ["オーシャンビュー", "プライベートヴィラ"], url: "https://www.airbnb.jp/rooms/53223988" },
-              { name: "THE LODGE Teshikaga", loc: "北海道弟子屈町", img: "/properties/teshikaga.jpg", features: ["天然温泉", "薪ストーブ", "BBQ"], url: "https://www.airbnb.jp/rooms/597239384272621732" },
-              { name: "THE NEST Teshikaga", loc: "北海道弟子屈町", img: "/properties/nest.jpg", features: ["天然温泉", "高断熱", "デジタルデザイン"], url: "https://www.airbnb.jp/rooms/911857804615412559" },
-              { name: "BEACH HOUSE Honolulu", loc: "ハワイ州ホノルル", img: "/properties/honolulu.jpg", features: ["ビーチフロント", "サンセットビュー"], url: "https://www.airbnb.jp/rooms/1226550388535476490" },
-              { name: "GARAGE HOUSE Honolulu", loc: "ハワイ州ホノルル", img: "/properties/garage.jpg", features: ["オーシャンビュー", "BBQ", "ココヘッド"], url: "https://www.airbnb.jp/rooms/936009273046846679" },
+              { name: "WHITE HOUSE Atami", loc: "静岡県熱海市", img: "/properties/atami.webp", features: ["オーシャンビュー", "プライベートヴィラ"], url: "https://www.airbnb.jp/rooms/53223988" },
+              { name: "THE LODGE Teshikaga", loc: "北海道弟子屈町", img: "/properties/teshikaga.webp", features: ["天然温泉", "薪ストーブ", "BBQ"], url: "https://www.airbnb.jp/rooms/597239384272621732" },
+              { name: "THE NEST Teshikaga", loc: "北海道弟子屈町", img: "/properties/nest.webp", features: ["天然温泉", "高断熱", "デジタルデザイン"], url: "https://www.airbnb.jp/rooms/911857804615412559" },
+              { name: "BEACH HOUSE Honolulu", loc: "ハワイ州ホノルル", img: "/properties/honolulu.webp", features: ["ビーチフロント", "サンセットビュー"], url: "https://www.airbnb.jp/rooms/1226550388535476490" },
+              { name: "GARAGE HOUSE Honolulu", loc: "ハワイ州ホノルル", img: "/properties/garage.webp", features: ["オーシャンビュー", "BBQ", "ココヘッド"], url: "https://www.airbnb.jp/rooms/936009273046846679" },
             ].map((p) => (
               <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer"
                  className="border border-[#1a3a1a] rounded-lg overflow-hidden hover:border-[#00ff00]/30 transition-colors group">
