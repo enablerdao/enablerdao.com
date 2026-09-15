@@ -34,6 +34,11 @@ const base = '/static/portfolio/';
       const canonical=document.createElement('link');canonical.rel='canonical';canonical.href='https://enablerdao.com/products';document.head.append(canonical);
       const icon=document.createElement('link');icon.rel='icon';icon.href='/static/favicon.svg';document.head.append(icon);
       document.querySelector('.footer-bottom span:nth-child(2)').textContent='2026.09';
+      const pressLink=document.createElement('a');pressLink.href='/press';pressLink.className='press-entry';pressLink.textContent='取材・メディア向け資料 →';document.querySelector('.hero .actions').after(pressLink);
+      const labels={signature:'注目の6製品',next:'用途別サービス',lab:'開発・研究・確認中',connections:'関連サービス・活動'};
+      document.querySelectorAll('#catalog-tier option').forEach(o=>{if(labels[o.value])o.textContent=labels[o.value];});
+      document.querySelectorAll('.catalog-group').forEach(section=>{const back=document.createElement('a');back.href='#catalog-search';back.className='catalog-return';back.textContent='検索・絞り込みに戻る ↑';section.append(back);});
+      const empty=document.querySelector('#catalog-empty');empty.innerHTML='該当する項目がありません。<br><button class="catalog-empty-reset" type="button" onclick="resetCatalog()">条件をリセットして探す</button>';
       document.querySelectorAll('.catalog-item').forEach(item=>{
         const details=item.querySelector('.item-limit');details.id='availability-'+item.id.slice(8);
         item.querySelectorAll('.catalog-links').forEach(e=>e.remove());

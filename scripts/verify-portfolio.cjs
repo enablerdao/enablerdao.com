@@ -24,6 +24,10 @@ const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.png':'image/p
   await page.locator('.event-teaser').click();assert.equal(await page.evaluate(()=>location.hash),'#zamna-hawaii');
   await page.locator('#catalog-search').fill('ＺＡＭＮＡ');assert.equal(await page.locator('.catalog-item:visible').count(),1);assert.ok(await page.locator('#product-soluna').isVisible());
   await page.locator('#catalog-reset').click();
+  await page.locator('#catalog-search').fill('共通API 開発者');assert.equal(await page.locator('.catalog-item:visible').count(),1);assert.ok(await page.locator('#product-teai').isVisible());
+  await page.locator('#catalog-search').fill('no-matching-product-xyz');await page.locator('.catalog-empty-reset').click();assert.equal(await page.locator('.catalog-item:visible').count(),61);
+  assert.equal(await page.locator('.press-entry').getAttribute('href'),'/press');
+  assert.equal(await page.locator('.catalog-return').count(),4);
   await page.locator('#product-banto .catalog-action').click();assert.ok(await page.locator('#availability-banto').evaluate(e=>e.open));
   for(const [tier,count] of [['signature',6],['next',17],['lab',20],['connections',18]]){await page.locator('#catalog-tier').selectOption(tier);assert.equal(await page.locator('.catalog-item:visible').count(),count);}
   await page.locator('#catalog-reset').click();
