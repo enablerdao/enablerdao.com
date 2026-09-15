@@ -12,6 +12,7 @@ const JS: &str = include_str!("../../static/app.js");
 const FAVICON: &str = include_str!("../../static/favicon.svg");
 const ENABLER_HTML: &str = include_str!("../../static/enabler.html");
 const PRODUCTS_HTML: &str = include_str!("../../static/products.html");
+const PRESS_HTML: &str = include_str!("../../static/press.html");
 const FUTAMI_HTML: &str = include_str!("../../static/futami/index.html");
 const FUTAMI_VILLAGE_HTML: &str = include_str!("../../static/futami/village.html");
 const FUTAMI_COMPLEX_HTML: &str = include_str!("../../static/futami/complex.html");
@@ -51,11 +52,8 @@ const FUTAMI_7269_AFTER: &[u8] = include_bytes!("../../static/futami/7269_after.
 const IMG_ATAMI: &[u8] = include_bytes!("../../static/properties/atami.jpg");
 const IMG_ATAMI_W800: &[u8] = include_bytes!("../../static/properties/atami.w800.webp");
 const IMG_TESHIKAGA: &[u8] = include_bytes!("../../static/properties/teshikaga.jpg");
-const IMG_TESHIKAGA_W800: &[u8] = include_bytes!("../../static/properties/teshikaga.w800.webp");
 const IMG_NEST: &[u8] = include_bytes!("../../static/properties/nest.jpg");
-const IMG_NEST_W800: &[u8] = include_bytes!("../../static/properties/nest.w800.webp");
 const IMG_HONOLULU: &[u8] = include_bytes!("../../static/properties/honolulu.jpg");
-const IMG_HONOLULU_W800: &[u8] = include_bytes!("../../static/properties/honolulu.w800.webp");
 
 // App Icons
 const ICON_ELIO: &[u8] = include_bytes!("../../static/app-icons/elio.png");
@@ -95,6 +93,9 @@ const CACHE_CONTROL: &str = "public, max-age=86400";
 /// Returns `Some(Response)` with the correct `Content-Type` and cache headers
 /// if the path matches a known asset, or `None` if not found.
 pub fn serve_static(path: &str) -> Option<Response> {
+    if let Some(response) = serve_portfolio_asset(path) {
+        return Some(response);
+    }
     match path {
         // Text assets
         "/static/styles.css" => Some(text_response(CSS, "text/css")),
@@ -105,11 +106,8 @@ pub fn serve_static(path: &str) -> Option<Response> {
         "/static/properties/atami.jpg" => Some(bytes_response(IMG_ATAMI, "image/jpeg")),
         "/static/properties/atami.w800.webp" => Some(bytes_response(IMG_ATAMI_W800, "image/webp")),
         "/static/properties/teshikaga.jpg" => Some(bytes_response(IMG_TESHIKAGA, "image/jpeg")),
-        "/static/properties/teshikaga.w800.webp" => Some(bytes_response(IMG_TESHIKAGA_W800, "image/webp")),
         "/static/properties/nest.jpg" => Some(bytes_response(IMG_NEST, "image/jpeg")),
-        "/static/properties/nest.w800.webp" => Some(bytes_response(IMG_NEST_W800, "image/webp")),
         "/static/properties/honolulu.jpg" => Some(bytes_response(IMG_HONOLULU, "image/jpeg")),
-        "/static/properties/honolulu.w800.webp" => Some(bytes_response(IMG_HONOLULU_W800, "image/webp")),
 
         "/static/enabler.html" => Some(text_response(ENABLER_HTML, "text/html")),
         "/static/products.html" => Some(text_response(PRODUCTS_HTML, "text/html")),
@@ -191,6 +189,12 @@ pub fn serve_enabler_page() -> Response {
 pub fn serve_products_page() -> Response {
     text_response(PRODUCTS_HTML, "text/html; charset=utf-8")
 }
+
+pub fn serve_press_page() -> Response {
+    text_response(PRESS_HTML, "text/html; charset=utf-8")
+}
+
+include!("portfolio_assets.rs");
 
 /// Serve the Futami Airbnb property comparison page
 pub fn serve_futami_page() -> Response {
