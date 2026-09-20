@@ -1,7 +1,7 @@
 /// Serves static assets embedded at compile time.
 ///
 /// Text files use `include_str!` and binary files use `include_bytes!`.
-/// All responses set `Cache-Control: public, max-age=86400` (24 hours).
+/// Assets cache for 24 hours; public HTML revalidates after five minutes.
 
 use spin_sdk::http::Response;
 
@@ -100,6 +100,7 @@ pub fn serve_static(path: &str) -> Option<Response> {
         // Text assets
         "/static/styles.css" => Some(text_response(CSS, "text/css")),
         "/static/app.js" => Some(text_response(JS, "application/javascript")),
+        "/static/enabler-home.js" => Some(text_response(include_str!("../../static/enabler-home.js"), "application/javascript")),
         "/static/favicon.svg" => Some(text_response(FAVICON, "image/svg+xml")),
 
         // Image assets
@@ -107,6 +108,7 @@ pub fn serve_static(path: &str) -> Option<Response> {
         "/static/properties/atami.w800.webp" => Some(bytes_response(IMG_ATAMI_W800, "image/webp")),
         "/static/properties/teshikaga.jpg" => Some(bytes_response(IMG_TESHIKAGA, "image/jpeg")),
         "/static/properties/nest.jpg" => Some(bytes_response(IMG_NEST, "image/jpeg")),
+        "/static/properties/nest.w800.webp" => Some(bytes_response(include_bytes!("../../static/properties/nest.w800.webp"), "image/webp")),
         "/static/properties/honolulu.jpg" => Some(bytes_response(IMG_HONOLULU, "image/jpeg")),
 
         "/static/enabler.html" => Some(text_response(ENABLER_HTML, "text/html")),
@@ -222,7 +224,12 @@ fn text_response(body: &str, content_type: &str) -> Response {
         Response::builder()
             .status(200)
             .header("content-type", content_type)
-            .header("cache-control", CACHE_CONTROL)
+            .header("cache-control", "public, max-age=300, must-revalidate")
+            .header("content-security-policy", if body == ENABLER_HTML {
+                "default-src 'self'; script-src 'self' https://enabler-analytics.fly.dev; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; connect-src 'self' https://enabler-analytics.fly.dev https://kacha-server.fly.dev; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'"
+            } else {
+                "default-src 'self'; script-src 'self' 'unsafe-inline' https://enabler-analytics.fly.dev; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; connect-src 'self' https://enabler-analytics.fly.dev; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'"
+            })
             .header("x-frame-options", "SAMEORIGIN")
             .header("x-content-type-options", "nosniff")
             .header("referrer-policy", "strict-origin-when-cross-origin")
@@ -234,6 +241,7 @@ fn text_response(body: &str, content_type: &str) -> Response {
             .status(200)
             .header("content-type", content_type)
             .header("cache-control", CACHE_CONTROL)
+            .header("x-content-type-options", "nosniff")
             .body(body)
             .build()
     }
@@ -245,6 +253,7 @@ fn bytes_response(body: &[u8], content_type: &str) -> Response {
         .status(200)
         .header("content-type", content_type)
         .header("cache-control", CACHE_CONTROL)
+        .header("x-content-type-options", "nosniff")
         .body(body.to_vec())
         .build()
 }
