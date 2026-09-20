@@ -101,6 +101,7 @@ pub fn serve_static(path: &str) -> Option<Response> {
         "/static/styles.css" => Some(text_response(CSS, "text/css")),
         "/static/app.js" => Some(text_response(JS, "application/javascript")),
         "/static/enabler-home.js" => Some(text_response(include_str!("../../static/enabler-home.js"), "application/javascript")),
+        "/static/enabler-locale.js" => Some(text_response(include_str!("../../static/enabler-locale.js"), "application/javascript")),
         "/static/favicon.svg" => Some(text_response(FAVICON, "image/svg+xml")),
 
         // Image assets
